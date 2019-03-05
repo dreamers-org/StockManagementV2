@@ -41,8 +41,8 @@ namespace loft1Mvc.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress]
-            [Display(Name = "Email")]
+			[EmailAddress]
+			[Display(Name = "Email")]
             public string Email { get; set; }
 
             [Required]
@@ -51,9 +51,9 @@ namespace loft1Mvc.Areas.Identity.Pages.Account
             [Display(Name = "Password")]
             public string Password { get; set; }
 
-            [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+			[DataType(DataType.Password)]
+			[Display(Name = "Conferma Password")]
+            [Compare("Password", ErrorMessage = "Le due password non coincidono.")]
             public string ConfirmPassword { get; set; }
         }
 

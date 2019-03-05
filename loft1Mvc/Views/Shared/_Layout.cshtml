@@ -38,9 +38,9 @@
 							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 								<a class="dropdown-item" asp-controller="Articolo" asp-action="Index">Inserimento Articolo</a>
 								<a class="dropdown-item" asp-controller="ArticoloAnnullato" asp-action="Index">Annullamento Articolo</a>
-								<a class="dropdown-item" href="#">Nuovo ordine Fornitore</a>
-								<a class="dropdown-item" asp-controller="OrdineDalCliente" asp-action="Index">Ordini dai clienti</a>
-								<a class="dropdown-item" href="#">Inserimento PackingList</a>
+								<a class="dropdown-item" asp-controller="OrdineAlFornitore" asp-action="Index">Ordine al fornitore</a>
+								<a class="dropdown-item" asp-controller="OrdineDalCliente" asp-action="Index">Ordine dal cliente</a>
+								<a class="dropdown-item" asp-controller="PackingList" asp-action="Index">Packing list</a>
 							</div>
 						</li>
 						@if (User.Identity.Name == "Luca" || User.Identity.Name == "Simone" || User.Identity.Name == "Vittorio")
