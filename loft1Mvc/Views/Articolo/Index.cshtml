@@ -1,95 +1,82 @@
 ﻿@model IEnumerable<loft1Mvc.Models.Articolo>
 
 @{
-    ViewData["Title"] = "Index";
+	ViewData["Title"] = "Lista articoli";
 }
 
-<h1>Index</h1>
+<h1>Lista articoli inseriti</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+	<a asp-action="Create">Nuovo articolo</a>
 </p>
 <table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Fornitore)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TipoProdotto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Codice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descrizione)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Colore)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TrancheConsegna)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PrezzoAcquisto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PrezzoVendita)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Annullato)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.attr1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.attr2)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fornitore)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TipoProdotto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Codice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descrizione)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Colore)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TrancheConsegna)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PrezzoAcquisto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PrezzoVendita)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Annullato)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.attr1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.attr2)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Fornitore)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Codice)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Descrizione)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Colore)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.TipoProdotto)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.TrancheConsegna)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.PrezzoAcquisto)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.PrezzoVendita)
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Fornitore)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Codice)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Descrizione)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Colore)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.TipoProdotto)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.TrancheConsegna)
+				</td>
+				<td>
+					€@Html.DisplayFor(modelItem => item.PrezzoAcquisto)
+				</td>
+				<td>
+					€@Html.DisplayFor(modelItem => item.PrezzoVendita)
+				</td>
+				<td>
+
+					@if (User.Identity.Name == "luca@admin.com")
+					{
+						<a asp-action="Details" asp-route-id="@item.Id">Dettagli</a>
+						<a asp-action="Edit" asp-route-id="@item.Id">Modifica</a>
+						<a asp-action="Delete" asp-route-id="@item.Id">Elimina</a>
+					}
+				</td>
+			</tr>
+		}
+	</tbody>
 </table>
