@@ -3,7 +3,13 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <TypeScriptToolsVersion>3.3</TypeScriptToolsVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\ts\main.ts" />
+    <Content Remove="wwwroot\ts\sitemap.ts" />
+  </ItemGroup>
 
 
   <ItemGroup>
@@ -39,7 +45,14 @@
 
 
   <ItemGroup>
+    <Folder Include="wwwroot\dist\" />
     <Folder Include="wwwroot\js\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\ts\sitemap.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\main.ts" />
   </ItemGroup>
 
 </Project>
