@@ -16,8 +16,8 @@ namespace loft1Mvc.Areas.Identity
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
-                services.AddDbContext<IdentityContext>(options => options.UseSqlServer(context.Configuration.GetConnectionString("IdentityContextConnection")));
-                //services.AddDbContext<IdentityContext>(options => options.UseInMemoryDatabase("Identity"));
+				//services.AddDbContext<IdentityContext>(options => options.UseSqlServer(context.Configuration.GetConnectionString("IdentityContextConnection")));
+				services.AddDbContext<IdentityContext>(options => options.UseInMemoryDatabase("Identity"));
 
                 services.AddDefaultIdentity<GenericUser>()
                     .AddEntityFrameworkStores<IdentityContext>();
