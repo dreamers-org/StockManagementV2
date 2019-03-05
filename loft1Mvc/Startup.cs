@@ -37,7 +37,8 @@ namespace loft1Mvc
 
 			services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-			services.AddDbContext<Loft1Context>(options => options.UseSqlServer(Configuration.GetConnectionString("StockContextConnection")));
+			//services.AddDbContext<Loft1Context>(options => options.UseSqlServer(Configuration.GetConnectionString("StockContextConnection")));
+			services.AddDbContext<Loft1Context>(options => options.UseInMemoryDatabase("Stock"));
 		}
 
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)

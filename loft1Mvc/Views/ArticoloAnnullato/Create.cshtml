@@ -1,38 +1,65 @@
 ﻿@model loft1Mvc.Models.ArticoloAnnullato
 
 @{
-    ViewData["Title"] = "Create";
+	ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>ArticoloAnnullato</h4>
+<h1>Annullamento articolo</h1>
 <hr />
+@if (ViewBag.errorMessage == true)
+{
+	<div class="alert alert-danger" role="alert">
+		@ViewBag.ErrorMessageText
+	</div>
+}
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Codice" class="control-label"></label>
-                <input asp-for="Codice" class="form-control" />
-                <span asp-validation-for="Codice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Colore" class="control-label"></label>
-                <input asp-for="Colore" class="form-control" />
-                <span asp-validation-for="Colore" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+	<div class="col-md-6 offset-3">
+		<form asp-action="Create">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<div class="col-md-6 offset-3">
+				<div class="form-group text-center">
+					<label asp-for="Codice" class="control-label"></label>
+					<input asp-for="Codice" class="form-control" onblur="return getColorePerArticolo();" id="txtId" />
+					<span asp-validation-for="Codice" class="text-danger"></span>
+				</div>
+				<div class="form-group  text-center">
+					<label asp-for="Colore" class="control-label text-center"></label>
+					@Html.DropDownListFor(p => p.Colore, new SelectList(""), new { @class = "form-control  text-center", @disabled = "disabled", @id = "dropdownColore" })
+					<span asp-validation-for="Colore" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<input type="submit" value="Create" class="btn btn-primary" />
+				</div>
+			</div>
+		</form>
+	</div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+	<a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+	<script type="text/javascript">
+		function getColorePerArticolo() {
+			let id = $('#txtId').val();
+			$.ajax({
+				type: "POST",
+				url: "/ArticoloAnnullato/SelectColoriFromId",
+				data: { id: id },
+				success: function (data) {
+					$('#dropdownColore').removeAttr("disabled");
+					for (var i = 0; i < data.length; i++) {
+						var s = '<option value="-1">Seleziona un colore</option>';
+						for (var i = 0; i < data.length; i++) {
+							console.log(data[i]);
+							s += '<option value="' + data[i].colore + '">' + data[i].colore + '</option>';
+						}
+						$("#dropdownColore").html(s);
+					}
+				}
+			});
+		}
+	</script>
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

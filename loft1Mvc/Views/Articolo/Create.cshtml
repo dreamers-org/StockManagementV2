@@ -1,83 +1,83 @@
 ﻿@model loft1Mvc.Models.Articolo
 
 @{
-    ViewData["Title"] = "Create";
+	ViewData["Title"] = "Nuovo articolo";
 }
 
-<h1>Create</h1>
-
-<h4>Articolo</h4>
+<h1>Nuovo articolo</h1>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Fornitore" class="control-label"></label>
-                <input asp-for="Fornitore" class="form-control" />
-                <span asp-validation-for="Fornitore" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TipoProdotto" class="control-label"></label>
-                <input asp-for="TipoProdotto" class="form-control" />
-                <span asp-validation-for="TipoProdotto" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Codice" class="control-label"></label>
-                <input asp-for="Codice" class="form-control" />
-                <span asp-validation-for="Codice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Descrizione" class="control-label"></label>
-                <input asp-for="Descrizione" class="form-control" />
-                <span asp-validation-for="Descrizione" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Colore" class="control-label"></label>
-                <input asp-for="Colore" class="form-control" />
-                <span asp-validation-for="Colore" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TrancheConsegna" class="control-label"></label>
-                <input asp-for="TrancheConsegna" class="form-control" />
-                <span asp-validation-for="TrancheConsegna" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PrezzoAcquisto" class="control-label"></label>
-                <input asp-for="PrezzoAcquisto" class="form-control" />
-                <span asp-validation-for="PrezzoAcquisto" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PrezzoVendita" class="control-label"></label>
-                <input asp-for="PrezzoVendita" class="form-control" />
-                <span asp-validation-for="PrezzoVendita" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Annullato" /> @Html.DisplayNameFor(model => model.Annullato)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="attr1" class="control-label"></label>
-                <input asp-for="attr1" class="form-control" />
-                <span asp-validation-for="attr1" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="attr2" class="control-label"></label>
-                <input asp-for="attr2" class="form-control" />
-                <span asp-validation-for="attr2" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+<div class="row  text-center">
+	<div class="col-md-8 offset-2 text-center">
+		<form class="needs-validation" asp-action="Create">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<div class="form-row">
+				<div class="col-md-3 mb-3">
+					<label asp-for="Fornitore" class="control-label"></label>
+					<input asp-for="Fornitore" class="form-control" autocomplete="off" />
+					<span asp-validation-for="Fornitore" class="text-danger"></span>
+				</div>
+				<div class="col-md-3 mb-3">
+					<label asp-for="Codice" class="control-label"></label>
+					<input asp-for="Codice" class="form-control" autocomplete="off" />
+					<span asp-validation-for="Codice" class="text-danger"></span>
+				</div>
+				<div class="col-md-3 mb-3">
+					<label asp-for="Descrizione" class="control-label"></label>
+					<input asp-for="Descrizione" class="form-control" autocomplete="off" />
+					<span asp-validation-for="Descrizione" class="text-danger"></span>
+				</div>
+				<div class="col-md-3 mb-3">
+					<label asp-for="Colore" class="control-label"></label>
+					<input asp-for="Colore" class="form-control" autocomplete="off" />
+					<span asp-validation-for="Colore" class="text-danger"></span>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="col-md-3 mb-3">
+					<label asp-for="PrezzoAcquisto" class="control-label"></label>
+					<input asp-for="PrezzoAcquisto" class="form-control" autocomplete="off" />
+					<span asp-validation-for="PrezzoAcquisto" class="text-danger"></span>
+				</div>
+				<div class="col-md-3 mb-3">
+					<label asp-for="PrezzoVendita" class="control-label"></label>
+					<input asp-for="PrezzoVendita" class="form-control" autocomplete="off" />
+					<span asp-validation-for="PrezzoVendita" class="text-danger"></span>
+				</div>
+				<div class="col-md-3 mb-3">
+					<label asp-for="TrancheConsegna" class="control-label"></label>
+					<input asp-for="TrancheConsegna" class="form-control" autocomplete="off" />
+					<span asp-validation-for="TrancheConsegna" class="text-danger"></span>
+				</div>
+				<div class="col-md-3 mb-3">
+					<label asp-for="TipoProdotto" class="control-label"></label>
+					@Html.DropDownListFor(p => p.TipoProdotto, new SelectList(ViewBag.tipiProdotto), new { @class = "form-control" })
+					<span asp-validation-for="TipoProdotto" class="text-danger"></span>
+				</div>
+			</div>
+			<div>
+				<input type="submit" style="height:100% !important" class="btn btn-lg btn-primary" />
+				<input type="submit" value="Annulla" onclick="return cancelFields();" style="height:100% !important" class="btn btn-lg btn-danger" />
+			</div>
+		</form>
+	</div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+	<a asp-controller="Articolo" asp-action="Index">Torna alla lista</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+	<script type="text/javascript">
+		function cancelFields() {
+			var i = confirm('Sei sicuro?');
+			if (i) {
+				location.reload();
+			}
+			else {
+				return false;
+			}
+		}
+	</script>
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
