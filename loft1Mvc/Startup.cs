@@ -57,7 +57,7 @@ namespace loft1Mvc
 			app.UseStaticFiles();
 			app.UseAuthentication();
 			app.UseCookiePolicy();
-
+			app.UseSession();
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute(
