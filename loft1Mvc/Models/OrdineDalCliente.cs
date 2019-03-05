@@ -4,19 +4,22 @@ using System.ComponentModel.DataAnnotations;
 
 namespace loft1Mvc.Models
 {
-    public partial class OrdineDalCliente
-    {
-        public int Id { get; set; }
-		public int IdOrdine { get; set; } //TODO Ragionare: come viene calcolato? --> utilizzo sessione?
+	public partial class OrdineDalCliente
+	{
+		public int Id { get; set; }
+		public string IdOrdine { get; set; }
 		[DisplayName("Cliente")]
-		//[Required(ErrorMessage = "Obbligatorio.")]
+		[Required(ErrorMessage = "Obbligatorio.")]
 		public string Cliente { get; set; }
-		//Prendo il name dell'identity
+		[Required(ErrorMessage = "Obbligatorio.")]
 		public string Rappresentante { get; set; }
-		//Prendo la data odierna
+		[DisplayName("Data ordine")]
+		[Required(ErrorMessage = "Obbligatorio.")]
+		[DataType(DataType.Date)]
+		[DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
 		public DateTime DataOrdine { get; set; }
 		[DisplayName("Consegna")]
-		//[Required(ErrorMessage = "Obbligatorio.")]
+		[Required(ErrorMessage = "Obbligatorio.")]
 		[DataType(DataType.Date)]
 		[DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
 		public DateTime DataConsegna { get; set; }

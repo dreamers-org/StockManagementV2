@@ -74,32 +74,59 @@ namespace StockManagement.Controllers
 		// GET: OrdineDalCliente/Create
 		public IActionResult Create()
 		{
-			return View();
+			if (User.IsInRole("Rappresentante"))
+			{
+				return View("CreateRappresentante");
+			}
+			return View("CreateCommesso");
 		}
 
 		// POST: OrdineDalCliente/Create
+		//[HttpPost]
+		//[ValidateAntiForgeryToken]
+		//public async Task<IActionResult> Create([Bind("Id,Codice,Colore,Xxxs,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl,Xxxxl")] OrdineDalCliente ordineDalCliente)
+		//{
+		//	if (ordineDalCliente.Colore != "-1")
+		//	{
+		//		string cliente = HttpContext.Session.GetString("Cliente");
+		//		string nameIdentity = User.Identity.Name;
+		//		ordineDalCliente.IdOrdine = _context.OrdiniDaiClienti.Where(x => x.Rappresentante == nameIdentity && x.Cliente == cliente && x.DataOrdine < DateTime.Today).Select(x => x.IdOrdine).ToList().DefaultIfEmpty(0).Max() + 1;
+		//		ordineDalCliente.Rappresentante = nameIdentity;
+		//		ordineDalCliente.DataConsegna = DateTime.Parse((HttpContext.Session.GetString("DataConsegna")));
+		//		ordineDalCliente.DataOrdine = DateTime.Today;
+		//		ordineDalCliente.Indirizzo = HttpContext.Session.GetString("Indirizzo");
+		//		ordineDalCliente.Pagamento = "Bonifico";
+		//		ordineDalCliente.Cliente = cliente;
+		//		_context.Add(ordineDalCliente);
+		//		await _context.SaveChangesAsync();
+		//		return RedirectToAction(nameof(Index));
+		//	}
+		//	else
+		//	{
+		//		ViewBag.Error = "Selezionare un colore valido.";
+		//		return View();
+		//	}
+		//}
+
+
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create([Bind("Id,Codice,Colore,Xxxs,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl,Xxxxl")] OrdineDalCliente ordineDalCliente)
+		public async Task<IActionResult> Create([Bind("Id,Cliente,Rappresentante,DataOrdine,DataConsegna,Indirizzo,Pagamento,Codice,Colore,Xxxs,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl,Xxxxl,attr1,attr2")] OrdineDalCliente ordineDalCliente)
 		{
-			if (ordineDalCliente.Colore != "-1")
+			if (ModelState.IsValid)
 			{
-				ordineDalCliente.Rappresentante = "Rappresentante di test";
-				ordineDalCliente.DataConsegna = DateTime.Parse((HttpContext.Session.GetString("DataConsegna")));
-				ordineDalCliente.DataOrdine = DateTime.Today;
-				ordineDalCliente.Indirizzo = HttpContext.Session.GetString("Indirizzo");
-				ordineDalCliente.Pagamento = "Bonifico";
-				ordineDalCliente.Cliente = HttpContext.Session.GetString("Cliente");
+				if (string.IsNullOrEmpty(HttpContext.Session.GetString("isOrdineInCorso")))
+				{
+					HttpContext.Session.SetString("isOrdineInCorso", Guid.NewGuid().ToString());
+				}
+				string idOrdine = HttpContext.Session.GetString("isOrdineInCorso");
 				_context.Add(ordineDalCliente);
 				await _context.SaveChangesAsync();
 				return RedirectToAction(nameof(Index));
 			}
-			else
-			{
-				ViewBag.Error = "Selezionare un colore valido.";
-				return View();
-			}
+			return View(ordineDalCliente);
 		}
+
 
 		// GET: OrdineDalCliente/Edit/5
 		public async Task<IActionResult> Edit(int? id)

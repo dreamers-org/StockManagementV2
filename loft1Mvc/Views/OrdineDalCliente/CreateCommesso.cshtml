@@ -3,47 +3,56 @@
 @inject IHttpContextAccessor HttpContextAccessor
 
 @{
-	ViewData["Title"] = "Inserisci ordine";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Nuovo ordine cliente";
 }
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<h1>@ViewData["Title"]</h1>
 
-<h1>Inserisci ordine</h1>
 <hr />
-@if (!string.IsNullOrEmpty(ViewBag.Error))
-{
-	<div class="form-row">
-		<div class="col-md-8 offset-2 mb-3 alert alert-danger" role="alert">
-			<label asp-for="Cliente" class="control-label"><strong>@ViewBag.Error</strong></label><br />
-		</div>
-	</div>
-}
-
-@if (!string.IsNullOrEmpty(Context.Session.GetString("OrdineInCorso")))
-{
-	if (bool.Parse(Context.Session.GetString("OrdineInCorso")) == true)
-	{
-	<div class="form-row">
-		<div class="col-md-8 offset-2 mb-3 alert alert-success" role="alert">
-			<label asp-for="Cliente" class="control-label">Cliente: <strong>@Context.Session.GetString("Cliente")</strong></label><br />
-			<label asp-for="Indirizzo" class="control-label">Indirizzo: <strong>@Context.Session.GetString("Indirizzo")</strong></label><br />
-			<label asp-for="DataConsegna" class="control-label">Data consegna: <strong>@Context.Session.GetString("DataConsegna")</strong></label>
-		</div>
-	</div>
-	}
-}
 <div class="row  text-center">
 	<div class="col-md-8 offset-2 text-center mx-auto">
 		<form class="needs-validation" asp-action="Create">
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 			<div class="form-row">
-				<div class="col-md-6 mb-3">
+				<div class="col-md-2 mb-3">
+					<label asp-for="Cliente" class="control-label"></label>
+					<input asp-for="Cliente" class="form-control" />
+					<span asp-validation-for="Cliente" class="text-danger"></span>
+				</div>
+				<div class="col-md-2 mb-3">
+					<label asp-for="Rappresentante" class="control-label"></label>
+					<input asp-for="Rappresentante" class="form-control" />
+					<span asp-validation-for="Rappresentante" class="text-danger"></span>
+				</div>
+				<div class="col-md-2 mb-3">
+					<label asp-for="DataOrdine" class="control-label"></label>
+					<input asp-for="DataOrdine" class="form-control" />
+					<span asp-validation-for="DataOrdine" class="text-danger"></span>
+				</div>
+				<div class="col-md-2 mb-3">
+					<label asp-for="DataConsegna" class="control-label"></label>
+					<input asp-for="DataConsegna" class="form-control" />
+					<span asp-validation-for="DataConsegna" class="text-danger"></span>
+				</div>
+				<div class="col-md-2 mb-3">
+					<label asp-for="Indirizzo" class="control-label"></label>
+					<input asp-for="Indirizzo" class="form-control" />
+					<span asp-validation-for="Indirizzo" class="text-danger"></span>
+				</div>
+				<div class="col-md-2 mb-3">
+					<label asp-for="Pagamento" class="control-label"></label>
+					<input asp-for="Pagamento" class="form-control" />
+					<span asp-validation-for="Pagamento" class="text-danger"></span>
+				</div>
+			</div>
+			<hr />
+			<div class="form-row">
+				<div class="col-md-4 offset-2 mb-3">
 					<label asp-for="Codice" class="control-label"></label>
 					<input asp-for="Codice" class="form-control" id="txtCodice" onblur="return getColorePerArticolo();" />
 					<span asp-validation-for="Codice" class="text-danger"></span>
 				</div>
-				<div class="col-md-6 mb-3">
+				<div class="col-md-4 mb-3">
 					<label asp-for="Colore" class="control-label text-center"></label>
 					@Html.DropDownListFor(p => p.Colore, new SelectList(""), new { @class = "form-control  text-center", @disabled = "disabled", @id = "dropdownColore" })
 					<span asp-validation-for="Colore" class="text-danger"></span>
@@ -101,8 +110,19 @@
 					<span asp-validation-for="Xxxxl" class="text-danger"></span>
 				</div>
 			</div>
+
+			@*<div class="form-group">
+					<label asp-for="attr1" class="control-label"></label>
+					<input asp-for="attr1" class="form-control" />
+					<span asp-validation-for="attr1" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="attr2" class="control-label"></label>
+					<input asp-for="attr2" class="form-control" />
+					<span asp-validation-for="attr2" class="text-danger"></span>
+				</div>*@
 			<div class="form-group">
-				<input type="submit" class="btn btn-primary" value="Inserisci riga ordine" />
+				<input type="submit" value="Inserisci" class="btn btn-primary" />
 			</div>
 		</form>
 	</div>
@@ -112,10 +132,7 @@
 	<a asp-action="Index">Torna alla lista</a>
 </div>
 
-
-
 @section Scripts {
-
 	<script type="text/javascript">
 		function cancelFields() {
 			var i = confirm('Sei sicuro?');
