@@ -72,11 +72,13 @@ namespace StockManagement.Controllers
 			return View(ordineDalCliente);
 		}
 
-		public IActionResult Create()
+		public async Task<IActionResult> Create()
 		{
-			if (User.IsInRole("Rappresentante"))
-			{
-				return View("CreateRappresentante");
+			if (User.Identity.IsAuthenticated && User.Identity.Name.IndexOf("rappresentante") != -1)
+            {
+                ViewBag.ListaOrdini = await _context.OrdiniDaiClienti.Where(x => x.Rappresentante == User.Identity.Name).ToListAsync();
+
+                return View("CreateRappresentante");
 			}
 			return View("CreateCommesso");
 		}
