@@ -16,35 +16,71 @@
 			<div class="form-row">
 				<div class="col-md-2 mb-3">
 					<label asp-for="Cliente" class="control-label"></label>
-					<input asp-for="Cliente" class="form-control" />
+					<input asp-for="Cliente" class="form-control" id="txtCliente" />
 					<span asp-validation-for="Cliente" class="text-danger"></span>
 				</div>
 				<div class="col-md-2 mb-3">
 					<label asp-for="Rappresentante" class="control-label"></label>
-					<input asp-for="Rappresentante" class="form-control" />
+					<input asp-for="Rappresentante" class="form-control" id="txtRappresentante" />
 					<span asp-validation-for="Rappresentante" class="text-danger"></span>
 				</div>
 				<div class="col-md-2 mb-3">
 					<label asp-for="DataOrdine" class="control-label"></label>
-					<input asp-for="DataOrdine" class="form-control" />
+					<input asp-for="DataOrdine" class="form-control" id="txtDataOrdine" readonly="readonly" />
 					<span asp-validation-for="DataOrdine" class="text-danger"></span>
 				</div>
 				<div class="col-md-2 mb-3">
 					<label asp-for="DataConsegna" class="control-label"></label>
-					<input asp-for="DataConsegna" class="form-control" />
+					<input asp-for="DataConsegna" class="form-control" id="txtDataConsegna" />
 					<span asp-validation-for="DataConsegna" class="text-danger"></span>
 				</div>
 				<div class="col-md-2 mb-3">
 					<label asp-for="Indirizzo" class="control-label"></label>
-					<input asp-for="Indirizzo" class="form-control" />
+					<input asp-for="Indirizzo" class="form-control" id="txtIndirizzo" />
 					<span asp-validation-for="Indirizzo" class="text-danger"></span>
 				</div>
 				<div class="col-md-2 mb-3">
 					<label asp-for="Pagamento" class="control-label"></label>
-					<input asp-for="Pagamento" class="form-control" />
+					<input asp-for="Pagamento" class="form-control" id="txtPagamento" />
 					<span asp-validation-for="Pagamento" class="text-danger"></span>
 				</div>
+
+				@if (!string.IsNullOrEmpty(Context.Session.GetString("isOrdineInCorso")))
+				{
+					<div class="col-md-2 mb-3">
+						<label asp-for="Cliente" class="control-label"></label>
+						<input asp-for="Cliente" class="form-control" id="txtCliente" readonly="readonly" />
+						<span asp-validation-for="Cliente" class="text-danger"></span>
+					</div>
+					<div class="col-md-2 mb-3">
+						<label asp-for="Rappresentante" class="control-label"></label>
+						<input asp-for="Rappresentante" class="form-control" id="txtRappresentante" readonly="readonly" />
+						<span asp-validation-for="Rappresentante" class="text-danger"></span>
+					</div>
+					<div class="col-md-2 mb-3">
+						<label asp-for="DataOrdine" class="control-label"></label>
+						<input asp-for="DataOrdine" class="form-control" id="txtDataOrdine" readonly="readonly" />
+						<span asp-validation-for="DataOrdine" class="text-danger"></span>
+					</div>
+					<div class="col-md-2 mb-3">
+						<label asp-for="DataConsegna" class="control-label"></label>
+						<input asp-for="DataConsegna" class="form-control" id="txtDataConsegna" readonly="readonly" />
+						<span asp-validation-for="DataConsegna" class="text-danger"></span>
+					</div>
+					<div class="col-md-2 mb-3">
+						<label asp-for="Indirizzo" class="control-label"></label>
+						<input asp-for="Indirizzo" class="form-control" id="txtIndirizzo" readonly="readonly" />
+						<span asp-validation-for="Indirizzo" class="text-danger"></span>
+					</div>
+					<div class="col-md-2 mb-3">
+						<label asp-for="Pagamento" class="control-label"></label>
+						<input asp-for="Pagamento" class="form-control" id="txtPagamento" readonly="readonly" />
+						<span asp-validation-for="Pagamento" class="text-danger"></span>
+					</div>
+				}
+
 			</div>
+
 			<hr />
 			<div class="form-row">
 				<div class="col-md-4 offset-2 mb-3">
@@ -134,6 +170,35 @@
 
 @section Scripts {
 	<script type="text/javascript">
+		$(document).ready(function myfunction() {
+			$.ajax({
+				type: "GET",
+				url: "/ArticoloAnnullato/SelectColoriFromId",
+				data: { id: id },
+				success: function (data) {
+					console.log(data.length);
+					$('#dropdownColore').removeAttr("disabled");
+					if (data.length == 0) {
+						var s = '<option value="-1">Seleziona un colore</option>';
+						$("#dropdownColore").html(s);
+					}
+					else {
+						for (var i = 0; i < data.length; i++) {
+							var s = '<option value="-1">Seleziona un colore</option>';
+							for (var i = 0; i < data.length; i++) {
+								console.log(data[i]);
+								s += '<option value="' + data[i].colore + '">' + data[i].colore + '</option>';
+							}
+							$("#dropdownColore").html(s);
+						}
+					}
+				},
+				error: function () {
+					console.log("Errore");
+				}
+			});
+		});
+
 		function cancelFields() {
 			var i = confirm('Sei sicuro?');
 			if (i) {

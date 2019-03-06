@@ -119,6 +119,12 @@ namespace StockManagement.Controllers
 				{
 					HttpContext.Session.SetString("isOrdineInCorso", Guid.NewGuid().ToString());
 				}
+				HttpContext.Session.SetString("Cliente", ordineDalCliente.Cliente);
+				HttpContext.Session.SetString("Rappresentante", ordineDalCliente.Rappresentante);
+				HttpContext.Session.SetString("DataOrdine", ordineDalCliente.DataOrdine.ToShortDateString());
+				HttpContext.Session.SetString("DataConsegna", ordineDalCliente.DataConsegna.ToShortDateString());
+				HttpContext.Session.SetString("Indirizzo", ordineDalCliente.Indirizzo);
+				HttpContext.Session.SetString("Pagamento", ordineDalCliente.Pagamento);
 				string idOrdine = HttpContext.Session.GetString("isOrdineInCorso");
 				_context.Add(ordineDalCliente);
 				await _context.SaveChangesAsync();
@@ -211,6 +217,18 @@ namespace StockManagement.Controllers
 		private bool OrdineDalClienteExists(int id)
 		{
 			return _context.OrdiniDaiClienti.Any(e => e.Id == id);
+		}
+
+		public IActionResult getTxtValuesFromSession(int id)
+		{
+			Dictionary<string, string> dic = new Dictionary<string, string>();
+			dic.Add("Cliente", HttpContext.Session.GetString("Cliente"));
+			dic.Add("Rappresentante", HttpContext.Session.GetString("Rappresentante"));
+			dic.Add("DataOrdine", HttpContext.Session.GetString("DataOrdine"));
+			dic.Add("DataConsegna", HttpContext.Session.GetString("DataConsegna"));
+			dic.Add("Indirizzo", HttpContext.Session.GetString("Indirizzo"));
+			dic.Add("Pagamento", HttpContext.Session.GetString("Pagamento"));
+			return Json(dic);
 		}
 	}
 }
