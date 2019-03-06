@@ -26,7 +26,7 @@
 				</div>
 				<div class="col-md-2 mb-3">
 					<label asp-for="DataOrdine" class="control-label"></label>
-					<input asp-for="DataOrdine" class="form-control" id="txtDataOrdine" readonly="readonly" />
+					<input asp-for="DataOrdine" class="form-control" id="txtDataOrdine" />
 					<span asp-validation-for="DataOrdine" class="text-danger"></span>
 				</div>
 				<div class="col-md-2 mb-3">
@@ -177,21 +177,7 @@
 				data: { id: id },
 				success: function (data) {
 					console.log(data.length);
-					$('#dropdownColore').removeAttr("disabled");
-					if (data.length == 0) {
-						var s = '<option value="-1">Seleziona un colore</option>';
-						$("#dropdownColore").html(s);
-					}
-					else {
-						for (var i = 0; i < data.length; i++) {
-							var s = '<option value="-1">Seleziona un colore</option>';
-							for (var i = 0; i < data.length; i++) {
-								console.log(data[i]);
-								s += '<option value="' + data[i].colore + '">' + data[i].colore + '</option>';
-							}
-							$("#dropdownColore").html(s);
-						}
-					}
+					$('#txtCliente').val("Cliente");
 				},
 				error: function () {
 					console.log("Errore");
