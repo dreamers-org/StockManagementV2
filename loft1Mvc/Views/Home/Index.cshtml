@@ -1,55 +1,87 @@
-﻿@{
-	ViewData["Title"] = "Home Page";
+﻿@using Microsoft.AspNetCore.Identity
+@using loft1Mvc.Areas.Identity.Data
+@inject SignInManager<GenericUser> SignInManager
+@inject UserManager<GenericUser> UserManager
+
+@{
+    ViewData["Title"] = "Home Page";
 }
 
 <style>
-	.card {
-		border: none !important;
-	}
+    .card {
+        border: none !important;
+    }
 </style>
 
-<div class="text-center">
-	<h1 class="display-4">We are LOFT1.</h1>
-</div>
+@if (User.Identity.Name != null)
+{
+    @if (User.Identity.Name.IndexOf("admin") != -1)
+    {
+    }
+    else
+    {
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="text-center">
+                    <h1 class="display-4">We are LOFT1.</h1>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col col-md-5">
+                    <div class="card">
+                        <img class="img-fluid d-block mx-auto" src="https://scontent-mxp1-1.xx.fbcdn.net/v/t1.0-9/39887026_1763214110443557_4399191407651192832_n.jpg?_nc_cat=100&amp;_nc_ht=scontent-mxp1-1.xx&amp;oh=aea56c7451368d06688d4390d31ee6eb&amp;oe=5CE4D5FA" alt="logoLoft1">
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row justify-content-center">
+                <a class="dropdown-item" asp-controller="OrdineDalCliente" asp-action="Index">Ordine Clienti</a>
+            </div>
+        </div>
+    }
+}
 
-@if (!User.IsInRole("Rappresentante")) //Visualizzo il riepilogo degli ordini
+
+@if (!(SignInManager.IsSignedIn(User)))
 {
-	<div class="container">
-		<div class="row">
-			<div class="col col-md-5">
-				<div class="card">
-					<img class="img-fluid mb-5 d-block mx-auto" src="https://scontent-mxp1-1.xx.fbcdn.net/v/t1.0-9/39887026_1763214110443557_4399191407651192832_n.jpg?_nc_cat=100&amp;_nc_ht=scontent-mxp1-1.xx&amp;oh=aea56c7451368d06688d4390d31ee6eb&amp;oe=5CE4D5FA" alt="logoLoft1">
-				</div>
-			</div>
-			<div class="col col-md-7 text-center" style="padding-top: 5%;">
-				<div class="row">
-					<h2>Ordini ricevuti:  <span class="badge badge-secondary badge-success">104</span></h2>
-				</div><br />
-				<div class="row">
-					<h2>Ordini non visualizzati:  <span class="badge badge-secondary badge-warning">4</span></h2>
-				</div><br />
-				<div class="row">
-					<h2>Ordini in ritardo:  <span class="badge badge-secondary badge-danger">0</span></h2>
-				</div>
-			</div>
-		</div>
-	</div>
+    <a class="btn btn-outline-secondary rounded-pill btn-lg mt-3" id="register" asp-area="Identity" asp-page="/Account/Register">Registra utente</a>
+    <a class="btn btn-outline-primary rounded-pill btn-lg mt-3 mr-2" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
 }
-else
-{
-	<div class="container">
-		<div class="row">
-			<div class="col col-md-12 mx-auto">
-				<div class="card">
-					<img class="img-fluid mb-5 d-block mx-auto" src="https://scontent-mxp1-1.xx.fbcdn.net/v/t1.0-9/39887026_1763214110443557_4399191407651192832_n.jpg?_nc_cat=100&amp;_nc_ht=scontent-mxp1-1.xx&amp;oh=aea56c7451368d06688d4390d31ee6eb&amp;oe=5CE4D5FA" style="width:300px; height:300px;" alt="logoLoft1">
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col col-md-12 text-center">
-				<a class="btn btn-primary btn-lg" asp-controller="OrdineDalCliente" asp-action="Index" asp-route-role="InserimentoInfoPreliminari">Crea nuovo ordine</a>
-			</div>
-		</div>
-	</div>
-}
+
+
+@*}
+    else
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col col-md-12 mx-auto">
+                    <div class="card">
+                        <img class="img-fluid mb-5 d-block mx-auto" src="https://scontent-mxp1-1.xx.fbcdn.net/v/t1.0-9/39887026_1763214110443557_4399191407651192832_n.jpg?_nc_cat=100&amp;_nc_ht=scontent-mxp1-1.xx&amp;oh=aea56c7451368d06688d4390d31ee6eb&amp;oe=5CE4D5FA" style="width:300px; height:300px;" alt="logoLoft1">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-md-12 text-center">
+                    <a class="btn btn-primary btn-lg" asp-controller="OrdineDalCliente" asp-action="Index" asp-route-role="InserimentoInfoPreliminari">Crea nuovo ordine</a>
+                </div>
+            </div>
+        </div>
+
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <li class="nav-item">
+                <a id="manage" class="nav-link text-dark" href="#" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+            </li>
+            <li class="nav-item">
+                <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                </form>
+            </li>
+        }
+        else
+        {
+            <a class="btn btn-secondary rounded-pill mt-3" id="register" asp-area="Identity" asp-page="/Account/Register">Registra utente</a>
+            <a class="btn btn-primary rounded-pill mt-3 mr-2" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        }
+    }*@
 

@@ -5,17 +5,16 @@
 	ViewData["Title"] = "Accedi";
 }
 
-<h1>@ViewData["Title"]</h1>
-<div class="row">
-	<div class="col-md-6 offset-3">
+@*<h1>@ViewData["Title"]</h1>*@
+<div class="row justify-content-center">
+	<div class="col-md-4">
 		<section>
 			<form id="account" method="post">
-				<h4></h4>
 				<hr />
 				<div asp-validation-summary="All" class="text-danger"></div>
 				<div class="form-group">
 					<label asp-for="Input.Email"></label>
-					<input asp-for="Input.Email" class="form-control" />
+					<input asp-for="Input.Email" class="form-control form-control-sm" />
 					<span asp-validation-for="Input.Email" class="text-danger"></span>
 				</div>
 				<div class="form-group">
