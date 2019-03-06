@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using loft1Mvc.Models;
 
 namespace loft1Mvc.Migrations.Loft1
 {
     [DbContext(typeof(Loft1Context))]
-    partial class Loft1ContextModelSnapshot : ModelSnapshot
+    [Migration("20190306124434_AggiuntaDescrizioneTabellaOrdineDalCliente")]
+    partial class AggiuntaDescrizioneTabellaOrdineDalCliente
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -164,8 +166,7 @@ namespace loft1Mvc.Migrations.Loft1
                     b.Property<DateTime>("DataOrdine")
                         .HasColumnType("date");
 
-                    b.Property<string>("Descrizione")
-                        .IsRequired();
+                    b.Property<int>("Descrizione");
 
                     b.Property<string>("IdOrdine");
 

@@ -1,9 +1,9 @@
 ﻿@{
-	ViewData["Title"] = "Vittorio - Admin";
+	ViewData["Title"] = "Area amministrativa";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Vittorio - Statistiche</h1>
+<h1>@ViewData["Title"]</h1>
 
 <hr />
 
@@ -91,6 +91,113 @@
 	</div>
 </div>
 
+<hr />
+
+<h3>Andamento rappresentanti</h3>
+<br />
+
+<div class="row">
+
+	<!-- Earnings (Monthly) Card Example -->
+	<div class="col-xl-2 col-md-6 mb-4">
+		<div class="card border-left-warning shadow h-100 py-2">
+			<div class="card-body">
+				<div class="row no-gutters align-items-center">
+					<div class="col mr-2">
+						<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Toscana</div>
+						<div class="h5 mb-0 font-weight-bold text-gray-800">289</div>
+					</div>
+					<div class="col-auto">
+						<i class="fas fa-comments fa-2x text-gray-300"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Earnings (Monthly) Card Example -->
+	<div class="col-xl-2 col-md-6 mb-4">
+		<div class="card border-left-warning shadow h-100 py-2">
+			<div class="card-body">
+				<div class="row no-gutters align-items-center">
+					<div class="col mr-2">
+						<div class="text-xs font-weight-bold text-success text-uppercase mb-1">Emilia-Romagna</div>
+						<div class="h5 mb-0 font-weight-bold text-gray-800">489</div>
+					</div>
+					<div class="col-auto">
+						<i class="fas fa-comments fa-2x text-gray-300"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-xl-2 col-md-6 mb-4">
+		<div class="card border-left-warning shadow h-100 py-2">
+			<div class="card-body">
+				<div class="row no-gutters align-items-center">
+					<div class="col mr-2">
+						<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Veneto</div>
+						<div class="h5 mb-0 font-weight-bold text-gray-800">289</div>
+					</div>
+					<div class="col-auto">
+						<i class="fas fa-comments fa-2x text-gray-300"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Pending Requests Card Example -->
+	<div class="col-xl-2 col-md-6 mb-4">
+		<div class="card border-left-warning shadow h-100 py-2">
+			<div class="card-body">
+				<div class="row no-gutters align-items-center">
+					<div class="col mr-2">
+						<div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Piemonte</div>
+						<div class="h5 mb-0 font-weight-bold text-gray-800">89</div>
+					</div>
+					<div class="col-auto">
+						<i class="fas fa-comments fa-2x text-gray-300"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Earnings (Monthly) Card Example -->
+	<div class="col-xl-2 col-md-6 mb-4">
+		<div class="card border-left-warning shadow h-100 py-2">
+			<div class="card-body">
+				<div class="row no-gutters align-items-center">
+					<div class="col mr-2">
+						<div class="text-xs font-weight-bold text-success text-uppercase mb-1">Lazio</div>
+						<div class="h5 mb-0 font-weight-bold text-gray-800">156</div>
+					</div>
+					<div class="col-auto">
+						<i class="fas fa-comments fa-2x text-gray-300"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-xl-2 col-md-6 mb-4">
+		<div class="card border-left-warning shadow h-100 py-2">
+			<div class="card-body">
+				<div class="row no-gutters align-items-center">
+					<div class="col mr-2">
+						<div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Lombardia</div>
+						<div class="h5 mb-0 font-weight-bold text-gray-800">29</div>
+					</div>
+					<div class="col-auto">
+						<i class="fas fa-comments fa-2x text-gray-300"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <hr />
 
 <h3>Andamento articoli</h3>
@@ -230,112 +337,6 @@
 </div>
 <hr />
 
-<h3>Andamento rappresentanti</h3>
-<br />
-
-<div class="row">
-
-	<!-- Earnings (Monthly) Card Example -->
-	<div class="col-xl-2 col-md-6 mb-4">
-		<div class="card border-left-warning shadow h-100 py-2">
-			<div class="card-body">
-				<div class="row no-gutters align-items-center">
-					<div class="col mr-2">
-						<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Toscana</div>
-						<div class="h5 mb-0 font-weight-bold text-gray-800">289</div>
-					</div>
-					<div class="col-auto">
-						<i class="fas fa-comments fa-2x text-gray-300"></i>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- Earnings (Monthly) Card Example -->
-	<div class="col-xl-2 col-md-6 mb-4">
-		<div class="card border-left-warning shadow h-100 py-2">
-			<div class="card-body">
-				<div class="row no-gutters align-items-center">
-					<div class="col mr-2">
-						<div class="text-xs font-weight-bold text-success text-uppercase mb-1">Emilia-Romagna</div>
-						<div class="h5 mb-0 font-weight-bold text-gray-800">489</div>
-					</div>
-					<div class="col-auto">
-						<i class="fas fa-comments fa-2x text-gray-300"></i>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="col-xl-2 col-md-6 mb-4">
-		<div class="card border-left-warning shadow h-100 py-2">
-			<div class="card-body">
-				<div class="row no-gutters align-items-center">
-					<div class="col mr-2">
-						<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Veneto</div>
-						<div class="h5 mb-0 font-weight-bold text-gray-800">289</div>
-					</div>
-					<div class="col-auto">
-						<i class="fas fa-comments fa-2x text-gray-300"></i>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- Pending Requests Card Example -->
-	<div class="col-xl-2 col-md-6 mb-4">
-		<div class="card border-left-warning shadow h-100 py-2">
-			<div class="card-body">
-				<div class="row no-gutters align-items-center">
-					<div class="col mr-2">
-						<div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Piemonte</div>
-						<div class="h5 mb-0 font-weight-bold text-gray-800">89</div>
-					</div>
-					<div class="col-auto">
-						<i class="fas fa-comments fa-2x text-gray-300"></i>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- Earnings (Monthly) Card Example -->
-	<div class="col-xl-2 col-md-6 mb-4">
-		<div class="card border-left-warning shadow h-100 py-2">
-			<div class="card-body">
-				<div class="row no-gutters align-items-center">
-					<div class="col mr-2">
-						<div class="text-xs font-weight-bold text-success text-uppercase mb-1">Lazio</div>
-						<div class="h5 mb-0 font-weight-bold text-gray-800">156</div>
-					</div>
-					<div class="col-auto">
-						<i class="fas fa-comments fa-2x text-gray-300"></i>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="col-xl-2 col-md-6 mb-4">
-		<div class="card border-left-warning shadow h-100 py-2">
-			<div class="card-body">
-				<div class="row no-gutters align-items-center">
-					<div class="col mr-2">
-						<div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Lombardia</div>
-						<div class="h5 mb-0 font-weight-bold text-gray-800">29</div>
-					</div>
-					<div class="col-auto">
-						<i class="fas fa-comments fa-2x text-gray-300"></i>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<hr />
 
 <h3>Situazione pagamenti</h3>
 <br />
@@ -496,43 +497,43 @@
 <script src="~/js/ChartPieDemo.js"></script>
 <script>
 	new Chart(document.getElementById("bar-chart"), {
-    type: 'bar',
-    data: {
-      labels: ["Camicie", "Pantaloni", "T-shirt", "Bermuda", "Accessori", "Costumi"],
-      datasets: [
-        {
-          label: "Per tipo di prodotto",
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850", "#c51234"],
-          data: [2478,5267,1734,2784,433,587]
-        }
-      ]
-    },
-    options: {
-      legend: { display: false },
-      title: {
-        display: false,
-        text: 'Predicted world population (millions) in 2050'
-      }
-    }
+		type: 'bar',
+		data: {
+			labels: ["Camicie", "Pantaloni", "T-shirt", "Bermuda", "Accessori", "Costumi"],
+			datasets: [
+				{
+					label: "Per tipo di prodotto",
+					backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#c51234"],
+					data: [2478, 5267, 1734, 2784, 433, 587]
+				}
+			]
+		},
+		options: {
+			legend: { display: false },
+			title: {
+				display: false,
+				text: 'Predicted world population (millions) in 2050'
+			}
+		}
 	});
 
 	new Chart(document.getElementById("bar-chart-horizontal"), {
-    type: 'horizontalBar',
-    data: {
-      labels: ["S", "M", "L", "XL", "XXL"],
-      datasets: [
-        {
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-          data: [2478,5267,734,784,433]
-        }
-      ]
-    },
-    options: {
-      legend: { display: false },
-      title: {
-        display: false,
-        text: 'Predicted world population (millions) in 2050'
-      }
-    }
-});
+		type: 'horizontalBar',
+		data: {
+			labels: ["S", "M", "L", "XL", "XXL"],
+			datasets: [
+				{
+					backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+					data: [2478, 5267, 734, 784, 433]
+				}
+			]
+		},
+		options: {
+			legend: { display: false },
+			title: {
+				display: false,
+				text: 'Predicted world population (millions) in 2050'
+			}
+		}
+	});
 </script>

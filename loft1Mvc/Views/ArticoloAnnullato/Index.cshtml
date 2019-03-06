@@ -32,9 +32,12 @@
 					@Html.DisplayFor(modelItem => item.Colore)
 				</td>
 				<td>
-					<a asp-action="Edit" asp-route-id="@item.Id">Modifica</a> |
-					<a asp-action="Details" asp-route-id="@item.Id">Dettagli</a> |
-					<a asp-action="Delete" asp-route-id="@item.Id">Elimina</a>
+					@if (User.Identity.IsAuthenticated && User.Identity.Name.IndexOf("admin") != -1)
+					{
+						<a asp-action="Edit" asp-route-id="@item.Id">Modifica&nbsp;</a>
+						<a asp-action="Details" asp-route-id="@item.Id">Dettagli&nbsp;</a>
+						<a asp-action="Delete" asp-route-id="@item.Id">Elimina</a>
+					}
 				</td>
 			</tr>
 		}

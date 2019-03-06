@@ -14,36 +14,6 @@
 		<form class="needs-validation" asp-action="Create">
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 			<div class="form-row">
-				<div class="col-md-2 mb-3">
-					<label asp-for="Cliente" class="control-label"></label>
-					<input asp-for="Cliente" class="form-control" id="txtCliente" />
-					<span asp-validation-for="Cliente" class="text-danger"></span>
-				</div>
-				<div class="col-md-2 mb-3">
-					<label asp-for="Rappresentante" class="control-label"></label>
-					<input asp-for="Rappresentante" class="form-control" id="txtRappresentante" />
-					<span asp-validation-for="Rappresentante" class="text-danger"></span>
-				</div>
-				<div class="col-md-2 mb-3">
-					<label asp-for="DataOrdine" class="control-label"></label>
-					<input asp-for="DataOrdine" class="form-control" id="txtDataOrdine" />
-					<span asp-validation-for="DataOrdine" class="text-danger"></span>
-				</div>
-				<div class="col-md-2 mb-3">
-					<label asp-for="DataConsegna" class="control-label"></label>
-					<input asp-for="DataConsegna" class="form-control" id="txtDataConsegna" />
-					<span asp-validation-for="DataConsegna" class="text-danger"></span>
-				</div>
-				<div class="col-md-2 mb-3">
-					<label asp-for="Indirizzo" class="control-label"></label>
-					<input asp-for="Indirizzo" class="form-control" id="txtIndirizzo" />
-					<span asp-validation-for="Indirizzo" class="text-danger"></span>
-				</div>
-				<div class="col-md-2 mb-3">
-					<label asp-for="Pagamento" class="control-label"></label>
-					<input asp-for="Pagamento" class="form-control" id="txtPagamento" />
-					<span asp-validation-for="Pagamento" class="text-danger"></span>
-				</div>
 
 				@if (!string.IsNullOrEmpty(Context.Session.GetString("isOrdineInCorso")))
 				{
@@ -59,12 +29,12 @@
 					</div>
 					<div class="col-md-2 mb-3">
 						<label asp-for="DataOrdine" class="control-label"></label>
-						<input asp-for="DataOrdine" class="form-control" id="txtDataOrdine" readonly="readonly" />
+						<input class="form-control" id="txtDataOrdine" readonly="readonly" />
 						<span asp-validation-for="DataOrdine" class="text-danger"></span>
 					</div>
 					<div class="col-md-2 mb-3">
 						<label asp-for="DataConsegna" class="control-label"></label>
-						<input asp-for="DataConsegna" class="form-control" id="txtDataConsegna" readonly="readonly" />
+						<input type="text" class="form-control" id="txtDataConsegna" readonly="readonly" />
 						<span asp-validation-for="DataConsegna" class="text-danger"></span>
 					</div>
 					<div class="col-md-2 mb-3">
@@ -78,20 +48,61 @@
 						<span asp-validation-for="Pagamento" class="text-danger"></span>
 					</div>
 				}
+				else
+				{
+					<div class="col-md-2 mb-3">
+						<label asp-for="Cliente" class="control-label"></label>
+						<input asp-for="Cliente" class="form-control" id="txtCliente" />
+						<span asp-validation-for="Cliente" class="text-danger"></span>
+					</div>
+					<div class="col-md-2 mb-3">
+						<label asp-for="Rappresentante" class="control-label"></label>
+						<input asp-for="Rappresentante" class="form-control" id="txtRappresentante" />
+						<span asp-validation-for="Rappresentante" class="text-danger"></span>
+					</div>
+					<div class="col-md-2 mb-3">
+						<label asp-for="DataOrdine" class="control-label"></label>
+						<input asp-for="DataOrdine" class="form-control" id="txtDataOrdine" />
+						<span asp-validation-for="DataOrdine" class="text-danger"></span>
+					</div>
+					<div class="col-md-2 mb-3">
+						<label asp-for="DataConsegna" class="control-label"></label>
+						<input asp-for="DataConsegna" class="form-control" id="txtDataConsegna" />
+						<span asp-validation-for="DataConsegna" class="text-danger"></span>
+					</div>
+					<div class="col-md-2 mb-3">
+						<label asp-for="Indirizzo" class="control-label"></label>
+						<input asp-for="Indirizzo" class="form-control" id="txtIndirizzo" />
+						<span asp-validation-for="Indirizzo" class="text-danger"></span>
+					</div>
+					<div class="col-md-2 mb-3">
+						<label asp-for="Pagamento" class="control-label"></label>
+						<input asp-for="Pagamento" class="form-control" id="txtPagamento" />
+						<span asp-validation-for="Pagamento" class="text-danger"></span>
+					</div>
+
+				}
 
 			</div>
 
 			<hr />
 			<div class="form-row">
-				<div class="col-md-4 offset-2 mb-3">
+				<div class="col-md-3 offset-2 mb-3">
 					<label asp-for="Codice" class="control-label"></label>
 					<input asp-for="Codice" class="form-control" id="txtCodice" onblur="return getColorePerArticolo();" />
 					<span asp-validation-for="Codice" class="text-danger"></span>
 				</div>
-				<div class="col-md-4 mb-3">
+				<div class="col-md-3 mb-3">
 					<label asp-for="Colore" class="control-label text-center"></label>
 					@Html.DropDownListFor(p => p.Colore, new SelectList(""), new { @class = "form-control  text-center", @disabled = "disabled", @id = "dropdownColore" })
 					<span asp-validation-for="Colore" class="text-danger"></span>
+				</div>
+				<div class="col-md-3 mb-3">
+					<div class="form-group text-center">
+						<label asp-for="Descrizione" class="control-label text-center"></label>
+						@Html.TextBoxFor(p => p.Descrizione, new { @class = "form-control  text-center", @readonly = "readonly", @id = "txtDescrizione" })
+						<span asp-validation-for="Descrizione" class="text-danger"></span>
+					</div>
 				</div>
 			</div>
 			<div class="form-row">
@@ -171,18 +182,8 @@
 @section Scripts {
 	<script type="text/javascript">
 		$(document).ready(function myfunction() {
-			$.ajax({
-				type: "GET",
-				url: "/ArticoloAnnullato/SelectColoriFromId",
-				data: { id: id },
-				success: function (data) {
-					console.log(data.length);
-					$('#txtCliente').val("Cliente");
-				},
-				error: function () {
-					console.log("Errore");
-				}
-			});
+			$('#txtDataOrdine').attr("Value", new Date().toLocaleString());
+			getTxtValues();
 		});
 
 		function cancelFields() {
@@ -194,6 +195,31 @@
 				return false;
 			}
 		}
+
+		function getTxtValues() {
+			$.ajax({
+				type: "Get",
+				url: "/OrdineDalCliente/getTxtValuesFromSession",
+				success: function (data) {
+					console.log(data);
+					if (data.length == 0) {
+						alert("Error");
+					}
+					else {
+						$('#txtCliente').attr("Value", data.cliente);
+						$('#txtRappresentante').attr("Value", data.rappresentante);
+						$('#txtDataOrdine').attr("Value", data.dataOrdine);
+						$('#txtDataConsegna').attr("Value", data.dataConsegna);
+						$('#txtIndirizzo').attr("Value", data.indirizzo);
+						$('#txtPagamento').attr("Value", data.pagamento);
+					}
+				},
+				error: function () {
+					console.log("Errore");
+				}
+			})
+		};
+
 		function getColorePerArticolo() {
 			let id = $('#txtCodice').val();
 			console.log(id);
@@ -216,11 +242,21 @@
 								s += '<option value="' + data[i].colore + '">' + data[i].colore + '</option>';
 							}
 							$("#dropdownColore").html(s);
+							$("#dropdownColore").removeAttr("disabled");
 						}
 					}
 				},
 				error: function () {
 					console.log("Errore");
+				}
+			});
+			$.ajax({
+				type: "POST",
+				url: "/ArticoloAnnullato/SelectDescrizioneFromId",
+				data: { id: id },
+				success: function (data) {
+					console.log(data);
+					$('#txtDescrizione').attr("value", data)
 				}
 			});
 		}

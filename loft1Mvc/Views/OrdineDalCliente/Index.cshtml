@@ -17,7 +17,7 @@
 	else
 	{
 		<a asp-action="Create" class="btn btn-lg btn-info">Aggiungi riga all'ordine in corso&nbsp;&nbsp;</a>
-		<a asp-action="CloseOrder" class="btn btn-lg btn-danger" onclick="return confirm('Confermi di voler chiudere l''ordine?')">Chiudi ordine</a>
+		<a asp-action="CloseOrder" class="btn btn-lg btn-danger" onclick='return confirm("Confermi di voler chiudere l ordine?")'>Chiudi ordine</a>
 	}
 </p>
 <table class="table">
@@ -49,6 +49,9 @@
 			</th>
 			<th>
 				@Html.DisplayNameFor(model => model.Colore)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Descrizione)
 			</th>
 			@*<th>
 					@Html.DisplayNameFor(model => model.Xxxs)
@@ -119,6 +122,9 @@
 				</td>
 				<td>
 					@Html.DisplayFor(modelItem => item.Colore)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Descrizione)
 				</td>
 				@*<td>
 						@Html.DisplayFor(modelItem => item.Xxxs)

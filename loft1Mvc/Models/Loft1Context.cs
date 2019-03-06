@@ -25,8 +25,7 @@ namespace loft1Mvc.Models
 		{
 			if (!optionsBuilder.IsConfigured)
 			{
-				//optionsBuilder.UseSqlServer("Data Source=DESKTOP-HS0M2DN\\SQLEXPRESS;Initial Catalog=loft1;User ID=luca.bellavia.dev;Password=Pallone27@@;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-				optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=loft1Mvc;Trusted_Connection=True;MultipleActiveResultSets=true");
+				optionsBuilder.UseSqlServer("Data Source=loft1mvc.database.windows.net;Initial Catalog=Stock;User ID=luca.bellavia.dev;Password=Pallone27@@;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
 			}
 		}
 

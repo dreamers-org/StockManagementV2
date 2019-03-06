@@ -30,6 +30,9 @@ namespace loft1Mvc.Models
 		[DisplayName("Cod.")]
 		[Required(ErrorMessage = "Obbligatorio.")]
 		public int Codice { get; set; }
+		[DisplayName("Descrizione")]
+		[Required(ErrorMessage = "Obbligatorio.")]
+		public string Descrizione { get; set; }
 		[DisplayName("Colore")]
 		[Required(ErrorMessage = "Obbligatorio.")]
 		public string Colore { get; set; }

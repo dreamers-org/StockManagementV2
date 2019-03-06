@@ -152,5 +152,12 @@ namespace StockManagement.Controllers
 			return Json(listaColori);
 		}
 
+		public IActionResult SelectDescrizioneFromId(int id)
+		{
+			string descrizione = _context.Articoli.Where(x => x.Codice == id)
+									 .Select(x => x.Descrizione).FirstOrDefault();
+			return Json(descrizione);
+		}
+
 	}
 }
