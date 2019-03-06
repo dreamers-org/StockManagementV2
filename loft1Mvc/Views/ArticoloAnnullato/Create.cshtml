@@ -22,6 +22,10 @@
 					<input asp-for="Codice" class="form-control" onblur="return getColorePerArticolo();" id="txtId" />
 					<span asp-validation-for="Codice" class="text-danger"></span>
 				</div>
+				<div class="form-group text-center">
+					<label class="control-label">Descrizione</label>
+					<input class="form-control" id="txtDescrizione" disabled />
+				</div>
 				<div class="form-group  text-center">
 					<label asp-for="Colore" class="control-label text-center"></label>
 					@Html.DropDownListFor(p => p.Colore, new SelectList(""), new { @class = "form-control  text-center", @disabled = "disabled", @id = "dropdownColore" })
@@ -48,7 +52,9 @@
 				url: "/ArticoloAnnullato/SelectColoriFromId",
 				data: { id: id },
 				success: function (data) {
-					$('#dropdownColore').removeAttr("disabled");
+					if (data.length > 0) {
+						$('#dropdownColore').removeAttr("disabled");
+					}
 					for (var i = 0; i < data.length; i++) {
 						var s = '<option value="-1">Seleziona un colore</option>';
 						for (var i = 0; i < data.length; i++) {
@@ -57,6 +63,15 @@
 						}
 						$("#dropdownColore").html(s);
 					}
+				}
+			});
+			$.ajax({
+				type: "POST",
+				url: "/ArticoloAnnullato/SelectDescrizioneFromId",
+				data: { id: id },
+				success: function (data) {
+					console.log(data);
+					$('#txtDescrizione').attr("value", data)
 				}
 			});
 		}
