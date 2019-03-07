@@ -20,7 +20,7 @@ namespace StockManagement.Controllers
 			_context = context;
 		}
 
-		public async Task<IActionResult> Index(string role)
+        public async Task<IActionResult> Index(string role)
 		{
 			if (role == "InserimentoInfoPreliminari")
 			{
@@ -32,8 +32,6 @@ namespace StockManagement.Controllers
 			}
 			return View(await _context.OrdiniDaiClienti.ToListAsync());
 		}
-
-
 
 		[HttpPost]
 		public IActionResult IndexRappresentante(InfoPreliminariOrdineCliente info)
@@ -76,8 +74,8 @@ namespace StockManagement.Controllers
 		{
 			if (User.Identity.IsAuthenticated && User.Identity.Name.IndexOf("rappresentante") != -1)
             {
-                ViewBag.ListaOrdini = await _context.OrdiniDaiClienti.Where(x => x.Rappresentante == User.Identity.Name).ToListAsync();
-
+                List<OrdineDalCliente> i = await _context.OrdiniDaiClienti.Where(x => x.Rappresentante == User.Identity.Name).ToListAsync();
+                ViewBag.ListaOrdini = i.AsEnumerable();
                 return View("CreateRappresentante");
 			}
 			return View("CreateCommesso");
@@ -87,7 +85,9 @@ namespace StockManagement.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create([Bind("Id,Cliente,Rappresentante,DataOrdine,DataConsegna,Indirizzo,Pagamento,Codice,Descrizione,Colore,Xxxs,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl,Xxxxl,attr1,attr2")] OrdineDalCliente ordineDalCliente)
 		{
-			if (ModelState.IsValid)
+            ordineDalCliente.Rappresentante = User.Identity.Name;
+
+            if (ModelState.IsValid)
 			{
 				if (string.IsNullOrEmpty(HttpContext.Session.GetString("isOrdineInCorso")))
 				{
@@ -104,9 +104,21 @@ namespace StockManagement.Controllers
 				ordineDalCliente.DataOrdine = DateTime.ParseExact(HttpContext.Session.GetString("DataOrdine"), "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None);
 				_context.Add(ordineDalCliente);
 				await _context.SaveChangesAsync();
-				return RedirectToAction(nameof(Index));
+
+                List<OrdineDalCliente> i = await _context.OrdiniDaiClienti.Where(x => x.Rappresentante == User.Identity.Name).ToListAsync();
+                ViewBag.ListaOrdini = i.AsEnumerable();
+
+                return RedirectToAction(nameof(Create));
 			}
-			return View("Index", ordineDalCliente);
+
+            if (User.Identity.IsAuthenticated && User.Identity.Name.IndexOf("rappresentante") != -1)
+            {
+                List<OrdineDalCliente> i = await _context.OrdiniDaiClienti.Where(x => x.Rappresentante == User.Identity.Name).ToListAsync();
+                ViewBag.ListaOrdini = i.AsEnumerable();
+                return View("CreateRappresentante");
+            }
+            return View("CreateCommesso");
+
 		}
 
 
