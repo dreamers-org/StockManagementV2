@@ -1,33 +1,14 @@
 ﻿@model IEnumerable<loft1Mvc.Models.OrdineDalCliente>
 
+@{ 
+    //TODO: Simone, aggiungi anche il SUM degli importi.
+}
 <div class="row">
     <div class="col-sm-12">
         <div class="table-responsive">
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
-                        @*<th scope="col">
-                            @Html.DisplayNameFor(model => model.IdOrdine)
-                        </th>*@
-                        <th>
-                            @Html.DisplayNameFor(model => model.Cliente)
-                        </th>
-                        @*<th>
-                            @Html.DisplayNameFor(model => model.Rappresentante)
-                        </th>*@
-                        <th>
-                            @*@Html.DisplayNameFor(model => model.DataOrdine)*@
-                            Data
-                        </th>
-                        @*<th>
-                            @Html.DisplayNameFor(model => model.DataConsegna)
-                        </th>*@
-                        @*<th>
-                            @Html.DisplayNameFor(model => model.Indirizzo)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Pagamento)
-                        </th>*@
                         <th>
                             @Html.DisplayNameFor(model => model.Codice)
                         </th>
@@ -67,40 +48,12 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Xxxxl)
                         </th>
-                        @*<th>
-                            @Html.DisplayNameFor(model => model.attr1)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.attr2)
-                        </th>*@
-                        @*<th></th>*@
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
                         <tr>
-                            @*<td>
-                                @Html.DisplayFor(modelItem => item.IdOrdine)
-                            </td>*@
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Cliente)
-                            </td>
-                            @*<td>
-                                @Html.DisplayFor(modelItem => item.Rappresentante)
-                            </td>*@
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DataOrdine)
-                            </td>
-                            @*<td>
-                                @Html.DisplayFor(modelItem => item.DataConsegna)
-                            </td>*@
-                            @*<td>
-                                @Html.DisplayFor(modelItem => item.Indirizzo)
-                            </td>*@
-                            @*<td>
-                                @Html.DisplayFor(modelItem => item.Pagamento)
-                            </td>*@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Codice)
                             </td>

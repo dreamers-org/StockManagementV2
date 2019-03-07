@@ -25,11 +25,6 @@
                                 <input asp-for="Cliente" class="form-control" id="txtCliente" readonly="readonly" />
                                 <span asp-validation-for="Cliente" class="text-danger"></span>
                             </div>
-                            @*<div class="col-md-2 mb-3">
-                                <label asp-for="Rappresentante" class="control-label"></label>
-                                <input asp-for="Rappresentante" class="form-control" id="txtRappresentante" readonly="readonly" />
-                                <span asp-validation-for="Rappresentante" class="text-danger"></span>
-                            </div>*@
                             <div class="col-md-3 mb-3">
                                 <label asp-for="DataOrdine" class="control-label"></label>
                                 <input class="form-control" id="txtDataOrdine" readonly="readonly" />
@@ -58,7 +53,7 @@
                                 <input asp-for="Cliente" class="form-control" id="txtCliente" />
                                 <span asp-validation-for="Cliente" class="text-danger"></span>
                             </div>
-                          
+
                             <div class="col-md-3 mb-3">
                                 <label asp-for="DataOrdine" class="control-label"></label>
                                 <input asp-for="DataOrdine" class="form-control" id="txtDataOrdine" />
@@ -161,10 +156,12 @@
                         <input type="submit" value="Inserisci" class="btn btn-primary float-left mr-3" />
                         <a class="btn btn-secondary float-left text-white">Annulla</a>
 
-                        <a asp-action="ChiudiOrdine" class="btn rounded-pill btn-outline-danger float-right">Chiudi ordine</a>
+                        @{
+                            //TODO: Disabilitare il pulsante se ViewBag.ListaOrdini è vuota.
+                        }
+                        <a asp-controller="OrdineDalCliente" asp-action="RiepilogoOrdineRappresentante" class="btn rounded-pill btn-outline-danger float-right">Chiudi ordine</a>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>
@@ -172,6 +169,9 @@
 
 <partial name="_ListaOrdiniDalClientePartial" model="ViewBag.ListaOrdini" />
 
+@{ 
+    //TODO: Simone, Convertire in typescript
+}
 <script type="text/javascript">
     $(document).ready(function myfunction() {
         $('#txtDataOrdine').attr("Value", new Date().toLocaleString());
@@ -253,6 +253,8 @@
         });
     }
 </script>
+
+
 @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
 

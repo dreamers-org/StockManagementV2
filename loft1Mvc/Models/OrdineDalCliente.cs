@@ -11,8 +11,10 @@ namespace loft1Mvc.Models
 		[DisplayName("Cliente")]
 		[Required(ErrorMessage = "Obbligatorio.")]
 		public string Cliente { get; set; }
-		[Required(ErrorMessage = "Obbligatorio.")]
+
+
 		public string Rappresentante { get; set; }
+
 		[DisplayName("Data ordine")]
 		[Required(ErrorMessage = "Obbligatorio.")]
 		[DataType(DataType.Date)]

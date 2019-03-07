@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Conclusione ordine";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <h1>@ViewData["Title"]</h1>
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" src="~/documenti/INFORMATIVA PRIVACY.pdf"></iframe>
+        </div>
+    </div>
+    <div class="col-sm-12 mt-3">
+        <div class="form-check float-left">
+            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+            <label class="form-check-label" for="defaultCheck1">
+                Default checkbox
+            </label>
+        </div>
+
+        @{ 
+            //TODO: Simone,disabilitare il pulsante se la checkbox è disabilitata
+        }
+        <input type="submit" value="Concludi ordine" class="btn btn-outline-primary rounded-pill float-right" />
+    </div>
+</div>
