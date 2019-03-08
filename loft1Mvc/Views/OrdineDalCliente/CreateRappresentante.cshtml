@@ -5,180 +5,173 @@
 @{
     ViewData["Title"] = "Inserisci ordine";
 }
+<div class="row">
+    <div class="col-sm-12">
+        <h1>@ViewData["Title"]</h1>
+        <hr />
+    </div>
 
-<h1>@ViewData["Title"]</h1>
+    <div class=" col-sm-10 col-md-10 mx-auto mb-5">
+        <div class="card border-left-primary shadow h-100">
+            <div class="card-body">
+                <form class="needs-validation" asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<hr />
+                    <div class="form-row justify-content-center">
+                        @if (!string.IsNullOrEmpty(Context.Session.GetString("isOrdineInCorso")))
+                        {
+                            <div class="col-md-2 mb-3">
+                                <label asp-for="Cliente" class="control-label"></label>
+                                <input asp-for="Cliente" class="form-control" id="txtCliente" readonly="readonly" />
+                                <span asp-validation-for="Cliente" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label asp-for="DataOrdine" class="control-label"></label>
+                                <input class="form-control" id="txtDataOrdine" readonly="readonly" />
+                                <span asp-validation-for="DataOrdine" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label asp-for="DataConsegna" class="control-label"></label>
+                                <input type="text" class="form-control" id="txtDataConsegna" readonly="readonly" />
+                                <span asp-validation-for="DataConsegna" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label asp-for="Indirizzo" class="control-label"></label>
+                                <input asp-for="Indirizzo" class="form-control" id="txtIndirizzo" readonly="readonly" />
+                                <span asp-validation-for="Indirizzo" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label asp-for="Pagamento" class="control-label"></label>
+                                <input asp-for="Pagamento" class="form-control" id="txtPagamento" readonly="readonly" />
+                                <span asp-validation-for="Pagamento" class="text-danger"></span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-2 mb-3">
+                                <label asp-for="Cliente" class="control-label"></label>
+                                <input asp-for="Cliente" class="form-control" id="txtCliente" />
+                                <span asp-validation-for="Cliente" class="text-danger"></span>
+                            </div>
 
-<div class="row  text-center">
-    <div class="col-md-8 offset-2 text-center mx-auto">
-        <form class="needs-validation" asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-row">
+                            <div class="col-md-3 mb-3">
+                                <label asp-for="DataOrdine" class="control-label"></label>
+                                <input asp-for="DataOrdine" class="form-control" id="txtDataOrdine" />
+                                <span asp-validation-for="DataOrdine" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label asp-for="DataConsegna" class="control-label"></label>
+                                <input asp-for="DataConsegna" class="form-control" id="txtDataConsegna" />
+                                <span asp-validation-for="DataConsegna" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label asp-for="Indirizzo" class="control-label"></label>
+                                <input asp-for="Indirizzo" class="form-control" id="txtIndirizzo" />
+                                <span asp-validation-for="Indirizzo" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label asp-for="Pagamento" class="control-label"></label>
+                                <input asp-for="Pagamento" class="form-control" id="txtPagamento" />
+                                <span asp-validation-for="Pagamento" class="text-danger"></span>
+                            </div>
 
-                @if (!string.IsNullOrEmpty(Context.Session.GetString("isOrdineInCorso")))
-                {
-                    <div class="col-md-2 mb-3">
-                        <label asp-for="Cliente" class="control-label"></label>
-                        <input asp-for="Cliente" class="form-control" id="txtCliente" readonly="readonly" />
-                        <span asp-validation-for="Cliente" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-2 mb-3">
-                        <label asp-for="Rappresentante" class="control-label"></label>
-                        <input asp-for="Rappresentante" class="form-control" id="txtRappresentante" readonly="readonly" />
-                        <span asp-validation-for="Rappresentante" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-2 mb-3">
-                        <label asp-for="DataOrdine" class="control-label"></label>
-                        <input class="form-control" id="txtDataOrdine" readonly="readonly" />
-                        <span asp-validation-for="DataOrdine" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-2 mb-3">
-                        <label asp-for="DataConsegna" class="control-label"></label>
-                        <input type="text" class="form-control" id="txtDataConsegna" readonly="readonly" />
-                        <span asp-validation-for="DataConsegna" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-2 mb-3">
-                        <label asp-for="Indirizzo" class="control-label"></label>
-                        <input asp-for="Indirizzo" class="form-control" id="txtIndirizzo" readonly="readonly" />
-                        <span asp-validation-for="Indirizzo" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-2 mb-3">
-                        <label asp-for="Pagamento" class="control-label"></label>
-                        <input asp-for="Pagamento" class="form-control" id="txtPagamento" readonly="readonly" />
-                        <span asp-validation-for="Pagamento" class="text-danger"></span>
-                    </div>
-                }
-                else
-                {
-                    <div class="col-md-2 mb-3">
-                        <label asp-for="Cliente" class="control-label"></label>
-                        <input asp-for="Cliente" class="form-control" id="txtCliente" />
-                        <span asp-validation-for="Cliente" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-2 mb-3">
-                        <label asp-for="Rappresentante" class="control-label"></label>
-                        <input asp-for="Rappresentante" class="form-control" id="txtRappresentante" />
-                        <span asp-validation-for="Rappresentante" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-2 mb-3">
-                        <label asp-for="DataOrdine" class="control-label"></label>
-                        <input asp-for="DataOrdine" class="form-control" id="txtDataOrdine" />
-                        <span asp-validation-for="DataOrdine" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-2 mb-3">
-                        <label asp-for="DataConsegna" class="control-label"></label>
-                        <input asp-for="DataConsegna" class="form-control" id="txtDataConsegna" />
-                        <span asp-validation-for="DataConsegna" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-2 mb-3">
-                        <label asp-for="Indirizzo" class="control-label"></label>
-                        <input asp-for="Indirizzo" class="form-control" id="txtIndirizzo" />
-                        <span asp-validation-for="Indirizzo" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-2 mb-3">
-                        <label asp-for="Pagamento" class="control-label"></label>
-                        <input asp-for="Pagamento" class="form-control" id="txtPagamento" />
-                        <span asp-validation-for="Pagamento" class="text-danger"></span>
+                        }
+
                     </div>
 
-                }
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-2 mb-3 ">
+                            <label asp-for="Codice" class="control-label"></label>
+                            <input asp-for="Codice" class="form-control" id="txtCodice" onblur="return getColorePerArticolo();" />
+                            <span asp-validation-for="Codice" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label asp-for="Colore" class="control-label text-center"></label>
+                            @Html.DropDownListFor(p => p.Colore, new SelectList(""), new { @class = "form-control  text-center", @disabled = "disabled", @id = "dropdownColore" })
+                            <span asp-validation-for="Colore" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <div class="form-group text-center">
+                                <label asp-for="Descrizione" class="control-label text-center"></label>
+                                @Html.TextBoxFor(p => p.Descrizione, new { @class = "form-control  text-center", @readonly = "readonly", @id = "txtDescrizione" })
+                                <span asp-validation-for="Descrizione" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-1 mb-3">
+                            <label asp-for="Xxxs" class="control-label"></label>
+                            <input asp-for="Xxxs" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="Xxxs" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <label asp-for="Xxs" class="control-label"></label>
+                            <input asp-for="Xxs" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="Xxs" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <label asp-for="Xs" class="control-label"></label>
+                            <input asp-for="Xs" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="Xs" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <label asp-for="S" class="control-label"></label>
+                            <input asp-for="S" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="S" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <label asp-for="M" class="control-label"></label>
+                            <input asp-for="M" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="M" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <label asp-for="L" class="control-label"></label>
+                            <input asp-for="L" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="L" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <label asp-for="Xl" class="control-label"></label>
+                            <input asp-for="Xl" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="Xl" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <label asp-for="Xxl" class="control-label"></label>
+                            <input asp-for="Xxl" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="Xxl" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <label asp-for="Xxxl" class="control-label"></label>
+                            <input asp-for="Xxxl" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="Xxxl" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <label asp-for="Xxxxl" class="control-label"></label>
+                            <input asp-for="Xxxxl" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="Xxxxl" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group ">
+                        <input type="submit" value="Inserisci" class="btn btn-primary float-left mr-3" />
+                        <a class="btn btn-secondary float-left text-white">Annulla</a>
+
+                        @{
+                            //TODO: Disabilitare il pulsante se ViewBag.ListaOrdini è vuota.
+                        }
+                        <a asp-controller="OrdineDalCliente" asp-action="RiepilogoOrdineRappresentante" class="btn rounded-pill btn-outline-danger float-right">Chiudi ordine</a>
+                    </div>
+                </form>
             </div>
-
-            <hr />
-            <div class="form-row">
-                <div class="col-md-3 offset-2 mb-3">
-                    <label asp-for="Codice" class="control-label"></label>
-                    <input asp-for="Codice" class="form-control" id="txtCodice" onblur="return getColorePerArticolo();" />
-                    <span asp-validation-for="Codice" class="text-danger"></span>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label asp-for="Colore" class="control-label text-center"></label>
-                    @Html.DropDownListFor(p => p.Colore, new SelectList(""), new { @class = "form-control  text-center", @disabled = "disabled", @id = "dropdownColore" })
-                    <span asp-validation-for="Colore" class="text-danger"></span>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="form-group text-center">
-                        <label asp-for="Descrizione" class="control-label text-center"></label>
-                        @Html.TextBoxFor(p => p.Descrizione, new { @class = "form-control  text-center", @readonly = "readonly", @id = "txtDescrizione" })
-                        <span asp-validation-for="Descrizione" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col-md-1 mb-3">
-                    <label asp-for="Xxxs" class="control-label"></label>
-                    <input asp-for="Xxxs" class="form-control" autocomplete="off" />
-                    <span asp-validation-for="Xxxs" class="text-danger"></span>
-                </div>
-                <div class="col-md-1 mb-3">
-                    <label asp-for="Xxs" class="control-label"></label>
-                    <input asp-for="Xxs" class="form-control" autocomplete="off" />
-                    <span asp-validation-for="Xxs" class="text-danger"></span>
-                </div>
-                <div class="col-md-1 mb-3">
-                    <label asp-for="Xs" class="control-label"></label>
-                    <input asp-for="Xs" class="form-control" autocomplete="off" />
-                    <span asp-validation-for="Xs" class="text-danger"></span>
-                </div>
-                <div class="col-md-1 mb-3">
-                    <label asp-for="S" class="control-label"></label>
-                    <input asp-for="S" class="form-control" autocomplete="off" />
-                    <span asp-validation-for="S" class="text-danger"></span>
-                </div>
-                <div class="col-md-2 mb-3">
-                    <label asp-for="M" class="control-label"></label>
-                    <input asp-for="M" class="form-control" autocomplete="off" />
-                    <span asp-validation-for="M" class="text-danger"></span>
-                </div>
-                <div class="col-md-2 mb-3">
-                    <label asp-for="L" class="control-label"></label>
-                    <input asp-for="L" class="form-control" autocomplete="off" />
-                    <span asp-validation-for="L" class="text-danger"></span>
-                </div>
-                <div class="col-md-1 mb-3">
-                    <label asp-for="Xl" class="control-label"></label>
-                    <input asp-for="Xl" class="form-control" autocomplete="off" />
-                    <span asp-validation-for="Xl" class="text-danger"></span>
-                </div>
-                <div class="col-md-1 mb-3">
-                    <label asp-for="Xxl" class="control-label"></label>
-                    <input asp-for="Xxl" class="form-control" autocomplete="off" />
-                    <span asp-validation-for="Xxl" class="text-danger"></span>
-                </div>
-                <div class="col-md-1 mb-3">
-                    <label asp-for="Xxxl" class="control-label"></label>
-                    <input asp-for="Xxxl" class="form-control" autocomplete="off" />
-                    <span asp-validation-for="Xxxl" class="text-danger"></span>
-                </div>
-                <div class="col-md-1 mb-3">
-                    <label asp-for="Xxxxl" class="control-label"></label>
-                    <input asp-for="Xxxxl" class="form-control" autocomplete="off" />
-                    <span asp-validation-for="Xxxxl" class="text-danger"></span>
-                </div>
-            </div>
-
-            @*<div class="form-group">
-                    <label asp-for="attr1" class="control-label"></label>
-                    <input asp-for="attr1" class="form-control" />
-                    <span asp-validation-for="attr1" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="attr2" class="control-label"></label>
-                    <input asp-for="attr2" class="form-control" />
-                    <span asp-validation-for="attr2" class="text-danger"></span>
-                </div>*@
-            <div class="form-group">
-                <input type="submit" value="Inserisci" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
 <partial name="_ListaOrdiniDalClientePartial" model="ViewBag.ListaOrdini" />
 
-
+@{ 
+    //TODO: Simone, Convertire in typescript
+}
 <script type="text/javascript">
     $(document).ready(function myfunction() {
         $('#txtDataOrdine').attr("Value", new Date().toLocaleString());
@@ -260,7 +253,9 @@
         });
     }
 </script>
+
+
 @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+
 
 

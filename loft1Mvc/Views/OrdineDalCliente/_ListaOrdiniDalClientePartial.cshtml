@@ -1,152 +1,113 @@
 ﻿@model IEnumerable<loft1Mvc.Models.OrdineDalCliente>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IdOrdine)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cliente)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rappresentante)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataOrdine)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataConsegna)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Indirizzo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Pagamento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Codice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descrizione)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Colore)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Xxxs)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Xxs)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Xs)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.S)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.M)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.L)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Xl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Xxl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Xxxl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Xxxxl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.attr1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.attr2)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdOrdine)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cliente)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rappresentante)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataOrdine)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataConsegna)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Indirizzo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Pagamento)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Codice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descrizione)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Colore)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Xxxs)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Xxs)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Xs)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.S)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.M)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.L)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Xl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Xxl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Xxxl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Xxxxl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.attr1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.attr2)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+@{ 
+    //TODO: Simone, aggiungi anche il SUM degli importi.
 }
-    </tbody>
-</table>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Codice)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Descrizione)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Colore)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Xxxs)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Xxs)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Xs)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.S)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.M)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.L)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Xl)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Xxl)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Xxxl)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Xxxxl)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Codice)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descrizione)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Colore)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Xxxs)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Xxs)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Xs)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.S)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.M)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.L)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Xl)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Xxl)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Xxxl)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Xxxxl)
+                            </td>
+                            @*<td>
+                                @Html.DisplayFor(modelItem => item.attr1)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.attr2)
+                            </td>*@
+                            @*<td>
+                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </td>*@
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

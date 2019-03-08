@@ -1,0 +1,16 @@
+﻿@model IEnumerable<loft1Mvc.Models.OrdineDalCliente>
+
+@{
+    ViewData["Title"] = "Lista ordini";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <h1>@ViewData["Title"]</h1>
+        <hr />
+    </div>
+</div>
+@{ 
+    //TODO: Simone, la lista deve essere raggruppata per idOrdine
+}
+<partial name="_ListaOrdiniDalClientePartial" />

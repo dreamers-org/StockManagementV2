@@ -7,13 +7,14 @@ namespace loft1Mvc.Models
 	public partial class OrdineDalCliente
 	{
 		public int Id { get; set; }
-        [Required(ErrorMessage = "Obbligatorio.")]
         public string IdOrdine { get; set; }
 		[DisplayName("Cliente")]
 		[Required(ErrorMessage = "Obbligatorio.")]
 		public string Cliente { get; set; }
-		[Required(ErrorMessage = "Obbligatorio.")]
+
+
 		public string Rappresentante { get; set; }
+
 		[DisplayName("Data ordine")]
 		[Required(ErrorMessage = "Obbligatorio.")]
 		[DataType(DataType.Date)]

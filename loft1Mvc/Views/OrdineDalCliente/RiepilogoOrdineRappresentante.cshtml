@@ -1,0 +1,22 @@
+﻿@model IEnumerable<loft1Mvc.Models.OrdineDalCliente>
+
+@{
+    ViewData["Title"] = "Riepilogo ordine";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <h1>@ViewData["Title"]</h1>
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <a asp-controller="OrdineDalCliente" asp-action="ConclusioneOrdineRappresentante" class="btn rounded-pill btn-outline-secondary float-right mb-3">Prosegui</a>
+    </div>
+</div>
+
+<partial name="_ListaOrdiniDalClientePartial" />
+
+

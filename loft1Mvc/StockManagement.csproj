@@ -60,6 +60,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\dist\" />
     <Folder Include="wwwroot\js\" />
+    <Folder Include="wwwroot\documenti\" />
   </ItemGroup>
 
 
