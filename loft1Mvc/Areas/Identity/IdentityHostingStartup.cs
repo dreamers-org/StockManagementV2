@@ -18,10 +18,14 @@ namespace loft1Mvc.Areas.Identity
 			builder.ConfigureServices((context, services) =>
 			{
 				services.AddDbContext<IdentityContext>(options => options.UseSqlServer(context.Configuration.GetConnectionString("IdentityContextConnection")));
-				//services.AddDbContext<IdentityContext>(options => options.UseInMemoryDatabase("Identity"));
 
-				services.AddDefaultIdentity<GenericUser>()
-					.AddEntityFrameworkStores<IdentityContext>();
+				services.AddIdentity<GenericUser, IdentityRole>(config =>
+				{
+					config.SignIn.RequireConfirmedEmail = true;
+				})
+
+					.AddEntityFrameworkStores<IdentityContext>()
+					 .AddDefaultTokenProviders();
 			});
 		}
 	}
