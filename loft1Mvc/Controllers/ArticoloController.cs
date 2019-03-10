@@ -18,14 +18,12 @@ namespace StockManagement.Controllers
             _context = context;
         }
 
-        // GET: Articolo
         public async Task<IActionResult> Index()
         {
             var stockV2Context = _context.Articolo.Include(a => a.IdCollezioneNavigation).Include(a => a.IdFornitoreNavigation).Include(a => a.IdTipoNavigation);
             return View(await stockV2Context.ToListAsync());
         }
 
-        // GET: Articolo/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -46,7 +44,6 @@ namespace StockManagement.Controllers
             return View(articolo);
         }
 
-        // GET: Articolo/Create
         public IActionResult Create()
         {
             ViewData["IdCollezione"] = new SelectList(_context.Collezione, "Id", "Nome");
@@ -55,16 +52,22 @@ namespace StockManagement.Controllers
             return View();
         }
 
-        // POST: Articolo/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+		[HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Codice,Descrizione,IdFornitore,Colore,Xxs,Xs,S,M,L,Xl,Xxl,TagliaUnica,TrancheConsegna,Genere,IdTipo,Annullato,PrezzoAcquisto,PrezzoVendita,Foto,Video,IdCollezione,DataInserimento,DataModifica,UtenteInserimento,UtenteModifica,Xxxl")] Articolo articolo)
+        public async Task<IActionResult> Create([Bind("Id,Codice,Descrizione,IdFornitore,Colore,Xxs,Xs,S,M,L,Xl,Xxl,TagliaUnica,TrancheConsegna,Genere,IdTipo,PrezzoAcquisto,PrezzoVendita,IdCollezione,Xxxl")] Articolo articolo)
         {
             if (ModelState.IsValid)
             {
+				if (ArticoloExists(articolo.Codice, articolo.Colore))
+				{
+					ViewData["ErrorMessage"] = "L'articolo esiste già.";
+					return View();
+				}
                 articolo.Id = Guid.NewGuid();
+				articolo.UtenteInserimento = User.Identity.Name;
+				articolo.DataModifica = DateTime.Now;
+				articolo.Foto = "";
+				articolo.Video = "";
                 _context.Add(articolo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -72,10 +75,9 @@ namespace StockManagement.Controllers
             ViewData["IdCollezione"] = new SelectList(_context.Collezione, "Id", "Nome", articolo.IdCollezione);
             ViewData["IdFornitore"] = new SelectList(_context.Fornitore, "Id", "Nome", articolo.IdFornitore);
             ViewData["IdTipo"] = new SelectList(_context.Tipo, "Id", "Nome", articolo.IdTipo);
-            return View(articolo);
+            return View();
         }
 
-        // GET: Articolo/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -94,9 +96,6 @@ namespace StockManagement.Controllers
             return View(articolo);
         }
 
-        // POST: Articolo/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("Id,Codice,Descrizione,IdFornitore,Colore,Xxs,Xs,S,M,L,Xl,Xxl,TagliaUnica,TrancheConsegna,Genere,IdTipo,Annullato,PrezzoAcquisto,PrezzoVendita,Foto,Video,IdCollezione,DataInserimento,DataModifica,UtenteInserimento,UtenteModifica,Xxxl")] Articolo articolo)
@@ -132,41 +131,71 @@ namespace StockManagement.Controllers
             return View(articolo);
         }
 
-        // GET: Articolo/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var articolo = await _context.Articolo
-                .Include(a => a.IdCollezioneNavigation)
-                .Include(a => a.IdFornitoreNavigation)
-                .Include(a => a.IdTipoNavigation)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (articolo == null)
-            {
-                return NotFound();
-            }
-
-            return View(articolo);
-        }
-
-        // POST: Articolo/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
-            var articolo = await _context.Articolo.FindAsync(id);
-            _context.Articolo.Remove(articolo);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
         private bool ArticoloExists(Guid id)
         {
             return _context.Articolo.Any(e => e.Id == id);
         }
-    }
+
+
+		private bool ArticoloExists(string codice, string colore)
+		{
+			return _context.Articolo.Any(e => e.Codice == codice && e.Colore == colore);
+		}
+
+		public async Task<IActionResult> getTxtValues(string Codice)
+		{
+			TempObject result = new TempObject();
+			var articolo = await _context.Articolo
+				.FirstOrDefaultAsync(m => m.Codice == Codice && m.Annullato == false);
+			if (articolo == null)
+			{
+				result = new TempObject
+				{
+					Fornitore = "",
+					Descrizione = "",
+					PrezzoAcquisto = "",
+					PrezzoVendita = "",
+					TrancheConsegna = "",
+					GenereProdotto = "Uomo",
+					TipoProdotto = "T-shirt"
+				};
+			}
+			else
+			{
+				Fornitore fornitore = await _context.Fornitore.FindAsync(articolo.IdFornitore);
+				Tipo tipo = await _context.Tipo.FindAsync(articolo.IdTipo);
+				Collezione collezione = await _context.Collezione.FindAsync(articolo.IdCollezione);
+				result = new TempObject
+				{
+					Fornitore = fornitore.Nome,
+					Descrizione = articolo.Descrizione,
+					PrezzoAcquisto = articolo.PrezzoAcquisto.ToString(),
+					PrezzoVendita = articolo.PrezzoVendita.ToString(),
+					TrancheConsegna = articolo.TrancheConsegna.ToString("yyyy-MM-dd"),
+					GenereProdotto = articolo.Genere,
+					TipoProdotto = tipo.Nome,
+					Collezione = collezione.Nome,
+					IdFornitore = articolo.IdFornitore.ToString(),
+					IdCollezione = articolo.IdCollezione.ToString(),
+					IdTipoProdotto = articolo.IdTipo.ToString()
+				};
+			}
+			return Json(result);
+		}
+
+		protected class TempObject
+		{
+			public string Fornitore { get; set; }
+			public string IdFornitore { get; set; }
+			public string Descrizione { get; set; }
+			public string PrezzoAcquisto { get; set; }
+			public string PrezzoVendita { get; set; }
+			public string TrancheConsegna { get; set; }
+			public string GenereProdotto { get; set; }
+			public string TipoProdotto { get; set; }
+			public string IdTipoProdotto { get; set; }
+			public string Collezione { get; set; }
+			public string IdCollezione { get; set; }
+		}
+	}
 }
