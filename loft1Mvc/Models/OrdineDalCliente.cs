@@ -16,18 +16,19 @@ namespace loft1Mvc.Models
 		public string Rappresentante { get; set; }
 
 		[DisplayName("Data ordine")]
-		[Required(ErrorMessage = "Obbligatorio.")]
-		[DataType(DataType.Date)]
+		//[Required(ErrorMessage = "Obbligatorio.")]
+		[DataType(DataType.Date,ErrorMessage = "Inserire una data obbligatoria.")]
 		[DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
 		public DateTime DataOrdine { get; set; }
 		[DisplayName("Consegna")]
 		[Required(ErrorMessage = "Obbligatorio.")]
-		[DataType(DataType.Date)]
+		[DataType(DataType.Date, ErrorMessage = "Inserire una data obbligatoria.")]
 		[DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
 		public DateTime DataConsegna { get; set; }
 		[DisplayName("Indirizzo")]
 		public string Indirizzo { get; set; }
-		[Required(ErrorMessage = "Obbligatorio.")]
+		
+
 		public string Pagamento { get; set; }
 		[DisplayName("Cod.")]
 		[Required(ErrorMessage = "Obbligatorio.")]

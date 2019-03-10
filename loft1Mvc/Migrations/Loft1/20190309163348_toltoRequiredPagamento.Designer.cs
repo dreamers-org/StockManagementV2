@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using loft1Mvc.Models;
 
 namespace loft1Mvc.Migrations.Loft1
 {
     [DbContext(typeof(Loft1Context))]
-    partial class Loft1ContextModelSnapshot : ModelSnapshot
+    [Migration("20190309163348_toltoRequiredPagamento")]
+    partial class toltoRequiredPagamento
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

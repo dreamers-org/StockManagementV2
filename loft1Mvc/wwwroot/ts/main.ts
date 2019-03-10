@@ -3,12 +3,11 @@ import * as $ from "jquery";
 import "popper.js";
 import "bootstrap";
 import "@fortawesome/fontawesome-free";
+import "jquery-validation"; 
+import "jquery-validation-unobtrusive";
 
 //import librerie interne
 import { arrayPageModules } from './sitemap';
-
-//import '../js/script.js';
-//import '../js/site.js';
 
 //import dei css
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -28,14 +27,16 @@ $(document).ready(function () {
             for (let i = 0; i < arrayPageModules.length; i++) {
                 if (currentUrl.indexOf(arrayPageModules[i].page) !== -1) {
                     if (arrayPageModules[i].function) {
+                        console.log("test: " + arrayPageModules[i].function.toString());
                         arrayPageModules[i].function();
                     }
                     //attivo l'item corretto del menu.
+
+                    console.log("attivatore:" + arrayPageModules[i].menuItem)
                     attivaMenuItemCorrente(arrayPageModules[i].menuItem);
                 }
             }
         }
-
     } catch (ex) {
         //let err: Errore = new Errore
         //err.tracciaErrore(ex, "document.ready_main.ts");
@@ -45,6 +46,5 @@ $(document).ready(function () {
 
 function attivaMenuItemCorrente(idMenuItem: string) {
     console.log(idMenuItem);
-    $(`#${idMenuItem}`).addClass("active");
+    //$(`#${idMenuItem}`).addClass("active");
 }
-

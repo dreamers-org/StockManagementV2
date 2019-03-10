@@ -109,7 +109,7 @@ namespace StockManagement.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Cliente,Rappresentante,DataOrdine,DataConsegna,Indirizzo,Pagamento,Codice,Descrizione,Colore,Xxxs,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl,Xxxxl,attr1,attr2")] OrdineDalCliente ordineDalCliente)
+        public async Task<IActionResult> Create([Bind("Id,Cliente,Rappresentante,DataConsegna,Indirizzo,Codice,Descrizione,Colore,Xxxs,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl,Xxxxl,attr1,attr2")] OrdineDalCliente ordineDalCliente)
         {
             ordineDalCliente.Rappresentante = User.Identity.Name;
 
@@ -120,14 +120,17 @@ namespace StockManagement.Controllers
                     HttpContext.Session.SetString("isOrdineInCorso", Guid.NewGuid().ToString()); //l'isOrdineInCorso coincide con l'id dell'ordine
                     HttpContext.Session.SetString("Cliente", ordineDalCliente.Cliente);
                     HttpContext.Session.SetString("Rappresentante", ordineDalCliente.Rappresentante);
-                    HttpContext.Session.SetString("DataOrdine", ordineDalCliente.DataOrdine.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture));
+                    //HttpContext.Session.SetString("DataOrdine", ordineDalCliente.DataOrdine.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture));
+                    HttpContext.Session.SetString("DataOrdine", DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture));
                     HttpContext.Session.SetString("DataConsegna", ordineDalCliente.DataConsegna.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture));
                     HttpContext.Session.SetString("Indirizzo", ordineDalCliente.Indirizzo);
-                    HttpContext.Session.SetString("Pagamento", ordineDalCliente.Pagamento);
+                    //HttpContext.Session.SetString("Pagamento", ordineDalCliente.Pagamento);
                 }
+
                 ordineDalCliente.IdOrdine = HttpContext.Session.GetString("isOrdineInCorso");
                 ordineDalCliente.DataConsegna = DateTime.ParseExact(HttpContext.Session.GetString("DataConsegna"), "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None);
                 ordineDalCliente.DataOrdine = DateTime.ParseExact(HttpContext.Session.GetString("DataOrdine"), "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None);
+
                 _context.Add(ordineDalCliente);
                 await _context.SaveChangesAsync();
 
@@ -138,7 +141,19 @@ namespace StockManagement.Controllers
 
             if (User.Identity.IsAuthenticated && User.Identity.Name.IndexOf("rappresentante") != -1)
             {
-                ViewBag.ListaOrdini = await getEnumListaOrdini(false);
+                IEnumerable<OrdineDalCliente> listaOrdiniEnum = await getEnumListaOrdini(false);
+                ViewBag.ListaOrdini = listaOrdiniEnum;
+
+                double sommaArticoli = 0;
+                foreach (OrdineDalCliente ordine in (List<OrdineDalCliente>)listaOrdiniEnum)
+                {
+                    Articolo art = await _context.Articoli.Where(articolo => articolo.Codice == ordine.Codice).FirstOrDefaultAsync();
+
+                    sommaArticoli = sommaArticoli + art.PrezzoVendita;
+                }
+
+                ViewBag.SommaTotale = sommaArticoli;
+
                 return View("CreateRappresentante");
             }
             return View("CreateCommesso");
@@ -240,7 +255,7 @@ namespace StockManagement.Controllers
                 DataOrdine = HttpContext.Session.GetString("DataOrdine"),
                 DataConsegna = HttpContext.Session.GetString("DataConsegna"),
                 Indirizzo = HttpContext.Session.GetString("Indirizzo"),
-                Pagamento = HttpContext.Session.GetString("Pagamento")
+                //Pagamento = HttpContext.Session.GetString("Pagamento")
             };
             return Json(result);
         }
@@ -252,7 +267,7 @@ namespace StockManagement.Controllers
             public string DataOrdine { get; set; }
             public string DataConsegna { get; set; }
             public string Indirizzo { get; set; }
-            public string Pagamento { get; set; }
+            //public string Pagamento { get; set; }
 
         }
 
