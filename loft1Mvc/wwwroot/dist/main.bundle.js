@@ -12629,7 +12629,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var create_1 = __webpack_require__(14);
 exports.arrayPageModules = [
     {
-        page: "/OrdineDalCliente/Create",
+        page: "/OrdineCliente/Create",
         function: function (destination, template) { create_1.attivatorePaginaCreate(); },
         menuItem: "navbarDropdown"
     }
@@ -12645,7 +12645,7 @@ exports.arrayPageModules = [
 Object.defineProperty(exports, "__esModule", { value: true });
 function attivatorePaginaCreate() {
     window["getColorePerArticolo"] = getColorePerArticolo;
-    getTxtValues();
+    //getTxtValues();
 }
 exports.attivatorePaginaCreate = attivatorePaginaCreate;
 function getTxtValues() {
@@ -12673,13 +12673,13 @@ function getTxtValues() {
 ;
 //ottiene la lista dei colori per il codice selezionato.
 function getColorePerArticolo() {
-    var txtCodice = $("#txtCodice");
+    var txtCodice = $("#dropdownCodiceArticolo");
     if (txtCodice != null) {
-        var idCodice = txtCodice.val().toString();
+        var codice = txtCodice.val().toString();
         $.ajax({
             type: "POST",
-            url: "/ArticoloAnnullato/SelectColoriFromId",
-            data: { id: idCodice },
+            url: "/Articolo/SelectColoriFromCodice",
+            data: { codice: codice },
             success: function (data) {
                 console.log(data.length);
                 $('#dropdownColore').removeAttr("disabled");
@@ -12705,8 +12705,8 @@ function getColorePerArticolo() {
         });
         $.ajax({
             type: "POST",
-            url: "/ArticoloAnnullato/SelectDescrizioneFromId",
-            data: { id: idCodice },
+            url: "/Articolo/SelectDescrizioneFromCodice",
+            data: { codice: codice },
             success: function (data) {
                 console.log(data);
                 $('#txtDescrizione').attr("value", data);

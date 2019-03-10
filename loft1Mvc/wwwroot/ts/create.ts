@@ -1,7 +1,7 @@
 ﻿export function attivatorePaginaCreate() {
     window["getColorePerArticolo"] = getColorePerArticolo;
 
-    getTxtValues();
+    //getTxtValues();
 }
 
 function getTxtValues() {
@@ -29,15 +29,15 @@ function getTxtValues() {
 
 //ottiene la lista dei colori per il codice selezionato.
 function getColorePerArticolo() {
-    let txtCodice: JQuery<HTMLElement> = $("#txtCodice");
+    let txtCodice: JQuery<HTMLElement> = $("#dropdownCodiceArticolo");
 
     if (txtCodice != null) {
-        let idCodice: string = txtCodice.val().toString();
+        let codice: string = txtCodice.val().toString();
 
         $.ajax({
             type: "POST",
-            url: "/ArticoloAnnullato/SelectColoriFromId",
-            data: { id: idCodice },
+            url: "/Articolo/SelectColoriFromCodice",
+            data: { codice: codice},
             success: function (data) {
                 console.log(data.length);
                 $('#dropdownColore').removeAttr("disabled");
@@ -64,8 +64,8 @@ function getColorePerArticolo() {
 
         $.ajax({
             type: "POST",
-            url: "/ArticoloAnnullato/SelectDescrizioneFromId",
-            data: { id: idCodice },
+            url: "/Articolo/SelectDescrizioneFromCodice",
+            data: { codice: codice},
             success: function (data) {
                 console.log(data);
                 $('#txtDescrizione').attr("value", data)
