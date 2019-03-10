@@ -10,6 +10,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers2\**" />
+    <Compile Remove="Models2\**" />
+    <Compile Remove="Views2\**" />
+    <Content Remove="Controllers2\**" />
+    <Content Remove="Models2\**" />
+    <Content Remove="Views2\**" />
+    <EmbeddedResource Remove="Controllers2\**" />
+    <EmbeddedResource Remove="Models2\**" />
+    <EmbeddedResource Remove="Views2\**" />
+    <None Remove="Controllers2\**" />
+    <None Remove="Models2\**" />
+    <None Remove="Views2\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Areas\Identity\Pages\Account\SuperUser.cshtml.cs" />
   </ItemGroup>
 
@@ -58,6 +73,8 @@
 
 
   <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="Views\" />
     <Folder Include="wwwroot\dist\" />
     <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\documenti\" />
