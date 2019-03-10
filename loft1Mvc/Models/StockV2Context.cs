@@ -196,7 +196,7 @@ namespace StockManagement.Models
 
                 entity.HasOne(d => d.IdPagamentoNavigation)
                     .WithMany(p => p.OrdineCliente)
-                    .HasForeignKey(d => d.IdPagamento)
+                    .HasForeignKey(d => d.IdTipoPagamento)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_OrdineCliente_TipoPagamento");
             });

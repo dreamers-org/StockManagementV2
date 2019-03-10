@@ -1,0 +1,82 @@
+﻿@model StockManagement.Models.OrdineCliente
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_LayoutTablet.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>OrdineCliente</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="IdRappresentante" class="control-label"></label>
+                <input asp-for="IdRappresentante" class="form-control" />
+                <span asp-validation-for="IdRappresentante" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdCliente" class="control-label"></label>
+                <input asp-for="IdCliente" class="form-control" />
+                <span asp-validation-for="IdCliente" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataConsegna" class="control-label"></label>
+                <input asp-for="DataConsegna" class="form-control" />
+                <span asp-validation-for="DataConsegna" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdTipoPagamento" class="control-label"></label>
+                <select asp-for="IdTipoPagamento" class="form-control" asp-items="ViewBag.IdPagamento"></select>
+                <span asp-validation-for="IdTipoPagamento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Note" class="control-label"></label>
+                <input asp-for="Note" class="form-control" />
+                <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Completato" /> @Html.DisplayNameFor(model => model.Completato)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Pagato" /> @Html.DisplayNameFor(model => model.Pagato)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataInserimento" class="control-label"></label>
+                <input asp-for="DataInserimento" class="form-control" />
+                <span asp-validation-for="DataInserimento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataModifica" class="control-label"></label>
+                <input asp-for="DataModifica" class="form-control" />
+                <span asp-validation-for="DataModifica" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UtenteInserimento" class="control-label"></label>
+                <input asp-for="UtenteInserimento" class="form-control" />
+                <span asp-validation-for="UtenteInserimento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UtenteModifica" class="control-label"></label>
+                <input asp-for="UtenteModifica" class="form-control" />
+                <span asp-validation-for="UtenteModifica" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

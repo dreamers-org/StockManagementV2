@@ -1,0 +1,155 @@
+﻿@model StockManagement.Models.ViewModels.OrdineClienteViewModel
+
+@{
+    ViewData["Title"] = "Inserisci ordine";
+}
+
+<!-- Title -->
+<div class="row">
+    <div class="col-sm-4">
+        <a asp-controller="Home" asp-action="Index" class="btn rounded-pill btn-outline-secondary float-left mt-3"><i class="fas fa-arrow-left"></i>&nbsp;Indietro</a>
+    </div>
+    <div class="col-sm-4">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+    <div class="col-sm-12">
+        <hr />
+    </div>
+</div>
+
+
+<!-- form inserimento -->
+<div class="row">
+    <div class=" col-sm-10 col-md-10 mx-auto mb-5">
+        <div class="card border-left-primary shadow h-100">
+            <div class="card-body">
+                <form class="needs-validation" asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-2 mb-3">
+                            <label asp-for="NomeCliente" class="control-label">Nome Cliente</label>
+
+                            @if (ViewBag.NomeCliente != null && !String.IsNullOrEmpty((string)ViewBag.NomeCliente))
+                            {
+                                <input asp-for="NomeCliente" class="form-control" id="txtCliente" readonly="readonly" value="@ViewBag.NomeCliente"/>
+                            }
+                            else
+                            {
+                                <input asp-for="NomeCliente" class="form-control" id="txtCliente" />
+                                <span asp-validation-for="NomeCliente" class="text-danger"></span>
+                            }
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label asp-for="IndirizzoCliente" class="control-label">Indirizzo Cliente</label>
+                            @if (ViewBag.IndirizzoCliente != null && !String.IsNullOrEmpty((string)ViewBag.IndirizzoCliente))
+                            {
+                                <input asp-for="IndirizzoCliente" class="form-control" id="txtIndirizzoCliente" readonly="readonly" value="@ViewBag.IndirizzoCliente" />
+                            }
+                            else
+                            {
+                                <input asp-for="IndirizzoCliente" class="form-control" id="txtIndirizzoCliente" />
+                                <span asp-validation-for="IndirizzoCliente" class="text-danger"></span>
+                            }
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label asp-for="EmailCliente" class="control-label">Email Cliente</label>
+
+                            @if (ViewBag.EmailCliente != null && !String.IsNullOrEmpty((string)ViewBag.EmailCliente))
+                            {
+                                <input asp-for="EmailCliente" class="form-control" id="txtEmailCliente" readonly="readonly"   value="@ViewBag.EmailCliente"/>
+                            }
+                            else
+                            {
+                                <input asp-for="EmailCliente" class="form-control" id="txtEmailCliente" />
+                                <span asp-validation-for="IndirizzoCliente" class="text-danger"></span>
+                            }
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label asp-for="DataConsegna" class="control-label">Data Consegna</label>
+                            <input asp-for="DataConsegna" class="form-control" />
+                            <span asp-validation-for="DataConsegna" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-2 mb-3 ">
+                            <label asp-for="CodiceArticolo" class="control-label">Codice Articolo</label>
+                            <select id="dropdownCodiceArticolo" class="form-control" name="CodiceArticolo" asp-items="ViewBag.CodiceArticolo" onblur="getColorePerArticolo();"></select>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label asp-for="ColoreArticolo" class="control-label text-center">Colore Articolo</label>
+                            <select id="dropdownColore" class="form-control" asp-for="ColoreArticolo"></select>
+                            <span asp-validation-for="ColoreArticolo" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <div class="form-group text-center">
+                                <label class="control-label text-center">Descrizione</label>
+                                <input class="form-control" type="text" id="txtDescrizione" readonly="readonly" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-1 mb-3">
+                            <label asp-for="Xxs" class="control-label"></label>
+                            <input asp-for="Xxs" class="form-control" autocomplete="off" />
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <label asp-for="Xs" class="control-label"></label>
+                            <input asp-for="Xs" class="form-control" autocomplete="off" />
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <label asp-for="S" class="control-label"></label>
+                            <input asp-for="S" class="form-control" autocomplete="off" />
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <label asp-for="M" class="control-label"></label>
+                            <input asp-for="M" class="form-control" autocomplete="off" />
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <label asp-for="L" class="control-label"></label>
+                            <input asp-for="L" class="form-control" autocomplete="off" />
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <label asp-for="Xl" class="control-label"></label>
+                            <input asp-for="Xl" class="form-control" autocomplete="off" />
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <label asp-for="Xxl" class="control-label"></label>
+                            <input asp-for="Xxl" class="form-control" autocomplete="off" />
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <label asp-for="Xxxl" class="control-label"></label>
+                            <input asp-for="Xxxl" class="form-control" autocomplete="off" />
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center">
+                        <div class="form-group">
+                            <div class="form-group ">
+                                <input type="submit" value="Create" class="btn btn-primary float-left mr-3" />
+                                <a asp-controller="OrdineDalCliente" asp-action="Create" class="btn btn-secondary float-left text-white">Svuota campi</a>
+                                @{
+                                    //TODO: Disabilitare il pulsante se ViewBag.ListaOrdini è vuota.
+                                }
+                                @*@{
+                                    List<loft1Mvc.Models.OrdineDalCliente>
+                                        i = (List<loft1Mvc.Models.OrdineDalCliente>
+                                            )ViewBag.ListaOrdini;
+
+                                            if ((i == null) || (i.Count == 0))
+                                            {
+                                            <a href="#" class="btn rounded-pill btn-outline-danger float-right disabled" disabled="disabled">Chiudi ordine</a>
+                                            }
+                                            else
+                                            {
+                                            <a asp-controller="OrdineDalCliente" asp-action="RiepilogoOrdineRappresentante" class="btn rounded-pill btn-outline-danger float-right">Chiudi ordine</a>
+                                            }
+                                            }*@
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

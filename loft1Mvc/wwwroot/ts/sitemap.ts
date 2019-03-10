@@ -8,7 +8,7 @@ export interface pageModule {
 
 export var arrayPageModules: pageModule[] = [
     {
-        page: "/OrdineDalCliente/Create",
+        page: "/OrdineCliente/Create",
         function: function (destination, template) { attivatorePaginaCreate() },
         menuItem: "navbarDropdown"
     }
