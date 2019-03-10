@@ -1,0 +1,23 @@
+﻿@if(!(User.Identity.IsAuthenticated))
+{
+    //se non sono autenticato allora imposto un layout di default.
+    Layout = "_LayoutNonLoggato";
+
+}
+else{
+    //altrimenti in base al "ruolo" corrente imposto il layout corretto.
+    //rappresentanti -> LayoutTablet
+    //tutti gli altri -> Layout normale
+    @if (User.Identity.Name.IndexOf("admin") != -1)
+    {
+        Layout = "_Layout";
+    }
+    else
+    {
+        Layout = "_LayoutTablet";
+    }
+}
+
+
+
+

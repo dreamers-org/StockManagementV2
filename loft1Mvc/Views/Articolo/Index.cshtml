@@ -1,0 +1,186 @@
+﻿@model IEnumerable<StockManagement.Models.Articolo>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Codice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descrizione)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Colore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Xxs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Xs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.S)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.M)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.L)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Xl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Xxl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TagliaUnica)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TrancheConsegna)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genere)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Annullato)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrezzoAcquisto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrezzoVendita)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Foto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Video)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataInserimento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataModifica)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UtenteInserimento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UtenteModifica)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Xxxl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdCollezioneNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdFornitoreNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdTipoNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Codice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descrizione)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Colore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Xxs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Xs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.S)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.M)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.L)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Xl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Xxl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TagliaUnica)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TrancheConsegna)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genere)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Annullato)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrezzoAcquisto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrezzoVendita)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Foto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Video)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataInserimento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataModifica)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UtenteInserimento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UtenteModifica)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Xxxl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdCollezioneNavigation.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdFornitoreNavigation.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdTipoNavigation.Nome)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
