@@ -5,10 +5,10 @@ var $ = require("jquery");
 require("popper.js");
 require("bootstrap");
 require("@fortawesome/fontawesome-free");
+require("jquery-validation");
+require("jquery-validation-unobtrusive");
 //import librerie interne
 var sitemap_1 = require("./sitemap");
-//import '../js/script.js';
-//import '../js/site.js';
 //import dei css
 require("bootstrap/dist/css/bootstrap.min.css");
 require("../css/site.css");
@@ -25,9 +25,11 @@ $(document).ready(function () {
             for (var i = 0; i < sitemap_1.arrayPageModules.length; i++) {
                 if (currentUrl.indexOf(sitemap_1.arrayPageModules[i].page) !== -1) {
                     if (sitemap_1.arrayPageModules[i].function) {
+                        console.log("test: " + sitemap_1.arrayPageModules[i].function.toString());
                         sitemap_1.arrayPageModules[i].function();
                     }
                     //attivo l'item corretto del menu.
+                    console.log("attivatore:" + sitemap_1.arrayPageModules[i].menuItem);
                     attivaMenuItemCorrente(sitemap_1.arrayPageModules[i].menuItem);
                 }
             }
@@ -41,6 +43,6 @@ $(document).ready(function () {
 });
 function attivaMenuItemCorrente(idMenuItem) {
     console.log(idMenuItem);
-    $("#" + idMenuItem).addClass("active");
+    //$(`#${idMenuItem}`).addClass("active");
 }
 //# sourceMappingURL=main.js.map

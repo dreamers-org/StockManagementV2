@@ -65,6 +65,7 @@
 
 
   <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\ts\create.ts" />
     <TypeScriptCompile Include="wwwroot\ts\sitemap.ts" />
     <TypeScriptCompile Include="wwwroot\ts\main.ts" />
   </ItemGroup>

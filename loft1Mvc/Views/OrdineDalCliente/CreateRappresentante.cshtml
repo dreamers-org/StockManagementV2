@@ -1,4 +1,4 @@
-﻿@model StockManagement.Models.OrdineDalCliente
+﻿@model loft1Mvc.Models.OrdineDalCliente
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
 
@@ -6,11 +6,18 @@
     ViewData["Title"] = "Inserisci ordine";
 }
 <div class="row">
-    <div class="col-sm-12">
+    <div class="col-sm-4">
+        <a asp-controller="Home" asp-action="Index" class="btn rounded-pill btn-outline-secondary float-left mt-3"><i class="fas fa-arrow-left"></i>&nbsp;Indietro</a>
+    </div>
+    <div class="col-sm-4">
         <h1>@ViewData["Title"]</h1>
+    </div>
+    <div class="col-sm-12">
         <hr />
     </div>
+</div>
 
+<div class="row">
     <div class=" col-sm-10 col-md-10 mx-auto mb-5">
         <div class="card border-left-primary shadow h-100">
             <div class="card-body">
@@ -25,11 +32,11 @@
                                 <input asp-for="Cliente" class="form-control" id="txtCliente" readonly="readonly" />
                                 <span asp-validation-for="Cliente" class="text-danger"></span>
                             </div>
-                            <div class="col-md-3 mb-3">
-                                <label asp-for="DataOrdine" class="control-label"></label>
-                                <input class="form-control" id="txtDataOrdine" readonly="readonly" />
-                                <span asp-validation-for="DataOrdine" class="text-danger"></span>
-                            </div>
+                            @*<div class="col-md-3 mb-3">
+                                    <label asp-for="DataOrdine" class="control-label"></label>
+                                    <input asp-for="DataOrdine" class="form-control" id="txtDataOrdine" readonly="readonly" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                                    <span asp-validation-for="DataOrdine" class="text-danger"></span>
+                                </div>*@
                             <div class="col-md-3 mb-3">
                                 <label asp-for="DataConsegna" class="control-label"></label>
                                 <input type="text" class="form-control" id="txtDataConsegna" readonly="readonly" />
@@ -40,11 +47,11 @@
                                 <input asp-for="Indirizzo" class="form-control" id="txtIndirizzo" readonly="readonly" />
                                 <span asp-validation-for="Indirizzo" class="text-danger"></span>
                             </div>
-                            <div class="col-md-2 mb-3">
-                                <label asp-for="Pagamento" class="control-label"></label>
-                                <input asp-for="Pagamento" class="form-control" id="txtPagamento" readonly="readonly" />
-                                <span asp-validation-for="Pagamento" class="text-danger"></span>
-                            </div>
+                            @*<div class="col-md-2 mb-3">
+                                    <label asp-for="Pagamento" class="control-label"></label>
+                                    <input asp-for="Pagamento" class="form-control" id="txtPagamento" readonly="readonly" />
+                                    <span asp-validation-for="Pagamento" class="text-danger"></span>
+                                </div>*@
                         }
                         else
                         {
@@ -54,11 +61,11 @@
                                 <span asp-validation-for="Cliente" class="text-danger"></span>
                             </div>
 
-                            <div class="col-md-3 mb-3">
-                                <label asp-for="DataOrdine" class="control-label"></label>
-                                <input asp-for="DataOrdine" class="form-control" id="txtDataOrdine" />
-                                <span asp-validation-for="DataOrdine" class="text-danger"></span>
-                            </div>
+                            @*<div class="col-md-3 mb-3">
+                                    <label asp-for="DataOrdine" class="control-label"></label>
+                                    <input asp-for="DataOrdine" class="form-control" id="txtDataOrdine" defaultValue="@DateTime.Now.ToString("dd/MM/yyyy")"  />
+                                    <span asp-validation-for="DataOrdine" class="text-danger"></span>
+                                </div>*@
                             <div class="col-md-3 mb-3">
                                 <label asp-for="DataConsegna" class="control-label"></label>
                                 <input asp-for="DataConsegna" class="form-control" id="txtDataConsegna" />
@@ -69,15 +76,16 @@
                                 <input asp-for="Indirizzo" class="form-control" id="txtIndirizzo" />
                                 <span asp-validation-for="Indirizzo" class="text-danger"></span>
                             </div>
-                            <div class="col-md-2 mb-3">
-                                <label asp-for="Pagamento" class="control-label"></label>
-                                <input asp-for="Pagamento" class="form-control" id="txtPagamento" />
-                                <span asp-validation-for="Pagamento" class="text-danger"></span>
-                            </div>
+                            @*<div class="col-md-2 mb-3">
+                                    <label asp-for="Pagamento" class="control-label"></label>
+                                    <input asp-for="Pagamento" class="form-control" id="txtPagamento" />
+                                    <span asp-validation-for="Pagamento" class="text-danger"></span>
+                                </div>*@
 
                         }
 
                     </div>
+
                     <div class="form-row justify-content-center">
                         <div class="col-md-2 mb-3 ">
                             <label asp-for="Codice" class="control-label"></label>
@@ -153,12 +161,24 @@
 
                     <div class="form-group ">
                         <input type="submit" value="Inserisci" class="btn btn-primary float-left mr-3" />
-                        <a class="btn btn-secondary float-left text-white">Annulla</a>
+                        <a asp-controller="OrdineDalCliente" asp-action="Create" class="btn btn-secondary float-left text-white">Svuota campi</a>
 
                         @{
                             //TODO: Disabilitare il pulsante se ViewBag.ListaOrdini è vuota.
                         }
-                        <a asp-controller="OrdineDalCliente" asp-action="RiepilogoOrdineRappresentante" class="btn rounded-pill btn-outline-danger float-right">Chiudi ordine</a>
+
+                        @{
+                            List<loft1Mvc.Models.OrdineDalCliente> i = (List<loft1Mvc.Models.OrdineDalCliente>)ViewBag.ListaOrdini;
+
+                            if ((i == null) || (i.Count == 0))
+                            {
+                                <a href="#" class="btn rounded-pill btn-outline-danger float-right disabled" disabled="disabled">Chiudi ordine</a>
+                            }
+                            else
+                            {
+                                <a asp-controller="OrdineDalCliente" asp-action="RiepilogoOrdineRappresentante" class="btn rounded-pill btn-outline-danger float-right">Chiudi ordine</a>
+                            }
+                        }
                     </div>
                 </form>
             </div>
@@ -166,94 +186,108 @@
     </div>
 </div>
 
+@if (ViewBag.SommaTotale > 0)
+{
+    <div class="row justify-content-center">
+        <div class="col-3">
+            <div class="alert alert-primary rounded-pill" role="alert">
+                Totale: @ViewBag.SommaTotale
+            </div>
+        </div>
+    </div>
+}
+
+
+
 <partial name="_ListaOrdiniDalClientePartial" model="ViewBag.ListaOrdini" />
 
-@{ 
+@{
     //TODO: Simone, Convertire in typescript
 }
-<script type="text/javascript">
-    $(document).ready(function myfunction() {
-        $('#txtDataOrdine').attr("Value", new Date().toLocaleString());
-        getTxtValues();
-    });
+@*<script type="text/javascript">
+        $(document).ready(function myfunction() {
+            $('#txtDataOrdine').attr("Value", new Date().toLocaleString());
+            getTxtValues();
+        });
 
-    function cancelFields() {
-        var i = confirm('Sei sicuro?');
-        if (i) {
-            location.reload();
-        }
-        else {
-            return false;
-        }
-    }
-
-    function getTxtValues() {
-        $.ajax({
-            type: "Get",
-            url: "/OrdineDalCliente/getTxtValuesFromSession",
-            success: function (data) {
-                console.log(data);
-                if (data.length == 0) {
-                    alert("Error");
-                }
-                else {
-                    $('#txtCliente').attr("Value", data.cliente);
-                    $('#txtRappresentante').attr("Value", data.rappresentante);
-                    $('#txtDataOrdine').attr("Value", data.dataOrdine);
-                    $('#txtDataConsegna').attr("Value", data.dataConsegna);
-                    $('#txtIndirizzo').attr("Value", data.indirizzo);
-                    $('#txtPagamento').attr("Value", data.pagamento);
-                }
-            },
-            error: function () {
-                console.log("Errore");
+        function cancelFields() {
+            var i = confirm('Sei sicuro?');
+            if (i) {
+                location.reload();
             }
-        })
-    };
+            else {
+                return false;
+            }
+        }
 
-    function getColorePerArticolo() {
-        let id = $('#txtCodice').val();
-        $.ajax({
-            type: "POST",
-            url: "/ArticoloAnnullato/SelectColoriFromId",
-            data: { id: id },
-            success: function (data) {
-                console.log(data.length);
-                $('#dropdownColore').removeAttr("disabled");
-                if (data.length == 0) {
-                    var s = '<option value="-1">Seleziona un colore</option>';
-                    $("#dropdownColore").html(s);
-                }
-                else {
-                    for (var i = 0; i < data.length; i++) {
-                        var s = '<option value="-1">Seleziona un colore</option>';
-                        for (var i = 0; i < data.length; i++) {
-                            console.log(data[i]);
-                            s += '<option value="' + data[i].colore + '">' + data[i].colore + '</option>';
-                        }
-                        $("#dropdownColore").html(s);
-                        $("#dropdownColore").removeAttr("disabled");
+        function getTxtValues() {
+            $.ajax({
+                type: "Get",
+                url: "/OrdineDalCliente/getTxtValuesFromSession",
+                success: function (data) {
+                    console.log(data);
+                    if (data.length == 0) {
+                        alert("Error");
                     }
+                    else {
+                        $('#txtCliente').attr("Value", data.cliente);
+                        $('#txtRappresentante').attr("Value", data.rappresentante);
+                        $('#txtDataOrdine').attr("Value", data.dataOrdine);
+                        $('#txtDataConsegna').attr("Value", data.dataConsegna);
+                        $('#txtIndirizzo').attr("Value", data.indirizzo);
+                        $('#txtPagamento').attr("Value", data.pagamento);
+                    }
+                },
+                error: function () {
+                    console.log("Errore");
                 }
-            },
-            error: function () {
-                console.log("Errore");
-            }
-        });
-        $.ajax({
-            type: "POST",
-            url: "/ArticoloAnnullato/SelectDescrizioneFromId",
-            data: { id: id },
-            success: function (data) {
-                console.log(data);
-                $('#txtDescrizione').attr("value", data)
-            }
-        });
-    }
-</script>
+            })
+        };
+
+        function getColorePerArticolo() {
+            let id = $('#txtCodice').val();
+            console.log(id);
+            $.ajax({
+                type: "POST",
+                url: "/ArticoloAnnullato/SelectColoriFromId",
+                data: { id: id },
+                success: function (data) {
+                    console.log(data.length);
+                    $('#dropdownColore').removeAttr("disabled");
+                    if (data.length == 0) {
+                        var s = '<option value="-1">Seleziona un colore</option>';
+                        $("#dropdownColore").html(s);
+                    }
+                    else {
+                        for (var i = 0; i < data.length; i++) {
+                            var s = '<option value="-1">Seleziona un colore</option>';
+                            for (var i = 0; i < data.length; i++) {
+                                console.log(data[i]);
+                                s += '<option value="' + data[i].colore + '">' + data[i].colore + '</option>';
+                            }
+                            $("#dropdownColore").html(s);
+                            $("#dropdownColore").removeAttr("disabled");
+                        }
+                    }
+                },
+                error: function () {
+                    console.log("Errore");
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: "/ArticoloAnnullato/SelectDescrizioneFromId",
+                data: { id: id },
+                success: function (data) {
+                    console.log(data);
+                    $('#txtDescrizione').attr("value", data)
+                }
+            });
+        }
+    </script>*@
 
 
-@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+@*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
 
 
 

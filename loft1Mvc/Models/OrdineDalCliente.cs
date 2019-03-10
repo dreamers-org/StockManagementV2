@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace StockManagement.Models
+namespace loft1Mvc.Models
 {
 	public partial class OrdineDalCliente
 	{
@@ -11,20 +11,24 @@ namespace StockManagement.Models
 		[DisplayName("Cliente")]
 		[Required(ErrorMessage = "Obbligatorio.")]
 		public string Cliente { get; set; }
-		[DisplayName("Cliente")]
+
+
 		public string Rappresentante { get; set; }
+
 		[DisplayName("Data ordine")]
-		[Required(ErrorMessage = "Obbligatorio.")]
-		[DataType(DataType.Date)]
+		//[Required(ErrorMessage = "Obbligatorio.")]
+		[DataType(DataType.Date,ErrorMessage = "Inserire una data obbligatoria.")]
 		[DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
 		public DateTime DataOrdine { get; set; }
 		[DisplayName("Consegna")]
 		[Required(ErrorMessage = "Obbligatorio.")]
-		[DataType(DataType.Date)]
+		[DataType(DataType.Date, ErrorMessage = "Inserire una data obbligatoria.")]
 		[DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
 		public DateTime DataConsegna { get; set; }
 		[DisplayName("Indirizzo")]
 		public string Indirizzo { get; set; }
+		
+
 		public string Pagamento { get; set; }
 		[DisplayName("Cod.")]
 		[Required(ErrorMessage = "Obbligatorio.")]

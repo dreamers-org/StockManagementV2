@@ -1,5 +1,4 @@
-﻿//import { attivatorePaginaCalendario } from "./pagina-calendario";
-//import { attivatorePaginaRicercaOrdine } from "./ricerca-ordini";
+﻿import { attivatorePaginaCreate } from "./create";
 
 export interface pageModule {
     page?: string;
@@ -9,20 +8,10 @@ export interface pageModule {
 
 export var arrayPageModules: pageModule[] = [
     {
-        page: "/Articolo",
-        //function: function (destination, template) { attivatorePaginaCalendario() },
+        page: "/OrdineDalCliente/Create",
+        function: function (destination, template) { attivatorePaginaCreate() },
         menuItem: "navbarDropdown"
-    },
-    {
-        page: "/ArticoloAnnullato",
-        //function: function (destination, template) { attivatorePaginaCalendario() },
-        menuItem: "navbarDropdown"
-    },
-    {
-        page: "/OrdineDalCliente",
-        //function: function (destination, template) { attivatorePaginaCalendario() },
-        menuItem: "navbarDropdown"
-    },
+    }
 ];
 
 
