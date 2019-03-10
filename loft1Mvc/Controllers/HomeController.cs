@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using loft1Mvc.Models;
+using Serilog;
 
 namespace loft1Mvc.Controllers
 {
@@ -8,6 +9,16 @@ namespace loft1Mvc.Controllers
 	{
 		public IActionResult Index()
 		{
+			try
+			{
+				Log.Error("Test");
+			}
+			catch (System.Exception)
+			{
+				Log.Error("Test");
+				throw;
+			}
+			Log.Error("Test");
 			return View();
 		}
 
