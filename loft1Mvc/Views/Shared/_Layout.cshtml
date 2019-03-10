@@ -33,6 +33,9 @@
 									@if (User.Identity.Name.IndexOf("admin") != -1)
 									{
 										<a class="dropdown-item" asp-controller="Articolo" asp-action="Index">Inserimento Articolo</a>
+										<a class="dropdown-item" asp-controller="Tipo" asp-action="Index">Inserimento Tipo</a>
+										<a class="dropdown-item" asp-controller="Fornitore" asp-action="Index">Inserimento Fornitore</a>
+										<a class="dropdown-item" asp-controller="Collezione" asp-action="Index">Inserimento Collezione</a>
 										<a class="dropdown-item" asp-controller="ArticoloAnnullato" asp-action="Index">Annullamento Articolo</a>
 										<a class="dropdown-item" asp-controller="OrdineAlFornitore" asp-action="Index">Ordine al fornitore</a>
 										<a class="dropdown-item" asp-controller="PackingList" asp-action="Index">Packing list</a>

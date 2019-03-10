@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StockManagement.Models;
 
 namespace StockManagement.Controllers
 {
-    public class CollezioneController : Controller
+	public class CollezioneController : Controller
     {
         private readonly StockV2Context _context;
 
@@ -18,13 +16,11 @@ namespace StockManagement.Controllers
             _context = context;
         }
 
-        // GET: Collezione
         public async Task<IActionResult> Index()
         {
             return View(await _context.Collezione.ToListAsync());
         }
 
-        // GET: Collezione/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -42,15 +38,11 @@ namespace StockManagement.Controllers
             return View(collezione);
         }
 
-        // GET: Collezione/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Collezione/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nome")] Collezione collezione)
@@ -65,7 +57,6 @@ namespace StockManagement.Controllers
             return View(collezione);
         }
 
-        // GET: Collezione/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -81,10 +72,6 @@ namespace StockManagement.Controllers
             return View(collezione);
         }
 
-        // POST: Collezione/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("Id,Nome")] Collezione collezione)
         {
@@ -116,7 +103,6 @@ namespace StockManagement.Controllers
             return View(collezione);
         }
 
-        // GET: Collezione/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -134,7 +120,6 @@ namespace StockManagement.Controllers
             return View(collezione);
         }
 
-        // POST: Collezione/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
