@@ -10,8 +10,8 @@ using StockManagement.Models;
 namespace loft1Mvc.Migrations.Loft1
 {
     [DbContext(typeof(Loft1Context))]
-    [Migration("20190306130257_ModificaTabellaOrdineDalCliente")]
-    partial class ModificaTabellaOrdineDalCliente
+    [Migration("20190309165911_CreatedViewModelArticolo")]
+    partial class CreatedViewModelArticolo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,12 +29,16 @@ namespace loft1Mvc.Migrations.Loft1
 
                     b.Property<bool>("Annullato");
 
-                    b.Property<int>("Codice")
+                    b.Property<string>("Codice")
+                        .IsRequired()
                         .HasMaxLength(50);
 
                     b.Property<string>("Colore")
                         .IsRequired()
                         .HasMaxLength(50);
+
+                    b.Property<string>("DataInserimento")
+                        .IsRequired();
 
                     b.Property<string>("Descrizione")
                         .IsRequired()
@@ -44,18 +48,39 @@ namespace loft1Mvc.Migrations.Loft1
                         .IsRequired()
                         .HasMaxLength(50);
 
+                    b.Property<string>("Genere");
+
+                    b.Property<bool>("L");
+
+                    b.Property<bool>("M");
+
+                    b.Property<string>("Operatore")
+                        .IsRequired();
+
                     b.Property<double>("PrezzoAcquisto");
 
                     b.Property<double>("PrezzoVendita");
+
+                    b.Property<bool>("S");
 
                     b.Property<string>("TipoProdotto");
 
                     b.Property<string>("TrancheConsegna")
                         .IsRequired();
 
-                    b.Property<string>("attr1");
+                    b.Property<bool>("Xl");
 
-                    b.Property<string>("attr2");
+                    b.Property<bool>("Xs");
+
+                    b.Property<bool>("Xxl");
+
+                    b.Property<bool>("Xxs");
+
+                    b.Property<bool>("Xxxl");
+
+                    b.Property<bool>("Xxxs");
+
+                    b.Property<bool>("Xxxxl");
 
                     b.HasKey("Id");
 
@@ -68,7 +93,8 @@ namespace loft1Mvc.Migrations.Loft1
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Codice");
+                    b.Property<string>("Codice")
+                        .IsRequired();
 
                     b.Property<string>("Colore")
                         .IsRequired()

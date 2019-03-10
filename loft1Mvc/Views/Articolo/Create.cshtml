@@ -1,59 +1,119 @@
-﻿@model loft1Mvc.Models.Articolo
+﻿@model StockManagement.Models.ArticoloViewModel
 
 @{
 	ViewData["Title"] = "Nuovo articolo";
 }
 
-<h1>Nuovo articolo</h1>
+<h1>@ViewData["Title"]</h1>
 <hr />
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+<div class="alert alert-danger" role="alert">
+	@ViewBag.ErrorMessage
+</div>
+}
 <div class="row  text-center">
 	<div class="col-md-8 offset-2 text-center">
 		<form class="needs-validation" asp-action="Create">
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-			<div class="form-row">
-				<div class="col-md-3 mb-3">
-					<label asp-for="Fornitore" class="control-label"></label>
-					<input asp-for="Fornitore" class="form-control" autocomplete="off" />
-					<span asp-validation-for="Fornitore" class="text-danger"></span>
-				</div>
+			<div class="form-row justify-content-center">
 				<div class="col-md-3 mb-3">
 					<label asp-for="Codice" class="control-label"></label>
-					<input asp-for="Codice" class="form-control" autocomplete="off" />
+					<input asp-for="Codice" class="form-control" autocomplete="off" id="txtCodice" onblur="return getTxtValues();" />
 					<span asp-validation-for="Codice" class="text-danger"></span>
 				</div>
 				<div class="col-md-3 mb-3">
+					<label asp-for="Fornitore" class="control-label"></label>
+					<input asp-for="Fornitore" class="form-control" autocomplete="off" id="txtFornitore" />
+					<span asp-validation-for="Fornitore" class="text-danger"></span>
+				</div>
+				<div class="col-md-3 mb-3">
 					<label asp-for="Descrizione" class="control-label"></label>
-					<input asp-for="Descrizione" class="form-control" autocomplete="off" />
+					<input asp-for="Descrizione" class="form-control" autocomplete="off" id="txtDescrizione" />
 					<span asp-validation-for="Descrizione" class="text-danger"></span>
 				</div>
 				<div class="col-md-3 mb-3">
 					<label asp-for="Colore" class="control-label"></label>
-					<input asp-for="Colore" class="form-control" autocomplete="off" />
+					<input asp-for="Colore" class="form-control" autocomplete="off" id="txtColore" />
 					<span asp-validation-for="Colore" class="text-danger"></span>
 				</div>
 			</div>
-			<div class="form-row">
-				<div class="col-md-3 mb-3">
+			<div class="form-row justify-content-center">
+				<div class="col-md-2 mb-3">
 					<label asp-for="PrezzoAcquisto" class="control-label"></label>
-					<input asp-for="PrezzoAcquisto" class="form-control" autocomplete="off" />
+					<input asp-for="PrezzoAcquisto" class="form-control" autocomplete="off" id="txtPrezzoAcquisto" />
 					<span asp-validation-for="PrezzoAcquisto" class="text-danger"></span>
 				</div>
-				<div class="col-md-3 mb-3">
+				<div class="col-md-2 mb-3">
 					<label asp-for="PrezzoVendita" class="control-label"></label>
-					<input asp-for="PrezzoVendita" class="form-control" autocomplete="off" />
+					<input asp-for="PrezzoVendita" class="form-control" autocomplete="off" id="txtPrezzoVendita" />
 					<span asp-validation-for="PrezzoVendita" class="text-danger"></span>
 				</div>
-				<div class="col-md-3 mb-3">
+				<div class="col-md-2 mb-3">
 					<label asp-for="TrancheConsegna" class="control-label"></label>
-					<input asp-for="TrancheConsegna" class="form-control" autocomplete="off" />
+					<input asp-for="TrancheConsegna" class="form-control" autocomplete="off" id="txtTrancheConsegna" />
 					<span asp-validation-for="TrancheConsegna" class="text-danger"></span>
 				</div>
 				<div class="col-md-3 mb-3">
+					<label asp-for="Genere" class="control-label"></label>
+					@Html.DropDownListFor(p => p.Genere, new List<SelectListItem> {
+					   new SelectListItem { Value = "Uomo" , Text = "Uomo" },
+					   new SelectListItem { Value = "Donna" , Text = "Donna" },
+					}, new { @class = "form-control", @id= "txtGenereProdottoVisible" })
+					<span asp-validation-for="Genere" class="text-danger"></span>
+				</div>
+				@Html.HiddenFor(model => model.Genere, new { @id = "txtGenereProdottoHidden" })
+
+				<div class="col-md-3 mb-3">
 					<label asp-for="TipoProdotto" class="control-label"></label>
-					@Html.DropDownListFor(p => p.TipoProdotto, new SelectList(ViewBag.tipiProdotto), new { @class = "form-control" })
+					@Html.DropDownListFor(p => p.TipoProdotto, new SelectList(ViewBag.tipiProdotto), new { @class = "form-control", @id = "txtTipoProdottoVisible" })
 					<span asp-validation-for="TipoProdotto" class="text-danger"></span>
 				</div>
+				@Html.HiddenFor(model => model.TipoProdotto, new { @id = "txtTipoProdottoHidden" })
 			</div>
+			<div class="form-row justify-content-center">
+				<div class="col-md-1 mb-3 form-check-inline">
+					<input asp-for="Xxxs" class="form-check-input" id="chkXxxs" autocomplete="off" />
+					<label asp-for="Xxxs" class="form-check-label" for="chkXxxs"></label>
+				</div>
+				<div class="col-md-1 mb-3 form-check-inline">
+					<input asp-for="Xxs" class="form-check-input" autocomplete="off" />
+					<label asp-for="Xxs" class="form-check-label"></label>
+				</div>
+				<div class="col-md-1 mb-3 form-check-inline">
+					<input asp-for="Xs" class="form-check-input" autocomplete="off" />
+					<label asp-for="Xs" class="form-check-label"></label>
+				</div>
+				<div class="col-md-1 mb-3 form-check-inline">
+					<input asp-for="S" class="form-check-input" autocomplete="off" />
+					<label asp-for="S" class="form-check-label"></label>
+				</div>
+				<div class="col-md-1 mb-3 form-check-inline">
+					<input asp-for="M" class="form-check-input" autocomplete="off" />
+					<label asp-for="M" class="form-check-label"></label>
+				</div>
+				<div class="col-md-1 mb-3 form-check-inline">
+					<input asp-for="L" class="form-check-input" autocomplete="off" />
+					<label asp-for="L" class="form-check-label"></label>
+				</div>
+				<div class="col-md-1 mb-3 form-check-inline">
+					<input asp-for="Xl" class="form-check-input" autocomplete="off" />
+					<label asp-for="Xl" class="form-check-label"></label>
+				</div>
+				<div class="col-md-1 mb-3 form-check-inline">
+					<input asp-for="Xxl" class="form-check-input" autocomplete="off" />
+					<label asp-for="Xxl" class="form-check-label"></label>
+				</div>
+				<div class="col-md-1 mb-3 form-check-inline">
+					<input asp-for="Xxxl" class="form-check-input" autocomplete="off" />
+					<label asp-for="Xxxl" class="form-check-label"></label>
+				</div>
+				<div class="col-md-1 mb-3 form-check-inline">
+					<input asp-for="Xxxxl" class="form-check-input" autocomplete="off" />
+					<label asp-for="Xxxxl" class="form-check-label"></label>
+				</div>
+			</div>
+
 			<div>
 				<input type="submit" value="Inserisci" style="height:100% !important" class="btn btn-lg btn-primary" />
 				<input type="submit" value="Annulla" onclick="return cancelFields();" style="height:100% !important" class="btn btn-lg btn-danger" />
@@ -78,6 +138,54 @@
 				return false;
 			}
 		}
+
+		function getTxtValues() {
+			let codice = $('#txtCodice').val();
+			$.ajax({
+				type: "POST",
+				url: "/Articolo/getTxtValues",
+				data: { codice: codice },
+				success: function (data) {
+					console.log(data);
+					if (!(data.fornitore)) {
+						$('.form-control').removeAttr("readonly");
+						$('#txtFornitore').attr("Value", data.fornitore);
+						$('#txtDescrizione').attr("Value", data.descrizione);
+						$('#txtPrezzoAcquisto').attr("Value", data.prezzoAcquisto);
+						$('#txtPrezzoVendita').attr("Value", data.prezzoVendita);
+						$('#txtTrancheConsegna').attr("Value", data.trancheConsegna);
+						$('#txtGenereProdotto').val(data.genereProdotto);
+						$('#txtTipoProdotto').val(data.tipoProdotto);
+						$('#txtGenereProdottoVisible').val(data.genereProdotto);
+						$('#txtTipoProdottoVisible').val(data.tipoProdotto);
+						$('#txtGenereProdottoVisible').removeAttr("disabled");
+						$('#txtTipoProdottoVisible').removeAttr("disabled");
+						$('#txtGenereProdottoHidden').attr("disabled", "disabled"); //Disabled e non readonly per bug che permette alle ddl readonly di cambiare lo stesso valore
+						$('#txtTipoProdottoHidden').attr("disabled", "disabled");
+					}
+					else {
+						$('.form-control').attr("readonly", "readonly");
+						$('#txtColore').removeAttr("readonly");
+						$('#txtFornitore').attr("Value", data.fornitore);
+						$('#txtDescrizione').attr("Value", data.descrizione);
+						$('#txtPrezzoAcquisto').attr("Value", data.prezzoAcquisto);
+						$('#txtPrezzoVendita').attr("Value", data.prezzoVendita);
+						$('#txtTrancheConsegna').attr("Value", data.trancheConsegna);
+						$('#txtGenereProdottoHidden').val(data.genereProdotto);
+						$('#txtTipoProdottoHidden').val(data.tipoProdotto);
+						$('#txtGenereProdottoHidden').removeAttr("disabled");
+						$('#txtTipoProdottoHidden').removeAttr("disabled");
+						$('#txtGenereProdottoVisible').attr("disabled", "disabled"); //Disabled e non readonly per bug che permette alle ddl readonly di cambiare lo stesso valore
+						$('#txtTipoProdottoVisible').attr("disabled", "disabled");
+					}
+				},
+				error: function () {
+					console.log("Errore");
+				}
+			})
+		};
+
 	</script>
+
 	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using loft1Mvc.Models;
+using StockManagement.Models;
 using Serilog;
 
 namespace loft1Mvc.Controllers

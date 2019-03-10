@@ -1,5 +1,5 @@
 ﻿using System;
-using loft1Mvc.Models;
+using StockManagement.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -42,17 +42,6 @@ namespace loft1Mvc
 				});
 
 				services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-				//var policy = new AuthorizationPolicyBuilder()
-				//.RequireAuthenticatedUser()
-				//.RequireRole("Admin", "SuperUser")
-				//.Build();
-
-				//services.AddMvc(options =>
-				//{
-				//	options.Filters.Add(new AuthorizeFilter(policy));
-				//	//options.Filters.Add(new AllowAnonymousFilter());
-				//});
 			}
 			catch (Exception ex)
 			{
@@ -72,6 +61,7 @@ namespace loft1Mvc
 				if (env.IsDevelopment())
 				{
 					app.UseDeveloperExceptionPage();
+					app.UseDatabaseErrorPage();
 				}
 				else
 				{

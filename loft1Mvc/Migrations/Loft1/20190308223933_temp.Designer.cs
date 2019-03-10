@@ -10,8 +10,8 @@ using StockManagement.Models;
 namespace loft1Mvc.Migrations.Loft1
 {
     [DbContext(typeof(Loft1Context))]
-    [Migration("20190306130257_ModificaTabellaOrdineDalCliente")]
-    partial class ModificaTabellaOrdineDalCliente
+    [Migration("20190308223933_temp")]
+    partial class temp
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,7 +29,8 @@ namespace loft1Mvc.Migrations.Loft1
 
                     b.Property<bool>("Annullato");
 
-                    b.Property<int>("Codice")
+                    b.Property<string>("Codice")
+                        .IsRequired()
                         .HasMaxLength(50);
 
                     b.Property<string>("Colore")
@@ -43,6 +44,8 @@ namespace loft1Mvc.Migrations.Loft1
                     b.Property<string>("Fornitore")
                         .IsRequired()
                         .HasMaxLength(50);
+
+                    b.Property<string>("Genere");
 
                     b.Property<double>("PrezzoAcquisto");
 
@@ -68,7 +71,8 @@ namespace loft1Mvc.Migrations.Loft1
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Codice");
+                    b.Property<string>("Codice")
+                        .IsRequired();
 
                     b.Property<string>("Colore")
                         .IsRequired()

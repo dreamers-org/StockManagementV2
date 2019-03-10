@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using loft1Mvc.Models;
+using StockManagement.Models;
 
 namespace StockManagement.Controllers
 {
@@ -141,7 +141,7 @@ namespace StockManagement.Controllers
 			return _context.ArticoliAnnullati.Any(e => e.Id == id);
 		}
 
-		public IActionResult SelectColoriFromId(int id)
+		public IActionResult SelectColoriFromId(string id)
 		{
 			var listaColori = _context.Articoli.Where(x => x.Codice == id)
 									 .Select(x => new
@@ -152,7 +152,7 @@ namespace StockManagement.Controllers
 			return Json(listaColori);
 		}
 
-		public IActionResult SelectDescrizioneFromId(int id)
+		public IActionResult SelectDescrizioneFromId(string id)
 		{
 			string descrizione = _context.Articoli.Where(x => x.Codice == id)
 									 .Select(x => x.Descrizione).FirstOrDefault();

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using loft1Mvc.Models;
+using StockManagement.Models;
 
 namespace loft1Mvc.Migrations.Loft1
 {
@@ -19,7 +19,7 @@ namespace loft1Mvc.Migrations.Loft1
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("loft1Mvc.Models.Articolo", b =>
+            modelBuilder.Entity("StockManagement.Models.Articolo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -27,12 +27,16 @@ namespace loft1Mvc.Migrations.Loft1
 
                     b.Property<bool>("Annullato");
 
-                    b.Property<int>("Codice")
+                    b.Property<string>("Codice")
+                        .IsRequired()
                         .HasMaxLength(50);
 
                     b.Property<string>("Colore")
                         .IsRequired()
                         .HasMaxLength(50);
+
+                    b.Property<string>("DataInserimento")
+                        .IsRequired();
 
                     b.Property<string>("Descrizione")
                         .IsRequired()
@@ -42,31 +46,53 @@ namespace loft1Mvc.Migrations.Loft1
                         .IsRequired()
                         .HasMaxLength(50);
 
+                    b.Property<string>("Genere");
+
+                    b.Property<bool>("L");
+
+                    b.Property<bool>("M");
+
+                    b.Property<string>("Operatore")
+                        .IsRequired();
+
                     b.Property<double>("PrezzoAcquisto");
 
                     b.Property<double>("PrezzoVendita");
+
+                    b.Property<bool>("S");
 
                     b.Property<string>("TipoProdotto");
 
                     b.Property<string>("TrancheConsegna")
                         .IsRequired();
 
-                    b.Property<string>("attr1");
+                    b.Property<bool>("Xl");
 
-                    b.Property<string>("attr2");
+                    b.Property<bool>("Xs");
+
+                    b.Property<bool>("Xxl");
+
+                    b.Property<bool>("Xxs");
+
+                    b.Property<bool>("Xxxl");
+
+                    b.Property<bool>("Xxxs");
+
+                    b.Property<bool>("Xxxxl");
 
                     b.HasKey("Id");
 
                     b.ToTable("Articoli");
                 });
 
-            modelBuilder.Entity("loft1Mvc.Models.ArticoloAnnullato", b =>
+            modelBuilder.Entity("StockManagement.Models.ArticoloAnnullato", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Codice");
+                    b.Property<string>("Codice")
+                        .IsRequired();
 
                     b.Property<string>("Colore")
                         .IsRequired()
@@ -77,7 +103,7 @@ namespace loft1Mvc.Migrations.Loft1
                     b.ToTable("ArticoliAnnullati");
                 });
 
-            modelBuilder.Entity("loft1Mvc.Models.OrdineAlFornitore", b =>
+            modelBuilder.Entity("StockManagement.Models.OrdineAlFornitore", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -142,7 +168,7 @@ namespace loft1Mvc.Migrations.Loft1
                     b.ToTable("OrdiniAiFornitori");
                 });
 
-            modelBuilder.Entity("loft1Mvc.Models.OrdineDalCliente", b =>
+            modelBuilder.Entity("StockManagement.Models.OrdineDalCliente", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -167,8 +193,7 @@ namespace loft1Mvc.Migrations.Loft1
                     b.Property<string>("Descrizione")
                         .IsRequired();
 
-                    b.Property<string>("IdOrdine")
-                        .IsRequired();
+                    b.Property<string>("IdOrdine");
 
                     b.Property<string>("Indirizzo")
                         .HasMaxLength(50);
@@ -220,7 +245,7 @@ namespace loft1Mvc.Migrations.Loft1
                     b.ToTable("OrdiniDaiClienti");
                 });
 
-            modelBuilder.Entity("loft1Mvc.Models.PackingList", b =>
+            modelBuilder.Entity("StockManagement.Models.PackingList", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -275,7 +300,7 @@ namespace loft1Mvc.Migrations.Loft1
                     b.ToTable("PackingList");
                 });
 
-            modelBuilder.Entity("loft1Mvc.Models.TipoProdotto", b =>
+            modelBuilder.Entity("StockManagement.Models.TipoProdotto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -290,7 +315,7 @@ namespace loft1Mvc.Migrations.Loft1
                     b.ToTable("TipoProdotto");
                 });
 
-            modelBuilder.Entity("loft1Mvc.Models.TrancheConsegna", b =>
+            modelBuilder.Entity("StockManagement.Models.TrancheConsegna", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

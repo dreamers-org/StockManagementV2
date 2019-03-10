@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using loft1Mvc.Models;
+using StockManagement.Models;
 using Microsoft.AspNetCore.Http;
 using System.Globalization;
 

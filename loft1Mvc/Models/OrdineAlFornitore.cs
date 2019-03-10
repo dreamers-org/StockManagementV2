@@ -1,4 +1,4 @@
-﻿namespace loft1Mvc.Models
+﻿namespace StockManagement.Models
 {
     public partial class OrdineAlFornitore
     {

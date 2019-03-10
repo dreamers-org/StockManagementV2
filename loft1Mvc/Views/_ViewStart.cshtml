@@ -1,7 +1,4 @@
-﻿
-
-
-@if(!(User.Identity.IsAuthenticated))
+﻿@if(!(User.Identity.IsAuthenticated))
 {
     //se non sono autenticato allora imposto un layout di default.
     Layout = "_LayoutNonLoggato";

@@ -1,6 +1,6 @@
 using System;
 
-namespace loft1Mvc.Models
+namespace StockManagement.Models
 {
 	public class ErrorViewModel
 	{

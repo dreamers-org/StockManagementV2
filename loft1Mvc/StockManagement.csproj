@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <TypeScriptToolsVersion>3.3</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>3.1.5</TypeScriptToolsVersion>
     <UserSecretsId>9cd7a5af-3409-4dfa-84f5-c1b6747dd613</UserSecretsId>
     <ApplicationInsightsResourceId>/subscriptions/69fec4c8-d645-4fff-9ff4-c3f1b1d25b8b/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/StockManagement</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/69fec4c8-d645-4fff-9ff4-c3f1b1d25b8b/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/StockManagement</ApplicationInsightsAnnotationResourceId>

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace loft1Mvc.Models
+namespace StockManagement.Models
 {
 	public partial class Loft1Context : DbContext
 	{

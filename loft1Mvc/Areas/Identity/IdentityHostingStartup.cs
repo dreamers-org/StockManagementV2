@@ -1,6 +1,6 @@
 ﻿using System;
 using loft1Mvc.Areas.Identity.Data;
-using loft1Mvc.Models;
+using StockManagement.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;

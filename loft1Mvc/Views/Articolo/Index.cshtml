@@ -1,10 +1,10 @@
-﻿@model IEnumerable<loft1Mvc.Models.Articolo>
+﻿@model IEnumerable<StockManagement.Models.ArticoloViewModel>
 
 @{
-	ViewData["Title"] = "Lista articoli";
+	ViewData["Title"] = "Articoli validi";
 }
 
-<h1>Articoli validi</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
 	<a asp-action="Create">Nuovo articolo</a>
@@ -28,6 +28,9 @@
 				@Html.DisplayNameFor(model => model.TipoProdotto)
 			</th>
 			<th>
+				@Html.DisplayNameFor(model => model.Genere)
+			</th>
+			<th>
 				@Html.DisplayNameFor(model => model.TrancheConsegna)
 			</th>
 			<th>
@@ -36,47 +39,40 @@
 			<th>
 				@Html.DisplayNameFor(model => model.PrezzoVendita)
 			</th>
-			<th></th>
 		</tr>
 	</thead>
 	<tbody>
 		@foreach (var item in Model)
 		{
-			<tr>
-				<td>
-					@Html.DisplayFor(modelItem => item.Fornitore)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Codice)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Descrizione)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Colore)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.TipoProdotto)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.TrancheConsegna)
-				</td>
-				<td>
-					€@Html.DisplayFor(modelItem => item.PrezzoAcquisto)
-				</td>
-				<td>
-					€@Html.DisplayFor(modelItem => item.PrezzoVendita)
-				</td>
-				<td>
-
-					@if (User.Identity.Name == "luca@admin.com")
-					{
-						<a asp-action="Details" asp-route-id="@item.Id">Dettagli</a>
-						<a asp-action="Edit" asp-route-id="@item.Id">Modifica</a>
-						<a asp-action="Delete" asp-route-id="@item.Id">Elimina</a>
-					}
-				</td>
-			</tr>
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Fornitore)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Codice)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Descrizione)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Colore)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.TipoProdotto)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Genere)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.TrancheConsegna)
+			</td>
+			<td>
+				€@Html.DisplayFor(modelItem => item.PrezzoAcquisto)
+			</td>
+			<td>
+				€@Html.DisplayFor(modelItem => item.PrezzoVendita)
+			</td>
+		</tr>
 		}
 	</tbody>
 </table>

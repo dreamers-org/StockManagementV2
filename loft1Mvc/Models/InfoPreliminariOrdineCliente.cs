@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace loft1Mvc.Models
+namespace StockManagement.Models
 {
 	public class InfoPreliminariOrdineCliente
 	{
