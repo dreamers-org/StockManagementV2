@@ -9,6 +9,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StockManagement.Models;
 using StockManagement.Models.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace StockManagement
 {
@@ -29,8 +33,11 @@ namespace StockManagement
         // GET: OrdineCliente
         public async Task<IActionResult> Index()
         {
-            var stockV2Context = _context.OrdineCliente.Include(o => o.IdNavigation).Include(o => o.IdPagamentoNavigation);
-            return View(await stockV2Context.ToListAsync());
+            //ottengo l'id del rappresentante
+            Guid idRappresentante = _identityContext.Users.Where(utente => utente.Email == User.Identity.Name).Select(utente => new Guid(utente.Id)).First();
+
+            //restituisco la vista contenente gli ordini filtrati per idRappresentante
+            return View(await _context.ViewOrdineCliente.Where(x => x.IdRappresentante == idRappresentante).ToListAsync());
         }
 
         // GET: OrdineCliente/Details/5
@@ -62,6 +69,17 @@ namespace StockManagement
             ViewData["EmailCliente"] = HttpContext.Session.GetString("EmailCliente");
             ViewData["IndirizzoCliente"] = HttpContext.Session.GetString("IndirizzoCliente");
 
+            IEnumerable<RigaOrdineCliente> listaRigheOrdineCliente = null;
+
+            string idOrdineSession = HttpContext.Session.GetString("NomeCliente");
+            if (idOrdineSession != null && !String.IsNullOrEmpty(idOrdineSession))
+            {
+                listaRigheOrdineCliente = _context.RigaOrdineCliente.Where(x => x.IdOrdine.ToString().ToUpper() == idOrdineSession.ToUpper()).Select(x => x).ToList();
+            }
+
+
+            ViewBag.ListaOrdini = listaRigheOrdineCliente;
+
             return View();
         }
 
@@ -75,9 +93,8 @@ namespace StockManagement
             if (ModelState.IsValid)
             {
                 //creo i nuovi guid per IdCliente e IdOrdine.
-                Guid idCliente = new Guid();
+                Guid idCliente = Guid.NewGuid();
                 ordineCliente.Id = Guid.NewGuid();
-
 
                 //Controllo se l'Id dell'ordine esiste già in sessione.
                 if (!String.IsNullOrEmpty(HttpContext.Session.GetString("IdOrdine")))
@@ -124,7 +141,7 @@ namespace StockManagement
 
                 //Se esiste già un record lo modifico altrimenti lo creo.
                 List<RigaOrdineCliente> rigaOrdineClienteEsistente = _context.RigaOrdineCliente.Where(x => x.IdOrdine == ordineCliente.Id && x.IdArticolo == idArticolo).ToList();
-                RigaOrdineCliente rigaOrdineCliente = new RigaOrdineCliente() { Id = new Guid(), IdOrdine = ordineCliente.Id, IdArticolo = idArticolo, Xxs = ordineCliente.Xxs, Xs = ordineCliente.Xs, S = ordineCliente.S, M = ordineCliente.M, L = ordineCliente.L, Xl = ordineCliente.Xl, Xxl = ordineCliente.Xxl, Xxxl = ordineCliente.Xxxl, UtenteInserimento = User.Identity.Name, DataInserimento = DateTime.Now };
+                RigaOrdineCliente rigaOrdineCliente = new RigaOrdineCliente() { Id = new Guid(), IdOrdine = ordineCliente.Id, IdArticolo = idArticolo, Xxs = (ordineCliente.Xxs.HasValue ? ordineCliente.Xxs.Value : 0 ) , Xs = (ordineCliente.Xs.HasValue ? ordineCliente.Xs.Value : 0), S = (ordineCliente.S.HasValue ? ordineCliente.S.Value : 0), M = (ordineCliente.M.HasValue ? ordineCliente.M.Value : 0), L = (ordineCliente.L.HasValue ? ordineCliente.L.Value : 0), Xl = (ordineCliente.Xl.HasValue ? ordineCliente.Xl.Value : 0), Xxl = (ordineCliente.Xxl.HasValue ? ordineCliente.Xxl.Value : 0), Xxxl = (ordineCliente.Xxxl.HasValue ? ordineCliente.Xxxl.Value : 0), UtenteInserimento = User.Identity.Name, DataInserimento = DateTime.Now };
 
                 if (rigaOrdineClienteEsistente != null && rigaOrdineClienteEsistente.Count > 0)
                 {
