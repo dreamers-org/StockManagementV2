@@ -45,7 +45,6 @@ namespace StockManagement
             //}
 
 
-            _context.
             //restituisco la vista
             return View();
         }
