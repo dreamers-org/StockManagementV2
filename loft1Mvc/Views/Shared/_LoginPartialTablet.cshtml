@@ -10,7 +10,9 @@
             <div class="col-sm-6">
                 <a asp-controller="Home" asp-action="Index" title="clicca per tornare alla home..">
                     <img class="img-fluid d-block mx-auto float-left mt-3 ml-5" width="40" height="40" src="https://scontent-mxp1-1.xx.fbcdn.net/v/t1.0-9/39887026_1763214110443557_4399191407651192832_n.jpg?_nc_cat=100&amp;_nc_ht=scontent-mxp1-1.xx&amp;oh=aea56c7451368d06688d4390d31ee6eb&amp;oe=5CE4D5FA" alt="logoLoft1">
-                </a>
+
+                </a>   &nbsp;
+                <label class="text-dark mt-4 h5 text-muted">Loft1</label>
             </div>
             <div class="col-sm-6">
                 <form id="logoutForm" class="form-inline float-right" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">

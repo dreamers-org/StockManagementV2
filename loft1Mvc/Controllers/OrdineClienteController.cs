@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StockManagement.Models;
 using StockManagement.Models.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace StockManagement
 {
@@ -28,8 +27,25 @@ namespace StockManagement
         // GET: OrdineCliente
         public async Task<IActionResult> Index()
         {
-            var stockV2Context = _context.OrdineCliente.Include(o => o.IdNavigation).Include(o => o.IdPagamentoNavigation);
-            return View(await stockV2Context.ToListAsync());
+            //ottengo l'id del rappresentante
+            Guid idRappresentante = _identityContext.Users.Where(utente => utente.Email == User.Identity.Name).Select(utente => new Guid(utente.Id)).First();
+
+            List<OrdineCliente> listaOrdini = await _context.OrdineCliente.Where(x => x.IdRappresentante == idRappresentante).Select(x => x).ToListAsync();
+            List<OrdineClienteViewModel> listaOrdiniViewModel = new List<OrdineClienteViewModel>();
+            foreach (OrdineCliente item in listaOrdini)
+            {
+                OrdineClienteViewModel item2 = (OrdineClienteViewModel)item;
+
+                Cliente cliente = _context.Cliente.Where(x => x.Id == item.IdCliente).Select(x => x).FirstOrDefault();
+                item2.NomeCliente = cliente.Nome;
+                item2.IndirizzoCliente = cliente.Indirizzo;
+                item2.EmailCliente = cliente.Email;
+
+                listaOrdiniViewModel.Add(item2);
+            }
+
+            //restituisco la vista
+            return View(listaOrdiniViewModel);
         }
 
         // GET: OrdineCliente/Details/5
@@ -60,6 +76,17 @@ namespace StockManagement
             ViewData["NomeCliente"] = HttpContext.Session.GetString("NomeCliente");
             ViewData["EmailCliente"] = HttpContext.Session.GetString("EmailCliente");
             ViewData["IndirizzoCliente"] = HttpContext.Session.GetString("IndirizzoCliente");
+
+            IEnumerable<RigaOrdineCliente> listaRigheOrdineCliente = null;
+
+            string idOrdineSession = HttpContext.Session.GetString("NomeCliente");
+            if (idOrdineSession != null && !String.IsNullOrEmpty(idOrdineSession))
+            {
+                listaRigheOrdineCliente = _context.RigaOrdineCliente.Where(x => x.IdOrdine.ToString().ToUpper() == idOrdineSession.ToUpper()).Select(x => x);
+            }
+
+
+            ViewBag.ListaOrdini = listaRigheOrdineCliente;
 
             return View();
         }

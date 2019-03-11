@@ -1,102 +1,66 @@
-﻿@model IEnumerable<StockManagement.Models.OrdineCliente>
+﻿@model IEnumerable<StockManagement.Models.ViewModels.OrdineClienteViewModel>
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_LayoutTablet.cshtml";
-}
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IdRappresentante)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdCliente)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataConsegna)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Note)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Completato)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Pagato)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataInserimento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataModifica)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UtenteInserimento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UtenteModifica)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdPagamentoNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdRappresentante)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdCliente)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataConsegna)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Note)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Completato)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Pagato)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataInserimento)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataModifica)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UtenteInserimento)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UtenteModifica)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdNavigation.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdPagamentoNavigation.Nome)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+            ViewData["Title"] = "Ordini inseriti";
+        }
+<!-- Title -->
+<div class="row">
+    <div class="col-sm-4">
+        <a asp-controller="Home" asp-action="Index" class="btn rounded-pill btn-outline-secondary float-left mt-3"><i class="fas fa-arrow-left"></i>&nbsp;Indietro</a>
+    </div>
+    <div class="col-sm-4">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+    <div class="col-sm-12">
+        <hr />
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.IdCliente)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.DataConsegna)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.Note)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.Completato)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.Pagato)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NomeCliente)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DataConsegna)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Note)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Completato)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Pagato)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

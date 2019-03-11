@@ -26,12 +26,12 @@
                 <form class="needs-validation" asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-row justify-content-center">
-                        <div class="col-md-2 mb-3">
+                        <div class="col-md-3 mb-3">
                             <label asp-for="NomeCliente" class="control-label">Nome Cliente</label>
 
                             @if (ViewBag.NomeCliente != null && !String.IsNullOrEmpty((string)ViewBag.NomeCliente))
                             {
-                                <input asp-for="NomeCliente" class="form-control" id="txtCliente" readonly="readonly" value="@ViewBag.NomeCliente"/>
+                                <input asp-for="NomeCliente" class="form-control" id="txtCliente" readonly="readonly" value="@ViewBag.NomeCliente" />
                             }
                             else
                             {
@@ -39,7 +39,7 @@
                                 <span asp-validation-for="NomeCliente" class="text-danger"></span>
                             }
                         </div>
-                        <div class="col-md-2 mb-3">
+                        <div class="col-md-3 mb-3">
                             <label asp-for="IndirizzoCliente" class="control-label">Indirizzo Cliente</label>
                             @if (ViewBag.IndirizzoCliente != null && !String.IsNullOrEmpty((string)ViewBag.IndirizzoCliente))
                             {
@@ -51,12 +51,12 @@
                                 <span asp-validation-for="IndirizzoCliente" class="text-danger"></span>
                             }
                         </div>
-                        <div class="col-md-2 mb-3">
+                        <div class="col-md-3 mb-3">
                             <label asp-for="EmailCliente" class="control-label">Email Cliente</label>
 
                             @if (ViewBag.EmailCliente != null && !String.IsNullOrEmpty((string)ViewBag.EmailCliente))
                             {
-                                <input asp-for="EmailCliente" class="form-control" id="txtEmailCliente" readonly="readonly"   value="@ViewBag.EmailCliente"/>
+                                <input asp-for="EmailCliente" class="form-control" id="txtEmailCliente" readonly="readonly" value="@ViewBag.EmailCliente" />
                             }
                             else
                             {
@@ -64,23 +64,23 @@
                                 <span asp-validation-for="IndirizzoCliente" class="text-danger"></span>
                             }
                         </div>
-                        <div class="col-md-2 mb-3">
+                        <div class="col-md-3 mb-3">
                             <label asp-for="DataConsegna" class="control-label">Data Consegna</label>
-                            <input asp-for="DataConsegna" class="form-control" />
+                            <input asp-for="DataConsegna" class="form-control" type="date"  />
                             <span asp-validation-for="DataConsegna" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-row justify-content-center">
-                        <div class="col-md-2 mb-3 ">
+                        <div class="col-md-3 mb-3 ">
                             <label asp-for="CodiceArticolo" class="control-label">Codice Articolo</label>
                             <select id="dropdownCodiceArticolo" class="form-control" name="CodiceArticolo" asp-items="ViewBag.CodiceArticolo" onblur="getColorePerArticolo();"></select>
                         </div>
-                        <div class="col-md-2 mb-3">
+                        <div class="col-md-3 mb-3">
                             <label asp-for="ColoreArticolo" class="control-label text-center">Colore Articolo</label>
                             <select id="dropdownColore" class="form-control" asp-for="ColoreArticolo"></select>
                             <span asp-validation-for="ColoreArticolo" class="text-danger"></span>
                         </div>
-                        <div class="col-md-2 mb-3">
+                        <div class="col-md-3 mb-3">
                             <div class="form-group text-center">
                                 <label class="control-label text-center">Descrizione</label>
                                 <input class="form-control" type="text" id="txtDescrizione" readonly="readonly" />
@@ -121,29 +121,28 @@
                             <input asp-for="Xxxl" class="form-control" autocomplete="off" />
                         </div>
                     </div>
-                    <div class="form-row justify-content-center">
-                        <div class="form-group">
-                            <div class="form-group ">
-                                <input type="submit" value="Create" class="btn btn-primary float-left mr-3" />
-                                <a asp-controller="OrdineDalCliente" asp-action="Create" class="btn btn-secondary float-left text-white">Svuota campi</a>
-                                @{
-                                    //TODO: Disabilitare il pulsante se ViewBag.ListaOrdini è vuota.
-                                }
-                                @*@{
-                                    List<loft1Mvc.Models.OrdineDalCliente>
-                                        i = (List<loft1Mvc.Models.OrdineDalCliente>
-                                            )ViewBag.ListaOrdini;
+                    <div class="form-row mt-4">
+                        <div class="col-sm-6">
+                            <input type="submit" value="Inserisci" class="btn btn-primary float-left mr-3" />
+                            <a asp-controller="OrdineDalCliente" asp-action="Create" class="btn btn-secondary float-left text-white">Svuota campi</a>
+                        </div>
+                        <div class="col-sm-6 float-right">
+                            @{
+                                //TODO: Disabilitare il pulsante se ViewBag.ListaOrdini è vuota.
+                            }
+                            @{
+                                List<StockManagement.Models.RigaOrdineCliente> lista = (List<StockManagement.Models.RigaOrdineCliente>)ViewBag.ListaOrdini;
 
-                                            if ((i == null) || (i.Count == 0))
-                                            {
-                                            <a href="#" class="btn rounded-pill btn-outline-danger float-right disabled" disabled="disabled">Chiudi ordine</a>
-                                            }
-                                            else
-                                            {
-                                            <a asp-controller="OrdineDalCliente" asp-action="RiepilogoOrdineRappresentante" class="btn rounded-pill btn-outline-danger float-right">Chiudi ordine</a>
-                                            }
-                                            }*@
-                            </div>
+                                if ((lista == null) || (lista.Count == 0))
+                                {
+
+                                    <a href="#" class="btn rounded-pill btn-outline-danger float-right disabled" disabled="disabled">Chiudi ordine</a>
+                                }
+                                else
+                                {
+                                    <a asp-controller="OrdineDalCliente" asp-action="RiepilogoOrdineRappresentante" class="btn rounded-pill btn-outline-danger float-right">Chiudi ordine</a>
+                                }
+                            }
                         </div>
                     </div>
                 </form>
