@@ -59,9 +59,6 @@
 				@Html.DisplayNameFor(model => model.Genere)
 			</th>
 			<th>
-				@Html.DisplayNameFor(model => model.Annullato)
-			</th>
-			<th>
 				@Html.DisplayNameFor(model => model.PrezzoAcquisto)
 			</th>
 			<th>
@@ -69,9 +66,6 @@
 			</th>
 			<th>
 				@Html.DisplayNameFor(model => model.IdCollezioneNavigation)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.IdTipoNavigation)
 			</th>
 			<th></th>
 		</tr>
@@ -125,9 +119,6 @@
 				@Html.DisplayFor(modelItem => item.Genere)
 			</td>
 			<td>
-				@Html.DisplayFor(modelItem => item.Annullato)
-			</td>
-			<td>
 				@Html.DisplayFor(modelItem => item.PrezzoAcquisto)
 			</td>
 			<td>
@@ -135,9 +126,6 @@
 			</td>
 			<td>
 				@Html.DisplayFor(modelItem => item.IdCollezioneNavigation.Nome)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.IdTipoNavigation.Nome)
 			</td>
 			@if (User.IsInRole("SuperAdmin"))
 			{

@@ -17,11 +17,11 @@ namespace loft1Mvc.Areas.Identity
 		{
 			builder.ConfigureServices((context, services) =>
 			{
-				var lockoutOptions = new LockoutOptions()
-				{
-					DefaultLockoutTimeSpan = TimeSpan.FromDays(365),
-					MaxFailedAccessAttempts = 3
-				};
+				//var lockoutOptions = new LockoutOptions()
+				//{
+				//	DefaultLockoutTimeSpan = TimeSpan.FromDays(365),
+				//	MaxFailedAccessAttempts = 3
+				//};
 
 				services.AddDbContext<IdentityContext>(options => options.UseSqlServer(context.Configuration.GetConnectionString("IdentityContextConnection")));
 
