@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using StockManagement.Models.ViewModels;
 
 namespace StockManagement.Models
 {
@@ -38,6 +39,9 @@ namespace StockManagement.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.2-servicing-10034");
+
+            modelBuilder.Query<OrdineClienteViewModel>().ToView("OrdineClienteView")
+               .Property(v => v.Id).HasColumnName("Id");
 
             modelBuilder.Entity<Articolo>(entity =>
             {
@@ -117,6 +121,8 @@ namespace StockManagement.Models
                     .HasForeignKey(d => d.IdTipo)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Articolo_Tipo1");
+
+
             });
 
             modelBuilder.Entity<Cliente>(entity =>

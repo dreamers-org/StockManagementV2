@@ -30,22 +30,24 @@ namespace StockManagement
             //ottengo l'id del rappresentante
             Guid idRappresentante = _identityContext.Users.Where(utente => utente.Email == User.Identity.Name).Select(utente => new Guid(utente.Id)).First();
 
-            List<OrdineCliente> listaOrdini = await _context.OrdineCliente.Where(x => x.IdRappresentante == idRappresentante).Select(x => x).ToListAsync();
-            List<OrdineClienteViewModel> listaOrdiniViewModel = new List<OrdineClienteViewModel>();
-            foreach (OrdineCliente item in listaOrdini)
-            {
-                OrdineClienteViewModel item2 = (OrdineClienteViewModel)item;
+            //List<OrdineCliente> listaOrdini = await _context.OrdineCliente.Where(x => x.IdRappresentante == idRappresentante).Select(x => x).ToListAsync();
+            //List<OrdineClienteViewModel> listaOrdiniViewModel = new List<OrdineClienteViewModel>();
+            //foreach (OrdineCliente item in listaOrdini)
+            //{
+            //    OrdineClienteViewModel item2 = (OrdineClienteViewModel)item;
 
-                Cliente cliente = _context.Cliente.Where(x => x.Id == item.IdCliente).Select(x => x).FirstOrDefault();
-                item2.NomeCliente = cliente.Nome;
-                item2.IndirizzoCliente = cliente.Indirizzo;
-                item2.EmailCliente = cliente.Email;
+            //    Cliente cliente = _context.Cliente.Where(x => x.Id == item.IdCliente).Select(x => x).FirstOrDefault();
+            //    item2.NomeCliente = cliente.Nome;
+            //    item2.IndirizzoCliente = cliente.Indirizzo;
+            //    item2.EmailCliente = cliente.Email;
 
-                listaOrdiniViewModel.Add(item2);
-            }
+            //    listaOrdiniViewModel.Add(item2);
+            //}
 
+
+            _context.
             //restituisco la vista
-            return View(listaOrdiniViewModel);
+            return View();
         }
 
         // GET: OrdineCliente/Details/5
