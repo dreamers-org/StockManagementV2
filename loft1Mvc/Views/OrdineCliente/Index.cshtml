@@ -1,4 +1,4 @@
-﻿@model IEnumerable<StockManagement.Models.ViewModels.OrdineClienteViewModel>
+﻿@model IEnumerable<StockManagement.Models.ViewModels.ViewOrdineClienteViewModel>
 
 @{
             ViewData["Title"] = "Ordini inseriti";
@@ -22,8 +22,14 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">
-                            @Html.DisplayNameFor(model => model.IdCliente)
+                            @Html.DisplayNameFor(model => model.NomeCliente)
                         </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.IndirizzoCliente)
+                        </th>
+                        @*<th scope="col">
+                            @Html.DisplayNameFor(model => model.EmailCliente)
+                        </th>*@
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.DataConsegna)
                         </th>
@@ -41,23 +47,29 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.NomeCliente)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DataConsegna)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Note)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Completato)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Pagato)
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NomeCliente)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IndirizzoCliente)
+                        </td>
+                        @*<td>
+                            @Html.DisplayFor(modelItem => item.EmailCliente)
+                        </td>*@
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DataConsegna)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Note)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Completato)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Pagato)
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>

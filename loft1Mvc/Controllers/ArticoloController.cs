@@ -197,5 +197,28 @@ namespace StockManagement.Controllers
 			public string Collezione { get; set; }
 			public string IdCollezione { get; set; }
 		}
-	}
+
+
+        #region MetodiLatoCliente
+
+        public IActionResult SelectColoriFromCodice(string codice)
+        {
+            var listaColori = _context.Articolo.Where(x => x.Codice == codice)
+                                     .Select(x => new
+                                     {
+                                         Colore = x.Colore
+                                     }).ToList();
+
+            return Json(listaColori);
+        }
+
+        public IActionResult SelectDescrizioneFromCodice(string codice)
+        {
+            string descrizione = _context.Articolo.Where(x => x.Codice == codice)
+                                     .Select(x => x.Descrizione).FirstOrDefault();
+            return Json(descrizione);
+        }
+
+        #endregion
+    }
 }

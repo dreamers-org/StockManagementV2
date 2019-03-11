@@ -26,6 +26,7 @@ namespace StockManagement.Models
         public virtual DbSet<RigaOrdineFornitore> RigaOrdineFornitore { get; set; }
         public virtual DbSet<Tipo> Tipo { get; set; }
         public virtual DbSet<TipoPagamento> TipoPagamento { get; set; }
+        public virtual DbQuery<ViewOrdineClienteViewModel> ViewOrdineCliente { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -38,10 +39,9 @@ namespace StockManagement.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("ProductVersion", "2.2.2-servicing-10034");
+            //modelBuilder.Ignore<OrdineClienteViewViewModel>();
 
-            modelBuilder.Query<OrdineClienteViewModel>().ToView("OrdineClienteView")
-               .Property(v => v.Id).HasColumnName("Id");
+            modelBuilder.HasAnnotation("ProductVersion", "2.2.2-servicing-10034");
 
             modelBuilder.Entity<Articolo>(entity =>
             {
