@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,8 @@ using StockManagement.Models;
 
 namespace StockManagement.Controllers
 {
-    public class FornitoreController : Controller
+	[Authorize(Roles = "Commesso,Titolare,SuperAdmin")]
+	public class FornitoreController : Controller
     {
         private readonly StockV2Context _context;
 

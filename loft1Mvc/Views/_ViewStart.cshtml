@@ -8,7 +8,7 @@ else{
     //altrimenti in base al "ruolo" corrente imposto il layout corretto.
     //rappresentanti -> LayoutTablet
     //tutti gli altri -> Layout normale
-    @if (User.Identity.Name.IndexOf("admin") != -1)
+    @if (User.IsInRole("Commesso") || User.IsInRole("Titolare") || User.IsInRole("SuperAdmin"))
     {
         Layout = "_Layout";
     }

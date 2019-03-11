@@ -8,7 +8,7 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Inserisci nuovo articolo</a>
 </p>
 <table class="table">
     <thead>
@@ -139,11 +139,14 @@
 			<td>
 				@Html.DisplayFor(modelItem => item.IdTipoNavigation.Nome)
 			</td>
+			@if (User.IsInRole("SuperAdmin"))
+			{
 			<td>
 				<a asp-action="Edit" asp-route-id="@item.Id">Modifica</a> |
 				<a asp-action="Details" asp-route-id="@item.Id">Dettagli</a> |
 				<a asp-action="Delete" asp-route-id="@item.Id">Elimina</a>
 			</td>
+			}
 		</tr>
 }
     </tbody>

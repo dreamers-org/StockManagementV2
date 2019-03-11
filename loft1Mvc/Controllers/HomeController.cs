@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using StockManagement.Models;
 using Serilog;
+using Microsoft.AspNetCore.Authorization;
 
 namespace loft1Mvc.Controllers
 {
@@ -27,6 +28,7 @@ namespace loft1Mvc.Controllers
 			return View();
 		}
 
+		[Authorize(Roles = "Titolare,SuperAdmin")]
 		public IActionResult Admin()
 		{
 			return View();

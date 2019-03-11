@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,7 +12,8 @@ using StockManagement.Models.ViewModels;
 
 namespace StockManagement
 {
-    public class OrdineClienteController : Controller
+	[Authorize(Roles = "Rappresentante,Commesso,Titolare,SuperAdmin")]
+	public class OrdineClienteController : Controller
     {
         private readonly StockV2Context _context;
         private readonly IdentityContext _identityContext;

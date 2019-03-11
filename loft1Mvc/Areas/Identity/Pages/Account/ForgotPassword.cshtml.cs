@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel;
 
 namespace loft1Mvc.Areas.Identity.Pages.Account
 {
@@ -57,7 +58,7 @@ namespace loft1Mvc.Areas.Identity.Pages.Account
                 await _emailSender.SendEmailAsync(
                     Input.Email,
                     "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    $"Resetta la password cliccando sul seguente link: <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Clicca qui</a>.");
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

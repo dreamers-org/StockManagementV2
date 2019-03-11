@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +11,8 @@ using StockManagement.Models;
 
 namespace StockManagement.Controllers
 {
-    public class ArticoloController : Controller
+	[Authorize(Roles = "Commesso,Titolare,SuperAdmin")]
+	public class ArticoloController : Controller
     {
         private readonly StockV2Context _context;
 
@@ -60,8 +63,8 @@ namespace StockManagement.Controllers
             {
 				if (ArticoloExists(articolo.Codice, articolo.Colore))
 				{
-					ViewData["ErrorMessage"] = "L'articolo esiste già.";
-					return View();
+					HttpContext.Session.SetString("ErrorMessage", "L'articolo esiste già.");
+					return RedirectToAction("Create");
 				}
                 articolo.Id = Guid.NewGuid();
 				articolo.UtenteInserimento = User.Identity.Name;
@@ -72,10 +75,10 @@ namespace StockManagement.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdCollezione"] = new SelectList(_context.Collezione, "Id", "Nome", articolo.IdCollezione);
-            ViewData["IdFornitore"] = new SelectList(_context.Fornitore, "Id", "Nome", articolo.IdFornitore);
-            ViewData["IdTipo"] = new SelectList(_context.Tipo, "Id", "Nome", articolo.IdTipo);
-            return View();
+			ViewData["IdCollezione"] = new SelectList(_context.Collezione, "Id", "Nome", articolo.IdCollezione);
+			ViewData["IdFornitore"] = new SelectList(_context.Fornitore, "Id", "Nome", articolo.IdFornitore);
+			ViewData["IdTipo"] = new SelectList(_context.Tipo, "Id", "Nome", articolo.IdTipo);
+			return View();
         }
 
         public async Task<IActionResult> Edit(Guid? id)
@@ -147,20 +150,7 @@ namespace StockManagement.Controllers
 			TempObject result = new TempObject();
 			var articolo = await _context.Articolo
 				.FirstOrDefaultAsync(m => m.Codice == Codice && m.Annullato == false);
-			if (articolo == null)
-			{
-				result = new TempObject
-				{
-					Fornitore = "",
-					Descrizione = "",
-					PrezzoAcquisto = "",
-					PrezzoVendita = "",
-					TrancheConsegna = "",
-					GenereProdotto = "Uomo",
-					TipoProdotto = "T-shirt"
-				};
-			}
-			else
+			if (articolo != null)
 			{
 				Fornitore fornitore = await _context.Fornitore.FindAsync(articolo.IdFornitore);
 				Tipo tipo = await _context.Tipo.FindAsync(articolo.IdTipo);
@@ -182,6 +172,24 @@ namespace StockManagement.Controllers
 			}
 			return Json(result);
 		}
+
+
+		public async Task<bool> verifyCorrectness(string Codice, string Colore)
+		{
+			var articolo = await _context.Articolo
+				.FirstOrDefaultAsync(m => m.Codice == Codice && m.Annullato == false && m.Colore == Colore);
+			if (articolo == null)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+
+
 
 		protected class TempObject
 		{

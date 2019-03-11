@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StockManagement.Models;
 
 namespace StockManagement.Controllers
 {
+	[Authorize(Roles = "Commesso,Titolare,SuperAdmin")]
 	public class CollezioneController : Controller
     {
         private readonly StockV2Context _context;

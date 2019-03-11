@@ -1,4 +1,7 @@
 ﻿@model StockManagement.Models.Articolo
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
 @{
 	ViewData["Title"] = "Inserimento nuovo articolo";
 	Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,12 +9,9 @@
 
 <h1>@ViewData["Title"]</h1>
 <hr />
-@if (@ViewData["ErrorMessage"] != null)
-{
-<div class="alert alert-danger" role="alert">
-	@ViewData["ErrorMessage"]
+<div class="alert alert-danger" role="alert" style="display:none;" id="divError">
+	Articolo già inserito in questa variante colore.
 </div>
-}
 <div class="row">
 	<div class=" col-sm-10 col-md-10 mx-auto mb-5">
 		<div class="card border-left-primary shadow h-100">
@@ -21,7 +21,7 @@
 					<div class="form-row justify-content-center">
 						<div class="col-md-3 mb-3">
 							<label asp-for="Codice" class="control-label"></label>
-							<input asp-for="Codice" class="form-control" autocomplete="off" id="txtCodice" onblur="return getTxtValues();" />
+							<input asp-for="Codice" class="form-control" autocomplete="off" id="txtCodice" onblur="return getTxtValues();"/>
 							<span asp-validation-for="Codice" class="text-danger"></span>
 						</div>
 						<div class="col-md-3 mb-3">
@@ -35,7 +35,7 @@
 						</div>
 						<div class="col-md-3 mb-3">
 							<label asp-for="Colore" class="control-label"></label>
-							<input asp-for="Colore" class="form-control" id="txtColore" />
+							<input asp-for="Colore" class="form-control" id="txtColore"  onblur="return verifyCorrectness();"  />
 							<span asp-validation-for="Colore" class="text-danger"></span>
 						</div>
 					</div>
@@ -102,12 +102,12 @@
 							@Html.DropDownListFor(p => p.Genere, new List<SelectListItem> {
 							   new SelectListItem { Value = "Uomo" , Text = "Uomo" },
 							   new SelectListItem { Value = "Donna" , Text = "Donna" },
-							}, new { @class = "form-control", @id= "txtGenereProdotto" })
+							}, new { @class = "form-control", @id= "ddlGenereProdotto" })
 							<span asp-validation-for="Genere" class="text-danger"></span>
 						</div>
 						<div class="col-md-2 mb-3">
 							<label asp-for="IdTipo" class="control-label"></label>
-							<select asp-for="IdTipo" class="form-control" asp-items="ViewBag.IdTipo" id="ddlTipo"></select>
+							<select asp-for="IdTipo" class="form-control" asp-items="ViewBag.IdTipo" id="ddlTipoProdotto"></select>
 						</div>
 						<div class="col-md-2 mb-3">
 							<label asp-for="PrezzoAcquisto" class="control-label"></label>
@@ -125,8 +125,8 @@
 						</div>
 					</div>
 					<div>
-						<input type="submit" value="Inserisci" style="height:100% !important" class="btn btn-lg btn-primary" />
-						<input value="Annulla" onclick="return cancelFields();" style="height:100% !important; cursor:pointer" class="btn btn-lg btn-danger" />
+						<input type="submit" id="btnInserisci" value="Inserisci" style="height:100% !important" class="btn btn-lg btn-primary" disabled="disabled" />
+						<a asp-action="create" class="btn btn-lg btn-danger">Annulla</a>
 					</div>
 				</form>
 			</div>
@@ -141,16 +141,6 @@
 @section Scripts {
 
 	<script type="text/javascript">
-		function cancelFields() {
-			var i = confirm('Sei sicura/o di voler annullare l inserimento?');
-			if (i) {
-				location.reload();
-			}
-			else {
-				return false;
-			}
-		}
-
 		function getTxtValues() {
 			let codice = $('#txtCodice').val();
 			$.ajax({
@@ -159,21 +149,7 @@
 				data: { codice: codice },
 				success: function (data) {
 					console.log(data);
-					if (!(data.fornitore)) {
-						$('.form-control').removeAttr("readonly");
-						$('#ddlFornitore').attr("Value", data.fornitore);
-						$('#txtDescrizione').attr("Value", data.descrizione);
-						$('#txtPrezzoAcquisto').attr("Value", data.prezzoAcquisto);
-						$('#txtPrezzoVendita').attr("Value", data.prezzoVendita);
-						$('#txtTrancheConsegna').attr("Value", data.trancheConsegna);
-						$('#txtGenereProdotto').val(data.genereProdotto);
-						$('#txtTipoProdotto').val(data.tipoProdotto);
-						$('#txtGenereProdottoVisible').val(data.genereProdotto);
-						$('#txtTipoProdottoVisible').val(data.tipoProdotto);
-						$('#txtGenereProdottoVisible').removeAttr("disabled");
-						$('#txtTipoProdottoVisible').removeAttr("disabled");
-					}
-					else {
+					if (data.fornitore) {
 						$('.form-control').attr("readonly", "readonly");
 						$('#txtColore').removeAttr("readonly");
 						$('#txtDescrizione').attr("Value", data.descrizione);
@@ -195,7 +171,31 @@
 					}
 				},
 				error: function () {
-					console.log("Errore");
+					alert("Errore");
+				}
+			})
+		};
+
+		function verifyCorrectness() {
+			let codice = $('#txtCodice').val();
+			let colore = $('#txtColore').val();
+			$.ajax({
+				type: "POST",
+				url: "/Articolo/verifyCorrectness",
+				data: { codice: codice, colore: colore },
+				success: function (data) {
+					console.log(data);
+					if (!(data)) {
+						$('#divError').show();
+						$('#btnInserisci').attr("disabled", "disabled");
+					}
+					else {
+						$('#divError').hide();
+						$('#btnInserisci').removeAttr("disabled");
+					}
+				},
+				error: function () {
+					alert("Errore");
 				}
 			})
 		};

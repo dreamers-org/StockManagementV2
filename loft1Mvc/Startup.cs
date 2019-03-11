@@ -11,6 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Serilog;
 using StockManagement.Services;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using loft1Mvc.Areas.Identity.Data;
 
 namespace loft1Mvc
 {
@@ -51,7 +54,7 @@ namespace loft1Mvc
 
 		}
 
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
 		{
 			try
 			{
@@ -86,33 +89,33 @@ namespace loft1Mvc
 				Log.Error(ex.Message);
 				throw;
 			}
-			//CreateRoles(serviceProvider).Wait();
+			CreateRoles(serviceProvider).Wait();
 		}
 
-		//private async Task CreateRoles(IServiceProvider serviceProvider)
-		//{
-		//	//adding custom roles
-		//	var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-		//	var UserManager = serviceProvider.GetRequiredService<UserManager<GenericUser>>();
-		//	string[] roleNames = { "SuperAdmin" };
-		//	IdentityResult roleResult;
+		private async Task CreateRoles(IServiceProvider serviceProvider)
+		{
+			//adding custom roles
+			//var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+			var UserManager = serviceProvider.GetRequiredService<UserManager<GenericUser>>();
+			//string[] roleNames = { "Rappresentante","Commesso", "Titolare" };
+			//IdentityResult roleResult;
 
-		//	foreach (var roleName in roleNames)
-		//	{
-		//		//creating the roles and seeding them to the database
-		//		var roleExist = await RoleManager.RoleExistsAsync(roleName);
-		//		if (!roleExist)
-		//		{
-		//			roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
-		//		}
-		//	}
+			//foreach (var roleName in roleNames)
+			//{
+			//	//creating the roles and seeding them to the database
+			//	var roleExist = await RoleManager.RoleExistsAsync(roleName);
+			//	if (!roleExist)
+			//	{
+			//		roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+			//	}
+			//}
 
-		//	var _user = await UserManager.FindByEmailAsync("luca@admin.com");
-		//	if (_user != null)
-		//	{
-		//		await UserManager.AddToRoleAsync(_user, "SuperAdmin");
-		//	}
-		//}
+			var _user = await UserManager.FindByEmailAsync("luca@rappresentante.it");
+			if (_user != null)
+			{
+				await UserManager.AddToRoleAsync(_user, "Rappresentante");
+			}
+		}
 
 
 	}
