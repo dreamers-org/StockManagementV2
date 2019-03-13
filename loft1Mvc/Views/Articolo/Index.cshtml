@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<StockManagement.Models.Articolo>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Elenco articoli";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
     <a asp-action="Create">Inserisci nuovo articolo</a>
@@ -55,87 +55,91 @@
 			<th>
 				@Html.DisplayNameFor(model => model.TrancheConsegna)
 			</th>
-			<th>
+			@*<th>
 				@Html.DisplayNameFor(model => model.Genere)
-			</th>
+			</th>*@
 			<th>
 				@Html.DisplayNameFor(model => model.PrezzoAcquisto)
 			</th>
 			<th>
 				@Html.DisplayNameFor(model => model.PrezzoVendita)
 			</th>
-			<th>
+			@*<th>
 				@Html.DisplayNameFor(model => model.IdCollezioneNavigation)
-			</th>
+			</th>*@
 			<th></th>
 		</tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
-		<tr>
-			<td>
-				@Html.DisplayFor(modelItem => item.IdFornitoreNavigation.Nome)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Codice)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Descrizione)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Colore)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Xxs)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Xs)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.S)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.M)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.L)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Xl)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Xxl)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Xxxl)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.TagliaUnica)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.TrancheConsegna)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Genere)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.PrezzoAcquisto)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.PrezzoVendita)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.IdCollezioneNavigation.Nome)
-			</td>
-			@if (User.IsInRole("SuperAdmin"))
-			{
-			<td>
-				<a asp-action="Edit" asp-route-id="@item.Id">Modifica</a> |
-				<a asp-action="Details" asp-route-id="@item.Id">Dettagli</a> |
-				<a asp-action="Delete" asp-route-id="@item.Id">Elimina</a>
-			</td>
-			}
-		</tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdFornitoreNavigation.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Codice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descrizione)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Colore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Xxs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Xs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.S)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.M)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.L)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Xl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Xxl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Xxxl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TagliaUnica)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TrancheConsegna)
+            </td>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.Genere)
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.PrezzoAcquisto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrezzoVendita)
+            </td>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.IdCollezioneNavigation.Nome)
+        </td>*@
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.Id">Modifica</a> |
+            <a asp-action="Delete" asp-route-id="@item.Id">Elimina</a>
+        </td>
+            @if (User.IsInRole("SuperAdmin"))
+            {
+                <td>
+
+                    <a asp-action="Details" asp-route-id="@item.Id">Dettagli</a> |
+
+                </td>
+            }
+        </tr>
 }
     </tbody>
 </table>

@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <Content Remove="Areas\Identity\Pages\Account\SuperUser.cshtml" />
+    <Content Remove="wwwroot\ts\create-articolo.ts" />
     <Content Remove="wwwroot\ts\main.ts" />
     <Content Remove="wwwroot\ts\sitemap.ts" />
   </ItemGroup>
@@ -80,6 +81,7 @@
 
 
   <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\ts\create-articolo.ts" />
     <TypeScriptCompile Include="wwwroot\ts\create.ts" />
     <TypeScriptCompile Include="wwwroot\ts\sitemap.ts" />
     <TypeScriptCompile Include="wwwroot\ts\main.ts" />

@@ -4504,7 +4504,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(17);
+var	fixUrls = __webpack_require__(18);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -4857,8 +4857,8 @@ __webpack_require__(12);
 //import librerie interne
 var sitemap_1 = __webpack_require__(13);
 //import dei css
-__webpack_require__(15);
-__webpack_require__(18);
+__webpack_require__(16);
+__webpack_require__(19);
 $(document).ready(function () {
     try {
         //ottengo l'url corrente.
@@ -12627,10 +12627,16 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var create_1 = __webpack_require__(14);
+var create_articolo_1 = __webpack_require__(15);
 exports.arrayPageModules = [
     {
         page: "/OrdineCliente/Create",
         function: function (destination, template) { create_1.attivatorePaginaCreate(); },
+        menuItem: "navbarDropdown"
+    },
+    {
+        page: "/Articolo/Create",
+        function: function (destination, template) { create_articolo_1.attivatorePaginaCreateArticolo(); },
         menuItem: "navbarDropdown"
     }
 ];
@@ -12720,8 +12726,77 @@ function getColorePerArticolo() {
 /* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
 
-var content = __webpack_require__(16);
+Object.defineProperty(exports, "__esModule", { value: true });
+function attivatorePaginaCreateArticolo() {
+    window["getTxtValues"] = getTxtValues;
+    window["verifyCorrectness"] = verifyCorrectness;
+}
+exports.attivatorePaginaCreateArticolo = attivatorePaginaCreateArticolo;
+function getTxtValues() {
+    var codice = $('#txtCodice').val();
+    $.ajax({
+        type: "POST",
+        url: "/Articolo/getTxtValues",
+        data: { codice: codice },
+        success: function (data) {
+            console.log(data);
+            if (data.fornitore) {
+                $('#txtDescrizione').val(data.descrizione);
+                ;
+                $('#txtPrezzoAcquisto').val(data.prezzoAcquisto);
+                ;
+                $('#txtPrezzoVendita').val(data.prezzoVendita);
+                ;
+                $('#txtTrancheConsegna').val(data.trancheConsegna);
+                ;
+                $('#ddlGenereProdotto').empty().append(new Option(data.genereProdotto, data.genereProdotto)).val(data.genereProdotto);
+                $('#ddlTipoProdotto').empty().append(new Option(data.tipoProdotto, data.idTipoProdotto)).val(data.idTipoProdotto);
+                $('#ddlFornitore').empty().append(new Option(data.fornitore, data.idFornitore)).val(data.idFornitore);
+                $('#ddlCollezione').empty().append(new Option(data.collezione, data.idCollezione)).val(data.idCollezione);
+                $('.form-control').attr("readonly", "readonly");
+                $('#txtColore').removeAttr("readonly");
+            }
+        },
+        error: function () {
+            alert("Errore");
+        }
+    });
+}
+;
+function verifyCorrectness() {
+    var codice = $('#txtCodice').val();
+    var colore = $('#txtColore').val();
+    $.ajax({
+        type: "POST",
+        url: "/Articolo/verifyCorrectness",
+        data: { codice: codice, colore: colore },
+        success: function (data) {
+            console.log(data);
+            if (!(data)) {
+                $('#divError').show();
+                $('#btnInserisci').attr("disabled", "disabled");
+            }
+            else {
+                $('#divError').hide();
+                $('#btnInserisci').removeAttr("disabled");
+            }
+        },
+        error: function () {
+            alert("Errore");
+        }
+    });
+}
+;
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(17);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -12767,7 +12842,7 @@ if(false) {
 }
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(4)(false);
@@ -12777,7 +12852,7 @@ exports.push([module.i, "/*!\n * Bootstrap v4.3.1 (https://getbootstrap.com/)\n 
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports) {
 
 
@@ -12872,11 +12947,11 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(19);
+var content = __webpack_require__(20);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -12922,7 +12997,7 @@ if(false) {
 }
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(4)(false);

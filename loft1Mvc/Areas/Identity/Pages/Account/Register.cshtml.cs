@@ -41,7 +41,7 @@ namespace loft1Mvc.Areas.Identity.Pages.Account
 		public class InputModel
 		{
 			[Required]
-			[EmailAddress]
+			[EmailAddress(ErrorMessage = "Inserire una mail valida.")]
 			[Display(Name = "Email")]
 			public string Email { get; set; }
 
@@ -67,21 +67,27 @@ namespace loft1Mvc.Areas.Identity.Pages.Account
 			returnUrl = returnUrl ?? Url.Content("~/");
 			if (ModelState.IsValid)
 			{
-				var user = new GenericUser { UserName = Input.Email, Email = Input.Email };
+                var user = new GenericUser { UserName = Input.Email, Email = Input.Email };
 				var result = await _userManager.CreateAsync(user, Input.Password);
 				if (result.Succeeded)
 				{
 					_logger.LogInformation("User created a new account with password.");
 
 					var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-					var callbackUrl = Url.Page(
+
+                    if (user != null)
+                    {
+                        await _userManager.AddToRoleAsync(user, "Rappresentante");
+                    }
+
+                    var callbackUrl = Url.Page(
 						"/Account/ConfirmEmail",
 						pageHandler: null,
 						values: new { userId = user.Id, code = code },
 						protocol: Request.Scheme);
 
-					await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-						$"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+					await _emailSender.SendEmailAsync(Input.Email, "Conferma la tua email.",
+						$"Conferma la tua mail cliccando <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>qui</a>.");
 
 					//await _signInManager.SignInAsync(user, isPersistent: false);
 					return LocalRedirect(returnUrl);

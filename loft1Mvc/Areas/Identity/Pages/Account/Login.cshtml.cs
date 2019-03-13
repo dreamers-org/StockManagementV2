@@ -40,7 +40,7 @@ namespace loft1Mvc.Areas.Identity.Pages.Account
         {
 			[DisplayName("Email")]
 			[Required(ErrorMessage = "Obbligatorio.")]
-			[EmailAddress]
+			[EmailAddress(ErrorMessage = "Inserire una mail valida")]
             public string Email { get; set; }
 
 			[DisplayName("Password")]
