@@ -109,7 +109,7 @@ namespace StockManagement.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Codice,Descrizione,IdFornitore,Colore,Xxs,Xs,S,M,L,Xl,Xxl,TagliaUnica,TrancheConsegna,Genere,IdTipo,Annullato,PrezzoAcquisto,PrezzoVendita,Foto,Video,IdCollezione,DataInserimento,DataModifica,UtenteInserimento,UtenteModifica,Xxxl")] Articolo articolo)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Codice,Descrizione,IdFornitore,Colore,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl,TagliaUnica,TrancheConsegna,Genere,IdTipo,PrezzoAcquisto,PrezzoVendita,IdCollezione")] Articolo articolo)
         {
             if (id != articolo.Id)
             {
@@ -120,6 +120,14 @@ namespace StockManagement.Controllers
             {
                 try
                 {
+                    Articolo old = _context.Articolo.AsNoTracking().Where(x => x.Id == articolo.Id).ToList().FirstOrDefault();
+                    articolo.DataInserimento = old.DataInserimento;
+                    articolo.DataModifica = DateTime.Now;
+                    articolo.UtenteInserimento = old.UtenteInserimento;
+                    articolo.UtenteModifica = old.UtenteModifica;
+                    articolo.Annullato = old.Annullato;
+                    articolo.Foto = "";
+                    articolo.Video = "";
                     Log.Warning($"{User.Identity.Name} --> modificato articolo: {articolo.Codice}");
                     _context.Update(articolo);
                     await _context.SaveChangesAsync();

@@ -26,7 +26,7 @@
 						</div>
 						<div class="col-md-3 mb-3">
 							<label asp-for="Descrizione" class="control-label"></label>
-							<input asp-for="Descrizione" class="form-control" id="txtDescrizione" />
+							<input asp-for="Descrizione" class="form-control" autocomplete="off" id="txtDescrizione" />
 							<span asp-validation-for="Descrizione" class="text-danger"></span>
 						</div>
 						<div class="col-md-3 mb-3">
@@ -35,7 +35,7 @@
 						</div>
 						<div class="col-md-3 mb-3">
 							<label asp-for="Colore" class="control-label"></label>
-							<input asp-for="Colore" class="form-control" id="txtColore"  onblur="return verifyCorrectness();"  />
+							<input asp-for="Colore" class="form-control" autocomplete="off" id="txtColore"  onblur="return verifyCorrectness();"  />
 							<span asp-validation-for="Colore" class="text-danger"></span>
 						</div>
 					</div>
@@ -111,12 +111,12 @@
 						</div>
 						<div class="col-md-2 mb-3">
 							<label asp-for="PrezzoAcquisto" class="control-label"></label>
-							<input asp-for="PrezzoAcquisto" class="form-control" id="txtPrezzoAcquisto" />
+							<input asp-for="PrezzoAcquisto" class="form-control" autocomplete="off" id="txtPrezzoAcquisto" />
 							<span asp-validation-for="PrezzoAcquisto" class="text-danger"></span>
 						</div>
 						<div class="col-md-2 mb-3">
 							<label asp-for="PrezzoVendita" class="control-label"></label>
-							<input asp-for="PrezzoVendita" class="form-control" id="txtPrezzoVendita" />
+							<input asp-for="PrezzoVendita" class="form-control" autocomplete="off" id="txtPrezzoVendita" />
 							<span asp-validation-for="PrezzoVendita" class="text-danger"></span>
 						</div>
 						<div class="col-md-2 mb-3">

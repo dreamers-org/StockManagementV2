@@ -127,17 +127,16 @@
             @*<td>
             @Html.DisplayFor(modelItem => item.IdCollezioneNavigation.Nome)
         </td>*@
+
         <td>
-            <a asp-action="Edit" asp-route-id="@item.Id">Modifica</a> |
-            <a asp-action="Delete" asp-route-id="@item.Id">Elimina</a>
+            <a asp-action="Edit" asp-route-id="@item.Id">Modifica</a> 
         </td>
             @if (User.IsInRole("SuperAdmin"))
             {
-                <td>
-
-                    <a asp-action="Details" asp-route-id="@item.Id">Dettagli</a> |
-
-                </td>
+        <td>
+            <a asp-action="Delete" asp-route-id="@item.Id">Elimina</a> |
+            <a asp-action="Details" asp-route-id="@item.Id">Dettagli</a> |
+        </td>
             }
         </tr>
 }
