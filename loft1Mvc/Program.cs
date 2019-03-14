@@ -13,12 +13,12 @@ namespace loft1Mvc
 		{
 			try
 			{
-				Log.Logger = new LoggerConfiguration()
-				.MinimumLevel.Debug()
-				.MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-				.Enrich.FromLogContext()
-				.WriteTo.ApplicationInsights(TelemetryConfiguration.Active, TelemetryConverter.Traces)
-				.WriteTo.MSSqlServer("Data Source=loft1mvc.database.windows.net;Initial Catalog=Stock;User ID=luca.bellavia.dev;Password=Pallone27@@;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False", "Logs")
+                Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Warning()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .Enrich.FromLogContext()
+                .WriteTo.ApplicationInsights(TelemetryConfiguration.Active, TelemetryConverter.Traces)
+                .WriteTo.MSSqlServer("Data Source=loft1mvc.database.windows.net;Initial Catalog=StockV2;User ID=luca.bellavia.dev;Password=Pallone27@@;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False", "Logs", autoCreateSqlTable: true)
 				.CreateLogger();
 				CreateWebHostBuilder(args).Build().Run();
 			}
