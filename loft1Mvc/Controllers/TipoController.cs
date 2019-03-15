@@ -18,7 +18,6 @@ namespace StockManagement.Controllers
             _context = context;
         }
 
-        // GET: Tipo
         public async Task<IActionResult> Index()
         {
             return View(await _context.Tipo.ToListAsync());
@@ -42,14 +41,11 @@ namespace StockManagement.Controllers
             return View(tipo);
         }
 
-        // GET: Tipo/Create
-        [Authorize(Roles = "SuperAdmin")]
         public IActionResult Create()
         {
             return View();
         }
 
-        [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nome")] Tipo tipo)

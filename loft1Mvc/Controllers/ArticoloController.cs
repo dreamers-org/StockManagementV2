@@ -124,7 +124,7 @@ namespace StockManagement.Controllers
                     articolo.DataInserimento = old.DataInserimento;
                     articolo.DataModifica = DateTime.Now;
                     articolo.UtenteInserimento = old.UtenteInserimento;
-                    articolo.UtenteModifica = old.UtenteModifica;
+                    articolo.UtenteModifica = User.Identity.Name;
                     articolo.Annullato = old.Annullato;
                     articolo.Foto = "";
                     articolo.Video = "";
