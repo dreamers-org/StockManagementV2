@@ -67,7 +67,7 @@
 			@*<th>
 				@Html.DisplayNameFor(model => model.IdCollezioneNavigation)
 			</th>*@
-			<th></th>
+			@*<th></th>*@
 		</tr>
     </thead>
     <tbody>
@@ -127,10 +127,9 @@
             @*<td>
             @Html.DisplayFor(modelItem => item.IdCollezioneNavigation.Nome)
         </td>*@
-
-        <td>
+        @*<td>
             <a asp-action="Edit" asp-route-id="@item.Id">Modifica</a> 
-        </td>
+        </td>*@
             @if (User.IsInRole("SuperAdmin"))
             {
         <td>

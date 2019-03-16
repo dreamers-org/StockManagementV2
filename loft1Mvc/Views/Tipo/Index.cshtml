@@ -16,8 +16,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.Nome)
             </th>
-            @*<th></th>*@
-        </tr>
+            @if (User.IsInRole("SuperAdmin"))
+            {
+                <th></th>
+            }
+            </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
@@ -28,9 +31,9 @@
             @if (User.IsInRole("SuperAdmin"))
             {
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Modifica</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Dettagli</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Elimina</a>
             </td>
             }
         </tr>

@@ -23,13 +23,21 @@ namespace StockManagement.Models
         [StringLength(100, ErrorMessage = "Valore inserito troppo lungo.")]
         [Required(ErrorMessage = "Obbligatorio.")]
 		public string Colore { get; set; }
+        [DisplayName("2XS/40")]
         public bool Xxs { get; set; }
+        [DisplayName("XS/42")]
         public bool Xs { get; set; }
+        [DisplayName("S/44")]
         public bool S { get; set; }
+        [DisplayName("M/46")]
         public bool M { get; set; }
+        [DisplayName("L/48")]
         public bool L { get; set; }
+        [DisplayName("XL/50")]
         public bool Xl { get; set; }
+        [DisplayName("2XL/52")]
         public bool Xxl { get; set; }
+        [DisplayName("3XL/54")]
         public bool Xxxl { get; set; }
         public bool TagliaUnica { get; set; }
 		[DisplayName("Tranche consegna")]
