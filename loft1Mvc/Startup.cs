@@ -36,8 +36,9 @@ namespace loft1Mvc
 					options.MinimumSameSitePolicy = SameSiteMode.None;
 				});
 
-				services.AddDbContext<StockV2Context>(options => options.UseSqlServer(Configuration.GetConnectionString("StockV2ContextConnection")));
-				services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+                services.AddDbContext<StockV2Context>(options => options.UseSqlServer(Configuration.GetConnectionString("StockV2ContextConnection")));
+                //services.AddDbContext<StockV2Context>(options => options.UseSqlServer(Configuration.GetConnectionString("Production")));
+                services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 				services.AddTransient<IEmailSender, EmailSender>();
 				services.AddSession(options =>
 				{
@@ -51,7 +52,6 @@ namespace loft1Mvc
 				Log.Error(ex.Message);
 				throw;
 			}
-
 		}
 
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
@@ -89,33 +89,33 @@ namespace loft1Mvc
 				Log.Error(ex.Message);
 				throw;
 			}
-			CreateRoles(serviceProvider).Wait();
+			//CreateRoles(serviceProvider).Wait();
 		}
 
-		private async Task CreateRoles(IServiceProvider serviceProvider)
-		{
-			//adding custom roles
-			//var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-			var UserManager = serviceProvider.GetRequiredService<UserManager<GenericUser>>();
-			//string[] roleNames = { "Rappresentante","Commesso", "Titolare" };
-			//IdentityResult roleResult;
+		//private async Task CreateRoles(IServiceProvider serviceProvider)
+		//{
+		//	//adding custom roles
+		//	var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+		//	var UserManager = serviceProvider.GetRequiredService<UserManager<GenericUser>>();
+		//	string[] roleNames = { "Rappresentante","Commesso", "Titolare", "SuperAdmin" };
+		//	IdentityResult roleResult;
 
-			//foreach (var roleName in roleNames)
-			//{
-			//	//creating the roles and seeding them to the database
-			//	var roleExist = await RoleManager.RoleExistsAsync(roleName);
-			//	if (!roleExist)
-			//	{
-			//		roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
-			//	}
-			//}
+  //          foreach (var roleName in roleNames)
+  //          {
+  //              //creating the roles and seeding them to the database
+  //              var roleExist = await RoleManager.RoleExistsAsync(roleName);
+  //              if (!roleExist)
+  //              {
+  //                  roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+  //              }
+  //          }
 
-			var _user = await UserManager.FindByEmailAsync("luca@rappresentante.it");
-			if (_user != null)
-			{
-				await UserManager.AddToRoleAsync(_user, "Rappresentante");
-			}
-		}
+  //          var _user = await UserManager.FindByEmailAsync("luca@admin.it");
+		//	if (_user != null)
+		//	{
+		//		await UserManager.AddToRoleAsync(_user, "SuperAdmin");
+		//	}
+		//}
 
 
 	}

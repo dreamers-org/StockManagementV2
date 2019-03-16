@@ -3,7 +3,7 @@
 @inject SignInManager<GenericUser> SignInManager
 @inject UserManager<GenericUser> UserManager
 
-@if (SignInManager.IsSignedIn(User))
+@if (User.Identity.IsAuthenticated)
 {
     <div class="container mb-5">
         <div class="row">
@@ -16,15 +16,10 @@
             </div>
             <div class="col-sm-6">
                 <form id="logoutForm" class="form-inline float-right" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                    <a id="manage" class="nav-link text-dark mt-3" href="#" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                    <a id="manage" class="nav-link text-dark mt-3" href="#" title="Manage">Ciao, @UserManager.GetUserName(User)!</a>
                     <button id="logout" type="submit" class="btn btn-primary float-right rounded-pill mt-3 mr-2">Logout</button>
                 </form>
             </div>
         </div>
     </div>
-}
-else
-{
-    <a class="btn btn-secondary float-right rounded-pill mt-3" id="register" asp-area="Identity" asp-page="/Account/Register">Registra utente</a>
-    <a class="btn btn-primary float-right rounded-pill mt-3 mr-2" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
 }

@@ -15,26 +15,22 @@
 
 @if (User.Identity.Name != null)
 {
-    @if (User.Identity.Name.IndexOf("admin") != -1)
-    {
-
-    }
-    else
-    {
-        <div class="container mt-5">
-            <div class="row justify-content-center">
-                <div class="text-center">
-                    <h1 class="display-4">We are LOFT1.</h1>
+    <div class="container mt-2">
+        <div class="row justify-content-center">
+            <div class="text-center">
+                <h1 class="display-4">We are LOFT1.</h1>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col col-md-5">
+                <div class="card">
+                    <img class="img-fluid d-block mx-auto" style="max-height:300px; max-width:300px;" src="https://scontent-mxp1-1.xx.fbcdn.net/v/t1.0-9/39887026_1763214110443557_4399191407651192832_n.jpg?_nc_cat=100&amp;_nc_ht=scontent-mxp1-1.xx&amp;oh=aea56c7451368d06688d4390d31ee6eb&amp;oe=5CE4D5FA" alt="logoLoft1">
                 </div>
             </div>
-            <div class="row justify-content-center">
-                <div class="col col-md-5">
-                    <div class="card">
-                        <img class="img-fluid d-block mx-auto" src="https://scontent-mxp1-1.xx.fbcdn.net/v/t1.0-9/39887026_1763214110443557_4399191407651192832_n.jpg?_nc_cat=100&amp;_nc_ht=scontent-mxp1-1.xx&amp;oh=aea56c7451368d06688d4390d31ee6eb&amp;oe=5CE4D5FA" alt="logoLoft1">
-                    </div>
-                </div>
-            </div>
-            <hr />
+        </div>
+        <hr />
+        @if (User.IsInRole("Rappresentante"))
+        {
             <div class="row justify-content-center">
                 <a class="btn btn-lg btn-outline-primary rounded-pill mr-3" asp-controller="OrdineCliente" asp-action="Create">
                     Nuovo ordine
@@ -43,12 +39,24 @@
                     Visualizza ordini
                 </a>
             </div>
-        </div>
-    }
+        }
+        else
+        {
+            <div class="row justify-content-center">
+                <a class="btn btn-lg btn-outline-primary rounded-pill mr-3" asp-controller="Articolo" asp-action="Create">
+                    Nuovo articolo
+                </a>
+                <a class="btn btn-lg btn-outline-primary rounded-pill" asp-controller="Articolo" asp-action="Index">
+                    Visualizza articoli inseriti
+                </a>
+            </div>
+        }
+
+    </div>
 }
 
 @if (!(SignInManager.IsSignedIn(User)))
 {
-    <a class="btn btn-outline-secondary rounded-pill btn-lg mt-3" id="register" asp-area="Identity" asp-page="/Account/Register">Registra utente</a>
+    @*<a class="btn btn-outline-secondary rounded-pill btn-lg mt-3" id="register" asp-area="Identity" asp-page="/Account/Register">Registra utente</a>*@
     <a class="btn btn-outline-primary rounded-pill btn-lg mt-3 mr-2" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
 }

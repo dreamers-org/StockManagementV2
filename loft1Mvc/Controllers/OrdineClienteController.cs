@@ -9,14 +9,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StockManagement.Models;
 using StockManagement.Models.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace StockManagement
 {
-	[Authorize(Roles = "Rappresentante,Commesso,Titolare,SuperAdmin")]
+    [Authorize(Roles = "Rappresentante,Commesso,Titolare,SuperAdmin")]
 	public class OrdineClienteController : Controller
     {
         private readonly StockV2Context _context;

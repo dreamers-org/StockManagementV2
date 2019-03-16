@@ -18,13 +18,12 @@ namespace StockManagement.Controllers
             _context = context;
         }
 
-        // GET: Tipo
         public async Task<IActionResult> Index()
         {
             return View(await _context.Tipo.ToListAsync());
         }
 
-        // GET: Tipo/Details/5
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -42,15 +41,11 @@ namespace StockManagement.Controllers
             return View(tipo);
         }
 
-        // GET: Tipo/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Tipo/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nome")] Tipo tipo)
@@ -65,7 +60,7 @@ namespace StockManagement.Controllers
             return View(tipo);
         }
 
-        // GET: Tipo/Edit/5
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -81,9 +76,7 @@ namespace StockManagement.Controllers
             return View(tipo);
         }
 
-        // POST: Tipo/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("Id,Nome")] Tipo tipo)
@@ -116,7 +109,7 @@ namespace StockManagement.Controllers
             return View(tipo);
         }
 
-        // GET: Tipo/Delete/5
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -134,7 +127,7 @@ namespace StockManagement.Controllers
             return View(tipo);
         }
 
-        // POST: Tipo/Delete/5
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)

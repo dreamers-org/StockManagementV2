@@ -12,7 +12,7 @@ namespace loft1Mvc.Controllers
 		{
 			try
 			{
-				Log.Error("Test");
+                var i = User.Identity.Name;
 			}
 			catch (System.Exception)
 			{

@@ -9,16 +9,19 @@ namespace StockManagement.Models
     {
         public Guid Id { get; set; }
 		[DisplayName("Cod.")]
-		[Required(ErrorMessage = "Obbligatorio.")]
+        [StringLength(100, ErrorMessage = "Valore inserito troppo lungo.")]
+        [Required(ErrorMessage = "Obbligatorio.")]
 		public string Codice { get; set; }
 		[DisplayName("Descr.")]
-		[Required(ErrorMessage = "Obbligatorio.")]
+        [StringLength(100, ErrorMessage = "Valore inserito troppo lungo.")]
+        [Required(ErrorMessage = "Obbligatorio.")]
 		public string Descrizione { get; set; }
 		[DisplayName("Fornitore")]
-		[Required(ErrorMessage = "Obbligatorio.")]
+        [Required(ErrorMessage = "Obbligatorio.")]
 		public Guid IdFornitore { get; set; }
 		[DisplayName("Colore")]
-		[Required(ErrorMessage = "Obbligatorio.")]
+        [StringLength(100, ErrorMessage = "Valore inserito troppo lungo.")]
+        [Required(ErrorMessage = "Obbligatorio.")]
 		public string Colore { get; set; }
         public bool Xxs { get; set; }
         public bool Xs { get; set; }
@@ -64,7 +67,6 @@ namespace StockManagement.Models
 		public string UtenteInserimento { get; set; }
 		[BindNever]
 		public string UtenteModifica { get; set; }
-
 		[DisplayName("Collezione")]
 		public virtual Collezione IdCollezioneNavigation { get; set; }
 		[DisplayName("Fornitore")]
