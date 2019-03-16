@@ -1,0 +1,69 @@
+﻿@model IEnumerable<StockManagement.Models.RigaOrdineCliente>
+
+<div class="row">
+    <div class="col-12">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Xxs)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Xs)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.S)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.M)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.L)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Xl)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Xxl)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Xxxl)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Xxs)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Xs)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.S)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.M)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.L)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Xl)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Xxl)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Xxxl)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

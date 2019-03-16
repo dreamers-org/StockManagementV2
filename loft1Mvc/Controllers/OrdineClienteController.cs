@@ -60,19 +60,24 @@ namespace StockManagement
         public IActionResult Create()
         {
             ViewData["CodiceArticolo"] = new SelectList(_context.Articolo, "Codice", "Codice");
-
             ViewData["NomeCliente"] = HttpContext.Session.GetString("NomeCliente");
             ViewData["EmailCliente"] = HttpContext.Session.GetString("EmailCliente");
             ViewData["IndirizzoCliente"] = HttpContext.Session.GetString("IndirizzoCliente");
 
-            IEnumerable<RigaOrdineCliente> listaRigheOrdineCliente = null;
+            IEnumerable<RigaOrdineCliente> listaRigheOrdineCliente = new List<RigaOrdineCliente>();
 
-            string idOrdineSession = HttpContext.Session.GetString("NomeCliente");
+            string idOrdineSession = HttpContext.Session.GetString("IdOrdine");
             if (idOrdineSession != null && !String.IsNullOrEmpty(idOrdineSession))
             {
                 listaRigheOrdineCliente = _context.RigaOrdineCliente.Where(x => x.IdOrdine.ToString().ToUpper() == idOrdineSession.ToUpper()).Select(x => x).ToList();
             }
 
+            string idOrdine = HttpContext.Session.GetString("IdOrdine");
+            if (idOrdine != null && !String.IsNullOrEmpty(idOrdine))
+            {
+                double sommaPrezzo = _context.ViewOrdineCliente.Where(x => x.Id == new Guid(idOrdine)).Select(x => x.SommaPrezzo).FirstOrDefault();
+                ViewBag.SommaPrezzo = sommaPrezzo;
+            }
 
             ViewBag.ListaOrdini = listaRigheOrdineCliente;
 
@@ -252,5 +257,29 @@ namespace StockManagement
         {
             return _context.OrdineCliente.Any(e => e.Id == id);
         }
+
+
+
+        #region MetodiLatoCliente
+
+        public IActionResult SelectColoriFromCodice(string codice)
+        {
+            var listaColori = _context.Articolo.Where(x => x.Codice == codice)
+                                     .Select(x => new
+                                     {
+                                         Colore = x.Colore
+                                     }).ToList();
+
+            return Json(listaColori);
+        }
+
+        public IActionResult SelectDescrizioneFromCodice(string codice)
+        {
+            string descrizione = _context.Articolo.Where(x => x.Codice == codice)
+                                     .Select(x => x.Descrizione).FirstOrDefault();
+            return Json(descrizione);
+        }
+
+        #endregion
     }
 }

@@ -34,6 +34,8 @@ namespace StockManagement.Models.ViewModels
         public DateTime? DataModifica { get; set; }
         public string UtenteInserimento { get; set; }
         public string UtenteModifica { get; set; }
-        
+
+        public double SommaPrezzo { get; set; }
+
     }
 }
