@@ -17,10 +17,9 @@
     </div>
 </div>
 
-
 <!-- form inserimento -->
 <div class="row">
-    <div class=" col-sm-10 col-md-10 mx-auto mb-5">
+    <div class=" col-sm-10 col-md-10 mx-auto mb-3">
         <div class="card border-left-primary shadow h-100">
             <div class="card-body">
                 <form class="needs-validation" asp-action="Create">
@@ -151,4 +150,12 @@
     </div>
 </div>
 
+<div class="row justify-content-center">
+    <div class="col-3">
+        <div class="alert alert-info rounded-pill">
+            Totale:&nbsp;<strong>@ViewBag.SommaPrezzo</strong>
+        </div>
+    </div>
+</div>
 
+<partial name="_OridniClienteRighePartial" model="ViewBag.ListaOrdini" />

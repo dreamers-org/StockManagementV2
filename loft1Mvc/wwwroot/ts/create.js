@@ -2,32 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 function attivatorePaginaCreate() {
     window["getColorePerArticolo"] = getColorePerArticolo;
-    //getTxtValues();
 }
 exports.attivatorePaginaCreate = attivatorePaginaCreate;
-function getTxtValues() {
-    $.ajax({
-        type: "Get",
-        url: "/OrdineDalCliente/getTxtValuesFromSession",
-        success: function (data) {
-            console.log(data);
-            if (data.length == 0) {
-                alert("Error");
-            }
-            else {
-                $('#txtCliente').attr("Value", data.cliente);
-                $('#txtRappresentante').attr("Value", data.rappresentante);
-                $('#txtDataConsegna').attr("Value", data.dataConsegna);
-                $('#txtIndirizzo').attr("Value", data.indirizzo);
-                //$('#txtPagamento').attr("Value", data.pagamento);
-            }
-        },
-        error: function () {
-            console.log("Errore");
-        }
-    });
-}
-;
 //ottiene la lista dei colori per il codice selezionato.
 function getColorePerArticolo() {
     var txtCodice = $("#dropdownCodiceArticolo");
@@ -35,7 +11,7 @@ function getColorePerArticolo() {
         var codice = txtCodice.val().toString();
         $.ajax({
             type: "POST",
-            url: "/Articolo/SelectColoriFromCodice",
+            url: "/OrdineCliente/SelectColoriFromCodice",
             data: { codice: codice },
             success: function (data) {
                 console.log(data.length);
@@ -62,7 +38,7 @@ function getColorePerArticolo() {
         });
         $.ajax({
             type: "POST",
-            url: "/Articolo/SelectDescrizioneFromCodice",
+            url: "/OrdineCliente/SelectDescrizioneFromCodice",
             data: { codice: codice },
             success: function (data) {
                 console.log(data);
