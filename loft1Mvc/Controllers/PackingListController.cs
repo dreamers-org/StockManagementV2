@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using StockManagement.Models;
 
 namespace StockManagement.Controllers
 {
+    [Authorize(Roles = "Commesso,Titolare,SuperAdmin")]
     public class PackingListController : Controller
     {
         private readonly StockV2Context _context;
@@ -18,13 +20,12 @@ namespace StockManagement.Controllers
             _context = context;
         }
 
-        // GET: PackingList
         public async Task<IActionResult> Index()
         {
             return View(await _context.ViewPackingList.ToListAsync());
         }
 
-        // GET: PackingList/Details/5
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -42,15 +43,11 @@ namespace StockManagement.Controllers
             return View(packingList);
         }
 
-        // GET: PackingList/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: PackingList/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(string Codice, string Colore, [Bind("Id,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl,TagliaUnica,DataInserimento,UtenteInserimento")] PackingList packingList)
@@ -77,7 +74,7 @@ namespace StockManagement.Controllers
             return View(packingList);
         }
 
-        // GET: PackingList/Edit/5
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -93,9 +90,7 @@ namespace StockManagement.Controllers
             return View(packingList);
         }
 
-        // POST: PackingList/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("Id,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl,TagliaUnica,DataInserimento,UtenteInserimento")] PackingList packingList)
@@ -128,7 +123,7 @@ namespace StockManagement.Controllers
             return View(packingList);
         }
 
-        // GET: PackingList/Delete/5
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -146,7 +141,7 @@ namespace StockManagement.Controllers
             return View(packingList);
         }
 
-        // POST: PackingList/Delete/5
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)

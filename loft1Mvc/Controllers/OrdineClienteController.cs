@@ -12,7 +12,7 @@ using StockManagement.Models.ViewModels;
 
 namespace StockManagement
 {
-    [Authorize(Roles = "Rappresentante,Commesso,Titolare,SuperAdmin")]
+    [Authorize]
 	public class OrdineClienteController : Controller
     {
         private readonly StockV2Context _context;
@@ -26,7 +26,6 @@ namespace StockManagement
 
         }
 
-        // GET: OrdineCliente
         public async Task<IActionResult> Index()
         {
             //ottengo l'id del rappresentante
@@ -36,7 +35,7 @@ namespace StockManagement
             return View(await _context.ViewOrdineCliente.Where(x => x.IdRappresentante == idRappresentante).ToListAsync());
         }
 
-        // GET: OrdineCliente/Details/5
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -56,7 +55,6 @@ namespace StockManagement
             return View(ordineCliente);
         }
 
-        // GET: OrdineCliente/Create
         public IActionResult Create()
         {
 
@@ -99,9 +97,6 @@ namespace StockManagement
             return View();
         }
 
-        // POST: OrdineCliente/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("Id,DataConsegna,NomeCliente,IndirizzoCliente,EmailCliente,CodiceArticolo,ColoreArticolo,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl")] OrdineClienteViewModel ordineCliente)
@@ -184,7 +179,7 @@ namespace StockManagement
             return RedirectToAction("Create");
         }
 
-        // GET: OrdineCliente/Edit/5
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -202,9 +197,7 @@ namespace StockManagement
             return View(ordineCliente);
         }
 
-        // POST: OrdineCliente/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("Id,IdRappresentante,IdCliente,DataConsegna,IdPagamento,Note,Completato,Pagato,DataInserimento,DataModifica,UtenteInserimento,UtenteModifica")] OrdineCliente ordineCliente)
@@ -239,7 +232,7 @@ namespace StockManagement
             return View(ordineCliente);
         }
 
-        // GET: OrdineCliente/Delete/5
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -259,7 +252,7 @@ namespace StockManagement
             return View(ordineCliente);
         }
 
-        // POST: OrdineCliente/Delete/5
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
@@ -275,7 +268,6 @@ namespace StockManagement
             return _context.OrdineCliente.Any(e => e.Id == id);
         }
 
-        // GET: OrdineCliente
         public IActionResult ImpostaTipoPagamento()
         {
             string idOrdineSession = HttpContext.Session.GetString("IdOrdine");
@@ -297,11 +289,6 @@ namespace StockManagement
         }
 
 
-     
-
-        // POST: OrdineCliente/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult ImpostaTipoPagamento([Bind("IdTipoPagamento,Note")] OrdineCliente ordineCliente)
