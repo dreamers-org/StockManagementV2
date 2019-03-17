@@ -208,8 +208,6 @@ namespace StockManagement.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
-
         #region MetodiLatoCliente
         public async Task<IActionResult> getTxtValues(string Codice)
         {
