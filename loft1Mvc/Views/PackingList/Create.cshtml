@@ -16,13 +16,13 @@
                     <div class="form-row justify-content-center">
                         <div class="col-md-3 mb-3">
                             @Html.Label("Codice")
-                            @Html.TextBox("Codice", null, new { @class = "form-control", @Id = "txtCodice", @onblur = "return getColoriFromCodice()" })
+                            @Html.TextBox("Codice", null, new { @class = "form-control", @Id = "txtCodice", @onblur = "return getColoriPerArticolo();" })
                         </div>
                         <div class="col-md-3 mb-3">
                             @Html.Label("Colore")
                             @Html.DropDownList("Colore", new List<SelectListItem> {
                                new SelectListItem { Value = "-1" , Text = "Selezionare un colore" }
-                            }, new { @class = "form-control", @id= "ddlColore" })
+                            }, new { @class = "form-control", @id = "ddlColore" })
                         </div>
                     </div>
                     <div class="form-row justify-content-center">
@@ -73,7 +73,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
+                        <input type="submit" value="Inserisci" class="btn btn-primary" />
                     </div>
                 </form>
             </div>
@@ -84,4 +84,31 @@
 <div>
     <a asp-action="Index">Torna alla lista</a>
 </div>
+
+@section Scripts {
+
+    <script type="text/javascript">
+        function getColoriPerArticolo() {
+            let codice = $('#txtCodice').val();
+            $.ajax({
+                type: "POST",
+                url: "/Articolo/SelectColoriFromCodice",
+                data: { codice: codice },
+                success: function (data) {
+                    console.log(data);
+                    if (data) {
+                        $('#ddlColore').empty();
+                        for (var i = 0; i < data.length; i++) {
+                             $('#ddlColore').append(new Option(data[i].colore, data[i].colore));
+                        }
+                    }
+                },
+                error: function () {
+                    console.log("Errore");
+                }
+            })
+        };
+
+    </script>
+}
 

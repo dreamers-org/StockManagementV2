@@ -4504,7 +4504,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(18);
+var	fixUrls = __webpack_require__(19);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -4857,8 +4857,8 @@ __webpack_require__(12);
 //import librerie interne
 var sitemap_1 = __webpack_require__(13);
 //import dei css
-__webpack_require__(16);
-__webpack_require__(19);
+__webpack_require__(17);
+__webpack_require__(20);
 $(document).ready(function () {
     try {
         //ottengo l'url corrente.
@@ -12628,6 +12628,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 Object.defineProperty(exports, "__esModule", { value: true });
 var create_1 = __webpack_require__(14);
 var create_articolo_1 = __webpack_require__(15);
+var index_packinglist_1 = __webpack_require__(16);
 exports.arrayPageModules = [
     {
         page: "/OrdineCliente/Create",
@@ -12637,6 +12638,11 @@ exports.arrayPageModules = [
     {
         page: "/Articolo/Create",
         function: function (destination, template) { create_articolo_1.attivatorePaginaCreateArticolo(); },
+        menuItem: "navbarDropdown"
+    },
+    {
+        page: "/PackingList/Index",
+        function: function (destination, template) { index_packinglist_1.attivatorePaginaIndexPackingList(); },
         menuItem: "navbarDropdown"
     }
 ];
@@ -12771,8 +12777,55 @@ function verifyCorrectness() {
 /* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
 
-var content = __webpack_require__(17);
+Object.defineProperty(exports, "__esModule", { value: true });
+function attivatorePaginaIndexPackingList() {
+    window["getColorePerArticolo"] = getColorePerArticolo;
+}
+exports.attivatorePaginaIndexPackingList = attivatorePaginaIndexPackingList;
+//ottiene la lista dei colori per il codice selezionato.
+function getColorePerArticolo() {
+    var txtCodice = $("#txtCodice");
+    if (txtCodice != null) {
+        var codice = txtCodice.val().toString();
+        $.ajax({
+            type: "POST",
+            url: "/OrdineCliente/SelectColoriFromCodice",
+            data: { codice: codice },
+            success: function (data) {
+                console.log(data.length);
+                $('#ddlColore').removeAttr("disabled");
+                if (data.length == 0) {
+                    var s = '<option value="-1">Seleziona un colore</option>';
+                    $("#dropdownColore").html(s);
+                }
+                else {
+                    for (var i = 0; i < data.length; i++) {
+                        var s = '<option value="-1">Seleziona un colore</option>';
+                        for (var i = 0; i < data.length; i++) {
+                            console.log(data[i]);
+                            s += '<option value="' + data[i].colore + '">' + data[i].colore + '</option>';
+                        }
+                        $("#dropdownColore").html(s);
+                        $("#dropdownColore").removeAttr("disabled");
+                    }
+                }
+            },
+            error: function () {
+                console.log("Errore");
+            }
+        });
+    }
+}
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(18);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -12818,7 +12871,7 @@ if(false) {
 }
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(4)(false);
@@ -12828,7 +12881,7 @@ exports.push([module.i, "/*!\n * Bootstrap v4.3.1 (https://getbootstrap.com/)\n 
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports) {
 
 
@@ -12923,11 +12976,11 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(20);
+var content = __webpack_require__(21);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -12973,7 +13026,7 @@ if(false) {
 }
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(4)(false);

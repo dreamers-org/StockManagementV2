@@ -1,5 +1,6 @@
 ﻿import { attivatorePaginaCreate } from "./create";
 import { attivatorePaginaCreateArticolo } from "./create-articolo";
+import { attivatorePaginaIndexPackingList } from "./index-packinglist";
 
 export interface pageModule {
     page?: string;
@@ -16,6 +17,11 @@ export var arrayPageModules: pageModule[] = [
     {
         page: "/Articolo/Create",
         function: function (destination, template) { attivatorePaginaCreateArticolo() },
+        menuItem: "navbarDropdown"
+    },
+    {
+        page: "/PackingList/Index",
+        function: function (destination, template) { attivatorePaginaIndexPackingList() },
         menuItem: "navbarDropdown"
     }
 

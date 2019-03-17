@@ -96,11 +96,6 @@
                 <select asp-for="IdTipo" class="form-control" asp-items="ViewBag.IdTipo"></select>
                 <span asp-validation-for="IdTipo" class="text-danger"></span>
             </div>
-            @*<div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Annullato" /> @Html.DisplayNameFor(model => model.Annullato)
-                </label>
-            </div>*@
             <div class="form-group">
                 <label asp-for="PrezzoAcquisto" class="control-label"></label>
                 <input asp-for="PrezzoAcquisto" class="form-control" />
@@ -111,42 +106,11 @@
                 <input asp-for="PrezzoVendita" class="form-control" />
                 <span asp-validation-for="PrezzoVendita" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-            <label asp-for="Foto" class="control-label"></label>
-            <input asp-for="Foto" class="form-control" />
-            <span asp-validation-for="Foto" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Video" class="control-label"></label>
-            <input asp-for="Video" class="form-control" />
-            <span asp-validation-for="Video" class="text-danger"></span>
-        </div>*@
             <div class="form-group">
                 <label asp-for="IdCollezione" class="control-label"></label>
                 <select asp-for="IdCollezione" class="form-control" asp-items="ViewBag.IdCollezione"></select>
                 <span asp-validation-for="IdCollezione" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-                    <label asp-for="DataInserimento" class="control-label"></label>
-                    <input asp-for="DataInserimento" class="form-control" readonly="readonly" />
-                    <span asp-validation-for="DataInserimento" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="DataModifica" class="control-label"></label>
-                    @Html.TextBoxFor(p => p.DataModifica, DateTime.Now.ToString("yyyy-MM-dd"), new { type = "date", @class= "form-control", @readonly = "readonly" })
-                    @*<input asp-for="DataModifica" class="form-control" readonly="readonly" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
-                    <span asp-validation-for="DataModifica" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UtenteInserimento" class="control-label"></label>
-                <input asp-for="UtenteInserimento" class="form-control" readonly="readonly" />
-                <span asp-validation-for="UtenteInserimento" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UtenteModifica" class="control-label"></label>
-                <input asp-for="UtenteModifica" class="form-control" readonly="readonly" value="@User.Identity.Name" />
-                <span asp-validation-for="UtenteModifica" class="text-danger"></span>
-            </div>*@
             <div class="form-group">
                 <input type="submit" value="Salva" class="btn btn-primary" />
             </div>
