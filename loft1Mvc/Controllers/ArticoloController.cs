@@ -13,7 +13,6 @@ using StockManagement.Models;
 
 namespace StockManagement.Controllers
 {
-	[Authorize(Roles = "Commesso,Titolare,SuperAdmin")]
 	public class ArticoloController : Controller
     {
         private readonly StockV2Context _context;
@@ -23,18 +22,22 @@ namespace StockManagement.Controllers
             _context = context;
         }
 
+        [Authorize(Roles = "SuperAdmin,Commesso, Titolare")]
         public async Task<IActionResult> Index()
         {
             var stockV2Context = _context.Articolo.Where(x => x.Annullato == false).Include(a => a.IdCollezioneNavigation).Include(a => a.IdFornitoreNavigation).Include(a => a.IdTipoNavigation);
             return View(await stockV2Context.ToListAsync());
         }
 
+
+        [Authorize(Roles = "SuperAdmin,Commesso, Titolare")]
         public async Task<IActionResult> IndexAnnullati()
         {
             var stockV2Context = _context.Articolo.Where(x => x.Annullato == true).Include(a => a.IdCollezioneNavigation).Include(a => a.IdFornitoreNavigation).Include(a => a.IdTipoNavigation);
             return View(await stockV2Context.ToListAsync());
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -55,6 +58,8 @@ namespace StockManagement.Controllers
             return View(articolo);
         }
 
+
+        [Authorize(Roles = "SuperAdmin,Commesso, Titolare")]
         public IActionResult Create()
         {
             ViewData["IdCollezione"] = new SelectList(_context.Collezione, "Id", "Nome");
@@ -63,7 +68,8 @@ namespace StockManagement.Controllers
             return View();
         }
 
-		[HttpPost]
+        [Authorize(Roles = "SuperAdmin,Commesso, Titolare")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Codice,Descrizione,IdFornitore,Colore,Xxs,Xs,S,M,L,Xl,Xxl,TagliaUnica,TrancheConsegna,Genere,IdTipo,PrezzoAcquisto,PrezzoVendita,IdCollezione,Xxxl")] Articolo articolo)
         {
@@ -89,6 +95,8 @@ namespace StockManagement.Controllers
 			return View();
         }
 
+
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -107,6 +115,7 @@ namespace StockManagement.Controllers
             return View(articolo);
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("Id,Codice,Descrizione,IdFornitore,Colore,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl,TagliaUnica,TrancheConsegna,Genere,IdTipo,PrezzoAcquisto,PrezzoVendita,IdCollezione")] Articolo articolo)
@@ -128,6 +137,15 @@ namespace StockManagement.Controllers
                     articolo.Annullato = old.Annullato;
                     articolo.Foto = "";
                     articolo.Video = "";
+                    //Se cambio alcuni dati per un codice devo cambiarli per tutti gli articoli con lo stesso codice ---> errori dipendenze FK se fatto a posteriori!!!!!!
+                    //if (old.Descrizione != articolo.Descrizione)
+                    //{
+                    //   var articoliStessoCodice =  _context.Articolo.Where(x => x.Descrizione == articolo.Descrizione).ToList();
+                    //    foreach (var item in articoliStessoCodice)
+                    //    {
+                    //        item.Descrizione = articolo.Descrizione;
+                    //    }
+                    //}
                     Log.Warning($"{User.Identity.Name} --> modificato articolo: {articolo.Codice}");
                     _context.Update(articolo);
                     await _context.SaveChangesAsync();
@@ -160,6 +178,35 @@ namespace StockManagement.Controllers
 		{
 			return _context.Articolo.Any(e => e.Codice == codice && e.Colore == colore);
 		}
+
+        [Authorize(Roles = "SuperAdmin")]
+        public async Task<IActionResult> Delete(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var articolo = await _context.Articolo
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (articolo == null)
+            {
+                return NotFound();
+            }
+
+            return View(articolo);
+        }
+
+        [Authorize(Roles = "SuperAdmin")]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        {
+            var articolo = await _context.Articolo.FindAsync(id);
+            _context.Articolo.Remove(articolo);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
         #region MetodiLatoCliente
         public async Task<IActionResult> getTxtValues(string Codice)

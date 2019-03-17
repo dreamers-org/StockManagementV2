@@ -25,8 +25,10 @@ namespace StockManagement.Models
         public virtual DbSet<RigaOrdineCliente> RigaOrdineCliente { get; set; }
         public virtual DbSet<RigaOrdineFornitore> RigaOrdineFornitore { get; set; }
         public virtual DbSet<Tipo> Tipo { get; set; }
+        public virtual DbSet<PackingList> PackingList { get; set; }
         public virtual DbSet<TipoPagamento> TipoPagamento { get; set; }
         public virtual DbQuery<ViewOrdineClienteViewModel> ViewOrdineCliente { get; set; }
+        public virtual DbQuery<ViewPackingListViewModel> ViewPackingList { get; set; }
 
         public virtual DbQuery<ViewRigaOrdineClienteViewModel> ViewRigaOrdineCliente { get; set; }
 
@@ -347,6 +349,11 @@ namespace StockManagement.Models
                     .IsRequired()
                     .HasMaxLength(64)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<PackingList>(entity =>
+            {
+                entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             });
         }
     }

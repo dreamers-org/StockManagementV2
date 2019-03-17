@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StockManagement.Models;
 
 namespace StockManagement.Migrations
 {
     [DbContext(typeof(StockV2Context))]
-    partial class StockV2ContextModelSnapshot : ModelSnapshot
+    [Migration("20190316210611_CreataTabellaPackingList")]
+    partial class CreataTabellaPackingList
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -267,29 +269,31 @@ namespace StockManagement.Migrations
 
                     b.Property<DateTime>("DataInserimento");
 
-                    b.Property<Guid>("IdArticolo");
+                    b.Property<Guid?>("IdArticoloId");
 
-                    b.Property<int?>("L");
+                    b.Property<int>("L");
 
-                    b.Property<int?>("M");
+                    b.Property<int>("M");
 
-                    b.Property<int?>("S");
+                    b.Property<int>("S");
 
-                    b.Property<int?>("TagliaUnica");
+                    b.Property<int>("TagliaUnica");
 
                     b.Property<string>("UtenteInserimento");
 
-                    b.Property<int?>("Xl");
+                    b.Property<int>("Xl");
 
-                    b.Property<int?>("Xs");
+                    b.Property<int>("Xs");
 
-                    b.Property<int?>("Xxl");
+                    b.Property<int>("Xxl");
 
-                    b.Property<int?>("Xxs");
+                    b.Property<int>("Xxs");
 
-                    b.Property<int?>("Xxxl");
+                    b.Property<int>("Xxxl");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IdArticoloId");
 
                     b.ToTable("PackingList");
                 });
@@ -487,6 +491,13 @@ namespace StockManagement.Migrations
                         .WithMany("OrdineCliente")
                         .HasForeignKey("IdTipoPagamento")
                         .HasConstraintName("FK_OrdineCliente_TipoPagamento");
+                });
+
+            modelBuilder.Entity("StockManagement.Models.PackingList", b =>
+                {
+                    b.HasOne("StockManagement.Models.Articolo", "IdArticolo")
+                        .WithMany()
+                        .HasForeignKey("IdArticoloId");
                 });
 
             modelBuilder.Entity("StockManagement.Models.RigaOrdineCliente", b =>

@@ -10,8 +10,8 @@ using StockManagement.Models;
 namespace StockManagement.Migrations
 {
     [DbContext(typeof(StockV2Context))]
-    [Migration("20190315090323_firstStockTest")]
-    partial class firstStockTest
+    [Migration("20190317183536_pendingChanges")]
+    partial class pendingChanges
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -259,6 +259,41 @@ namespace StockManagement.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("OrdineFornitore");
+                });
+
+            modelBuilder.Entity("StockManagement.Models.PackingList", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("(newid())");
+
+                    b.Property<DateTime>("DataInserimento");
+
+                    b.Property<Guid>("IdArticolo");
+
+                    b.Property<int?>("L");
+
+                    b.Property<int?>("M");
+
+                    b.Property<int?>("S");
+
+                    b.Property<int?>("TagliaUnica");
+
+                    b.Property<string>("UtenteInserimento");
+
+                    b.Property<int?>("Xl");
+
+                    b.Property<int?>("Xs");
+
+                    b.Property<int?>("Xxl");
+
+                    b.Property<int?>("Xxs");
+
+                    b.Property<int?>("Xxxl");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PackingList");
                 });
 
             modelBuilder.Entity("StockManagement.Models.RigaOrdineCliente", b =>
