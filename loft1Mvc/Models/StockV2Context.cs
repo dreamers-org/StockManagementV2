@@ -28,6 +28,8 @@ namespace StockManagement.Models
         public virtual DbSet<TipoPagamento> TipoPagamento { get; set; }
         public virtual DbQuery<ViewOrdineClienteViewModel> ViewOrdineCliente { get; set; }
 
+        public virtual DbQuery<ViewRigaOrdineClienteViewModel> ViewRigaOrdineCliente { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 //            if (!optionsBuilder.IsConfigured)

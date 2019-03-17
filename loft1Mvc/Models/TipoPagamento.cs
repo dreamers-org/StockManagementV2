@@ -12,6 +12,7 @@ namespace StockManagement.Models
 
         public Guid Id { get; set; }
         public string Nome { get; set; }
+        public int Codice { get; set; }
 
         public virtual ICollection<OrdineCliente> OrdineCliente { get; set; }
     }

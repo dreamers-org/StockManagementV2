@@ -59,23 +59,38 @@ namespace StockManagement
         // GET: OrdineCliente/Create
         public IActionResult Create()
         {
-            ViewData["CodiceArticolo"] = new SelectList(_context.Articolo, "Codice", "Codice");
+
+            IEnumerable<SelectListItem> i = _context.Articolo.Select(x => new SelectListItem
+            {
+                Value = x.Codice,
+                Text = x.Codice
+            }).Distinct().AsEnumerable();
+
+            //i.Append(new SelectListItem { Value = "Selezionare un codice", Text = "Selezionare un codice", Selected = true });     
+
+            ViewData["CodiceArticolo"] = new SelectList(i, "Value", "Text");
             ViewData["NomeCliente"] = HttpContext.Session.GetString("NomeCliente");
             ViewData["EmailCliente"] = HttpContext.Session.GetString("EmailCliente");
             ViewData["IndirizzoCliente"] = HttpContext.Session.GetString("IndirizzoCliente");
 
-            IEnumerable<RigaOrdineCliente> listaRigheOrdineCliente = new List<RigaOrdineCliente>();
+            string dataConsegnaSess = HttpContext.Session.GetString("DataConsegna");
+            if (!string.IsNullOrEmpty(dataConsegnaSess))
+            {
+                ViewData["DataConsegna"] = DateTime.Parse(dataConsegnaSess);
+            }
+          
+
+            IEnumerable<ViewRigaOrdineClienteViewModel> listaRigheOrdineCliente = new List<ViewRigaOrdineClienteViewModel>();
 
             string idOrdineSession = HttpContext.Session.GetString("IdOrdine");
             if (idOrdineSession != null && !String.IsNullOrEmpty(idOrdineSession))
             {
-                listaRigheOrdineCliente = _context.RigaOrdineCliente.Where(x => x.IdOrdine.ToString().ToUpper() == idOrdineSession.ToUpper()).Select(x => x).ToList();
+                listaRigheOrdineCliente = _context.ViewRigaOrdineCliente.Where(x => x.IdOrdine.ToString().ToUpper() == idOrdineSession.ToUpper()).Select(x => x).ToList();
             }
 
-            string idOrdine = HttpContext.Session.GetString("IdOrdine");
-            if (idOrdine != null && !String.IsNullOrEmpty(idOrdine))
+            if (idOrdineSession != null && !String.IsNullOrEmpty(idOrdineSession))    
             {
-                double sommaPrezzo = _context.ViewOrdineCliente.Where(x => x.Id == new Guid(idOrdine)).Select(x => x.SommaPrezzo).FirstOrDefault();
+                double sommaPrezzo = _context.ViewOrdineCliente.Where(x => x.Id == new Guid(idOrdineSession)).Select(x => x.SommaPrezzo).FirstOrDefault();
                 ViewBag.SommaPrezzo = sommaPrezzo;
             }
 
@@ -162,6 +177,8 @@ namespace StockManagement
                 HttpContext.Session.SetString("NomeCliente", ordineCliente.NomeCliente);
                 HttpContext.Session.SetString("EmailCliente", ordineCliente.EmailCliente);
                 HttpContext.Session.SetString("IndirizzoCliente", ordineCliente.IndirizzoCliente);
+                HttpContext.Session.SetString("DataConsegna", ordineCliente.DataConsegna.ToString());
+
             }
 
             return RedirectToAction("Create");
@@ -258,7 +275,58 @@ namespace StockManagement
             return _context.OrdineCliente.Any(e => e.Id == id);
         }
 
+        // GET: OrdineCliente
+        public IActionResult ImpostaTipoPagamento()
+        {
+            string idOrdineSession = HttpContext.Session.GetString("IdOrdine");
 
+            double sommaPrezzo = _context.ViewOrdineCliente.Where(x => x.Id == new Guid(idOrdineSession)).Select(x => x.SommaPrezzo).FirstOrDefault();
+            ViewBag.SommaPrezzo = sommaPrezzo;
+
+            List<TipoPagamento> listaPagamenti = _context.TipoPagamento.ToList();
+
+            if (sommaPrezzo < 2000)
+            {
+                _context.TipoPagamento.Where(x => (x.Codice == 4 || x.Codice == 3 || x.Codice == 6 || x.Codice == 7)).ToList();
+            }
+
+            //TODO: Creare la combo usando la tabella idTipoPagamento
+            ViewData["TipoPagamento"] = new SelectList( _context.TipoPagamento, "Id", "Nome");
+
+            return View();
+        }
+
+
+     
+
+        // POST: OrdineCliente/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ImpostaTipoPagamento([Bind("IdTipoPagamento,Note")] OrdineCliente ordineCliente)
+        {
+            if (ModelState.IsValid)
+            {
+                string idOrdineSession = HttpContext.Session.GetString("IdOrdine");
+                OrdineCliente ordineClienteCurrent = _context.OrdineCliente.Where(x => x.Id == Guid.Parse(idOrdineSession)).First();
+
+                ordineClienteCurrent.IdTipoPagamento = ordineCliente.IdTipoPagamento;
+                ordineClienteCurrent.Note = ordineCliente.Note;
+
+                _context.OrdineCliente.Update(ordineClienteCurrent);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("Riepilogo");
+        }
+
+
+        // GET: RiepilogoOrdine
+        public IActionResult Riepilogo()
+        {
+            return View();
+        }
 
         #region MetodiLatoCliente
 

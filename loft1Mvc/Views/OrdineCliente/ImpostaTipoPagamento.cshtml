@@ -1,0 +1,50 @@
+﻿@model StockManagement.Models.OrdineCliente
+
+@{
+    ViewData["Title"] = "Inserisci ordine";
+}
+
+<!-- Title -->
+<div class="row">
+    <div class="col-sm-4">
+        <a asp-controller="OrdineCliente" asp-action="Create" class="btn rounded-pill btn-outline-secondary float-left mt-3"><i class="fas fa-arrow-left"></i>&nbsp;Indietro</a>
+    </div>
+    <div class="col-sm-4">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+    <div class="col-sm-12">
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+    <div class=" col-sm-10 col-md-10 mx-auto mb-3">
+        <div class="card border-left-primary shadow h-100">
+            <div class="card-body">
+                <form asp-action="ImpostaTipoPagamento">
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-4 mb-4">
+                            <label asp-for="IdTipoPagamento" class="control-label">Tipo pagamento</label>
+                            <select id="dropdownIdTipoPagamento" asp-for="IdTipoPagamento" class="form-control" name="IdTipoPagamento" asp-items="ViewBag.TipoPagamento"></select>
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-6">
+                            <div class="form-group text-center">
+                                <label class="control-label text-center" asp-for="Note"></label>
+                                <textarea id="txtNote" rows="5" asp-for="Note" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row mt-4">
+                        <div class="col-sm-12">
+                            <a asp-controller="OrdineDalCliente" asp-action="Create" class="btn btn-secondary float-left text-white">Svuota campi</a>
+                            <input type="submit" class="btn rounded-pill btn-outline-danger float-right" value="Prosegui" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
