@@ -4,6 +4,8 @@
     ViewData["Title"] = "Inserisci ordine";
 }
 
+@{List<StockManagement.Models.ViewModels.ViewRigaOrdineClienteViewModel> listaOrdini = (List<StockManagement.Models.ViewModels.ViewRigaOrdineClienteViewModel>)ViewBag.ListaOrdini; }
+
 <!-- Title -->
 <div class="row">
     <div class="col-sm-4">
@@ -65,8 +67,16 @@
                         </div>
                         <div class="col-md-3 mb-3">
                             <label asp-for="DataConsegna" class="control-label">Data Consegna</label>
-                            <input asp-for="DataConsegna" class="form-control" type="date"  />
-                            <span asp-validation-for="DataConsegna" class="text-danger"></span>
+
+                            @if (ViewBag.DataConsegna != null)
+                            {
+                                <input asp-for="DataConsegna" type="date" class="form-control" readonly="readonly" value="@ViewBag.DataConsegna.ToString("yyyy-MM-dd")" />
+                            }
+                            else
+                            {
+                                <input asp-for="DataConsegna" class="form-control" type="date" />
+                                <span asp-validation-for="DataConsegna" class="text-danger"></span>
+                            }
                         </div>
                     </div>
                     <div class="form-row justify-content-center">
@@ -89,7 +99,7 @@
                     <div class="form-row justify-content-center">
                         <div class="col-md-1 mb-3">
                             <label asp-for="Xxs" class="control-label"></label>
-                            <input asp-for="Xxs" class="form-control"/>
+                            <input asp-for="Xxs" class="form-control" />
                         </div>
                         <div class="col-md-1 mb-3">
                             <label asp-for="Xs" class="control-label"></label>
@@ -97,7 +107,7 @@
                         </div>
                         <div class="col-md-1 mb-3">
                             <label asp-for="S" class="control-label"></label>
-                            <input asp-for="S" class="form-control"/>
+                            <input asp-for="S" class="form-control" />
                         </div>
                         <div class="col-md-1 mb-3">
                             <label asp-for="M" class="control-label"></label>
@@ -109,11 +119,11 @@
                         </div>
                         <div class="col-md-1 mb-3">
                             <label asp-for="Xl" class="control-label"></label>
-                            <input asp-for="Xl" class="form-control"  />
+                            <input asp-for="Xl" class="form-control" />
                         </div>
                         <div class="col-md-1 mb-3">
                             <label asp-for="Xxl" class="control-label"></label>
-                            <input asp-for="Xxl" class="form-control"  />
+                            <input asp-for="Xxl" class="form-control" />
                         </div>
                         <div class="col-md-1 mb-3">
                             <label asp-for="Xxxl" class="control-label"></label>
@@ -127,19 +137,14 @@
                         </div>
                         <div class="col-sm-6 float-right">
                             @{
-                                //TODO: Disabilitare il pulsante se ViewBag.ListaOrdini è vuota.
-                            }
-                            @{
-                                List<StockManagement.Models.RigaOrdineCliente> lista = (List<StockManagement.Models.RigaOrdineCliente>)ViewBag.ListaOrdini;
-
-                                if ((lista == null) || (lista.Count == 0))
+                                if ((listaOrdini == null) || (listaOrdini.Count == 0))
                                 {
 
                                     <a href="#" class="btn rounded-pill btn-outline-danger float-right disabled" disabled="disabled">Chiudi ordine</a>
                                 }
                                 else
                                 {
-                                    <a asp-controller="OrdineDalCliente" asp-action="RiepilogoOrdineRappresentante" class="btn rounded-pill btn-outline-danger float-right">Chiudi ordine</a>
+                                    <a asp-controller="OrdineCliente" asp-action="ImpostaTipoPagamento" class="btn rounded-pill btn-outline-danger float-right">Chiudi ordine</a>
                                 }
                             }
                         </div>
@@ -150,12 +155,19 @@
     </div>
 </div>
 
-<div class="row justify-content-center">
-    <div class="col-3">
-        <div class="alert alert-info rounded-pill">
-            Totale:&nbsp;<strong>@ViewBag.SommaPrezzo</strong>
-        </div>
-    </div>
-</div>
 
-<partial name="_OridniClienteRighePartial" model="ViewBag.ListaOrdini" />
+@{
+    if (!(listaOrdini == null) || !(listaOrdini.Count == 0))
+    {
+        <div class="row justify-content-center">
+            <div class="col-3">
+                <div class="alert alert-info rounded-pill">
+                    Totale:&nbsp;<strong>@ViewBag.SommaPrezzo</strong>
+                </div>
+            </div>
+        </div>
+
+        <partial name="_OridniClienteRighePartial" model="ViewBag.ListaOrdini" />
+    }
+}
+

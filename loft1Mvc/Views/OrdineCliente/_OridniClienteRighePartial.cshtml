@@ -1,10 +1,16 @@
-﻿@model IEnumerable<StockManagement.Models.RigaOrdineCliente>
+﻿@model IEnumerable<StockManagement.Models.ViewModels.ViewRigaOrdineClienteViewModel>
 
 <div class="row">
     <div class="col-12">
         <table class="table">
             <thead class="thead-dark">
                 <tr>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.CodiceArticolo)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.DescrizioneArticolo)
+                    </th>
                     <th scope="col">
                         @Html.DisplayNameFor(model => model.Xxs)
                     </th>
@@ -34,32 +40,38 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Xxs)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Xs)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.S)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.M)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.L)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Xl)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Xxl)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Xxxl)
-                        </td>
-                    </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CodiceArticolo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DescrizioneArticolo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Xxs)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Xs)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.S)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.M)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.L)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Xl)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Xxl)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Xxxl)
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>
