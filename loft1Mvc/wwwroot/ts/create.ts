@@ -13,7 +13,7 @@ function getColorePerArticolo() {
             type: "POST",
             url: "/OrdineCliente/SelectColoriFromCodice",
             data: { codice: codice},
-            success: function (data) {
+            success: function (data) { 
                 console.log(data.length);
                 $('#dropdownColore').removeAttr("disabled");
                 if (data.length == 0) {
