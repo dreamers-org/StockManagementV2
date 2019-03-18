@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-function attivatorePaginaIndexPackingList() {
+function attivatorePaginaCreate() {
     window["getColorePerArticolo"] = getColorePerArticolo;
 }
-exports.attivatorePaginaIndexPackingList = attivatorePaginaIndexPackingList;
+exports.attivatorePaginaCreate = attivatorePaginaCreate;
 //ottiene la lista dei colori per il codice selezionato.
 function getColorePerArticolo() {
     var txtCodice = $("#txtCodice");
@@ -38,4 +38,4 @@ function getColorePerArticolo() {
         });
     }
 }
-//# sourceMappingURL=index-packinglist.js.map
+//# sourceMappingURL=ordinecliente-create.js.map

@@ -1,22 +1,28 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var create_1 = require("./create");
-var create_articolo_1 = require("./create-articolo");
-var index_packinglist_1 = require("./index-packinglist");
+var ordinecliente_create_1 = require("./ordinecliente-create");
+var articolo_create_1 = require("./articolo-create");
+var packinglist_index_1 = require("./packinglist-index");
+var ordinecliente_riepilogo_1 = require("./ordinecliente-riepilogo");
 exports.arrayPageModules = [
     {
         page: "/OrdineCliente/Create",
-        function: function (destination, template) { create_1.attivatorePaginaCreate(); },
+        function: function (destination, template) { ordinecliente_create_1.attivatorePaginaCreate(); },
+        menuItem: "navbarDropdown"
+    },
+    {
+        page: "/OrdineCliente/Riepilogo",
+        function: function (destination, template) { ordinecliente_riepilogo_1.attivatorePaginaOrdineClienteRiepilogo(); },
         menuItem: "navbarDropdown"
     },
     {
         page: "/Articolo/Create",
-        function: function (destination, template) { create_articolo_1.attivatorePaginaCreateArticolo(); },
+        function: function (destination, template) { articolo_create_1.attivatorePaginaCreateArticolo(); },
         menuItem: "navbarDropdown"
     },
     {
         page: "/PackingList/Index",
-        function: function (destination, template) { index_packinglist_1.attivatorePaginaIndexPackingList(); },
+        function: function (destination, template) { packinglist_index_1.attivatorePaginaIndexPackingList(); },
         menuItem: "navbarDropdown"
     }
 ];

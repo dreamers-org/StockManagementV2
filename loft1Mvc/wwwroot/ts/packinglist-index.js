@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-function attivatorePaginaCreate() {
+function attivatorePaginaIndexPackingList() {
     window["getColorePerArticolo"] = getColorePerArticolo;
 }
-exports.attivatorePaginaCreate = attivatorePaginaCreate;
+exports.attivatorePaginaIndexPackingList = attivatorePaginaIndexPackingList;
 //ottiene la lista dei colori per il codice selezionato.
 function getColorePerArticolo() {
-    var txtCodice = $("#dropdownCodiceArticolo");
+    var txtCodice = $("#txtCodice");
     if (txtCodice != null) {
         var codice = txtCodice.val().toString();
         $.ajax({
@@ -15,7 +15,7 @@ function getColorePerArticolo() {
             data: { codice: codice },
             success: function (data) {
                 console.log(data.length);
-                $('#dropdownColore').removeAttr("disabled");
+                $('#ddlColore').removeAttr("disabled");
                 if (data.length == 0) {
                     var s = '<option value="-1">Seleziona un colore</option>';
                     $("#dropdownColore").html(s);
@@ -36,15 +36,6 @@ function getColorePerArticolo() {
                 console.log("Errore");
             }
         });
-        $.ajax({
-            type: "POST",
-            url: "/OrdineCliente/SelectDescrizioneFromCodice",
-            data: { codice: codice },
-            success: function (data) {
-                console.log(data);
-                $('#txtDescrizione').attr("value", data);
-            }
-        });
     }
 }
-//# sourceMappingURL=create.js.map
+//# sourceMappingURL=packinglist-index.js.map

@@ -172,15 +172,15 @@ namespace StockManagement
             double sommaPrezzo = _context.ViewOrdineCliente.Where(x => x.Id == new Guid(idOrdineSession)).Select(x => x.SommaPrezzo).FirstOrDefault();
             ViewBag.SommaPrezzo = sommaPrezzo;
 
-            List<TipoPagamento> listaPagamenti = _context.TipoPagamento.ToList();
+            IEnumerable<TipoPagamento> listaPagamenti = _context.TipoPagamento.AsEnumerable();
 
             if (sommaPrezzo < 2000)
             {
-                _context.TipoPagamento.Where(x => (x.Codice == 4 || x.Codice == 3 || x.Codice == 6 || x.Codice == 7)).ToList();
+                listaPagamenti =_context.TipoPagamento.Where(x => (x.Codice == 4 || x.Codice == 3 || x.Codice == 6 || x.Codice == 7)).AsEnumerable();
             }
 
             //TODO: Creare la combo usando la tabella idTipoPagamento
-            ViewData["TipoPagamento"] = new SelectList(_context.TipoPagamento, "Id", "Nome");
+            ViewData["TipoPagamento"] = new SelectList(listaPagamenti, "Id", "Nome");
 
             return View();
         }
@@ -195,6 +195,8 @@ namespace StockManagement
                 string idOrdineSession = HttpContext.Session.GetString("IdOrdine");
                 OrdineCliente ordineClienteCurrent = _context.OrdineCliente.Where(x => x.Id == Guid.Parse(idOrdineSession)).First();
 
+                ordineClienteCurrent.UtenteModifica = User.Identity.Name;
+                ordineClienteCurrent.DataModifica = DateTime.Now;
                 ordineClienteCurrent.IdTipoPagamento = ordineCliente.IdTipoPagamento;
                 ordineClienteCurrent.Note = ordineCliente.Note;
 
@@ -209,6 +211,35 @@ namespace StockManagement
         public IActionResult Riepilogo()
         {
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Riepilogo(bool condizioniAccettate)
+        {
+            if (condizioniAccettate)
+            {
+                string idOrdineSession = HttpContext.Session.GetString("IdOrdine");
+                OrdineCliente ordineClienteCurrent = _context.OrdineCliente.Where(x => x.Id == Guid.Parse(idOrdineSession)).First();
+
+                //Setto il campo completato, data modifica e utente modifica.
+                ordineClienteCurrent.Completato = condizioniAccettate;
+                ordineClienteCurrent.UtenteModifica = User.Identity.Name;
+                ordineClienteCurrent.DataModifica = DateTime.Now;
+
+                //salvo il nuovo record.
+                _context.OrdineCliente.Update(ordineClienteCurrent);
+                _context.SaveChanges();
+
+                //svuoto la sessione.
+                HttpContext.Session.Clear();
+
+                return RedirectToAction("Index","Home");
+            }
+            else
+            {
+                return View();
+            }
         }
 
         #endregion

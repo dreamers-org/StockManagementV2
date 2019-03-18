@@ -4504,7 +4504,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(19);
+var	fixUrls = __webpack_require__(20);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -4857,8 +4857,8 @@ __webpack_require__(12);
 //import librerie interne
 var sitemap_1 = __webpack_require__(13);
 //import dei css
-__webpack_require__(17);
-__webpack_require__(20);
+__webpack_require__(18);
+__webpack_require__(21);
 $(document).ready(function () {
     try {
         //ottengo l'url corrente.
@@ -12626,23 +12626,29 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var create_1 = __webpack_require__(14);
-var create_articolo_1 = __webpack_require__(15);
-var index_packinglist_1 = __webpack_require__(16);
+var ordinecliente_create_1 = __webpack_require__(14);
+var articolo_create_1 = __webpack_require__(15);
+var packinglist_index_1 = __webpack_require__(16);
+var ordinecliente_riepilogo_1 = __webpack_require__(17);
 exports.arrayPageModules = [
     {
         page: "/OrdineCliente/Create",
-        function: function (destination, template) { create_1.attivatorePaginaCreate(); },
+        function: function (destination, template) { ordinecliente_create_1.attivatorePaginaCreate(); },
+        menuItem: "navbarDropdown"
+    },
+    {
+        page: "/OrdineCliente/Riepilogo",
+        function: function (destination, template) { ordinecliente_riepilogo_1.attivatorePaginaOrdineClienteRiepilogo(); },
         menuItem: "navbarDropdown"
     },
     {
         page: "/Articolo/Create",
-        function: function (destination, template) { create_articolo_1.attivatorePaginaCreateArticolo(); },
+        function: function (destination, template) { articolo_create_1.attivatorePaginaCreateArticolo(); },
         menuItem: "navbarDropdown"
     },
     {
         page: "/PackingList/Index",
-        function: function (destination, template) { index_packinglist_1.attivatorePaginaIndexPackingList(); },
+        function: function (destination, template) { packinglist_index_1.attivatorePaginaIndexPackingList(); },
         menuItem: "navbarDropdown"
     }
 ];
@@ -12824,8 +12830,39 @@ function getColorePerArticolo() {
 /* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
 
-var content = __webpack_require__(18);
+Object.defineProperty(exports, "__esModule", { value: true });
+function attivatorePaginaOrdineClienteRiepilogo() {
+    window["abilitaConcludiOrdine"] = abilitaConcludiOrdine;
+}
+exports.attivatorePaginaOrdineClienteRiepilogo = attivatorePaginaOrdineClienteRiepilogo;
+//Abilita il pulsante "concludi" in base allo stato della checkbox
+function abilitaConcludiOrdine(checkbox) {
+    if (checkbox != null) {
+        //ottiene il bottone
+        var btnConcludiOrdine = document.getElementById("btnConcludiOrdine");
+        if (btnConcludiOrdine != null) {
+            //se checked =true allora abilito il pulsante altrimenti lo disabilito.
+            if (checkbox.checked) {
+                btnConcludiOrdine.removeAttribute("disabled");
+            }
+            else {
+                btnConcludiOrdine.setAttribute("disabled", "disabled");
+            }
+            //cambio il value della checkbox in modo da poterlo "mandare" al controller.
+            checkbox.setAttribute("value", checkbox.checked.toString());
+        }
+    }
+}
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(19);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -12871,7 +12908,7 @@ if(false) {
 }
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(4)(false);
@@ -12881,7 +12918,7 @@ exports.push([module.i, "/*!\n * Bootstrap v4.3.1 (https://getbootstrap.com/)\n 
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports) {
 
 
@@ -12976,11 +13013,11 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(21);
+var content = __webpack_require__(22);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -13026,7 +13063,7 @@ if(false) {
 }
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(4)(false);

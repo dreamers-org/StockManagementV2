@@ -1,6 +1,7 @@
-﻿import { attivatorePaginaCreate } from "./create";
-import { attivatorePaginaCreateArticolo } from "./create-articolo";
-import { attivatorePaginaIndexPackingList } from "./index-packinglist";
+﻿import { attivatorePaginaCreate } from "./ordinecliente-create";
+import { attivatorePaginaCreateArticolo } from "./articolo-create";
+import { attivatorePaginaIndexPackingList } from "./packinglist-index";
+import { attivatorePaginaOrdineClienteRiepilogo } from "./ordinecliente-riepilogo"
 
 export interface pageModule {
     page?: string;
@@ -12,6 +13,11 @@ export var arrayPageModules: pageModule[] = [
     {
         page: "/OrdineCliente/Create",
         function: function (destination, template) { attivatorePaginaCreate() },
+        menuItem: "navbarDropdown"
+    },
+    {
+        page: "/OrdineCliente/Riepilogo",
+        function: function (destination, template) { attivatorePaginaOrdineClienteRiepilogo() },
         menuItem: "navbarDropdown"
     },
     {
