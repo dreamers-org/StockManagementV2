@@ -6,7 +6,7 @@ function attivatorePaginaCreate() {
 exports.attivatorePaginaCreate = attivatorePaginaCreate;
 //ottiene la lista dei colori per il codice selezionato.
 function getColorePerArticolo() {
-    var txtCodice = $("#txtCodice");
+    var txtCodice = $("#dropdownCodiceArticolo");
     if (txtCodice != null) {
         var codice = txtCodice.val().toString();
         $.ajax({
@@ -15,7 +15,7 @@ function getColorePerArticolo() {
             data: { codice: codice },
             success: function (data) {
                 console.log(data.length);
-                $('#ddlColore').removeAttr("disabled");
+                $('#dropdownColore').removeAttr("disabled");
                 if (data.length == 0) {
                     var s = '<option value="-1">Seleziona un colore</option>';
                     $("#dropdownColore").html(s);
@@ -34,6 +34,15 @@ function getColorePerArticolo() {
             },
             error: function () {
                 console.log("Errore");
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: "/OrdineCliente/SelectDescrizioneFromCodice",
+            data: { codice: codice },
+            success: function (data) {
+                console.log(data);
+                $('#txtDescrizione').attr("value", data);
             }
         });
     }
