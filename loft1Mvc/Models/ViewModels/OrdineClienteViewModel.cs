@@ -24,28 +24,28 @@ namespace StockManagement.Models.ViewModels
         [Required]
         public string ColoreArticolo { get; set; }
 
-        
+        [DisplayName("2XS/40")]
         public int? Xxs { get; set; }
 
-        
+        [DisplayName("XS/42")]
         public int? Xs { get; set; }
 
-        
+        [DisplayName("S/44")]
         public int? S { get; set; }
 
-        
+        [DisplayName("M/46")]
         public int? M { get; set; }
 
-        
+        [DisplayName("L/48")]
         public int? L { get; set; }
 
-        
+        [DisplayName("XL/50")]
         public int? Xl { get; set; }
 
-        
+        [DisplayName("2XL/52")]
         public int? Xxl { get; set; }
 
-        
+        [DisplayName("3XL/54")]
         public int? Xxxl { get; set; }
     }
 }

@@ -30,9 +30,15 @@ namespace StockManagement
         {
             //ottengo l'id del rappresentante
             Guid idRappresentante = _identityContext.Users.Where(utente => utente.Email == User.Identity.Name).Select(utente => new Guid(utente.Id)).First();
+            var lista = _context.ViewOrdineCliente.Where(x => x.IdRappresentante == idRappresentante);
 
+            List<ViewOrdineClienteViewModel> listaOrdini = new List<ViewOrdineClienteViewModel>();
+            if (lista != null && lista.Count() > 0)
+            {
+                listaOrdini = await lista.ToListAsync();
+            }
             //restituisco la vista contenente gli ordini filtrati per idRappresentante
-            return View(await _context.ViewOrdineCliente.Where(x => x.IdRappresentante == idRappresentante).ToListAsync());
+            return View(listaOrdini);
         }
 
         #endregion
@@ -43,15 +49,15 @@ namespace StockManagement
         public IActionResult Create()
         {
 
-            IEnumerable<SelectListItem> i = _context.Articolo.Select(x => new SelectListItem
-            {
-                Value = x.Codice,
-                Text = x.Codice
-            }).Distinct().AsEnumerable();
+            //IEnumerable<SelectListItem> i = _context.Articolo.Select(x => new SelectListItem
+            //{
+            //    Value = x.Codice,
+            //    Text = x.Codice
+            //}).Distinct().AsEnumerable();
 
             //i.Append(new SelectListItem { Value = "Selezionare un codice", Text = "Selezionare un codice", Selected = true });     
 
-            ViewData["CodiceArticolo"] = new SelectList(i, "Value", "Text");
+            //ViewData["CodiceArticolo"] = new SelectList(i, "Value", "Text");
             ViewData["NomeCliente"] = HttpContext.Session.GetString("NomeCliente");
             ViewData["EmailCliente"] = HttpContext.Session.GetString("EmailCliente");
             ViewData["IndirizzoCliente"] = HttpContext.Session.GetString("IndirizzoCliente");
@@ -73,8 +79,12 @@ namespace StockManagement
 
             if (idOrdineSession != null && !String.IsNullOrEmpty(idOrdineSession))
             {
-                double sommaPrezzo = _context.ViewOrdineCliente.Where(x => x.Id == new Guid(idOrdineSession)).Select(x => x.SommaPrezzo).FirstOrDefault();
-                ViewBag.SommaPrezzo = sommaPrezzo;
+                double? sommaPrezzo = _context.ViewOrdineCliente.Where(x => x.Id == new Guid(idOrdineSession)).Select(x => x.SommaPrezzo).FirstOrDefault();
+
+                if (sommaPrezzo != null)
+                {
+                    ViewBag.SommaPrezzo = sommaPrezzo.Value;
+                }
             }
 
             ViewBag.ListaOrdini = listaRigheOrdineCliente;
@@ -169,12 +179,16 @@ namespace StockManagement
         {
             string idOrdineSession = HttpContext.Session.GetString("IdOrdine");
 
-            double sommaPrezzo = _context.ViewOrdineCliente.Where(x => x.Id == new Guid(idOrdineSession)).Select(x => x.SommaPrezzo).FirstOrDefault();
-            ViewBag.SommaPrezzo = sommaPrezzo;
+            double? sommaPrezzo = _context.ViewOrdineCliente.Where(x => x.Id == new Guid(idOrdineSession)).Select(x => x.SommaPrezzo).FirstOrDefault();
+
+            if (sommaPrezzo != null)
+            {
+                ViewBag.SommaPrezzo = sommaPrezzo.Value;
+            }
 
             IEnumerable<TipoPagamento> listaPagamenti = _context.TipoPagamento.AsEnumerable();
 
-            if (sommaPrezzo < 2000)
+            if (sommaPrezzo != null && sommaPrezzo.Value < 2000)
             {
                 listaPagamenti =_context.TipoPagamento.Where(x => (x.Codice == 4 || x.Codice == 3 || x.Codice == 6 || x.Codice == 7)).AsEnumerable();
             }
@@ -182,7 +196,7 @@ namespace StockManagement
             //TODO: Creare la combo usando la tabella idTipoPagamento
             ViewData["TipoPagamento"] = new SelectList(listaPagamenti, "Id", "Nome");
 
-            return View();
+            return View(_context.OrdineCliente.Where(x => x.Id == new Guid (idOrdineSession)).FirstOrDefault());
         }
 
 
@@ -356,6 +370,13 @@ namespace StockManagement
         #endregion
 
         #region MetodiLatoClient
+
+        public IActionResult SelectCodiciArticoli()
+        {
+            var listaArticoli = _context.Articolo.Select(x => x.Codice).Distinct().ToArray();
+
+            return Json(listaArticoli);
+        }
 
         public IActionResult SelectColoriFromCodice(string codice)
         {

@@ -82,7 +82,8 @@
                     <div class="form-row justify-content-center">
                         <div class="col-md-3 mb-3 ">
                             <label asp-for="CodiceArticolo" class="control-label">Codice Articolo</label>
-                            <select id="dropdownCodiceArticolo" class="form-control" name="CodiceArticolo" asp-items="ViewBag.CodiceArticolo" onblur="getColorePerArticolo();"></select>
+                            <input id="txtCodiceArticolo" asp-for="CodiceArticolo" class="form-control" onblur="getColorePerArticolo();"/>
+                            @*<select id="dropdownCodiceArticolo" class="form-control" name="CodiceArticolo" asp-items="ViewBag.CodiceArticolo" onblur="getColorePerArticolo();"></select>*@
                         </div>
                         <div class="col-md-3 mb-3">
                             <label asp-for="ColoreArticolo" class="control-label text-center">Colore Articolo</label>
@@ -140,11 +141,11 @@
                                 if ((listaOrdini == null) || (listaOrdini.Count == 0))
                                 {
 
-                                    <a href="#" class="btn rounded-pill btn-outline-danger float-right disabled" disabled="disabled">Chiudi ordine</a>
+                                    <a href="#" class="btn rounded-pill btn-outline-danger float-right disabled" disabled="disabled">Prosegui</a>
                                 }
                                 else
                                 {
-                                    <a asp-controller="OrdineCliente" asp-action="ImpostaTipoPagamento" class="btn rounded-pill btn-outline-danger float-right">Chiudi ordine</a>
+                                    <a asp-controller="OrdineCliente" asp-action="ImpostaTipoPagamento" class="btn rounded-pill btn-outline-danger float-right">Prosegui</a>
                                 }
                             }
                         </div>
@@ -162,7 +163,7 @@
         <div class="row justify-content-center">
             <div class="col-3">
                 <div class="alert alert-info rounded-pill">
-                    Totale:&nbsp;<strong>@ViewBag.SommaPrezzo</strong>
+                    Totale:&nbsp;<strong>@ViewBag.SommaPrezzo €</strong>
                 </div>
             </div>
         </div>

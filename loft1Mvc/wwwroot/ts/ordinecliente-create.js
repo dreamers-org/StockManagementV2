@@ -2,11 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 function attivatorePaginaCreate() {
     window["getColorePerArticolo"] = getColorePerArticolo;
+    caricaArticoli();
 }
 exports.attivatorePaginaCreate = attivatorePaginaCreate;
 //ottiene la lista dei colori per il codice selezionato.
 function getColorePerArticolo() {
-    var txtCodice = $("#txtCodice");
+    var txtCodice = $("#txtCodiceArticolo");
     if (txtCodice != null) {
         var codice = txtCodice.val().toString();
         $.ajax({
@@ -15,7 +16,7 @@ function getColorePerArticolo() {
             data: { codice: codice },
             success: function (data) {
                 console.log(data.length);
-                $('#ddlColore').removeAttr("disabled");
+                $('#dropdownColore').removeAttr("disabled");
                 if (data.length == 0) {
                     var s = '<option value="-1">Seleziona un colore</option>';
                     $("#dropdownColore").html(s);
@@ -36,6 +37,35 @@ function getColorePerArticolo() {
                 console.log("Errore");
             }
         });
+        $.ajax({
+            type: "POST",
+            url: "/OrdineCliente/SelectDescrizioneFromCodice",
+            data: { codice: codice },
+            success: function (data) {
+                console.log(data);
+                $('#txtDescrizione').attr("value", data);
+            }
+        });
+    }
+}
+function caricaArticoli() {
+    try {
+        $.ajax({
+            type: "POST",
+            url: "/OrdineCliente/SelectCodiciArticoli",
+            success: function (data) {
+                console.log("caricamento articoli");
+                //let txtCodiceArticolo:  JQuery<HTMLElement> =/*;*/
+                var availableTags = data;
+                $("#txtCodiceArticolo").autocomplete({ source: availableTags });
+            },
+            error: function () {
+                console.log("Errore caricaArticoli");
+            }
+        });
+    }
+    catch (e) {
+        console.log("Errore caricaArticoli");
     }
 }
 //# sourceMappingURL=ordinecliente-create.js.map

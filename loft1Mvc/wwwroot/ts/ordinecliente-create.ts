@@ -1,10 +1,14 @@
-﻿export function attivatorePaginaCreate() {
+﻿
+
+export function attivatorePaginaCreate() {
     window["getColorePerArticolo"] = getColorePerArticolo;
+
+    caricaArticoli();
 }
 
 //ottiene la lista dei colori per il codice selezionato.
 function getColorePerArticolo() {
-    let txtCodice: JQuery<HTMLElement> = $("#dropdownCodiceArticolo");
+    let txtCodice: JQuery<HTMLElement> = $("#txtCodiceArticolo");
 
     if (txtCodice != null) {
         let codice: string = txtCodice.val().toString();
@@ -47,5 +51,26 @@ function getColorePerArticolo() {
             }
         });
 
+    }
+}
+
+
+function caricaArticoli() {
+    try {
+        $.ajax({
+            type: "POST",
+            url: "/OrdineCliente/SelectCodiciArticoli",
+            success: function (data) {
+                console.log("caricamento articoli");
+                //let txtCodiceArticolo:  JQuery<HTMLElement> =/*;*/
+                var availableTags:Array<string> = data;
+                (<any>$("#txtCodiceArticolo")).autocomplete({ source: availableTags });
+            },
+            error: function () {
+                console.log("Errore caricaArticoli");
+            }
+        });
+    } catch (e) {
+        console.log("Errore caricaArticoli");
     }
 }

@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 //import delle librerie
 var $ = require("jquery");
+require("jquery-ui");
+require("jquery-autocomplete");
 require("popper.js");
 require("bootstrap");
 require("@fortawesome/fontawesome-free");
