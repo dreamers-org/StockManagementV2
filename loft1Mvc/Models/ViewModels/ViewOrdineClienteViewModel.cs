@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace StockManagement.Models.ViewModels
         public string EmailCliente { get; set; }
 
         [DisplayName("Data consegna")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime DataConsegna { get; set; }
 
         public Guid? IdTipoPagamento { get; set; }
@@ -35,7 +37,7 @@ namespace StockManagement.Models.ViewModels
         public string UtenteInserimento { get; set; }
         public string UtenteModifica { get; set; }
 
-        public double SommaPrezzo { get; set; }
+        public double? SommaPrezzo { get; set; }
 
     }
 }

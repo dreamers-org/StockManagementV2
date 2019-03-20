@@ -1,5 +1,7 @@
 ﻿//import delle librerie
 import * as $ from "jquery";
+import "jquery-ui";
+import "jquery-autocomplete";
 import "popper.js";
 import "bootstrap";
 import "@fortawesome/fontawesome-free";

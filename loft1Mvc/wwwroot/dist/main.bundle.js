@@ -67,6 +67,12 @@
 /* 0 */
 /***/ (function(module, exports) {
 
+module.exports = jQuery;
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports) {
+
 var g;
 
 // This works in non-strict mode
@@ -89,12 +95,6 @@ try {
 
 module.exports = g;
 
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports) {
-
-module.exports = jQuery;
 
 /***/ }),
 /* 2 */
@@ -2683,7 +2683,7 @@ Popper.Defaults = Defaults;
 
 /* harmony default export */ __webpack_exports__["default"] = (Popper);
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
 /***/ }),
 /* 3 */
@@ -2699,7 +2699,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
  */
 (function( factory ) {
 	if ( true ) {
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(0)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -4504,7 +4504,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(20);
+var	fixUrls = __webpack_require__(23);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -4848,17 +4848,19 @@ function updateLink (link, options, obj) {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 //import delle librerie
-var $ = __webpack_require__(1);
-__webpack_require__(2);
+var $ = __webpack_require__(0);
 __webpack_require__(7);
-__webpack_require__(8);
+__webpack_require__(9);
+__webpack_require__(2);
+__webpack_require__(10);
+__webpack_require__(11);
 __webpack_require__(3);
-__webpack_require__(12);
+__webpack_require__(15);
 //import librerie interne
-var sitemap_1 = __webpack_require__(13);
+var sitemap_1 = __webpack_require__(16);
 //import dei css
-__webpack_require__(18);
 __webpack_require__(21);
+__webpack_require__(24);
 $(document).ready(function () {
     try {
         //ottengo l'url corrente.
@@ -4898,13 +4900,1955 @@ function attivaMenuItemCorrente(idMenuItem) {
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+ * jQuery UI Widget 1.12.1
+ * http://jqueryui.com
+ *
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ */
+
+//>>label: Widget
+//>>group: Core
+//>>description: Provides a factory for creating stateful widgets with a common API.
+//>>docs: http://api.jqueryui.com/jQuery.widget/
+//>>demos: http://jqueryui.com/widget/
+
+( function( factory ) {
+	if ( true ) {
+
+		// AMD. Register as an anonymous module.
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(0), __webpack_require__(8) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+}( function( $ ) {
+
+var widgetUuid = 0;
+var widgetSlice = Array.prototype.slice;
+
+$.cleanData = ( function( orig ) {
+	return function( elems ) {
+		var events, elem, i;
+		for ( i = 0; ( elem = elems[ i ] ) != null; i++ ) {
+			try {
+
+				// Only trigger remove when necessary to save time
+				events = $._data( elem, "events" );
+				if ( events && events.remove ) {
+					$( elem ).triggerHandler( "remove" );
+				}
+
+			// Http://bugs.jquery.com/ticket/8235
+			} catch ( e ) {}
+		}
+		orig( elems );
+	};
+} )( $.cleanData );
+
+$.widget = function( name, base, prototype ) {
+	var existingConstructor, constructor, basePrototype;
+
+	// ProxiedPrototype allows the provided prototype to remain unmodified
+	// so that it can be used as a mixin for multiple widgets (#8876)
+	var proxiedPrototype = {};
+
+	var namespace = name.split( "." )[ 0 ];
+	name = name.split( "." )[ 1 ];
+	var fullName = namespace + "-" + name;
+
+	if ( !prototype ) {
+		prototype = base;
+		base = $.Widget;
+	}
+
+	if ( $.isArray( prototype ) ) {
+		prototype = $.extend.apply( null, [ {} ].concat( prototype ) );
+	}
+
+	// Create selector for plugin
+	$.expr[ ":" ][ fullName.toLowerCase() ] = function( elem ) {
+		return !!$.data( elem, fullName );
+	};
+
+	$[ namespace ] = $[ namespace ] || {};
+	existingConstructor = $[ namespace ][ name ];
+	constructor = $[ namespace ][ name ] = function( options, element ) {
+
+		// Allow instantiation without "new" keyword
+		if ( !this._createWidget ) {
+			return new constructor( options, element );
+		}
+
+		// Allow instantiation without initializing for simple inheritance
+		// must use "new" keyword (the code above always passes args)
+		if ( arguments.length ) {
+			this._createWidget( options, element );
+		}
+	};
+
+	// Extend with the existing constructor to carry over any static properties
+	$.extend( constructor, existingConstructor, {
+		version: prototype.version,
+
+		// Copy the object used to create the prototype in case we need to
+		// redefine the widget later
+		_proto: $.extend( {}, prototype ),
+
+		// Track widgets that inherit from this widget in case this widget is
+		// redefined after a widget inherits from it
+		_childConstructors: []
+	} );
+
+	basePrototype = new base();
+
+	// We need to make the options hash a property directly on the new instance
+	// otherwise we'll modify the options hash on the prototype that we're
+	// inheriting from
+	basePrototype.options = $.widget.extend( {}, basePrototype.options );
+	$.each( prototype, function( prop, value ) {
+		if ( !$.isFunction( value ) ) {
+			proxiedPrototype[ prop ] = value;
+			return;
+		}
+		proxiedPrototype[ prop ] = ( function() {
+			function _super() {
+				return base.prototype[ prop ].apply( this, arguments );
+			}
+
+			function _superApply( args ) {
+				return base.prototype[ prop ].apply( this, args );
+			}
+
+			return function() {
+				var __super = this._super;
+				var __superApply = this._superApply;
+				var returnValue;
+
+				this._super = _super;
+				this._superApply = _superApply;
+
+				returnValue = value.apply( this, arguments );
+
+				this._super = __super;
+				this._superApply = __superApply;
+
+				return returnValue;
+			};
+		} )();
+	} );
+	constructor.prototype = $.widget.extend( basePrototype, {
+
+		// TODO: remove support for widgetEventPrefix
+		// always use the name + a colon as the prefix, e.g., draggable:start
+		// don't prefix for widgets that aren't DOM-based
+		widgetEventPrefix: existingConstructor ? ( basePrototype.widgetEventPrefix || name ) : name
+	}, proxiedPrototype, {
+		constructor: constructor,
+		namespace: namespace,
+		widgetName: name,
+		widgetFullName: fullName
+	} );
+
+	// If this widget is being redefined then we need to find all widgets that
+	// are inheriting from it and redefine all of them so that they inherit from
+	// the new version of this widget. We're essentially trying to replace one
+	// level in the prototype chain.
+	if ( existingConstructor ) {
+		$.each( existingConstructor._childConstructors, function( i, child ) {
+			var childPrototype = child.prototype;
+
+			// Redefine the child widget using the same prototype that was
+			// originally used, but inherit from the new version of the base
+			$.widget( childPrototype.namespace + "." + childPrototype.widgetName, constructor,
+				child._proto );
+		} );
+
+		// Remove the list of existing child constructors from the old constructor
+		// so the old child constructors can be garbage collected
+		delete existingConstructor._childConstructors;
+	} else {
+		base._childConstructors.push( constructor );
+	}
+
+	$.widget.bridge( name, constructor );
+
+	return constructor;
+};
+
+$.widget.extend = function( target ) {
+	var input = widgetSlice.call( arguments, 1 );
+	var inputIndex = 0;
+	var inputLength = input.length;
+	var key;
+	var value;
+
+	for ( ; inputIndex < inputLength; inputIndex++ ) {
+		for ( key in input[ inputIndex ] ) {
+			value = input[ inputIndex ][ key ];
+			if ( input[ inputIndex ].hasOwnProperty( key ) && value !== undefined ) {
+
+				// Clone objects
+				if ( $.isPlainObject( value ) ) {
+					target[ key ] = $.isPlainObject( target[ key ] ) ?
+						$.widget.extend( {}, target[ key ], value ) :
+
+						// Don't extend strings, arrays, etc. with objects
+						$.widget.extend( {}, value );
+
+				// Copy everything else by reference
+				} else {
+					target[ key ] = value;
+				}
+			}
+		}
+	}
+	return target;
+};
+
+$.widget.bridge = function( name, object ) {
+	var fullName = object.prototype.widgetFullName || name;
+	$.fn[ name ] = function( options ) {
+		var isMethodCall = typeof options === "string";
+		var args = widgetSlice.call( arguments, 1 );
+		var returnValue = this;
+
+		if ( isMethodCall ) {
+
+			// If this is an empty collection, we need to have the instance method
+			// return undefined instead of the jQuery instance
+			if ( !this.length && options === "instance" ) {
+				returnValue = undefined;
+			} else {
+				this.each( function() {
+					var methodValue;
+					var instance = $.data( this, fullName );
+
+					if ( options === "instance" ) {
+						returnValue = instance;
+						return false;
+					}
+
+					if ( !instance ) {
+						return $.error( "cannot call methods on " + name +
+							" prior to initialization; " +
+							"attempted to call method '" + options + "'" );
+					}
+
+					if ( !$.isFunction( instance[ options ] ) || options.charAt( 0 ) === "_" ) {
+						return $.error( "no such method '" + options + "' for " + name +
+							" widget instance" );
+					}
+
+					methodValue = instance[ options ].apply( instance, args );
+
+					if ( methodValue !== instance && methodValue !== undefined ) {
+						returnValue = methodValue && methodValue.jquery ?
+							returnValue.pushStack( methodValue.get() ) :
+							methodValue;
+						return false;
+					}
+				} );
+			}
+		} else {
+
+			// Allow multiple hashes to be passed on init
+			if ( args.length ) {
+				options = $.widget.extend.apply( null, [ options ].concat( args ) );
+			}
+
+			this.each( function() {
+				var instance = $.data( this, fullName );
+				if ( instance ) {
+					instance.option( options || {} );
+					if ( instance._init ) {
+						instance._init();
+					}
+				} else {
+					$.data( this, fullName, new object( options, this ) );
+				}
+			} );
+		}
+
+		return returnValue;
+	};
+};
+
+$.Widget = function( /* options, element */ ) {};
+$.Widget._childConstructors = [];
+
+$.Widget.prototype = {
+	widgetName: "widget",
+	widgetEventPrefix: "",
+	defaultElement: "<div>",
+
+	options: {
+		classes: {},
+		disabled: false,
+
+		// Callbacks
+		create: null
+	},
+
+	_createWidget: function( options, element ) {
+		element = $( element || this.defaultElement || this )[ 0 ];
+		this.element = $( element );
+		this.uuid = widgetUuid++;
+		this.eventNamespace = "." + this.widgetName + this.uuid;
+
+		this.bindings = $();
+		this.hoverable = $();
+		this.focusable = $();
+		this.classesElementLookup = {};
+
+		if ( element !== this ) {
+			$.data( element, this.widgetFullName, this );
+			this._on( true, this.element, {
+				remove: function( event ) {
+					if ( event.target === element ) {
+						this.destroy();
+					}
+				}
+			} );
+			this.document = $( element.style ?
+
+				// Element within the document
+				element.ownerDocument :
+
+				// Element is window or document
+				element.document || element );
+			this.window = $( this.document[ 0 ].defaultView || this.document[ 0 ].parentWindow );
+		}
+
+		this.options = $.widget.extend( {},
+			this.options,
+			this._getCreateOptions(),
+			options );
+
+		this._create();
+
+		if ( this.options.disabled ) {
+			this._setOptionDisabled( this.options.disabled );
+		}
+
+		this._trigger( "create", null, this._getCreateEventData() );
+		this._init();
+	},
+
+	_getCreateOptions: function() {
+		return {};
+	},
+
+	_getCreateEventData: $.noop,
+
+	_create: $.noop,
+
+	_init: $.noop,
+
+	destroy: function() {
+		var that = this;
+
+		this._destroy();
+		$.each( this.classesElementLookup, function( key, value ) {
+			that._removeClass( value, key );
+		} );
+
+		// We can probably remove the unbind calls in 2.0
+		// all event bindings should go through this._on()
+		this.element
+			.off( this.eventNamespace )
+			.removeData( this.widgetFullName );
+		this.widget()
+			.off( this.eventNamespace )
+			.removeAttr( "aria-disabled" );
+
+		// Clean up events and states
+		this.bindings.off( this.eventNamespace );
+	},
+
+	_destroy: $.noop,
+
+	widget: function() {
+		return this.element;
+	},
+
+	option: function( key, value ) {
+		var options = key;
+		var parts;
+		var curOption;
+		var i;
+
+		if ( arguments.length === 0 ) {
+
+			// Don't return a reference to the internal hash
+			return $.widget.extend( {}, this.options );
+		}
+
+		if ( typeof key === "string" ) {
+
+			// Handle nested keys, e.g., "foo.bar" => { foo: { bar: ___ } }
+			options = {};
+			parts = key.split( "." );
+			key = parts.shift();
+			if ( parts.length ) {
+				curOption = options[ key ] = $.widget.extend( {}, this.options[ key ] );
+				for ( i = 0; i < parts.length - 1; i++ ) {
+					curOption[ parts[ i ] ] = curOption[ parts[ i ] ] || {};
+					curOption = curOption[ parts[ i ] ];
+				}
+				key = parts.pop();
+				if ( arguments.length === 1 ) {
+					return curOption[ key ] === undefined ? null : curOption[ key ];
+				}
+				curOption[ key ] = value;
+			} else {
+				if ( arguments.length === 1 ) {
+					return this.options[ key ] === undefined ? null : this.options[ key ];
+				}
+				options[ key ] = value;
+			}
+		}
+
+		this._setOptions( options );
+
+		return this;
+	},
+
+	_setOptions: function( options ) {
+		var key;
+
+		for ( key in options ) {
+			this._setOption( key, options[ key ] );
+		}
+
+		return this;
+	},
+
+	_setOption: function( key, value ) {
+		if ( key === "classes" ) {
+			this._setOptionClasses( value );
+		}
+
+		this.options[ key ] = value;
+
+		if ( key === "disabled" ) {
+			this._setOptionDisabled( value );
+		}
+
+		return this;
+	},
+
+	_setOptionClasses: function( value ) {
+		var classKey, elements, currentElements;
+
+		for ( classKey in value ) {
+			currentElements = this.classesElementLookup[ classKey ];
+			if ( value[ classKey ] === this.options.classes[ classKey ] ||
+					!currentElements ||
+					!currentElements.length ) {
+				continue;
+			}
+
+			// We are doing this to create a new jQuery object because the _removeClass() call
+			// on the next line is going to destroy the reference to the current elements being
+			// tracked. We need to save a copy of this collection so that we can add the new classes
+			// below.
+			elements = $( currentElements.get() );
+			this._removeClass( currentElements, classKey );
+
+			// We don't use _addClass() here, because that uses this.options.classes
+			// for generating the string of classes. We want to use the value passed in from
+			// _setOption(), this is the new value of the classes option which was passed to
+			// _setOption(). We pass this value directly to _classes().
+			elements.addClass( this._classes( {
+				element: elements,
+				keys: classKey,
+				classes: value,
+				add: true
+			} ) );
+		}
+	},
+
+	_setOptionDisabled: function( value ) {
+		this._toggleClass( this.widget(), this.widgetFullName + "-disabled", null, !!value );
+
+		// If the widget is becoming disabled, then nothing is interactive
+		if ( value ) {
+			this._removeClass( this.hoverable, null, "ui-state-hover" );
+			this._removeClass( this.focusable, null, "ui-state-focus" );
+		}
+	},
+
+	enable: function() {
+		return this._setOptions( { disabled: false } );
+	},
+
+	disable: function() {
+		return this._setOptions( { disabled: true } );
+	},
+
+	_classes: function( options ) {
+		var full = [];
+		var that = this;
+
+		options = $.extend( {
+			element: this.element,
+			classes: this.options.classes || {}
+		}, options );
+
+		function processClassString( classes, checkOption ) {
+			var current, i;
+			for ( i = 0; i < classes.length; i++ ) {
+				current = that.classesElementLookup[ classes[ i ] ] || $();
+				if ( options.add ) {
+					current = $( $.unique( current.get().concat( options.element.get() ) ) );
+				} else {
+					current = $( current.not( options.element ).get() );
+				}
+				that.classesElementLookup[ classes[ i ] ] = current;
+				full.push( classes[ i ] );
+				if ( checkOption && options.classes[ classes[ i ] ] ) {
+					full.push( options.classes[ classes[ i ] ] );
+				}
+			}
+		}
+
+		this._on( options.element, {
+			"remove": "_untrackClassesElement"
+		} );
+
+		if ( options.keys ) {
+			processClassString( options.keys.match( /\S+/g ) || [], true );
+		}
+		if ( options.extra ) {
+			processClassString( options.extra.match( /\S+/g ) || [] );
+		}
+
+		return full.join( " " );
+	},
+
+	_untrackClassesElement: function( event ) {
+		var that = this;
+		$.each( that.classesElementLookup, function( key, value ) {
+			if ( $.inArray( event.target, value ) !== -1 ) {
+				that.classesElementLookup[ key ] = $( value.not( event.target ).get() );
+			}
+		} );
+	},
+
+	_removeClass: function( element, keys, extra ) {
+		return this._toggleClass( element, keys, extra, false );
+	},
+
+	_addClass: function( element, keys, extra ) {
+		return this._toggleClass( element, keys, extra, true );
+	},
+
+	_toggleClass: function( element, keys, extra, add ) {
+		add = ( typeof add === "boolean" ) ? add : extra;
+		var shift = ( typeof element === "string" || element === null ),
+			options = {
+				extra: shift ? keys : extra,
+				keys: shift ? element : keys,
+				element: shift ? this.element : element,
+				add: add
+			};
+		options.element.toggleClass( this._classes( options ), add );
+		return this;
+	},
+
+	_on: function( suppressDisabledCheck, element, handlers ) {
+		var delegateElement;
+		var instance = this;
+
+		// No suppressDisabledCheck flag, shuffle arguments
+		if ( typeof suppressDisabledCheck !== "boolean" ) {
+			handlers = element;
+			element = suppressDisabledCheck;
+			suppressDisabledCheck = false;
+		}
+
+		// No element argument, shuffle and use this.element
+		if ( !handlers ) {
+			handlers = element;
+			element = this.element;
+			delegateElement = this.widget();
+		} else {
+			element = delegateElement = $( element );
+			this.bindings = this.bindings.add( element );
+		}
+
+		$.each( handlers, function( event, handler ) {
+			function handlerProxy() {
+
+				// Allow widgets to customize the disabled handling
+				// - disabled as an array instead of boolean
+				// - disabled class as method for disabling individual parts
+				if ( !suppressDisabledCheck &&
+						( instance.options.disabled === true ||
+						$( this ).hasClass( "ui-state-disabled" ) ) ) {
+					return;
+				}
+				return ( typeof handler === "string" ? instance[ handler ] : handler )
+					.apply( instance, arguments );
+			}
+
+			// Copy the guid so direct unbinding works
+			if ( typeof handler !== "string" ) {
+				handlerProxy.guid = handler.guid =
+					handler.guid || handlerProxy.guid || $.guid++;
+			}
+
+			var match = event.match( /^([\w:-]*)\s*(.*)$/ );
+			var eventName = match[ 1 ] + instance.eventNamespace;
+			var selector = match[ 2 ];
+
+			if ( selector ) {
+				delegateElement.on( eventName, selector, handlerProxy );
+			} else {
+				element.on( eventName, handlerProxy );
+			}
+		} );
+	},
+
+	_off: function( element, eventName ) {
+		eventName = ( eventName || "" ).split( " " ).join( this.eventNamespace + " " ) +
+			this.eventNamespace;
+		element.off( eventName ).off( eventName );
+
+		// Clear the stack to avoid memory leaks (#10056)
+		this.bindings = $( this.bindings.not( element ).get() );
+		this.focusable = $( this.focusable.not( element ).get() );
+		this.hoverable = $( this.hoverable.not( element ).get() );
+	},
+
+	_delay: function( handler, delay ) {
+		function handlerProxy() {
+			return ( typeof handler === "string" ? instance[ handler ] : handler )
+				.apply( instance, arguments );
+		}
+		var instance = this;
+		return setTimeout( handlerProxy, delay || 0 );
+	},
+
+	_hoverable: function( element ) {
+		this.hoverable = this.hoverable.add( element );
+		this._on( element, {
+			mouseenter: function( event ) {
+				this._addClass( $( event.currentTarget ), null, "ui-state-hover" );
+			},
+			mouseleave: function( event ) {
+				this._removeClass( $( event.currentTarget ), null, "ui-state-hover" );
+			}
+		} );
+	},
+
+	_focusable: function( element ) {
+		this.focusable = this.focusable.add( element );
+		this._on( element, {
+			focusin: function( event ) {
+				this._addClass( $( event.currentTarget ), null, "ui-state-focus" );
+			},
+			focusout: function( event ) {
+				this._removeClass( $( event.currentTarget ), null, "ui-state-focus" );
+			}
+		} );
+	},
+
+	_trigger: function( type, event, data ) {
+		var prop, orig;
+		var callback = this.options[ type ];
+
+		data = data || {};
+		event = $.Event( event );
+		event.type = ( type === this.widgetEventPrefix ?
+			type :
+			this.widgetEventPrefix + type ).toLowerCase();
+
+		// The original event may come from any element
+		// so we need to reset the target on the new event
+		event.target = this.element[ 0 ];
+
+		// Copy original event properties over to the new event
+		orig = event.originalEvent;
+		if ( orig ) {
+			for ( prop in orig ) {
+				if ( !( prop in event ) ) {
+					event[ prop ] = orig[ prop ];
+				}
+			}
+		}
+
+		this.element.trigger( event, data );
+		return !( $.isFunction( callback ) &&
+			callback.apply( this.element[ 0 ], [ event ].concat( data ) ) === false ||
+			event.isDefaultPrevented() );
+	}
+};
+
+$.each( { show: "fadeIn", hide: "fadeOut" }, function( method, defaultEffect ) {
+	$.Widget.prototype[ "_" + method ] = function( element, options, callback ) {
+		if ( typeof options === "string" ) {
+			options = { effect: options };
+		}
+
+		var hasOptions;
+		var effectName = !options ?
+			method :
+			options === true || typeof options === "number" ?
+				defaultEffect :
+				options.effect || defaultEffect;
+
+		options = options || {};
+		if ( typeof options === "number" ) {
+			options = { duration: options };
+		}
+
+		hasOptions = !$.isEmptyObject( options );
+		options.complete = callback;
+
+		if ( options.delay ) {
+			element.delay( options.delay );
+		}
+
+		if ( hasOptions && $.effects && $.effects.effect[ effectName ] ) {
+			element[ method ]( options );
+		} else if ( effectName !== method && element[ effectName ] ) {
+			element[ effectName ]( options.duration, options.easing, callback );
+		} else {
+			element.queue( function( next ) {
+				$( this )[ method ]();
+				if ( callback ) {
+					callback.call( element[ 0 ] );
+				}
+				next();
+			} );
+		}
+	};
+} );
+
+return $.widget;
+
+} ) );
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;( function( factory ) {
+	if ( true ) {
+
+		// AMD. Register as an anonymous module.
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(0) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+} ( function( $ ) {
+
+$.ui = $.ui || {};
+
+return $.ui.version = "1.12.1";
+
+} ) );
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports) {
+
+/**
+ * @preserve jQuery Autocomplete plugin v1.2.6
+ * @homepage http://xdsoft.net/jqplugins/autocomplete/
+ * @license MIT - MIT-LICENSE.txt
+ * (c) 2014, Chupurnov Valeriy <chupurnov@gmail.com>
+ */
+(function ($) {
+	'use strict';
+	var	ARROWLEFT = 37,
+		ARROWRIGHT = 39,
+		ARROWUP = 38,
+		ARROWDOWN = 40,
+		TAB = 9,
+		CTRLKEY = 17,
+		SHIFTKEY = 16,
+		DEL = 46,
+		ENTER = 13,
+		ESC = 27,
+		BACKSPACE = 8,
+		AKEY = 65,
+		CKEY = 67,
+		VKEY = 86,
+		ZKEY = 90,
+		YKEY = 89,
+		defaultSetting = {},
+		//currentInput = false,
+		ctrlDown = false,
+		shiftDown = false,
+		publics = {},
+		accent_map = {
+			'ẚ':'a','Á':'a','á':'a','À':'a','à':'a','Ă':'a','ă':'a','Ắ':'a','ắ':'a','Ằ':'a','ằ':'a','Ẵ':'a','ẵ':'a','Ẳ':'a',
+			'Ẫ':'a','ẫ':'a','Ẩ':'a','ẩ':'a','Ǎ':'a','ǎ':'a','Å':'a','å':'a','Ǻ':'a','ǻ':'a','Ä':'a','ä':'a','Ǟ':'a','ǟ':'a',
+			'Ã':'a','ã':'a','Ȧ':'a','ȧ':'a','Ǡ':'a','ǡ':'a','Ą':'a','ą':'a','Ā':'a','ā':'a','Ả':'a','ả':'a','Ȁ':'a','ȁ':'a',
+			'Ȃ':'a','ȃ':'a','Ạ':'a','ạ':'a','Ặ':'a','ặ':'a','Ậ':'a','ậ':'a','Ḁ':'a','ḁ':'a','Ⱥ':'a','ⱥ':'a','Ǽ':'a','ǽ':'a',
+			'Ǣ':'a','ǣ':'a','Ḃ':'b','ḃ':'b','Ḅ':'b','ḅ':'b','Ḇ':'b','ḇ':'b','Ƀ':'b','ƀ':'b','ᵬ':'b','Ɓ':'b','ɓ':'b','Ƃ':'b',
+			'ƃ':'b','Ć':'c','ć':'c','Ĉ':'c','ĉ':'c','Č':'c','č':'c','Ċ':'c','ċ':'c','Ç':'c','ç':'c','Ḉ':'c','ḉ':'c','Ȼ':'c',
+			'ȼ':'c','Ƈ':'c','ƈ':'c','ɕ':'c','Ď':'d','ď':'d','Ḋ':'d','ḋ':'d','Ḑ':'d','ḑ':'d','Ḍ':'d','ḍ':'d','Ḓ':'d','ḓ':'d',
+			'Ḏ':'d','ḏ':'d','Đ':'d','đ':'d','ᵭ':'d','Ɖ':'d','ɖ':'d','Ɗ':'d','ɗ':'d','Ƌ':'d','ƌ':'d','ȡ':'d','ð':'d','É':'e',
+			'Ə':'e','Ǝ':'e','ǝ':'e','é':'e','È':'e','è':'e','Ĕ':'e','ĕ':'e','Ê':'e','ê':'e','Ế':'e','ế':'e','Ề':'e','ề':'e',
+			'Ễ':'e','ễ':'e','Ể':'e','ể':'e','Ě':'e','ě':'e','Ë':'e','ë':'e','Ẽ':'e','ẽ':'e','Ė':'e','ė':'e','Ȩ':'e','ȩ':'e',
+			'Ḝ':'e','ḝ':'e','Ę':'e','ę':'e','Ē':'e','ē':'e','Ḗ':'e','ḗ':'e','Ḕ':'e','ḕ':'e','Ẻ':'e','ẻ':'e','Ȅ':'e','ȅ':'e',
+			'Ȇ':'e','ȇ':'e','Ẹ':'e','ẹ':'e','Ệ':'e','ệ':'e','Ḙ':'e','ḙ':'e','Ḛ':'e','ḛ':'e','Ɇ':'e','ɇ':'e','ɚ':'e','ɝ':'e',
+			'Ḟ':'f','ḟ':'f','ᵮ':'f','Ƒ':'f','ƒ':'f','Ǵ':'g','ǵ':'g','Ğ':'g','ğ':'g','Ĝ':'g','ĝ':'g','Ǧ':'g','ǧ':'g','Ġ':'g',
+			'ġ':'g','Ģ':'g','ģ':'g','Ḡ':'g','ḡ':'g','Ǥ':'g','ǥ':'g','Ɠ':'g','ɠ':'g','Ĥ':'h','ĥ':'h','Ȟ':'h','ȟ':'h','Ḧ':'h',
+			'ḧ':'h','Ḣ':'h','ḣ':'h','Ḩ':'h','ḩ':'h','Ḥ':'h','ḥ':'h','Ḫ':'h','ḫ':'h','H':'h','̱':'h','ẖ':'h','Ħ':'h','ħ':'h',
+			'Ⱨ':'h','ⱨ':'h','Í':'i','í':'i','Ì':'i','ì':'i','Ĭ':'i','ĭ':'i','Î':'i','î':'i','Ǐ':'i','ǐ':'i','Ï':'i','ï':'i',
+			'Ḯ':'i','ḯ':'i','Ĩ':'i','ĩ':'i','İ':'i','i':'i','Į':'i','į':'i','Ī':'i','ī':'i','Ỉ':'i','ỉ':'i','Ȉ':'i','ȉ':'i',
+			'Ȋ':'i','ȋ':'i','Ị':'i','ị':'i','Ḭ':'i','ḭ':'i','I':'i','ı':'i','Ɨ':'i','ɨ':'i','Ĵ':'j','ĵ':'j','J':'j','̌':'j',
+			'ǰ':'j','ȷ':'j','Ɉ':'j','ɉ':'j','ʝ':'j','ɟ':'j','ʄ':'j','Ḱ':'k','ḱ':'k','Ǩ':'k','ǩ':'k','Ķ':'k','ķ':'k','Ḳ':'k',
+			'ḳ':'k','Ḵ':'k','ḵ':'k','Ƙ':'k','ƙ':'k','Ⱪ':'k','ⱪ':'k','Ĺ':'a','ĺ':'l','Ľ':'l','ľ':'l','Ļ':'l','ļ':'l','Ḷ':'l',
+			'ḷ':'l','Ḹ':'l','ḹ':'l','Ḽ':'l','ḽ':'l','Ḻ':'l','ḻ':'l','Ł':'l','ł':'l','̣':'l','Ŀ':'l',
+			'ŀ':'l','Ƚ':'l','ƚ':'l','Ⱡ':'l','ⱡ':'l','Ɫ':'l','ɫ':'l','ɬ':'l','ɭ':'l','ȴ':'l','Ḿ':'m','ḿ':'m','Ṁ':'m','ṁ':'m',
+			'Ṃ':'m','ṃ':'m','ɱ':'m','Ń':'n','ń':'n','Ǹ':'n','ǹ':'n','Ň':'n','ň':'n','Ñ':'n','ñ':'n','Ṅ':'n','ṅ':'n','Ņ':'n',
+			'ņ':'n','Ṇ':'n','ṇ':'n','Ṋ':'n','ṋ':'n','Ṉ':'n','ṉ':'n','Ɲ':'n','ɲ':'n','Ƞ':'n','ƞ':'n','ɳ':'n','ȵ':'n','N':'n',
+			'̈':'n','n':'n','Ó':'o','ó':'o','Ò':'o','ò':'o','Ŏ':'o','ŏ':'o','Ô':'o','ô':'o','Ố':'o','ố':'o','Ồ':'o',
+			'ồ':'o','Ỗ':'o','ỗ':'o','Ổ':'o','ổ':'o','Ǒ':'o','ǒ':'o','Ö':'o','ö':'o','Ȫ':'o','ȫ':'o','Ő':'o','ő':'o','Õ':'o',
+			'õ':'o','Ṍ':'o','ṍ':'o','Ṏ':'o','ṏ':'o','Ȭ':'o','ȭ':'o','Ȯ':'o','ȯ':'o','Ȱ':'o','ȱ':'o','Ø':'o','ø':'o','Ǿ':'o',
+			'ǿ':'o','Ǫ':'o','ǫ':'o','Ǭ':'o','ǭ':'o','Ō':'o','ō':'o','Ṓ':'o','ṓ':'o','Ṑ':'o','ṑ':'o','Ỏ':'o','ỏ':'o','Ȍ':'o',
+			'ȍ':'o','Ȏ':'o','ȏ':'o','Ơ':'o','ơ':'o','Ớ':'o','ớ':'o','Ờ':'o','ờ':'o','Ỡ':'o','ỡ':'o','Ở':'o','ở':'o','Ợ':'o',
+			'ợ':'o','Ọ':'o','ọ':'o','Ộ':'o','ộ':'o','Ɵ':'o','ɵ':'o','Ṕ':'p','ṕ':'p','Ṗ':'p','ṗ':'p','Ᵽ':'p','Ƥ':'p','ƥ':'p',
+			'P':'p','̃':'p','p':'p','ʠ':'q','Ɋ':'q','ɋ':'q','Ŕ':'r','ŕ':'r','Ř':'r','ř':'r','Ṙ':'r','ṙ':'r','Ŗ':'r',
+			'ŗ':'r','Ȑ':'r','ȑ':'r','Ȓ':'r','ȓ':'r','Ṛ':'r','ṛ':'r','Ṝ':'r','ṝ':'r','Ṟ':'r','ṟ':'r','Ɍ':'r','ɍ':'r','ᵲ':'r',
+			'ɼ':'r','Ɽ':'r','ɽ':'r','ɾ':'r','ᵳ':'r','ß':'s','Ś':'s','ś':'s','Ṥ':'s','ṥ':'s','Ŝ':'s','ŝ':'s','Š':'s','š':'s',
+			'Ṧ':'s','ṧ':'s','Ṡ':'s','ṡ':'s','ẛ':'s','Ş':'s','ş':'s','Ṣ':'s','ṣ':'s','Ṩ':'s','ṩ':'s','Ș':'s','ș':'s','ʂ':'s',
+			'S':'s','̩':'s','s':'s','Þ':'t','þ':'t','Ť':'t','ť':'t','T':'t','ẗ':'t','Ṫ':'t','ṫ':'t','Ţ':'t','ţ':'t','Ṭ':'t',
+			'ṭ':'t','Ț':'t','ț':'t','Ṱ':'t','ṱ':'t','Ṯ':'t','ṯ':'t','Ŧ':'t','ŧ':'t','Ⱦ':'t','ⱦ':'t','ᵵ':'t',
+			'ƫ':'t','Ƭ':'t','ƭ':'t','Ʈ':'t','ʈ':'t','ȶ':'t','Ú':'u','ú':'u','Ù':'u','ù':'u','Ŭ':'u','ŭ':'u','Û':'u','û':'u',
+			'Ǔ':'u','ǔ':'u','Ů':'u','ů':'u','Ü':'u','ü':'u','Ǘ':'u','ǘ':'u','Ǜ':'u','ǜ':'u','Ǚ':'u','ǚ':'u','Ǖ':'u','ǖ':'u',
+			'Ű':'u','ű':'u','Ũ':'u','ũ':'u','Ṹ':'u','ṹ':'u','Ų':'u','ų':'u','Ū':'u','ū':'u','Ṻ':'u','ṻ':'u','Ủ':'u','ủ':'u',
+			'Ȕ':'u','ȕ':'u','Ȗ':'u','ȗ':'u','Ư':'u','ư':'u','Ứ':'u','ứ':'u','Ừ':'u','ừ':'u','Ữ':'u','ữ':'u','Ử':'u','ử':'u',
+			'Ự':'u','ự':'u','Ụ':'u','ụ':'u','Ṳ':'u','ṳ':'u','Ṷ':'u','ṷ':'u','Ṵ':'u','ṵ':'u','Ʉ':'u','ʉ':'u','Ṽ':'v','ṽ':'v',
+			'Ṿ':'v','ṿ':'v','Ʋ':'v','ʋ':'v','Ẃ':'w','ẃ':'w','Ẁ':'w','ẁ':'w','Ŵ':'w','ŵ':'w','W':'w','̊':'w','ẘ':'w','Ẅ':'w',
+			'ẅ':'w','Ẇ':'w','ẇ':'w','Ẉ':'w','ẉ':'w','Ẍ':'x','ẍ':'x','Ẋ':'x','ẋ':'x','Ý':'y','ý':'y','Ỳ':'y','ỳ':'y','Ŷ':'y',
+			'ŷ':'y','Y':'y','ẙ':'y','Ÿ':'y','ÿ':'y','Ỹ':'y','ỹ':'y','Ẏ':'y','ẏ':'y','Ȳ':'y','ȳ':'y','Ỷ':'y','ỷ':'y',
+			'Ỵ':'y','ỵ':'y','ʏ':'y','Ɏ':'y','ɏ':'y','Ƴ':'y','ƴ':'y','Ź':'z','ź':'z','Ẑ':'z','ẑ':'z','Ž':'z','ž':'z','Ż':'z',
+			'ż':'z','Ẓ':'z','ẓ':'z','Ẕ':'z','ẕ':'z','Ƶ':'z','ƶ':'z','Ȥ':'z','ȥ':'z','ʐ':'z','ʑ':'z','Ⱬ':'z','ⱬ':'z','Ǯ':'z',
+			'ǯ':'z','ƺ':'z','２':'2','６':'6','Ｂ':'B','Ｆ':'F','Ｊ':'J','Ｎ':'N','Ｒ':'R','Ｖ':'V','Ｚ':'Z','ｂ':'b','ｆ':'f','ｊ':'j',
+			'ｎ':'n','ｒ':'r','ｖ':'v','ｚ':'z','１':'1','５':'5','９':'9','Ａ':'A','Ｅ':'E','Ｉ':'I','Ｍ':'M','Ｑ':'Q','Ｕ':'U','Ｙ':'Y',
+			'ａ':'a','ｅ':'e','ｉ':'i','ｍ':'m','ｑ':'q','ｕ':'u','ｙ':'y','０':'0','４':'4','８':'8','Ｄ':'D','Ｈ':'H','Ｌ':'L','Ｐ':'P',
+			'Ｔ':'T','Ｘ':'X','ｄ':'d','ｈ':'h','ｌ':'l','ｐ':'p','ｔ':'t','ｘ':'x','３':'3','７':'7','Ｃ':'C','Ｇ':'G','Ｋ':'K','Ｏ':'O',
+			'Ｓ':'S','Ｗ':'W','ｃ':'c','ｇ':'g','ｋ':'k','ｏ':'o','ｓ':'s','ｗ':'w','ẳ':'a','Â':'a','â':'a','Ấ':'a','ấ':'a','Ầ':'a','ầ':'a'
+		};
+
+	if (window.getComputedStyle === undefined) {
+		window.getComputedStyle = (function () {
+			function getPixelSize(element, style, property, fontSize) {
+				var	sizeWithSuffix = style[property],
+					size = parseFloat(sizeWithSuffix),
+					suffix = sizeWithSuffix.split(/\d/)[0],
+					rootSize;
+
+				fontSize = fontSize !== null ? fontSize : /%|em/.test(suffix) && element.parentElement ? getPixelSize(element.parentElement, element.parentElement.currentStyle, 'fontSize', null) : 16;
+				rootSize = property === 'fontSize' ? fontSize : /width/i.test(property) ? element.clientWidth : element.clientHeight;
+
+				return (suffix === 'em') ? size * fontSize : (suffix === 'in') ? size * 96 : (suffix === 'pt') ? size * 96 / 72 : (suffix === '%') ? size / 100 * rootSize : size;
+			}
+
+			function setShortStyleProperty(style, property) {
+				var	borderSuffix = property === 'border' ? 'Width' : '',
+					t = property + 'Top' + borderSuffix,
+					r = property + 'Right' + borderSuffix,
+					b = property + 'Bottom' + borderSuffix,
+					l = property + 'Left' + borderSuffix;
+
+				style[property] = (style[t] === style[r] === style[b] === style[l] ? [style[t]]
+					: style[t] === style[b] && style[l] === style[r] ? [style[t], style[r]]
+						: style[l] === style[r] ? [style[t], style[r], style[b]]
+							: [style[t], style[r], style[b], style[l]]).join(' ');
+			}
+
+			function CSSStyleDeclaration(element) {
+				var	currentStyle = element.currentStyle,
+					style = this,
+					property,
+					fontSize = getPixelSize(element, currentStyle, 'fontSize', null);
+				
+				for (property in currentStyle) {
+					if (Object.prototype.hasOwnProperty.call(currentStyle, property)) {
+						if (/width|height|margin.|padding.|border.+W/.test(property) && style[property] !== 'auto') {
+							style[property] = getPixelSize(element, currentStyle, property, fontSize) + 'px';
+						} else if (property === 'styleFloat') {
+							style.float = currentStyle[property];
+						} else {
+							style[property] = currentStyle[property];
+						}
+					}
+				}
+
+				setShortStyleProperty(style, 'margin');
+				setShortStyleProperty(style, 'padding');
+				setShortStyleProperty(style, 'border');
+
+				style.fontSize = fontSize + 'px';
+
+				return style;
+			}
+
+			CSSStyleDeclaration.prototype = {
+				constructor: CSSStyleDeclaration,
+				getPropertyPriority: function () {},
+				getPropertyValue: function (prop) {
+					return this[prop] || '';
+				},
+				item: function () {},
+				removeProperty: function () {},
+				setProperty: function () {},
+				getPropertyCSSValue: function () {}
+			};
+
+			function getComputedStyle(element) {
+				return new CSSStyleDeclaration(element);
+			}
+
+			return getComputedStyle;
+		}(this));
+	}
+
+
+	$(document)
+		.on('keydown.xdsoftctrl', function (e) {
+			if (e.keyCode === CTRLKEY) {
+				ctrlDown = true;
+			}
+			if (e.keyCode === SHIFTKEY) {
+				ctrlDown = true;
+			}
+		})
+		.on('keyup.xdsoftctrl', function (e) {
+			if (e.keyCode === CTRLKEY) {
+				ctrlDown = false;
+			}
+			if (e.keyCode === SHIFTKEY) {
+				ctrlDown = false;
+			}
+		});
+	
+	function accentReplace (s) {
+		if (!s) { return ''; }
+		var ret = '',i;
+		for (i=0; i < s.length; i+=1) {
+			ret += accent_map[s.charAt(i)] || s.charAt(i);
+		}
+		return ret;
+	}
+	
+	function escapeRegExp (str) {
+		return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+	}
+	
+	function getCaretPosition(input) {
+		if (!input) {
+			return;
+		}
+		if (input.selectionStart) {
+			return input.selectionStart;
+		}
+		if (document.selection) {
+			input.focus();
+			var sel = document.selection.createRange(),
+				selLen = document.selection.createRange().text.length;
+			sel.moveStart('character', -input.value.length);
+			return sel.text.length - selLen;
+		}
+	}
+
+	function setCaretPosition(input, pos) {
+		if (input.setSelectionRange) {
+			input.focus();
+			input.setSelectionRange(pos, pos);
+		} else if (input.createTextRange) {
+			var range = input.createTextRange();
+			range.collapse(true);
+			range.moveEnd('character', pos);
+			range.moveStart('character', pos);
+			range.select();
+		}
+	}
+
+	function isset(value) {
+		return value !== undefined;
+	}
+
+	function safe_call(callback, args, callback2, defaultValue) {
+		if (isset(callback) && !$.isArray(callback)) {
+			return $.isFunction(callback) ? callback.apply(this,args):defaultValue;
+		}
+		if(isset(callback2)) {
+			return safe_call.call(this,callback2,args);
+		}
+		return defaultValue;
+	};
+
+	function __safe( callbackName,source,args,defaultValue ){
+		var undefinedVar;
+		return safe_call.call( this, (isset(this.source[source])&&
+			Object.prototype.hasOwnProperty.call(this.source[source], callbackName)) ? this.source[source][callbackName] : undefinedVar, args, function(){
+			return safe_call.call(this,
+					isset(this[callbackName][source])?
+						this[callbackName][source]:(
+							isset(this[callbackName][0])?
+								this[callbackName][0]:(
+									Object.prototype.hasOwnProperty.call(this, callbackName)?
+										this[callbackName]:
+										undefinedVar
+								)
+						),
+					args,
+					defaultSetting[callbackName][source]||defaultSetting[callbackName][0]||defaultSetting[callbackName],
+					defaultValue
+			);
+		},defaultValue);
+	};
+
+	function __get( property,source ){
+		if(!isset(source))
+			source = 0;
+		
+		if( $.isArray(this.source) && isset(this.source[source]) && isset(this.source[source][property]))
+			return this.source[source][property];
+			
+		if( isset(this[property]) ){
+			if( $.isArray(this[property]) ){
+				if( isset(this[property][source]) )
+					return this[property][source];
+				if( isset(this[property][0]) )
+					return this[property][0];
+				return null;
+			}
+			return this[property];
+		}
+		
+		return null;
+	};
+
+	function loadRemote( url,sourceObject,done,debug ){
+		 if (sourceObject.xhr) {
+			sourceObject.xhr.abort();
+		 }
+		 sourceObject.xhr = $.ajax($.extend(true,{
+			url : url,
+			type  : 'GET' ,
+			async:true,
+			cache :false,
+			dataType : 'json'
+		 },sourceObject.ajax))
+		 
+		 .done(function( data ){
+			done&&done.apply(this,$.makeArray(arguments));
+		 })
+		 
+		 .fail(function( jqXHR, textStatus ){
+			if( debug )
+				console.log("Request failed: " + textStatus);
+		 });
+	}
+
+
+	function findRight( data,query ){
+		var right = false,source;
+		
+		for (source = 0;source < data.length;source += 1) {
+			if( right = __safe.call(this,"findRight",source,[data[source],query,source]) ){
+				return {right:right,source:source};
+			}
+		}
+		
+		return false;
+	}
+
+	function processData( data,query ){
+		var source;
+		preparseData
+			.call( this,data,query );
+		
+		for (source = 0;source < data.length;source += 1) {
+			data[source] = __safe.call(this,
+				'filter',
+				source,
+				[data[source], query, source],
+				data[source]
+			);
+		}
+	};
+
+
+	function collectData( query,datasource,callback ){
+		var options = this,source;
+		
+		if( $.isFunction(options.source) ){
+				options.source.apply(options,[query,function(items){
+					datasource = [items];
+					safe_call.call(options,callback,[query]);
+				},datasource,0]);
+		}else{
+			for (source = 0;source < options.source.length;source += 1) {
+				if ($.isArray(options.source[source])) {
+					datasource[source] = options.source[source];
+				} else if ($.isFunction(options.source[source])) {
+					(function (source) {
+						options.source[source].apply(options,[query, function(items){
+							if (!datasource[source]) {
+								datasource[source] = [];
+							}
+								
+							if (items && $.isArray(items)) {
+								switch (options.appendMethod) {
+									case 'replace':
+										datasource[source] = items;
+									break;
+									default:
+										datasource[source] = datasource[source].concat(items);
+								}
+							}
+								
+							safe_call.call(options,callback,[query]);
+						}, datasource,source]);
+					}(source));
+				} else {
+					switch (options.source[source].type) {
+						case 'remote':
+							if (isset(options.source[source].url)) {
+								if (!isset(options.source[source].minLength) || query.length >= options.source[source].minLength){
+									var url = __safe.call(options,'replace',source,[options.source[source].url,query],'');
+									if (!datasource[source]) {
+										datasource[source] = [];
+									}
+									(function (source) {
+										loadRemote(url,options.source[source], function(resp){
+											datasource[source] = resp;
+											safe_call.call(options,callback,[query]);
+										},options.debug);
+									}(source));
+								}
+							}
+						break;
+						default:
+							if( isset(options.source[source]['data']) ){
+								datasource[source] = options.source[source]['data'];
+							}else{
+								datasource[source] = options.source[source];
+							}
+					}
+				}
+			}
+		}
+		safe_call.call(options,callback,[query]);
+	};
+
+	function preparseData( data,query ){
+		for( var source=0;source<data.length;source++ ){
+			data[source] = __safe.call(this,
+				'preparse',
+				source,
+				[data[source],query],
+				data[source]
+			);
+		}
+	};
+
+	function renderData( data,query ){
+		var  source, i, $div, $divs = [];
+		
+		for (source = 0;source < data.length;source += 1) {
+			for (i = 0;i < data[source].length;i += 1) {
+				if( $divs.length>=this.limit )
+					break;
+					
+				$div = $(__safe.call(this,
+					'render',source,
+					[data[source][i],source,i,query],
+					''
+				));
+				
+				$div.data('source',source);
+				$div.data('pid',i);
+				$div.data('item',data[source][i]);
+				
+				$divs.push($div);
+			}
+		}
+		
+		return $divs;
+	};
+
+	function getItem( $div,dataset ){
+		if( isset($div.data('source')) && 
+			isset($div.data('pid')) && 
+			isset(dataset[$div.data('source')]) && 
+			isset(dataset[$div.data('source')][$div.data('pid')]) 
+		){
+			return dataset[$div.data('source')][$div.data('pid')];
+		}
+		return false;
+	};
+
+	function getValue( $div,dataset ){
+		var item = getItem($div,dataset);
+		
+		if( item ){
+			return __safe.call(this,
+				'getValue',$div.data('source'),
+				[item,$div.data('source')]
+			);
+		}else{
+			if( isset($div.data('value')) ){
+				return decodeURIComponent($div.data('value'));
+			}else{
+				return $div.html();
+			}
+		}
+	};
+
+	defaultSetting = {
+		minLength: 0,
+		valueKey: 'value',
+		titleKey: 'title',
+		highlight: true,
+
+		showHint: true,
+
+		dropdownWidth: '100%',
+		dropdownStyle: {},
+		itemStyle: {},
+		hintStyle: false,
+		style: false,
+
+		debug: true,
+		openOnFocus: false,
+		closeOnBlur: true,
+
+		autoselect: false,
+		
+		accents: true,
+		replaceAccentsForRemote: true,
+		
+		limit: 20,
+		visibleLimit: 20,
+		visibleHeight: 0,
+		defaultHeightItem: 30,
+
+		timeoutUpdate: 10,
+
+		get: function (property, source) {
+			return __get.call(this,property,source);
+		},
+		
+		replace: [
+			function (url, query) {
+				if (this.replaceAccentsForRemote) {
+					query = accentReplace(query);
+				}
+				return url.replace('%QUERY%',encodeURIComponent(query));
+			}
+		],
+		
+		equal:function( value,query ){
+			return query.toLowerCase()==value.substr(0,query.length).toLowerCase();
+		},
+		
+		findRight:[
+			function(items,query,source){
+				var results = [],value = '',i;
+				if (items) {
+					for (i = 0;i < items.length;i += 1) {
+						value = __safe.call(this,'getValue',source,[items[i],source]);
+						if (__safe.call(this, 'equal', source, [value,query,source], false)) {
+							return items[i];
+						}
+					}				
+				}
+				return false;
+			}
+		],
+		
+		valid:[
+			function (value, query) {
+				if (this.accents) {
+					value = accentReplace(value);
+					query = accentReplace(query);
+				}
+				return value.toLowerCase().indexOf(query.toLowerCase())!=-1;
+				
+			}
+		],
+		
+		filter:[
+			function (items, query, source) {
+				var results = [], value = '',i;
+				if (items) {					
+					for (i = 0;i < items.length;i += 1) {
+						value = isset(items[i][this.get('valueKey', source)]) ? items[i][this.get('valueKey', source)] : items[i].toString();
+						if (__safe.call(this, 'valid', source, [value, query])) {
+							results.push(items[i]); 
+						}
+					}
+				}
+				return results;
+			}
+		],
+		
+		preparse:function(items){
+			return items;
+		},
+		
+		getValue: [
+			function (item, source) {
+				return isset(item[this.get('valueKey',source)])?item[this.get('valueKey',source)]:item.toString();
+			}
+		],
+		
+		getTitle: [
+			function (item, source) {
+				return isset(item[this.get('titleKey',source)])?item[this.get('titleKey',source)]:item.toString();
+			}
+		],
+		
+		render: [
+			function (item, source, pid, query) {
+				var value = __safe.call(this, "getValue", source, [item, source], defaultSetting.getValue[0].call(this, item, source)),
+					title = __safe.call(this, "getTitle", source, [item, source], defaultSetting.getTitle[0].call(this, item, source)),
+					_value = '',
+					_query = '',
+					_title = '',
+					hilite_hints = '',
+					highlighted = '',
+					c, h, i,
+					spos = 0;
+					
+				if (this.highlight) {
+					if (!this.accents) {
+						title = title.replace(new RegExp('('+escapeRegExp(query)+')','i'),'<b>$1</b>');
+					}else{
+						_title = accentReplace(title).toLowerCase().replace(/[<>]+/g, ''),
+						_query = accentReplace(query).toLowerCase().replace(/[<>]+/g, '');
+						
+						hilite_hints = _title.replace(new RegExp(escapeRegExp(_query), 'g'), '<'+_query+'>');
+						for (i=0;i < hilite_hints.length;i += 1) {
+							c = title.charAt(spos);
+							h = hilite_hints.charAt(i);
+							if (h === '<') {
+								highlighted += '<b>';
+							} else if (h === '>') {
+								highlighted += '</b>';
+							} else {
+								spos += 1;
+								highlighted += c;
+							}
+						}
+						title = highlighted;
+					}
+				}
+					
+				return '<div '+(value==query?'class="active"':'')+' data-value="'+encodeURIComponent(value)+'">'
+							+title+
+						'</div>';
+			}
+		],
+		appendMethod: 'concat', // supported merge and replace 
+		source:[],
+		afterSelected: function() {
+        }
+	};
+	function init( that,options ){
+		if( $(that).hasClass('xdsoft_input') )
+				return;
+		
+		var $box = $('<div class="xdsoft_autocomplete"></div>'),
+			$dropdown = $('<div class="xdsoft_autocomplete_dropdown"></div>'),
+			$hint = $('<input readonly class="xdsoft_autocomplete_hint"/>'),
+			$input = $(that),
+			timer1 = 0,
+			intervalForVisibility,
+			dataset = [],
+			iOpen	= false,
+			value = '',
+			currentValue = '',
+			currentSelect = '',
+			active = null,
+			pos = 0;
+		
+		//it can be used to access settings
+		$input.data('autocomplete_options', options);
+		
+		$dropdown
+			.on('mousedown', function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+			})
+			.on('updatescroll.xdsoft', function() {
+				var _act = $dropdown.find('.active');
+				if (!_act.length) {
+					return;
+				}
+				
+				var top = _act.position().top,
+					actHght = _act.outerHeight(true),
+					scrlTop = $dropdown.scrollTop(),
+					hght = $dropdown.height();
+					
+				if (top <0) {
+					$dropdown.scrollTop(scrlTop-Math.abs(top));
+				} else if (top+actHght>hght) {
+					$dropdown.scrollTop(scrlTop+top+actHght-hght);
+				}
+			});
+		
+		$box
+			.css({
+				'display':$input.css('display'),
+				'width':$input.css('width')
+			});
+		
+		if( options.style )
+			$box.css(options.style);
+			
+		$input
+			.addClass('xdsoft_input')
+			.attr('autocomplete','off');
+		
+		var xDown = null;
+		var yDown = null;
+		var isSwipe = false;
+		$dropdown
+			.on('mousemove','div',function(){
+				if( $(this).hasClass('active') )
+					return true;
+				$dropdown.find('div').removeClass('active');
+				$(this).addClass('active');
+			})
+			.on('mousedown','div',function(e){
+				$dropdown.find('div').removeClass('active');
+				$(this).addClass('active');
+				$input.trigger('pick.xdsoft');
+			})
+			.on('touchstart','div',function(e){
+				xDown = e.originalEvent.touches[0].clientX;
+				yDown = e.originalEvent.touches[0].clientY;
+			})
+			.on('touchend','div',function(e){
+				if(isSwipe === false) {
+					$dropdown.find('div').removeClass('active');
+					$(this).addClass('active');
+					$input.trigger('pick.xdsoft');
+				}
+
+				isSwipe = false;
+			})
+			.on('touchmove','div',function(e){
+				if ( ! xDown || ! yDown ) {
+					return;
+				}
+
+				var xUp = e.originalEvent.touches[0].clientX;
+				var yUp = e.originalEvent.touches[0].clientY;
+
+				var xDiff = xDown - xUp;
+				var yDiff = yDown - yUp;
+
+				if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {
+					if ( xDiff > 0 ) {
+						isSwipe = 'left';
+					} else {
+						isSwipe = 'right';
+					}
+				} else {
+					if ( yDiff > 0 ) {
+						isSwipe = 'top';
+					} else {
+						isSwipe = 'bottm';
+					}
+				}
+
+				xDown = null;
+				yDown = null;
+			});
+
+		function manageData(){
+			if ($input.val()!=currentValue){
+				currentValue = $input.val();
+			} else {
+				return;
+			}
+			if (currentValue.length < options.minLength) {
+				$input.trigger('close.xdsoft');
+				return;
+			}
+			collectData.call(options,currentValue,dataset,function( query ){
+				if (query != currentValue) {
+					return;
+				}
+				var right;	
+				processData.call(options, dataset,query);
+
+				$input.trigger('updateContent.xdsoft');
+
+				if (options.showHint && currentValue.length && currentValue.length<=$input.prop('size') && (right = findRight.call(options,dataset,currentValue))) {
+					var title 	=  __safe.call(options,'getTitle',right.source,[right.right,right.source]);
+					title = query + title.substr(query.length);
+					$hint.val(title);
+				} else {
+					$hint.val('');
+				}
+			});
+
+			return;
+		}
+
+		function manageKey (event) {
+			var key = event.keyCode, right;
+			
+			switch( key ){
+				case AKEY: case CKEY: case VKEY: case ZKEY: case YKEY:
+					if (event.shiftKey || event.ctrlKey) {
+						return true;
+					}
+				break;
+				case SHIFTKEY:	
+				case CTRLKEY:
+					return true;
+				break;
+				case ARROWRIGHT:	
+				case ARROWLEFT:
+					if (ctrlDown || shiftDown || event.shiftKey || event.ctrlKey) {
+						return true;
+					}
+					value = $input.val();
+					pos = getCaretPosition($input[0]);
+					if (key === ARROWRIGHT && pos === value.length) {
+						if (right = findRight.call(options, dataset, value)){
+							$input.trigger('pick.xdsoft', [
+								__safe.call(options,
+									'getValue', right.source,
+									[right.right, right.source]
+								)
+							]);
+						} else {
+							$input.trigger('pick.xdsoft');
+						}
+						event.preventDefault();
+						return false;
+					}
+					return true;
+				case TAB:
+				return true;
+				case ENTER:
+					if (iOpen) {
+						$input.trigger('pick.xdsoft');
+						event.preventDefault();
+						return false;
+					} else {
+						return true;
+					}
+				break;
+				case ESC:
+					$input
+						.val(currentValue)
+						.trigger('close.xdsoft');
+					event.preventDefault();
+					return false;
+				case ARROWDOWN:
+				case ARROWUP:
+					if (!iOpen) {
+						$input.trigger('open.xdsoft');
+						$input.trigger('updateContent.xdsoft');
+						event.preventDefault();
+						return false;
+					}
+					
+					active = $dropdown.find('div.active');
+					
+					var next = key==ARROWDOWN?'next':'prev', timepick = true;
+					
+					if( active.length ){
+						active.removeClass('active');
+						if( active[next]().length ){
+							active[next]().addClass('active');
+						}else{
+							$input.val(currentValue);
+							timepick = false;
+						}
+					}else{
+						$dropdown.children().eq(key==ARROWDOWN?0:-1).addClass('active');
+					}
+					
+					if( timepick ){
+						$input.trigger('timepick.xdsoft');
+					}
+					
+					$dropdown
+						.trigger('updatescroll.xdsoft');
+					
+					event.preventDefault();
+					return false;	
+			}
+			return;
+		}
+		
+		$input
+			.data('xdsoft_autocomplete',dataset)
+			.after($box)
+			.on('pick.xdsoft', function( event,_value ){
+
+				$input.trigger('timepick.xdsoft',_value);
+				
+				currentSelect = currentValue = $input.val();
+				
+				$input.trigger('close.xdsoft');
+				
+				//currentInput = false;
+				
+				active = $dropdown.find('div.active').eq(0);
+							
+				if( !active.length )
+					active = $dropdown.children().first();
+					
+				$input.trigger('selected.xdsoft',[getItem(active,dataset)]);
+				
+				if (options.afterSelected)
+					options.afterSelected();
+			})
+			.on('timepick.xdsoft', function( event,_value ){
+				active = $dropdown.find('div.active');
+							
+				if( !active.length )
+					active = $dropdown.children().first();
+				
+				if( active.length ){
+					if( !isset(_value) ){
+						$input.val(getValue.call(options,active,dataset));
+					}else{
+						$input.val(_value);
+					}
+					$input.trigger('autocompleted.xdsoft',[getItem(active,dataset)]);
+					$hint.val('');
+					setCaretPosition($input[0],$input.val().length);
+				}
+			})
+			.on('keydown.xdsoft input.xdsoft cut.xdsoft paste.xdsoft', function( event ){
+				var ret = manageKey(event);
+				
+				if (ret === false || ret === true) {
+					return ret;
+				}
+				
+				setTimeout(function(){
+					manageData();
+				},1);
+				
+				manageData();
+			})
+			.on('change.xdsoft', function( event ){
+				currentValue = $input.val();
+			});
+		
+		currentValue = $input.val();
+		
+		collectData.call(options, $input.val(),dataset,function( query ){
+			processData.call(options,dataset,query);
+		});
+		
+		if( options.openOnFocus ){
+			$input.on('focusin.xdsoft',function(){
+				$input.trigger('open.xdsoft');
+				$input.trigger('updateContent.xdsoft');
+			});
+		}
+		
+		if( options.closeOnBlur )
+			$input.on('focusout.xdsoft',function(){
+				$input.trigger('close.xdsoft');
+			});
+			
+		$box
+			.append($input)
+			.append($dropdown);
+
+
+		var olderBackground = false,
+			timerUpdate = 0;
+		
+		$input
+			.on('updateHelperPosition.xdsoft',function(){
+				clearTimeout(timerUpdate);
+				timerUpdate = setTimeout(function(){
+					$box.css({
+						'display':$input.css('display'),
+						'width':$input.css('width')
+					});
+					$dropdown.css($.extend(true,{
+						left:$input.position().left,
+						top:$input.position().top + parseInt($input.css('marginTop'))+parseInt($input[0].offsetHeight),
+						marginLeft:$input.css('marginLeft'),
+						marginRight:$input.css('marginRight'),
+						width:options.dropdownWidth=='100%'?$input[0].offsetWidth:options.dropdownWidth
+					},options.dropdownStyle));
+					
+					if (options.showHint) {
+						var style = getComputedStyle($input[0], "");
+						
+						$hint[0].style.cssText = style.cssText;
+						
+						$hint.css({
+							'box-sizing':style.boxSizing,
+							borderStyle:'solid',
+							borderCollapse:style.borderCollapse,
+							borderLeftWidth:style.borderLeftWidth,
+							borderRightWidth:style.borderRightWidth,
+							borderTopWidth:style.borderTopWidth,
+							borderBottomWidth:style.borderBottomWidth,
+							paddingBottom:style.paddingBottom,
+							marginBottom:style.marginBottom,
+							paddingTop:style.paddingTop,
+							marginTop:style.marginTop,
+							paddingLeft:style.paddingLeft,
+							marginLeft:style.marginLeft,
+							paddingRight:style.paddingRight,
+							marginRight:style.marginRight,
+							maxHeight:style.maxHeight,
+							minHeight:style.minHeight,
+							maxWidth:style.maxWidth,
+							minWidth:style.minWidth,
+							width:style.width,
+							letterSpacing:style.letterSpacing,
+							lineHeight:style.lineHeight,
+							outlineWidth:style.outlineWidth,
+							fontFamily:style.fontFamily,
+							fontVariant:style.fontVariant,
+							fontStyle:$input.css('fontStyle'),
+							fontSize:$input.css('fontSize'),
+							fontWeight:$input.css('fontWeight'),
+							flex:style.flex,
+							justifyContent:style.justifyContent,
+							borderRadius:style.borderRadius,
+							'-webkit-box-shadow':'none',
+							'box-shadow':'none'
+						});
+						
+						$input.css('font-size',$input.css('fontSize'))// fix bug with em font size
+						
+						$hint.innerHeight($input.innerHeight());
+						
+						$hint.css($.extend(true,{
+							position:'absolute',
+							zIndex:'1',
+							borderColor:'transparent',
+							outlineColor:'transparent',
+							left:$input.position().left,
+							top:$input.position().top,
+							background:$input.css('background')
+						},options.hintStyle));
+						
+						
+						if( olderBackground!==false ){
+							$hint.css('background',olderBackground);
+						}else{
+							olderBackground = $input.css('background');
+						}
+						
+						try{
+							$input[0].style.setProperty('background', 'transparent', 'important');
+						} catch(e) {
+							$input.css('background','transparent')
+						}
+
+						$box
+							.append($hint);
+					}
+				}, options.timeoutUpdate||1);
+			});
+		
+		if ($input.is(':visible')) {
+			$input
+				.trigger('updateHelperPosition.xdsoft');
+		} else {
+			intervalForVisibility = setInterval(function () {
+				if ($input.is(':visible')) {
+					$input
+						.trigger('updateHelperPosition.xdsoft');
+					clearInterval(intervalForVisibility);
+				}
+			},100);
+		}
+		
+		$(window).on('resize',function () {
+			$box.css({
+				'width':'auto'
+			});
+			$input
+				.trigger('updateHelperPosition.xdsoft');
+		})
+		
+		$input	
+			.on('close.xdsoft',function(){
+				if (!iOpen) {
+					return;
+				}
+
+				$dropdown
+					.hide();
+
+				$hint
+					.val('');	
+
+				if (!options.autoselect) {
+					$input.val(currentValue);
+				}
+
+				iOpen = false;
+
+				//currentInput = false;
+			})
+			
+			.on('updateContent.xdsoft',function(){
+				var out = renderData.call(options,dataset,$input.val()),
+					hght = 10;
+				
+				if (out.length) {
+					$input.trigger('open.xdsoft');
+				} else {
+					$input.trigger('close.xdsoft');
+					return;
+				}
+
+				$(out).each(function(){
+					this.css($.extend(true,{
+						paddingLeft:$input.css('paddingLeft'),
+						paddingRight:$input.css('paddingRight')
+					},options.itemStyle));
+				});
+
+				$dropdown
+					.html(out);
+					
+				if (options.visibleHeight){
+					hght = options.visibleHeight;
+				} else {
+					hght = options.visibleLimit * ((out[0] ? out[0].outerHeight(true) : 0) || options.defaultHeightItem) + 5;
+				}
+				
+				$dropdown
+					.css('maxHeight', hght+'px')
+			})
+			
+			.on('open.xdsoft',function(){
+				if( iOpen )
+					return;
+				
+				$dropdown
+					.show();
+
+				iOpen = true;
+					
+				//currentInput = $input;
+			})
+			.on('destroy.xdsoft',function(){
+				$input.removeClass('xdsoft');
+				$box.after($input);
+				$box.remove();
+				clearTimeout(timer1);
+				clearTimeout(intervalForVisibility);
+				//currentInput = false;
+				$input.data('xdsoft_autocomplete',null);
+				$input
+					.off('.xdsoft')
+			});
+	};
+	
+	publics = {
+		destroy: function () {
+			return this.trigger('destroy.xdsoft');
+		},
+		update: function () {
+			return this.trigger('updateHelperPosition.xdsoft');	
+		},
+		options: function (_options) {
+			if (this.data('autocomplete_options') && $.isPlainObject(_options)) {
+				this.data('autocomplete_options', $.extend(true, this.data('autocomplete_options'), _options));
+			}
+			return this;
+		},
+		setSource: function (_newsource, id) {
+			if(this.data('autocomplete_options') && ($.isPlainObject(_newsource) || $.isFunction(_newsource) || $.isArray(_newsource))) {
+				var options = this.data('autocomplete_options'), 
+					dataset = this.data('xdsoft_autocomplete'),
+					source 	= options.source;
+				if (id!==undefined && !isNaN(id)) {
+					if ($.isPlainObject(_newsource) || $.isArray(_newsource)) {
+						source[id] =  $.extend(true,$.isArray(_newsource) ? [] : {}, _newsource);
+					} else {
+						source[id] =  _newsource;
+					}
+				} else {
+					if ($.isFunction(_newsource)) {
+						this.data('autocomplete_options').source = _newsource;
+					} else {
+						$.extend(true, source, _newsource);
+					}
+				}
+				
+				collectData.call(options, this.val(), dataset,function( query ){
+					processData.call(options,dataset,query);
+				});
+			}
+			return this;
+		},
+		getSource: function (id) {
+			if (this.data('autocomplete_options')) {
+				var source = this.data('autocomplete_options').source;
+				if (id!==undefined && !isNaN(id) &&source[id]) {
+					return source[id];
+				} else {
+					return source;
+				}
+			}
+			return null;
+		} 
+	};
+	
+	$.fn.autocomplete = function(_options, _second, _third){
+		if ($.type(_options) === 'string' && publics[_options]) {
+			return publics[_options].call(this, _second, _third);
+		}
+		return this.each(function () {
+			var options = $.extend(true, {}, defaultSetting, _options);
+			init(this, options);
+		});
+	};
+}(jQuery));
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
 /*!
   * Bootstrap v4.3.1 (https://getbootstrap.com/)
   * Copyright 2011-2019 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
   */
 (function (global, factory) {
-   true ? factory(exports, __webpack_require__(1), __webpack_require__(2)) :
+   true ? factory(exports, __webpack_require__(0), __webpack_require__(2)) :
   typeof define === 'function' && define.amd ? define(['exports', 'jquery', 'popper.js'], factory) :
   (global = global || self, factory(global.bootstrap = {}, global.jQuery, global.Popper));
 }(this, function (exports, $, Popper) { 'use strict';
@@ -9335,7 +11279,7 @@ function attivaMenuItemCorrente(idMenuItem) {
 
 
 /***/ }),
-/* 8 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, setImmediate) {(function () {
@@ -11723,10 +13667,10 @@ function attivaMenuItemCorrente(idMenuItem) {
 
 }());
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(9).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(12).setImmediate))
 
 /***/ }),
-/* 9 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var scope = (typeof global !== "undefined" && global) ||
@@ -11782,7 +13726,7 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(10);
+__webpack_require__(13);
 // On some exotic environments, it's not clear which object `setimmediate` was
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
@@ -11793,10 +13737,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
                          (typeof global !== "undefined" && global.clearImmediate) ||
                          (this && this.clearImmediate);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 10 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -11986,10 +13930,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(14)))
 
 /***/ }),
-/* 11 */
+/* 14 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -12179,7 +14123,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 12 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Unobtrusive validation support library for jQuery and jQuery Validate
@@ -12620,16 +14564,16 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 13 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var ordinecliente_create_1 = __webpack_require__(14);
-var articolo_create_1 = __webpack_require__(15);
-var packinglist_index_1 = __webpack_require__(16);
-var ordinecliente_riepilogo_1 = __webpack_require__(17);
+var ordinecliente_create_1 = __webpack_require__(17);
+var articolo_create_1 = __webpack_require__(18);
+var packinglist_index_1 = __webpack_require__(19);
+var ordinecliente_riepilogo_1 = __webpack_require__(20);
 exports.arrayPageModules = [
     {
         page: "/OrdineCliente/Create",
@@ -12655,63 +14599,113 @@ exports.arrayPageModules = [
 
 
 /***/ }),
-/* 14 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+//variabile globale usata per gestire gli articoli disponibili.
+var articoliDisponibili = null;
 function attivatorePaginaCreate() {
     window["getColorePerArticolo"] = getColorePerArticolo;
+    window["caricaArticoli"] = caricaArticoli;
+    //carico la combo degli articoli
+    caricaArticoli();
+    //nascondo il div d'errore.
+    $("#divAlertError").hide();
 }
 exports.attivatorePaginaCreate = attivatorePaginaCreate;
 //ottiene la lista dei colori per il codice selezionato.
 function getColorePerArticolo() {
-    var txtCodice = $("#dropdownCodiceArticolo");
+    var txtCodice = $("#txtCodiceArticolo");
+    $("#dropdownColore").removeAttr("readonly");
+    $("#dropdownColore").empty();
+    $('#txtDescrizione').empty();
     if (txtCodice != null) {
         var codice = txtCodice.val().toString();
-        $.ajax({
-            type: "POST",
-            url: "/OrdineCliente/SelectColoriFromCodice",
-            data: { codice: codice },
-            success: function (data) {
-                console.log(data.length);
-                $('#dropdownColore').removeAttr("disabled");
-                if (data.length == 0) {
-                    var s = '<option value="-1">Seleziona un colore</option>';
-                    $("#dropdownColore").html(s);
-                }
-                else {
-                    for (var i = 0; i < data.length; i++) {
+        if (jQuery.inArray(codice, articoliDisponibili) != -1) {
+            //carico la lista dei colori.
+            $.ajax({
+                type: "POST",
+                url: "/OrdineCliente/SelectColoriFromCodice",
+                data: { codice: codice },
+                success: function (data) {
+                    console.log(data.length);
+                    $('#dropdownColore').removeAttr("disabled");
+                    if (data.length == 0) {
                         var s = '<option value="-1">Seleziona un colore</option>';
-                        for (var i = 0; i < data.length; i++) {
-                            console.log(data[i]);
-                            s += '<option value="' + data[i].colore + '">' + data[i].colore + '</option>';
-                        }
                         $("#dropdownColore").html(s);
-                        $("#dropdownColore").removeAttr("disabled");
                     }
+                    else {
+                        for (var i = 0; i < data.length; i++) {
+                            var s = '<option value="-1">Seleziona un colore</option>';
+                            for (var i = 0; i < data.length; i++) {
+                                console.log(data[i]);
+                                s += '<option value="' + data[i].colore + '">' + data[i].colore + '</option>';
+                            }
+                            $("#dropdownColore").html(s);
+                            $("#dropdownColore").removeAttr("disabled");
+                        }
+                    }
+                },
+                error: function () {
+                    console.log("Errore");
                 }
-            },
-            error: function () {
-                console.log("Errore");
+            });
+            //carico la descrizione dell'articolo.
+            $.ajax({
+                type: "POST",
+                url: "/OrdineCliente/SelectDescrizioneFromCodice",
+                data: { codice: codice },
+                success: function (data) {
+                    console.log(data);
+                    $('#txtDescrizione').attr("value", data);
+                }
+            });
+            $("#divAlertError").hide();
+        }
+        else {
+            $("#dropdownColore").attr("readonly", "readonly");
+            $("#divAlertError").show();
+            $("#divAlertError").text("L'articolo non è disponibile per la data consegna selezionata.");
+        }
+    }
+}
+//carica gli articoli in base alla data di consegna selezionata.
+function caricaArticoli() {
+    try {
+        var txtDataConsegna = $("#txtDataConsegna");
+        if (txtDataConsegna != null) {
+            var valoreDataConsegna = txtDataConsegna.val().toString();
+            if (valoreDataConsegna != null && valoreDataConsegna != "") {
+                var dataConsegna = valoreDataConsegna;
+                $.ajax({
+                    type: "POST",
+                    url: "/OrdineCliente/SelectCodiciArticoli",
+                    data: { dataConsegna: dataConsegna },
+                    success: function (data) {
+                        console.log("caricamento articoli");
+                        //let txtCodiceArticolo:  JQuery<HTMLElement> =/*;*/
+                        articoliDisponibili = data;
+                        $("#txtCodiceArticolo").removeAttr("readonly");
+                        $("#txtCodiceArticolo").autocomplete({ source: articoliDisponibili });
+                    },
+                    error: function () {
+                        console.log("Errore caricaArticoli");
+                    }
+                });
             }
-        });
-        $.ajax({
-            type: "POST",
-            url: "/OrdineCliente/SelectDescrizioneFromCodice",
-            data: { codice: codice },
-            success: function (data) {
-                console.log(data);
-                $('#txtDescrizione').attr("value", data);
-            }
-        });
+        }
+    }
+    catch (e) {
+        console.log("Errore caricaArticoli");
     }
 }
 
 
 /***/ }),
-/* 15 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12780,7 +14774,7 @@ function verifyCorrectness() {
 
 
 /***/ }),
-/* 16 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12827,7 +14821,7 @@ function getColorePerArticolo() {
 
 
 /***/ }),
-/* 17 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12858,11 +14852,11 @@ function abilitaConcludiOrdine(checkbox) {
 
 
 /***/ }),
-/* 18 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(19);
+var content = __webpack_require__(22);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -12908,7 +14902,7 @@ if(false) {
 }
 
 /***/ }),
-/* 19 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(4)(false);
@@ -12918,7 +14912,7 @@ exports.push([module.i, "/*!\n * Bootstrap v4.3.1 (https://getbootstrap.com/)\n 
 
 
 /***/ }),
-/* 20 */
+/* 23 */
 /***/ (function(module, exports) {
 
 
@@ -13013,11 +15007,11 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 21 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(22);
+var content = __webpack_require__(25);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -13063,7 +15057,7 @@ if(false) {
 }
 
 /***/ }),
-/* 22 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(4)(false);
