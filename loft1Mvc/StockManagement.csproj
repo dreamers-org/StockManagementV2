@@ -1,29 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <TypeScriptToolsVersion>3.1.5</TypeScriptToolsVersion>
     <UserSecretsId>9cd7a5af-3409-4dfa-84f5-c1b6747dd613</UserSecretsId>
-    <ApplicationInsightsResourceId>/subscriptions/69fec4c8-d645-4fff-9ff4-c3f1b1d25b8b/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/StockManagement</ApplicationInsightsResourceId>
-    <ApplicationInsightsAnnotationResourceId>/subscriptions/69fec4c8-d645-4fff-9ff4-c3f1b1d25b8b/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/StockManagement</ApplicationInsightsAnnotationResourceId>
-    <StartupObject>loft1Mvc.Program</StartupObject>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Controllers2\**" />
-    <Compile Remove="Models2\**" />
-    <Compile Remove="Views2\**" />
-    <Content Remove="Controllers2\**" />
-    <Content Remove="Models2\**" />
-    <Content Remove="Views2\**" />
-    <EmbeddedResource Remove="Controllers2\**" />
-    <EmbeddedResource Remove="Models2\**" />
-    <EmbeddedResource Remove="Views2\**" />
-    <None Remove="Controllers2\**" />
-    <None Remove="Models2\**" />
-    <None Remove="Views2\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Areas\Identity\Pages\Account\SuperUser.cshtml.cs" />
@@ -41,28 +22,8 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.9.1" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.6.1" />
-    <PackageReference Include="Microsoft.ApplicationInsights.Web" Version="2.9.1" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.DataProtection.EntityFrameworkCore" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="2.2.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="2.2.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.2.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.2.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.0" />
     <PackageReference Include="SendGrid" Version="9.10.0" />
     <PackageReference Include="Serilog" Version="2.8.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />

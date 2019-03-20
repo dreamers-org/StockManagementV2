@@ -16,6 +16,7 @@ function getColorePerArticolo() {
     var txtCodice = $("#txtCodiceArticolo");
     $("#dropdownColore").removeAttr("readonly");
     $("#dropdownColore").empty();
+    $('#txtDescrizione').empty();
     if (txtCodice != null) {
         var codice = txtCodice.val().toString();
         if (jQuery.inArray(codice, articoliDisponibili) != -1) {
@@ -57,6 +58,7 @@ function getColorePerArticolo() {
                     $('#txtDescrizione').attr("value", data);
                 }
             });
+            $("#divAlertError").hide();
         }
         else {
             $("#dropdownColore").attr("readonly", "readonly");
