@@ -8,35 +8,43 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create">Inserisci nuovo</a>
+    <a asp-action="Create" class="btn btn-outline-primary rounded-pill">Inserisci nuovo</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nome)
-            </th>
-            @if (User.IsInRole("SuperAdmin"))
-            {
-                <th></th>
-            }
-            </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            @if (User.IsInRole("SuperAdmin"))
-            {
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Modifica</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Dettagli</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Elimina</a>
-            </td>
-            }
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="row">
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.Nome)
+                        </th>
+                        @if (User.IsInRole("SuperAdmin"))
+                        {
+                            <th scope="col"></th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nome)
+                            </td>
+                            @if (User.IsInRole("SuperAdmin"))
+                            {
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id">Modifica</a> |
+                                    <a asp-action="Details" asp-route-id="@item.Id">Dettagli</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.Id">Elimina</a>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
