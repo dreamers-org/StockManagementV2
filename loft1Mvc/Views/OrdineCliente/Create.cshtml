@@ -19,6 +19,14 @@
     </div>
 </div>
 
+<!-- Alert -->
+<div class="row">
+    <div class="col-12">
+        <div id="divAlertError" class="alert alert-danger" style="display:none;">
+        </div>
+    </div>
+</div>
+
 <!-- form inserimento -->
 <div class="row">
     <div class=" col-sm-10 col-md-10 mx-auto mb-3">
@@ -70,11 +78,11 @@
 
                             @if (ViewBag.DataConsegna != null)
                             {
-                                <input asp-for="DataConsegna" type="date" class="form-control" readonly="readonly" value="@ViewBag.DataConsegna.ToString("yyyy-MM-dd")" />
+                                <input id="txtDataConsegna" asp-for="DataConsegna" type="date" class="form-control" readonly="readonly" value="@ViewBag.DataConsegna.ToString("yyyy-MM-dd")" />
                             }
                             else
                             {
-                                <input asp-for="DataConsegna" class="form-control" type="date" />
+                                <input id="txtDataConsegna" asp-for="DataConsegna" class="form-control" type="date" onblur="caricaArticoli();" />
                                 <span asp-validation-for="DataConsegna" class="text-danger"></span>
                             }
                         </div>
@@ -82,12 +90,14 @@
                     <div class="form-row justify-content-center">
                         <div class="col-md-3 mb-3 ">
                             <label asp-for="CodiceArticolo" class="control-label">Codice Articolo</label>
-                            <input id="txtCodiceArticolo" asp-for="CodiceArticolo" class="form-control" onblur="getColorePerArticolo();"/>
+                            <input id="txtCodiceArticolo" asp-for="CodiceArticolo" class="form-control" onblur="getColorePerArticolo();" readonly="readonly" />
+                            <span asp-validation-for="CodiceArticolo" class="text-danger"></span>
+
                             @*<select id="dropdownCodiceArticolo" class="form-control" name="CodiceArticolo" asp-items="ViewBag.CodiceArticolo" onblur="getColorePerArticolo();"></select>*@
                         </div>
                         <div class="col-md-3 mb-3">
                             <label asp-for="ColoreArticolo" class="control-label text-center">Colore Articolo</label>
-                            <select id="dropdownColore" class="form-control" asp-for="ColoreArticolo"></select>
+                            <select id="dropdownColore" class="form-control" asp-for="ColoreArticolo" readonly="readonly"></select>
                             <span asp-validation-for="ColoreArticolo" class="text-danger"></span>
                         </div>
                         <div class="col-md-3 mb-3">
