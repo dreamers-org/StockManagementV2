@@ -34,7 +34,7 @@ namespace loft1Mvc.Areas.Identity
 
 					.AddEntityFrameworkStores<IdentityContext>()
 					 .AddDefaultTokenProviders();
-			});
+			    });
 		}
 	}
 }

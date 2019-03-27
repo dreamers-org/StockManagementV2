@@ -1,98 +1,105 @@
 ﻿@model IEnumerable<StockManagement.Models.ViewModels.ViewPackingListViewModel>
 
 @{
-    ViewData["Title"] = "Lista Packing-List";
+    ViewData["Title"] = "Lista Packing List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
-    <h1>@ViewData["Title"]</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create">Inserisci nuovo packing list</a>
+    <a asp-action="Create" class="btn btn-outline-primary rounded-pill">Inserisci nuovo packing list</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Codice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Colore)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Xxs)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Xs)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.S)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.M)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.L)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Xl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Xxl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Xxxl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TagliaUnica)
-            </th>
-            @*<th></th>*@
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Codice)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Colore)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Xxs)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Xs)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.S)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.M)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.L)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Xl)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Xxl)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Xxxl)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TagliaUnica)
-                </td>
-                @*<td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>*@
-            </tr>
-        }
-    </tbody>
-</table>
+
+<div class="row">
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Codice)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Colore)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Xxs)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Xs)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.S)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.M)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.L)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Xl)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Xxl)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Xxxl)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TagliaUnica)
+                        </th>
+                        @*<th></th>*@
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Codice)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Colore)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Xxs)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Xs)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.S)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.M)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.L)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Xl)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Xxl)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Xxxl)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TagliaUnica)
+                            </td>
+                            @*<td>
+                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                </td>*@
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

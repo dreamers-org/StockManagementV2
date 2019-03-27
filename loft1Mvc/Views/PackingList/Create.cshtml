@@ -5,10 +5,20 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>@ViewData["Title"]</h1>
-<hr />
+<!-- Title -->
 <div class="row">
-    <div class=" col-sm-10 col-md-10 mx-auto mb-5">
+    <div class="col-sm-4">
+        <a asp-action="Index" class="btn rounded-pill btn-outline-secondary float-left mt-3"><i class="fas fa-arrow-left"></i>&nbsp;Torna alla lista</a>
+    </div>
+    <div class="col-sm-8">
+        <h1 class="float-left">@ViewData["Title"]</h1>
+    </div>
+    <div class="col-sm-12">
+        <hr />
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-10 col-md-10 mx-auto mb-3">
         <div class="card border-left-primary shadow h-100">
             <div class="card-body">
                 <form asp-action="Create">
@@ -99,7 +109,7 @@
                     if (data) {
                         $('#ddlColore').empty();
                         for (var i = 0; i < data.length; i++) {
-                             $('#ddlColore').append(new Option(data[i].colore, data[i].colore));
+                            $('#ddlColore').append(new Option(data[i].colore, data[i].colore));
                         }
                     }
                 },

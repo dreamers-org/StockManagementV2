@@ -17,34 +17,42 @@ namespace StockManagement.Models
 
         [Required(ErrorMessage = "Campo obbligatorio")]
         [DefaultValue(0)]
+        [Range(0,999, ErrorMessage = "Non possono essere inseriti valori negativi")]
         [DisplayName("2XS/40")]
         public int Xxs { get; set; }
         [Required(ErrorMessage = "Campo obbligatorio")]
         [DefaultValue(0)]
+        [Range(0, 999, ErrorMessage = "Non possono essere inseriti valori negativi")]
         [DisplayName("XS/42")]
         public int Xs { get; set; }
         [Required(ErrorMessage = "Campo obbligatorio")]
         [DefaultValue(0)]
+        [Range(0, 999, ErrorMessage = "Non possono essere inseriti valori negativi")]
         [DisplayName("S/44")]
         public int S { get; set; }
         [Required(ErrorMessage = "Campo obbligatorio")]
-        [DefaultValue("0")]
+        [DefaultValue(0)]
+        [Range(0, 999, ErrorMessage = "Non possono essere inseriti valori negativi")]
         [DisplayName("M/46")]
         public int M { get; set; }
         [Required(ErrorMessage = "Campo obbligatorio")]
         [DefaultValue(0)]
+        [Range(0, 999, ErrorMessage = "Non possono essere inseriti valori negativi")]
         [DisplayName("L/48")]
         public int L { get; set; }
         [Required(ErrorMessage = "Campo obbligatorio")]
         [DefaultValue(0)]
+        [Range(0, 999, ErrorMessage = "Non possono essere inseriti valori negativi")]
         [DisplayName("XL/50")]
         public int Xl { get; set; }
         [Required(ErrorMessage = "Campo obbligatorio")]
         [DefaultValue(0)]
+        [Range(0, 999, ErrorMessage = "Non possono essere inseriti valori negativi")]
         [DisplayName("2XL/52")]
         public int Xxl { get; set; }
         [Required(ErrorMessage = "Campo obbligatorio")]
         [DefaultValue(0)]
+        [Range(0, 999, ErrorMessage = "Non possono essere inseriti valori negativi")]
         [DisplayName("3XL/54")]
         public int Xxxl { get; set; }
         [Required(ErrorMessage = "Campo obbligatorio")]

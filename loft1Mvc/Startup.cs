@@ -11,9 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Serilog;
 using StockManagement.Services;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using loft1Mvc.Areas.Identity.Data;
 
 namespace loft1Mvc
 {
