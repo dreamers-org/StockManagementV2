@@ -209,6 +209,18 @@ namespace StockManagement.Models
                     .HasForeignKey(d => d.IdTipoPagamento)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_OrdineCliente_TipoPagamento");
+
+                entity.Property(e => e.Spedito)
+                 .HasDefaultValue(false);
+
+                entity.Property(e => e.SpeditoInParte)
+                 .HasDefaultValue(false);
+
+                entity.Property(e => e.Letto)
+                 .HasDefaultValue(false);
+
+                entity.Property(e => e.Stampato)
+                 .HasDefaultValue(false);
             });
 
             modelBuilder.Entity<OrdineFornitore>(entity =>

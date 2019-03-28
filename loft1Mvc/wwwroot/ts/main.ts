@@ -39,6 +39,10 @@ $(document).ready(function () {
                 }
             }
         }
+
+        if ($('#notificationBadge').length == 1) {
+            getUnreadOrders();
+        }
     } catch (ex) {
         //let err: Errore = new Errore
         //err.tracciaErrore(ex, "document.ready_main.ts");
@@ -49,4 +53,19 @@ $(document).ready(function () {
 function attivaMenuItemCorrente(idMenuItem: string) {
     console.log(idMenuItem);
     //$(`#${idMenuItem}`).addClass("active");
+}
+
+function getUnreadOrders() {
+    $.ajax({
+        type: "GET",
+        url: "/OrdineCliente/GetUnreadOrders",
+        success: function (data) {
+            console.log("Data: " + data);
+            if (data !== 0) {
+                $('#notificationBadge span').text(data);
+                $('#notificationBadge').show();
+            }
+           
+        }
+    });
 }

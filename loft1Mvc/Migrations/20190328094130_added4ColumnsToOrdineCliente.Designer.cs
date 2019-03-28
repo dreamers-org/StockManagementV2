@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StockManagement.Models;
 
 namespace StockManagement.Migrations
 {
     [DbContext(typeof(StockV2Context))]
-    partial class StockV2ContextModelSnapshot : ModelSnapshot
+    [Migration("20190328094130_added4ColumnsToOrdineCliente")]
+    partial class added4ColumnsToOrdineCliente
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -209,7 +211,7 @@ namespace StockManagement.Migrations
 
                     b.Property<Guid?>("IdTipoPagamento");
 
-                    b.Property<bool>("Letto")
+                    b.Property<bool?>("Letto")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(false);
 
@@ -219,15 +221,15 @@ namespace StockManagement.Migrations
 
                     b.Property<bool>("Pagato");
 
-                    b.Property<bool>("Spedito")
+                    b.Property<bool?>("Spedito")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(false);
 
-                    b.Property<bool>("SpeditoInParte")
+                    b.Property<bool?>("SpeditoInParte")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(false);
 
-                    b.Property<bool>("Stampato")
+                    b.Property<bool?>("Stampato")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(false);
 

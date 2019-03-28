@@ -1,0 +1,105 @@
+﻿@model StockManagement.Models.OrdineCliente
+
+@{
+    ViewData["Title"] = "Modifica ordine cliente";
+}
+
+<!-- Title -->
+<div class="row">
+    <div class="col-sm-4">
+        <a asp-action="Index" class="btn rounded-pill btn-outline-secondary float-left mt-3"><i class="fas fa-arrow-left"></i>&nbsp;Torna alla lista</a>
+    </div>
+    <div class="col-sm-8">
+        <h1 class="float-left">@ViewData["Title"]</h1>
+    </div>
+    <div class="col-sm-12">
+        <hr />
+    </div>
+</div>
+<hr />
+
+<div class="row">
+    <div class=" col-sm-10 col-md-10 mx-auto mb-3">
+        <div class="card border-left-primary shadow h-100">
+            <div class="card-body">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-3 mb-4">
+                            <label asp-for="DataConsegna" class="control-label"></label>
+                            <input asp-for="DataConsegna" class="form-control" />
+                            <span asp-validation-for="DataConsegna" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <label asp-for="IdTipoPagamento" class="control-label"></label>
+                            <select asp-for="IdTipoPagamento" class="form-control" asp-items="ViewBag.IdTipoPagamento"></select>
+                            <span asp-validation-for="IdTipoPagamento" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label asp-for="Note" class="control-label"></label>
+                            <input asp-for="Note" class="form-control" />
+                            <span asp-validation-for="Note" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-2 mb-4">
+                            <div class="checkbox">
+                                <label>
+                                    <input asp-for="Completato" /> @Html.DisplayNameFor(model => model.Completato)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-4">
+                            <div class="checkbox">
+                                <label>
+                                    <input asp-for="Pagato" /> @Html.DisplayNameFor(model => model.Pagato)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-4">
+                            <div class="checkbox">
+                                <label>
+                                    <input asp-for="Spedito" /> @Html.DisplayNameFor(model => model.Spedito)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-4">
+                            <div class="checkbox">
+                                <label>
+                                    <input asp-for="SpeditoInParte" /> @Html.DisplayNameFor(model => model.SpeditoInParte)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-4">
+                            <div class="checkbox">
+                                <label>
+                                    <input asp-for="Letto" /> @Html.DisplayNameFor(model => model.Letto)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-4">
+                            <div class="checkbox">
+                                <label>
+                                    <input asp-for="Stampato" /> @Html.DisplayNameFor(model => model.Stampato)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Salva" class="btn btn-primary"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Torna alla lista</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

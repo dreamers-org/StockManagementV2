@@ -22,7 +22,6 @@ namespace StockManagement
         {
             _context = context;
             _identityContext = identityContext;
-
         }
 
         #region Index
@@ -30,7 +29,7 @@ namespace StockManagement
         {
             //ottengo l'id del rappresentante
             Guid idRappresentante = _identityContext.Users.Where(utente => utente.Email == User.Identity.Name).Select(utente => new Guid(utente.Id)).First();
-            var lista = _context.ViewOrdineCliente.Where(x => x.IdRappresentante == idRappresentante);
+            var lista = _context.ViewOrdineCliente.Where(x => x.IdRappresentante == idRappresentante).OrderByDescending(x => x.DataInserimento);
 
             List<ViewOrdineClienteViewModel> listaOrdini = new List<ViewOrdineClienteViewModel>();
             if (lista != null && lista.Count() > 0)
@@ -43,7 +42,7 @@ namespace StockManagement
 
         #endregion
 
-        #region CreazoneOrdine
+        #region CreazioneOrdine
 
 
         public IActionResult Create()
@@ -162,7 +161,7 @@ namespace StockManagement
                 _context.SaveChanges();
 
 
-                //salvo in sessioni i valori.
+                //salvo in sessione i valori.
                 HttpContext.Session.SetString("IdOrdine", ordineCliente.Id.ToString());
                 HttpContext.Session.SetString("IdCliente", ordineCliente.IdCliente.ToString());
                 HttpContext.Session.SetString("NomeCliente", ordineCliente.NomeCliente);
@@ -395,6 +394,13 @@ namespace StockManagement
                                      .Select(x => x.Descrizione).FirstOrDefault();
             return Json(descrizione);
         }
+
+        public IActionResult GetUnreadOrders()
+        {
+            int result = _context.OrdineCliente.Where(x => x.Letto == false).ToList().Count;
+            return Json(result);
+        }
+
 
         #endregion
     }

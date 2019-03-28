@@ -1,0 +1,117 @@
+﻿@model StockManagement.Models.OrdineCliente
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>OrdineCliente</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdRappresentante)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdRappresentante)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdCliente)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdCliente)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DataConsegna)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DataConsegna)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Note)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Note)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Completato)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Completato)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Pagato)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Pagato)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DataInserimento)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DataInserimento)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DataModifica)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DataModifica)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UtenteInserimento)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UtenteInserimento)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UtenteModifica)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UtenteModifica)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdNavigation.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdPagamentoNavigation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdPagamentoNavigation.Nome)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Spedito)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Spedito)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SpeditoInParte)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SpeditoInParte)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Letto)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Letto)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Stampato)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Stampato)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

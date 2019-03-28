@@ -4883,6 +4883,9 @@ $(document).ready(function () {
                 }
             }
         }
+        if ($('#notificationBadge').length == 1) {
+            getUnreadOrders();
+        }
     }
     catch (ex) {
         //let err: Errore = new Errore
@@ -4893,6 +4896,19 @@ $(document).ready(function () {
 function attivaMenuItemCorrente(idMenuItem) {
     console.log(idMenuItem);
     //$(`#${idMenuItem}`).addClass("active");
+}
+function getUnreadOrders() {
+    $.ajax({
+        type: "GET",
+        url: "/OrdineCliente/GetUnreadOrders",
+        success: function (data) {
+            console.log("Data: " + data);
+            if (data !== 0) {
+                $('#notificationBadge span').text(data);
+                $('#notificationBadge').show();
+            }
+        }
+    });
 }
 
 
