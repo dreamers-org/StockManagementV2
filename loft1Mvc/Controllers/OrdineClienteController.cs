@@ -40,6 +40,31 @@ namespace StockManagement
             return View(listaOrdini);
         }
 
+        public IActionResult CancellaOrdine()
+        {
+            string idOrdineSession = HttpContext.Session.GetString("IdOrdine");
+            if (idOrdineSession != null && !String.IsNullOrEmpty(idOrdineSession))
+            {
+                //Ottengo tutte le righe dell'ordine e le cancello.
+                List<RigaOrdineCliente> listaRigheOrdine = _context.RigaOrdineCliente.Where(x => x.IdOrdine.ToString().ToUpper() == idOrdineSession.ToUpper()).ToList();
+                foreach (RigaOrdineCliente riga in listaRigheOrdine)
+                {
+                    _context.RigaOrdineCliente.Remove(riga);
+                    _context.SaveChanges();
+                }
+
+                //Cancello l'ordine.
+                OrdineCliente ordine = _context.OrdineCliente.Where(x => x.Id.ToString().ToUpper() == idOrdineSession.ToUpper()).FirstOrDefault();
+                _context.OrdineCliente.Remove(ordine);
+                _context.SaveChanges();
+
+                //Cancello la sessione.
+                HttpContext.Session.Clear();
+            }
+
+           return RedirectToAction("Index", "Home");
+        }
+
         #endregion
 
         #region CreazioneOrdine

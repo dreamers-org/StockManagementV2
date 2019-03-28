@@ -9,19 +9,19 @@ namespace StockManagement.Models.ViewModels
 {
     public class OrdineClienteViewModel:OrdineCliente
     {
-        [Required]
+        [Required(ErrorMessage = "Campo obbligatorio")]
 		public string NomeCliente { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Campo obbligatorio")]
         public string IndirizzoCliente { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Campo obbligatorio")]
         public string EmailCliente { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Campo obbligatorio")]
         public string CodiceArticolo { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Campo obbligatorio")]
         public string ColoreArticolo { get; set; }
 
         [DisplayName("2XS/40")]
