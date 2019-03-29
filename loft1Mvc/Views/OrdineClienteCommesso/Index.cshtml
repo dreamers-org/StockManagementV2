@@ -12,48 +12,52 @@
 </div>
 
 <p>
-    <a asp-controller="OrdineCliente" asp-action="Create">Inserisci nuovo</a>
+    <a asp-controller="OrdineCliente" asp-action="Create">Inserisci un nuovo ordine</a>
 </p>
 <div class="row">
     <div class="col-12">
         <div class="table-responsive">
             <table class="table">
-                <thead class="thead-dark">
+                <thead class="thead-dark small">
                     <tr>
-                        <th>
+                        <th scope="col"></th>
+                        <th scope="col">
                             @Html.DisplayNameFor(model => model.Cliente)
                         </th>
-                        <th>
+                        <th scope="col">
                             @Html.DisplayNameFor(model => model.DataConsegna)
                         </th>
-                        <th>
+                        <th scope="col">
                             @Html.DisplayNameFor(model => model.TipoPagamento)
                         </th>
-                        <th>
+                        <th scope="col" class="w-50">
                             @Html.DisplayNameFor(model => model.Note)
                         </th>
-                        <th>
+                        <th scope="col">
                             @Html.DisplayNameFor(model => model.Pagato)
                         </th>
-                        <th>
+                        <th scope="col">
                             @Html.DisplayNameFor(model => model.Spedito)
                         </th>
-                        <th>
+                        <th scope="col" class="w-25">
                             @Html.DisplayNameFor(model => model.SpeditoInParte)
                         </th>
-                        <th>
+                        <th scope="col">
                             @Html.DisplayNameFor(model => model.Letto)
                         </th>
-                        <th>
+                        <th scope="col">
                             @Html.DisplayNameFor(model => model.Stampato)
                         </th>
-                        <th></th>
+
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
                     <tr>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id" title="Visualizza dettaglio"><i class="fas fa-list-alt"></i></a>
+                        </td>
                         <td width="10%">
                             @Html.DisplayFor(modelItem => item.Cliente)
                         </td>
@@ -81,10 +85,7 @@
                         <td width="4%">
                             @Html.DisplayFor(modelItem => item.Stampato)
                         </td>
-                        <td width="10%">
-                            <a asp-action="Edit" asp-route-id="@item.Id">Modifica</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Visualizza</a>
-                        </td>
+
                     </tr>
                     }
                 </tbody>

@@ -8,7 +8,7 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-outline-primary rounded-pill">Inserisci nuovo articolo</a>
+    <a asp-action="Create" class="btn btn-outline-primary rounded-pill">Inserisci un nuovo articolo</a>
 </p>
 <div class="row">
     <div class="col-12">
@@ -20,10 +20,7 @@
                         {
                             <th scope="col">
                             </th>
-                            <th  scope="col">
-                            </th>
-                            <th  scope="col">
-                            </th>
+                           
                         }
                         <th scope="col">
                         </th>
@@ -87,10 +84,9 @@
                             <td>
                                 <a asp-action="Delete" asp-route-id="@item.Id" title="Elimina"><i class="fas fa-trash-alt text-danger"></i></a>
                             </td>
-
                         }
                         <td>
-                            <a asp-action="Annulla" asp-route-id="@item.Id" title="Visualizza dettaglio"><i class="fas fa-list-alt"></i></a>
+                            <a asp-action="Details" asp-route-id="@item.Id" title="Visualizza dettaglio"><i class="fas fa-list-alt"></i></a>
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.IdFornitoreNavigation.Nome)

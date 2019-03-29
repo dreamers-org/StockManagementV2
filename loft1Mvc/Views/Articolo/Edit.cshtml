@@ -4,121 +4,142 @@
     ViewData["Title"] = "Modifica articolo";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>@ViewData["Title"]</h1>
-
-<hr />
+<!-- Title -->
 <div class="row">
-    <div class="col-md-4 offset-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Codice" class="control-label"></label>
-                <input asp-for="Codice" class="form-control" readonly="readonly" />
-                <span asp-validation-for="Codice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Descrizione" class="control-label"></label>
-                <input asp-for="Descrizione" class="form-control" />
-                <span asp-validation-for="Descrizione" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdFornitore" class="control-label"></label>
-                <select asp-for="IdFornitore" class="form-control" asp-items="ViewBag.IdFornitore"></select>
-                <span asp-validation-for="IdFornitore" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Colore" class="control-label"></label>
-                <input asp-for="Colore" class="form-control" />
-                <span asp-validation-for="Colore" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Xxs" /> @Html.DisplayNameFor(model => model.Xxs)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Xs" /> @Html.DisplayNameFor(model => model.Xs)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="S" /> @Html.DisplayNameFor(model => model.S)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="M" /> @Html.DisplayNameFor(model => model.M)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="L" /> @Html.DisplayNameFor(model => model.L)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Xl" /> @Html.DisplayNameFor(model => model.Xl)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Xxl" /> @Html.DisplayNameFor(model => model.Xxl)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Xxxl" /> @Html.DisplayNameFor(model => model.Xxxl)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="TagliaUnica" /> @Html.DisplayNameFor(model => model.TagliaUnica)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="TrancheConsegna" class="control-label"></label>
-                <input asp-for="TrancheConsegna" class="form-control" />
-                <span asp-validation-for="TrancheConsegna" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Genere" class="control-label"></label>
-                @Html.DropDownListFor(p => p.Genere, new List<SelectListItem> {
-                   new SelectListItem { Value = "Uomo" , Text = "Uomo" },
-                   new SelectListItem { Value = "Donna" , Text = "Donna" },
-                }, new { @class = "form-control", @id = "ddlGenereProdotto" })
-                <span asp-validation-for="Genere" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdTipo" class="control-label"></label>
-                <select asp-for="IdTipo" class="form-control" asp-items="ViewBag.IdTipo"></select>
-                <span asp-validation-for="IdTipo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PrezzoAcquisto" class="control-label"></label>
-                <input asp-for="PrezzoAcquisto" class="form-control" />
-                <span asp-validation-for="PrezzoAcquisto" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PrezzoVendita" class="control-label"></label>
-                <input asp-for="PrezzoVendita" class="form-control" />
-                <span asp-validation-for="PrezzoVendita" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdCollezione" class="control-label"></label>
-                <select asp-for="IdCollezione" class="form-control" asp-items="ViewBag.IdCollezione"></select>
-                <span asp-validation-for="IdCollezione" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Salva" class="btn btn-primary" />
-            </div>
-        </form>
+    <div class="col-sm-4">
+        <a asp-action="Index" class="btn rounded-pill btn-outline-secondary float-left mt-3"><i class="fas fa-arrow-left"></i>&nbsp;Torna alla lista</a>
+    </div>
+    <div class="col-sm-4 text-center">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+    <div class="col-sm-12">
+        <hr />
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Torna alla lista</a>
+
+<div class="row">
+    <div class=" col-sm-10 col-md-10 mx-auto mb-3">
+        <div class="card border-left-primary shadow h-100">
+            <div class="card-body">
+                <form class="needs-validation" asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-2 mb-4">
+                            <label asp-for="Codice" class="control-label"></label>
+                            <input asp-for="Codice" class="form-control" readonly="readonly" />
+                            <span asp-validation-for="Codice" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2 mb-4">
+                            <label asp-for="Descrizione" class="control-label"></label>
+                            <input asp-for="Descrizione" class="form-control" />
+                            <span asp-validation-for="Descrizione" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2 mb-4">
+                            <label asp-for="IdFornitore" class="control-label"></label>
+                            <select asp-for="IdFornitore" class="form-control" asp-items="ViewBag.IdFornitore"></select>
+                            <span asp-validation-for="IdFornitore" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2 mb-4">
+                            <label asp-for="Colore" class="control-label"></label>
+                            <input asp-for="Colore" class="form-control" />
+                            <span asp-validation-for="Colore" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2 mb-4">
+                            <label asp-for="TrancheConsegna" class="control-label"></label>
+                            <input asp-for="TrancheConsegna" class="form-control" />
+                            <span asp-validation-for="TrancheConsegna" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-2 mb-3">
+                            <label asp-for="Genere" class="control-label"></label>
+                            @Html.DropDownListFor(p => p.Genere, new List<SelectListItem> {
+                               new SelectListItem { Value = "Uomo" , Text = "Uomo" },
+                               new SelectListItem { Value = "Donna" , Text = "Donna" },
+                            }, new { @class = "form-control", @id = "ddlGenereProdotto" })
+                            <span asp-validation-for="Genere" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label asp-for="IdTipo" class="control-label"></label>
+                            <select asp-for="IdTipo" class="form-control" asp-items="ViewBag.IdTipo"></select>
+                            <span asp-validation-for="IdTipo" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label asp-for="IdCollezione" class="control-label"></label>
+                            <select asp-for="IdCollezione" class="form-control" asp-items="ViewBag.IdCollezione"></select>
+                            <span asp-validation-for="IdCollezione" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label asp-for="PrezzoAcquisto" class="control-label"></label>
+                            <input asp-for="PrezzoAcquisto" class="form-control" />
+                            <span asp-validation-for="PrezzoAcquisto" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label asp-for="PrezzoVendita" class="control-label"></label>
+                            <input asp-for="PrezzoVendita" class="form-control" />
+                            <span asp-validation-for="PrezzoVendita" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center">
+
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="Xxs" /> @Html.DisplayNameFor(model => model.Xxs)
+                            </label>
+                        </div>
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="Xs" /> @Html.DisplayNameFor(model => model.Xs)
+                            </label>
+                        </div>
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="S" /> @Html.DisplayNameFor(model => model.S)
+                            </label>
+                        </div>
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="M" /> @Html.DisplayNameFor(model => model.M)
+                            </label>
+                        </div>
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="L" /> @Html.DisplayNameFor(model => model.L)
+                            </label>
+                        </div>
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="Xl" /> @Html.DisplayNameFor(model => model.Xl)
+                            </label>
+                        </div>
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="Xxl" /> @Html.DisplayNameFor(model => model.Xxl)
+                            </label>
+                        </div>
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="Xxxl" /> @Html.DisplayNameFor(model => model.Xxxl)
+                            </label>
+                        </div>
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="TagliaUnica" /> @Html.DisplayNameFor(model => model.TagliaUnica)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-sm-6 offset-1">
+                            <input type="submit" value="Salva" class="btn btn-primary float-left" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
 
