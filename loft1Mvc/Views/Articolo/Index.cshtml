@@ -18,8 +18,10 @@
                     <tr>
                         @if (User.IsInRole("SuperAdmin"))
                         {
-                            <th></th>
-                            <th></th>
+                            <td  scope="col">
+                            </td>
+                            <td  scope="col">
+                            </td>
                         }
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.IdFornitoreNavigation)
@@ -82,7 +84,7 @@
                                     <a asp-action="Delete" asp-route-id="@item.Id" title="Elimina"><i class="fas fa-trash-alt text-danger"></i></a>
                                 </td>
                                 <td>
-                                    <a asp-action="Annulla" asp-route-id="@item.Id" title="Annulla"><i class="fas fa-list-alt"></i></a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" title="Visualizza dettaglio"><i class="fas fa-list-alt"></i></a>
                                 </td>
                             }
                             <td>
