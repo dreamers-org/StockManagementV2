@@ -27,21 +27,15 @@
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.IndirizzoCliente)
                         </th>
-                        @*<th scope="col">
-                            @Html.DisplayNameFor(model => model.EmailCliente)
-                        </th>*@
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.DataConsegna)
                         </th>
                         <th scope="col" class="w-50">
                             @Html.DisplayNameFor(model => model.Note)
                         </th>
-                        @*<th scope="col">
-                            @Html.DisplayNameFor(model => model.Completato)
-                        </th>*@
-                        @*<th scope="col">
-                            @Html.DisplayNameFor(model => model.Pagato)
-                        </th>*@
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.SommaPrezzo)
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -54,21 +48,15 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.IndirizzoCliente)
                         </td>
-                        @*<td>
-                            @Html.DisplayFor(modelItem => item.EmailCliente)
-                        </td>*@
                         <td>
                             @Html.DisplayFor(modelItem => item.DataConsegna)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Note)
                         </td>
-                        @*<td>
-                            @Html.DisplayFor(modelItem => item.Completato)
-                        </td>*@
-                        @*<td>
-                            @Html.DisplayFor(modelItem => item.Pagato)
-                        </td>*@
+                        <td>
+                            <span class="badge badge-pill badge-info"> @Html.DisplayFor(modelItem => item.SommaPrezzo)€</span>
+</td>
                     </tr>
                     }
                 </tbody>

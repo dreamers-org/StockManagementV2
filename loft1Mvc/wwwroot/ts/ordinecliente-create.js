@@ -17,7 +17,9 @@ function getColorePerArticolo() {
     $("#dropdownColore").removeAttr("readonly");
     $("#dropdownColore").empty();
     $('#txtDescrizione').empty();
-    if (txtCodice != null) {
+    //nascondo il div d'errore.
+    $("#divAlertError").hide();
+    if (txtCodice != null && txtCodice.val().toString() != "") {
         var codice = txtCodice.val().toString();
         if (jQuery.inArray(codice, articoliDisponibili) != -1) {
             //carico la lista dei colori.
@@ -58,7 +60,6 @@ function getColorePerArticolo() {
                     $('#txtDescrizione').attr("value", data);
                 }
             });
-            $("#divAlertError").hide();
         }
         else {
             $("#dropdownColore").attr("readonly", "readonly");

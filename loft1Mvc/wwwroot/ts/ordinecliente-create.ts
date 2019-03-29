@@ -19,7 +19,10 @@ function getColorePerArticolo() {
     $("#dropdownColore").removeAttr("readonly");
     $("#dropdownColore").empty();
     $('#txtDescrizione').empty();
-    if (txtCodice != null) {
+
+    //nascondo il div d'errore.
+    $("#divAlertError").hide();
+    if (txtCodice != null && txtCodice.val().toString() != "") {
         let codice: string = txtCodice.val().toString();
 
         if (jQuery.inArray(codice, articoliDisponibili) != -1) {
@@ -63,7 +66,7 @@ function getColorePerArticolo() {
                 }
             });
 
-            $("#divAlertError").hide();
+          
         } else {
             $("#dropdownColore").attr("readonly","readonly");
             $("#divAlertError").show();
