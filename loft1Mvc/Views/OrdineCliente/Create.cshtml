@@ -9,7 +9,7 @@
 <!-- Title -->
 <div class="row">
     <div class="col-sm-4">
-        <a asp-controller="Home" asp-action="Index" class="btn rounded-pill btn-outline-secondary float-left mt-3"><i class="fas fa-arrow-left"></i>&nbsp;Indietro</a>
+        <a asp-controller="OrdineCliente" asp-action="Index" class="btn rounded-pill btn-outline-secondary float-left mt-3"><i class="fas fa-arrow-left"></i>&nbsp;Indietro</a>
     </div>
     <div class="col-sm-4">
         <h1>@ViewData["Title"]</h1>
@@ -110,35 +110,43 @@
                     <div class="form-row justify-content-center">
                         <div class="col-md-1 mb-3">
                             <label asp-for="Xxs" class="control-label"></label>
-                            <input asp-for="Xxs" class="form-control" />
+                            <input asp-for="Xxs" value="0" class="form-control" />
+                            <span asp-validation-for="Xxs" class="text-danger"></span>
                         </div>
                         <div class="col-md-1 mb-3">
                             <label asp-for="Xs" class="control-label"></label>
-                            <input asp-for="Xs" class="form-control" />
+                            <input asp-for="Xs" value="0" class="form-control" />
+                            <span asp-validation-for="Xs" class="text-danger"></span>
                         </div>
                         <div class="col-md-1 mb-3">
                             <label asp-for="S" class="control-label"></label>
-                            <input asp-for="S" class="form-control" />
+                            <input asp-for="S" value="0" class="form-control" />
+                            <span asp-validation-for="S" class="text-danger"></span>
                         </div>
                         <div class="col-md-1 mb-3">
                             <label asp-for="M" class="control-label"></label>
-                            <input asp-for="M" class="form-control" />
+                            <input asp-for="M" value="0" class="form-control" />
+                            <span asp-validation-for="M" class="text-danger"></span>
                         </div>
                         <div class="col-md-1 mb-3">
                             <label asp-for="L" class="control-label"></label>
-                            <input asp-for="L" class="form-control" />
+                            <input asp-for="L" value="0" class="form-control" />
+                            <span asp-validation-for="L" class="text-danger"></span>
                         </div>
                         <div class="col-md-1 mb-3">
                             <label asp-for="Xl" class="control-label"></label>
-                            <input asp-for="Xl" class="form-control" />
+                            <input asp-for="Xl" value="0" class="form-control" />
+                            <span asp-validation-for="Xl" class="text-danger"></span>
                         </div>
                         <div class="col-md-1 mb-3">
                             <label asp-for="Xxl" class="control-label"></label>
-                            <input asp-for="Xxl" class="form-control" />
+                            <input asp-for="Xxl" value="0" class="form-control" />
+                            <span asp-validation-for="Xxl" class="text-danger"></span>
                         </div>
                         <div class="col-md-1 mb-3">
                             <label asp-for="Xxxl" class="control-label"></label>
-                            <input asp-for="Xxxl" class="form-control" />
+                            <input asp-for="Xxxl" value="0" class="form-control" />
+                            <span asp-validation-for="Xxxl" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-row mt-4">

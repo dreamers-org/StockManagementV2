@@ -27,17 +27,30 @@ namespace StockManagement
         #region Index
         public async Task<IActionResult> Index()
         {
-            //ottengo l'id del rappresentante
-            Guid idRappresentante = _identityContext.Users.Where(utente => utente.Email == User.Identity.Name).Select(utente => new Guid(utente.Id)).First();
-            var lista = _context.ViewOrdineCliente.Where(x => x.IdRappresentante == idRappresentante).OrderByDescending(x => x.DataInserimento);
-
-            List<ViewOrdineClienteViewModel> listaOrdini = new List<ViewOrdineClienteViewModel>();
-            if (lista != null && lista.Count() > 0)
+            if (User.IsInRole("Rappresentante"))
             {
-                listaOrdini = await lista.ToListAsync();
+                //ottengo l'id del rappresentante
+                Guid idRappresentante = _identityContext.Users.Where(utente => utente.Email == User.Identity.Name).Select(utente => new Guid(utente.Id)).First();
+                var lista = _context.ViewOrdineCliente.Where(x => x.IdRappresentante == idRappresentante).OrderByDescending(x => x.DataInserimento);
+
+                List<ViewOrdineClienteViewModel> listaOrdini = new List<ViewOrdineClienteViewModel>();
+                if (lista != null && lista.Count() > 0)
+                {
+                    listaOrdini = await lista.ToListAsync();
+                }
+                //restituisco la vista contenente gli ordini filtrati per idRappresentante
+                return View(listaOrdini);
             }
-            //restituisco la vista contenente gli ordini filtrati per idRappresentante
-            return View(listaOrdini);
+            else
+            {
+                var lista = _context.ViewOrdineCliente.OrderByDescending(x => x.DataInserimento);
+                List<ViewOrdineClienteViewModel> listaOrdini = new List<ViewOrdineClienteViewModel>();
+                if (lista != null && lista.Count() > 0)
+                {
+                    listaOrdini = await lista.ToListAsync();
+                }
+                return View(listaOrdini);
+            }
         }
 
         public IActionResult CancellaOrdine()
@@ -62,7 +75,7 @@ namespace StockManagement
                 HttpContext.Session.Clear();
             }
 
-           return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home");
         }
 
         #endregion
@@ -99,10 +112,7 @@ namespace StockManagement
             if (idOrdineSession != null && !String.IsNullOrEmpty(idOrdineSession))
             {
                 listaRigheOrdineCliente = _context.ViewRigaOrdineCliente.Where(x => x.IdOrdine.ToString().ToUpper() == idOrdineSession.ToUpper()).Select(x => x).ToList();
-            }
 
-            if (idOrdineSession != null && !String.IsNullOrEmpty(idOrdineSession))
-            {
                 double? sommaPrezzo = _context.ViewOrdineCliente.Where(x => x.Id == new Guid(idOrdineSession)).Select(x => x.SommaPrezzo).FirstOrDefault();
 
                 if (sommaPrezzo != null)
@@ -172,7 +182,20 @@ namespace StockManagement
 
                 //Se esiste già un record lo modifico altrimenti lo creo.
                 List<RigaOrdineCliente> rigaOrdineClienteEsistente = _context.RigaOrdineCliente.Where(x => x.IdOrdine == ordineCliente.Id && x.IdArticolo == idArticolo).ToList();
-                RigaOrdineCliente rigaOrdineCliente = new RigaOrdineCliente() { Id = new Guid(), IdOrdine = ordineCliente.Id, IdArticolo = idArticolo, Xxs = (ordineCliente.Xxs.HasValue ? ordineCliente.Xxs.Value : 0), Xs = (ordineCliente.Xs.HasValue ? ordineCliente.Xs.Value : 0), S = (ordineCliente.S.HasValue ? ordineCliente.S.Value : 0), M = (ordineCliente.M.HasValue ? ordineCliente.M.Value : 0), L = (ordineCliente.L.HasValue ? ordineCliente.L.Value : 0), Xl = (ordineCliente.Xl.HasValue ? ordineCliente.Xl.Value : 0), Xxl = (ordineCliente.Xxl.HasValue ? ordineCliente.Xxl.Value : 0), Xxxl = (ordineCliente.Xxxl.HasValue ? ordineCliente.Xxxl.Value : 0), UtenteInserimento = User.Identity.Name, DataInserimento = DateTime.Now };
+                RigaOrdineCliente rigaOrdineCliente = new RigaOrdineCliente() {
+                    Id = new Guid(),
+                    IdOrdine = ordineCliente.Id,
+                    IdArticolo = idArticolo,
+                    Xxs = ordineCliente.Xxs,
+                    Xs = ordineCliente.Xs,
+                    S = ordineCliente.S,
+                    M = ordineCliente.M,
+                    L = ordineCliente.L,
+                    Xl = ordineCliente.Xl,
+                    Xxl = ordineCliente.Xxl,
+                    Xxxl = ordineCliente.Xxxl,
+                    UtenteInserimento = User.Identity.Name,
+                    DataInserimento = DateTime.Now };
 
                 if (rigaOrdineClienteEsistente != null && rigaOrdineClienteEsistente.Count > 0)
                 {
@@ -214,13 +237,13 @@ namespace StockManagement
 
             if (sommaPrezzo != null && sommaPrezzo.Value < 2000)
             {
-                listaPagamenti =_context.TipoPagamento.Where(x => (x.Codice == 4 || x.Codice == 3 || x.Codice == 6 || x.Codice == 7)).AsEnumerable();
+                listaPagamenti = _context.TipoPagamento.Where(x => (x.Codice == 4 || x.Codice == 3 || x.Codice == 6 || x.Codice == 7)).AsEnumerable();
             }
 
             //TODO: Creare la combo usando la tabella idTipoPagamento
             ViewData["TipoPagamento"] = new SelectList(listaPagamenti, "Id", "Nome");
 
-            return View(_context.OrdineCliente.Where(x => x.Id == new Guid (idOrdineSession)).FirstOrDefault());
+            return View(_context.OrdineCliente.Where(x => x.Id == new Guid(idOrdineSession)).FirstOrDefault());
         }
 
 
@@ -272,7 +295,7 @@ namespace StockManagement
                 //svuoto la sessione.
                 HttpContext.Session.Clear();
 
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Index", "Home");
             }
             else
             {
@@ -422,7 +445,7 @@ namespace StockManagement
 
         public IActionResult GetUnreadOrders()
         {
-            int result = _context.OrdineCliente.Where(x => x.Letto == false).ToList().Count;
+            int result = _context.ViewOrdineClienteCommesso.Where(x => x.Letto == false).ToList().Count;
             return Json(result);
         }
 

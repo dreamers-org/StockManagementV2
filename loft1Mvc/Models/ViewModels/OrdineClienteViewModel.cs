@@ -25,27 +25,43 @@ namespace StockManagement.Models.ViewModels
         public string ColoreArticolo { get; set; }
 
         [DisplayName("2XS/40")]
-        public int? Xxs { get; set; }
+        [Required(ErrorMessage = "Campo obbligatorio.")]
+        [Range(0,99, ErrorMessage = "E' possibile inserire solo valori positivi.")]
+        public int Xxs { get; set; }
 
         [DisplayName("XS/42")]
-        public int? Xs { get; set; }
+        [Required(ErrorMessage = "Campo obbligatorio.")]
+        [Range(0, 99, ErrorMessage = "E' possibile inserire solo valori positivi.")]
+        public int Xs { get; set; }
 
         [DisplayName("S/44")]
-        public int? S { get; set; }
+        [Required(ErrorMessage = "Campo obbligatorio.")]
+        [Range(0, 99, ErrorMessage = "E' possibile inserire solo valori positivi.")]
+        public int S { get; set; }
 
         [DisplayName("M/46")]
-        public int? M { get; set; }
+        [Required(ErrorMessage = "Campo obbligatorio.")]
+        [Range(0, 99, ErrorMessage = "E' possibile inserire solo valori positivi.")]
+        public int M { get; set; }
 
         [DisplayName("L/48")]
-        public int? L { get; set; }
+        [Required(ErrorMessage = "Campo obbligatorio.")]
+        [Range(0, 99, ErrorMessage = "E' possibile inserire solo valori positivi.")]
+        public int L { get; set; }
 
         [DisplayName("XL/50")]
-        public int? Xl { get; set; }
+        [Required(ErrorMessage = "Campo obbligatorio.")]
+        [Range(0, 99, ErrorMessage = "E' possibile inserire solo valori positivi.")]
+        public int Xl { get; set; }
 
         [DisplayName("2XL/52")]
-        public int? Xxl { get; set; }
+        [Required(ErrorMessage = "Campo obbligatorio.")]
+        [Range(0, 99, ErrorMessage = "E' possibile inserire solo valori positivi.")]
+        public int Xxl { get; set; }
 
         [DisplayName("3XL/54")]
-        public int? Xxxl { get; set; }
+        [Required(ErrorMessage = "Campo obbligatorio.")]
+        [Range(0, 99, ErrorMessage = "E' possibile inserire solo valori positivi.")]
+        public int Xxxl { get; set; }
     }
 }

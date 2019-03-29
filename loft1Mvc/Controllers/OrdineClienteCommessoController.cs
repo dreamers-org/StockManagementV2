@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StockManagement.Models;
+using StockManagement.Models.ViewModels;
 
 namespace StockManagement.Controllers
 {
@@ -14,6 +16,7 @@ namespace StockManagement.Controllers
     public class OrdineClienteCommessoController : Controller
     {
         private readonly StockV2Context _context;
+        private readonly IdentityContext _identityContext;
 
         public OrdineClienteCommessoController(StockV2Context context)
         {
@@ -22,9 +25,6 @@ namespace StockManagement.Controllers
 
         public async Task<IActionResult> Index()
         {
-            //var stockV2Context = _context.OrdineCliente;
-            //var stockV2Context = _context.OrdineCliente;
-            //return View(await stockV2Context.ToListAsync());
             var stockV2Context = _context.ViewOrdineClienteCommesso;
             return View(await stockV2Context.ToListAsync());
         }
@@ -47,25 +47,130 @@ namespace StockManagement.Controllers
 
         public IActionResult Create()
         {
-            ViewData["Id"] = new SelectList(_context.Cliente, "Id", "Email");
-            ViewData["IdTipoPagamento"] = new SelectList(_context.TipoPagamento, "Id", "Nome");
+            ViewData["NomeCliente"] = HttpContext.Session.GetString("NomeCliente");
+            ViewData["EmailCliente"] = HttpContext.Session.GetString("EmailCliente");
+            ViewData["IndirizzoCliente"] = HttpContext.Session.GetString("IndirizzoCliente");
+
+            string dataConsegnaSess = HttpContext.Session.GetString("DataConsegna");
+            if (!string.IsNullOrEmpty(dataConsegnaSess))
+            {
+                ViewData["DataConsegna"] = DateTime.Parse(dataConsegnaSess);
+            }
+
+
+            IEnumerable<ViewRigaOrdineClienteViewModel> listaRigheOrdineCliente = new List<ViewRigaOrdineClienteViewModel>();
+
+            string idOrdineSession = HttpContext.Session.GetString("IdOrdine");
+            if (idOrdineSession != null && !String.IsNullOrEmpty(idOrdineSession))
+            {
+                listaRigheOrdineCliente = _context.ViewRigaOrdineCliente.Where(x => x.IdOrdine.ToString().ToUpper() == idOrdineSession.ToUpper()).Select(x => x).ToList();
+
+                double? sommaPrezzo = _context.ViewOrdineCliente.Where(x => x.Id == new Guid(idOrdineSession)).Select(x => x.SommaPrezzo).FirstOrDefault();
+
+                if (sommaPrezzo != null)
+                {
+                    ViewBag.SommaPrezzo = sommaPrezzo.Value;
+                }
+            }
+
+            ViewBag.ListaOrdini = listaRigheOrdineCliente;
+
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,IdRappresentante,IdCliente,DataConsegna,IdTipoPagamento,Note,Completato,Pagato,DataInserimento,DataModifica,UtenteInserimento,UtenteModifica,Spedito,SpeditoInParte,Letto,Stampato")] OrdineCliente ordineCliente)
+        public IActionResult Create([Bind("Id,DataConsegna,NomeCliente,IndirizzoCliente,EmailCliente,CodiceArticolo,ColoreArticolo,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl")] OrdineClienteViewModel ordineCliente)
         {
             if (ModelState.IsValid)
             {
+                //creo i nuovi guid per IdCliente e IdOrdine.
+                Guid idCliente = Guid.NewGuid();
                 ordineCliente.Id = Guid.NewGuid();
-                _context.Add(ordineCliente);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                //Controllo se l'Id dell'ordine esiste già in sessione.
+                if (!String.IsNullOrEmpty(HttpContext.Session.GetString("IdOrdine")))
+                {
+                    //Se esiste significa che il rappresentante ha già creato un ordine.
+                    idCliente = new Guid(HttpContext.Session.GetString("IdCliente"));
+                    ordineCliente.Id = new Guid(HttpContext.Session.GetString("IdOrdine"));
+
+                    //setto la data di modifica e l'utente di modifica.
+                    ordineCliente.DataModifica = DateTime.Now;
+                    ordineCliente.UtenteModifica = User.Identity.Name;
+                }
+                else
+                {
+                    //verifico che i campi siano valorizzati
+                    if (!string.IsNullOrEmpty(ordineCliente.NomeCliente) && !string.IsNullOrEmpty(ordineCliente.IndirizzoCliente) && !string.IsNullOrEmpty(ordineCliente.EmailCliente))
+                    {
+                        //Ottengo o creo il nuovo cliente
+                        List<Cliente> clienti = _context.Cliente.Where(clienteQ => clienteQ.Indirizzo.ToUpper() == ordineCliente.IndirizzoCliente.ToUpper() && clienteQ.Nome.ToUpper() == ordineCliente.NomeCliente.ToUpper() && clienteQ.Email.ToUpper() == ordineCliente.EmailCliente.ToUpper()).ToList();
+                        if (clienti != null && clienti.Count > 0)
+                        {
+                            idCliente = clienti[0].Id;
+                        }
+                        else
+                        {
+                            Cliente cliente = new Cliente() { Id = idCliente, Email = ordineCliente.EmailCliente, Indirizzo = ordineCliente.IndirizzoCliente, Nome = ordineCliente.NomeCliente };
+                            _context.Cliente.Add(cliente);
+                            _context.SaveChanges();
+                        }
+
+                        //setto le informazioni sull'utente, sul cliente e sul rappresentante.
+                        ordineCliente.UtenteInserimento = User.Identity.Name;
+                        ordineCliente.DataInserimento = DateTime.Now;
+                        ordineCliente.IdCliente = idCliente;
+                        ordineCliente.IdRappresentante = _identityContext.Users.Where(utente => utente.Email == User.Identity.Name).Select(utente => new Guid(utente.Id)).First();
+
+                        _context.Add(ordineCliente);
+                        _context.SaveChanges();
+                    }
+                }
+
+                //ottengo l'articolo.
+                Guid idArticolo = _context.Articolo.Where(x => x.Colore.ToUpper() == ordineCliente.ColoreArticolo.ToUpper() && x.Codice.ToUpper() == ordineCliente.CodiceArticolo.ToUpper()).Select(x => x.Id).FirstOrDefault();
+
+                //Se esiste già un record lo modifico altrimenti lo creo.
+                List<RigaOrdineCliente> rigaOrdineClienteEsistente = _context.RigaOrdineCliente.Where(x => x.IdOrdine == ordineCliente.Id && x.IdArticolo == idArticolo).ToList();
+                RigaOrdineCliente rigaOrdineCliente = new RigaOrdineCliente() {
+                    Id = new Guid(),
+                    IdOrdine = ordineCliente.Id,
+                    IdArticolo = idArticolo,
+                    Xxs = ordineCliente.Xxs,
+                    Xs = ordineCliente.Xs,
+                    S = ordineCliente.S,
+                    M = ordineCliente.M,
+                    L = ordineCliente.L,
+                    Xl = ordineCliente.Xl,
+                    Xxl = ordineCliente.Xxl,
+                    Xxxl = ordineCliente.Xxxl,
+                    UtenteInserimento = User.Identity.Name,
+                    DataInserimento = DateTime.Now };
+
+                if (rigaOrdineClienteEsistente != null && rigaOrdineClienteEsistente.Count > 0)
+                {
+                    _context.RigaOrdineCliente.Update(rigaOrdineCliente);
+                }
+                else
+                {
+                    _context.RigaOrdineCliente.Add(rigaOrdineCliente);
+                }
+
+                _context.SaveChanges();
+
+
+                //salvo in sessione i valori.
+                HttpContext.Session.SetString("IdOrdine", ordineCliente.Id.ToString());
+                HttpContext.Session.SetString("IdCliente", ordineCliente.IdCliente.ToString());
+                HttpContext.Session.SetString("NomeCliente", ordineCliente.NomeCliente);
+                HttpContext.Session.SetString("EmailCliente", ordineCliente.EmailCliente);
+                HttpContext.Session.SetString("IndirizzoCliente", ordineCliente.IndirizzoCliente);
+                HttpContext.Session.SetString("DataConsegna", ordineCliente.DataConsegna.ToString());
+
             }
-            ViewData["Id"] = new SelectList(_context.Cliente, "Id", "Email", ordineCliente.Id);
-            ViewData["IdTipoPagamento"] = new SelectList(_context.TipoPagamento, "Id", "Nome", ordineCliente.IdTipoPagamento);
-            return View(ordineCliente);
+
+            return RedirectToAction("Create");
         }
 
         public async Task<IActionResult> Edit(Guid? id)
