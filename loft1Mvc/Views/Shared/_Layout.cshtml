@@ -7,7 +7,9 @@
 
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/dist/main.bundle.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
     @if (User.Identity.IsAuthenticated)
@@ -55,15 +57,18 @@
                                     <a class="nav-link text-dark" asp-controller="Home" asp-action="Admin">Admin</a>
                                 </li>
                             }
+                            @if ((User.IsInRole("Titolare")) || (User.IsInRole("SuperAdmin")))
+                            {
+                                <li class="nav-item">
+                                    <a id="notificationBadge" asp-controller="OrdineClienteCommesso" asp-action="Index" class="btn btn-sm small btn-info mt-1 ml-3"  style="display:none;">
+                                        Ordini non letti <span class="badge badge-light">9</span>
+                                        <span class="sr-only">Ordini non letti</span>
+                                    </a>
+                                </li>
+                            }
                         </ul>
                     </div>
-                    @if ((User.IsInRole("Titolare")) || (User.IsInRole("SuperAdmin")))
-                    {
-                        <a id="notificationBadge" asp-controller="OrdineClienteCommesso" asp-action="Index" class="btn btn-sm btn-danger" style="display:none;">
-                            Ordini non letti <span class="badge badge-light">9</span>
-                            <span class="sr-only">Ordini non letti</span>
-                        </a>
-                    }
+
                     <partial name="_LoginPartial" />
                 </div>
             </nav>

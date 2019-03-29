@@ -16,6 +16,13 @@
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
+                        @if (User.IsInRole("SuperAdmin"))
+                        {
+                            <td  scope="col">
+                            </td>
+                            <td  scope="col">
+                            </td>
+                        }
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.IdFornitoreNavigation)
                         </th>
