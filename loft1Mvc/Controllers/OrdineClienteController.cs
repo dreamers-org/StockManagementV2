@@ -397,7 +397,7 @@ namespace StockManagement
 
         public IActionResult SelectCodiciArticoli(DateTime dataconsegna)
         {
-            var listaArticoli = _context.Articolo.Where(x => x.TrancheConsegna < dataconsegna).Select(x => x.Codice).Distinct().ToArray();
+            var listaArticoli = _context.Articolo.Where(x => x.TrancheConsegna < dataconsegna && x.Annullato == false).Select(x => x.Codice).Distinct().ToArray();
 
             return Json(listaArticoli);
         }
