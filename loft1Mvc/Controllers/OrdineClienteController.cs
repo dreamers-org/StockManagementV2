@@ -99,10 +99,7 @@ namespace StockManagement
             if (idOrdineSession != null && !String.IsNullOrEmpty(idOrdineSession))
             {
                 listaRigheOrdineCliente = _context.ViewRigaOrdineCliente.Where(x => x.IdOrdine.ToString().ToUpper() == idOrdineSession.ToUpper()).Select(x => x).ToList();
-            }
 
-            if (idOrdineSession != null && !String.IsNullOrEmpty(idOrdineSession))
-            {
                 double? sommaPrezzo = _context.ViewOrdineCliente.Where(x => x.Id == new Guid(idOrdineSession)).Select(x => x.SommaPrezzo).FirstOrDefault();
 
                 if (sommaPrezzo != null)

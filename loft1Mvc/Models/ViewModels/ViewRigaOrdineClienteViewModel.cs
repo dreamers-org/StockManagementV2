@@ -27,10 +27,10 @@ namespace StockManagement.Models.ViewModels
         public DateTime? DataModifica { get; set; }
         public DateTime DataInserimento { get; set; }
 
-        [DisplayName("Codice articolo")]
+        [DisplayName("Cod.")]
         public string CodiceArticolo { get; set; }
 
-        [DisplayName("Descrizione articolo")]
+        [DisplayName("Descr.")]
         public string DescrizioneArticolo { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,16 +9,20 @@ namespace StockManagement.Models.ViewModels
 {
     public class ViewOrdineClienteCommessoViewModel
     {
-        public Guid Id { get;}
-        public string Cliente { get;}
+        public Guid Id { get; set; }
+        public string Cliente { get; set; }
+        [DisplayName("Consegna")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
-        public DateTime DataConsegna { get; }
-        public string TipoPagamento { get;}
-        public string Note { get;}
-        public bool Spedito { get; }
-        public bool Pagato { get;}
-        public bool SpeditoInParte { get;}
-        public bool Letto { get; }
-        public bool Stampato { get; }
+        public DateTime DataConsegna { get; set; }
+        [DisplayName("Pagamento")]
+        public string TipoPagamento { get; set; }
+        public string Note { get; set; }
+        public bool Completato { get; set; }
+        public bool Pagato { get; set;}
+        public bool Spedito { get; set; }
+        [DisplayName("Spedito in parte")]
+        public bool SpeditoInParte { get; set; }
+        public bool Letto { get; set; }
+        public bool Stampato { get; set; }
     }
 }

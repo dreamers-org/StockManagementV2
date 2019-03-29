@@ -13,7 +13,7 @@ using StockManagement.Models;
 
 namespace StockManagement.Controllers
 {
-	public class ArticoloController : Controller
+    public class ArticoloController : Controller
     {
         private readonly StockV2Context _context;
 
@@ -75,26 +75,25 @@ namespace StockManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-				if (ArticoloExists(articolo.Codice, articolo.Colore))
-				{
-					HttpContext.Session.SetString("ErrorMessage", "L'articolo esiste già.");
-					return RedirectToAction("Create");
-				}
+                if (ArticoloExists(articolo.Codice, articolo.Colore))
+                {
+                    HttpContext.Session.SetString("ErrorMessage", "L'articolo esiste già.");
+                    return RedirectToAction("Create");
+                }
                 articolo.Id = Guid.NewGuid();
-				articolo.UtenteInserimento = User.Identity.Name;
-				articolo.DataModifica = DateTime.Now;
-				articolo.Foto = "";
-				articolo.Video = "";
+                articolo.UtenteInserimento = User.Identity.Name;
+                articolo.DataModifica = DateTime.Now;
+                articolo.Foto = "";
+                articolo.Video = "";
                 _context.Add(articolo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-			ViewData["IdCollezione"] = new SelectList(_context.Collezione, "Id", "Nome", articolo.IdCollezione);
-			ViewData["IdFornitore"] = new SelectList(_context.Fornitore, "Id", "Nome", articolo.IdFornitore);
-			ViewData["IdTipo"] = new SelectList(_context.Tipo, "Id", "Nome", articolo.IdTipo);
-			return View();
+            ViewData["IdCollezione"] = new SelectList(_context.Collezione, "Id", "Nome", articolo.IdCollezione);
+            ViewData["IdFornitore"] = new SelectList(_context.Fornitore, "Id", "Nome", articolo.IdFornitore);
+            ViewData["IdTipo"] = new SelectList(_context.Tipo, "Id", "Nome", articolo.IdTipo);
+            return View();
         }
-
 
         [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Edit(Guid? id)
@@ -169,15 +168,35 @@ namespace StockManagement.Controllers
             return View(articolo);
         }
 
+
+        [Authorize(Roles = "Commesso, Titolare, SuperAdmin")]
+        [HttpPost, ActionName("Annulla")]
+        public async Task<IActionResult> Annulla(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var articolo = await _context.Articolo.FindAsync(id);
+            if (articolo == null)
+            {
+                return NotFound();
+            }
+            articolo.Annullato = true;
+            _context.Update(articolo);
+            await _context.SaveChangesAsync();
+            return View("Index");
+        }
         private bool ArticoloExists(Guid id)
         {
             return _context.Articolo.Any(e => e.Id == id);
         }
 
-		private bool ArticoloExists(string codice, string colore)
-		{
-			return _context.Articolo.Any(e => e.Codice == codice && e.Colore == colore);
-		}
+        private bool ArticoloExists(string codice, string colore)
+        {
+            return _context.Articolo.Any(e => e.Codice == codice && e.Colore == colore);
+        }
 
         [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Delete(Guid? id)
