@@ -15,32 +15,33 @@
     <div class="col-12">
         <div class="table-responsive">
             <table class="table">
-                <thead class="thead-dark">
+                <thead class="thead-dark small">
                     <tr>
+                        @if (User.IsInRole("SuperAdmin"))
+                        {
+                            <th scope="col">
+                            </th>
+                        }
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.Nome)
                         </th>
-                        @if (User.IsInRole("SuperAdmin"))
-                        {
-                            <th scope="col"></th>
-                        }
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Nome)
-                            </td>
                             @if (User.IsInRole("SuperAdmin"))
                             {
                                 <td>
-                                    <a asp-action="Edit" asp-route-id="@item.Id">Modifica</a> |
-                                    <a asp-action="Details" asp-route-id="@item.Id">Dettagli</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.Id">Elimina</a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" title="Elimina" class="mr-3"><i class="fas fa-trash-alt text-danger"></i></a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" title="Visualizza dettaglio"><i class="fas fa-list-alt"></i></a>
                                 </td>
                             }
+                            <td class="w-75">
+                                @Html.DisplayFor(modelItem => item.Nome)
+                            </td>
+
                         </tr>
                     }
                 </tbody>
