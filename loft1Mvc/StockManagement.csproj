@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <Compile Remove="Areas\Identity\Pages\Account\SuperUser.cshtml.cs" />
+    <Compile Remove="Migrations\20190328170700_4ColumnsNotNullable2.cs" />
+    <Compile Remove="Migrations\20190328170700_4ColumnsNotNullable2.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

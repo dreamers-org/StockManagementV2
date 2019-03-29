@@ -22,7 +22,10 @@ namespace StockManagement.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var stockV2Context = _context.OrdineCliente;
+            //var stockV2Context = _context.OrdineCliente;
+            //var stockV2Context = _context.OrdineCliente;
+            //return View(await stockV2Context.ToListAsync());
+            var stockV2Context = _context.ViewOrdineClienteCommesso;
             return View(await stockV2Context.ToListAsync());
         }
 
