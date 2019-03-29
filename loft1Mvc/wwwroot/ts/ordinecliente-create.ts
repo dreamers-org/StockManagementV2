@@ -70,7 +70,7 @@ function getColorePerArticolo() {
         } else {
             $("#dropdownColore").attr("readonly","readonly");
             $("#divAlertError").show();
-            $("#divAlertError").text("L'articolo non è disponibile per la data consegna selezionata.");
+            $("#divAlertError").text("L'articolo non esiste o non è disponibile per la data di consegna selezionata.");
         }
     }
 }

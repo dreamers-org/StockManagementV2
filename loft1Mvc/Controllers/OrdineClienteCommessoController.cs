@@ -133,7 +133,20 @@ namespace StockManagement.Controllers
 
                 //Se esiste già un record lo modifico altrimenti lo creo.
                 List<RigaOrdineCliente> rigaOrdineClienteEsistente = _context.RigaOrdineCliente.Where(x => x.IdOrdine == ordineCliente.Id && x.IdArticolo == idArticolo).ToList();
-                RigaOrdineCliente rigaOrdineCliente = new RigaOrdineCliente() { Id = new Guid(), IdOrdine = ordineCliente.Id, IdArticolo = idArticolo, Xxs = (ordineCliente.Xxs.HasValue ? ordineCliente.Xxs.Value : 0), Xs = (ordineCliente.Xs.HasValue ? ordineCliente.Xs.Value : 0), S = (ordineCliente.S.HasValue ? ordineCliente.S.Value : 0), M = (ordineCliente.M.HasValue ? ordineCliente.M.Value : 0), L = (ordineCliente.L.HasValue ? ordineCliente.L.Value : 0), Xl = (ordineCliente.Xl.HasValue ? ordineCliente.Xl.Value : 0), Xxl = (ordineCliente.Xxl.HasValue ? ordineCliente.Xxl.Value : 0), Xxxl = (ordineCliente.Xxxl.HasValue ? ordineCliente.Xxxl.Value : 0), UtenteInserimento = User.Identity.Name, DataInserimento = DateTime.Now };
+                RigaOrdineCliente rigaOrdineCliente = new RigaOrdineCliente() {
+                    Id = new Guid(),
+                    IdOrdine = ordineCliente.Id,
+                    IdArticolo = idArticolo,
+                    Xxs = ordineCliente.Xxs,
+                    Xs = ordineCliente.Xs,
+                    S = ordineCliente.S,
+                    M = ordineCliente.M,
+                    L = ordineCliente.L,
+                    Xl = ordineCliente.Xl,
+                    Xxl = ordineCliente.Xxl,
+                    Xxxl = ordineCliente.Xxxl,
+                    UtenteInserimento = User.Identity.Name,
+                    DataInserimento = DateTime.Now };
 
                 if (rigaOrdineClienteEsistente != null && rigaOrdineClienteEsistente.Count > 0)
                 {

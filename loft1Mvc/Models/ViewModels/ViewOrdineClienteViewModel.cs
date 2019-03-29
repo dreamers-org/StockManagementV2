@@ -36,7 +36,7 @@ namespace StockManagement.Models.ViewModels
         public DateTime? DataModifica { get; set; }
         public string UtenteInserimento { get; set; }
         public string UtenteModifica { get; set; }
-
+        [DisplayName("Totale ordine")]
         public double? SommaPrezzo { get; set; }
 
     }

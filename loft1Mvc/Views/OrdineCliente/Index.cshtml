@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<StockManagement.Models.ViewModels.ViewOrdineClienteViewModel>
 
 @{
-            ViewData["Title"] = "Ordini inseriti";
-        }
+    ViewData["Title"] = "Ordini inseriti";
+}
 <!-- Title -->
 <div class="row">
     <div class="col-sm-4">
@@ -41,23 +41,23 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.NomeCliente)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.IndirizzoCliente)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DataConsegna)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Note)
-                        </td>
-                        <td>
-                            <span class="badge badge-pill badge-info"> @Html.DisplayFor(modelItem => item.SommaPrezzo)€</span>
-</td>
-                    </tr>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NomeCliente)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IndirizzoCliente)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DataConsegna)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Note)
+                            </td>
+                            <td>
+                                <span class="badge badge-pill badge-info"> @Html.DisplayFor(modelItem => item.SommaPrezzo)€</span>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>

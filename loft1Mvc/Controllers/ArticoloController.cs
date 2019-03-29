@@ -170,7 +170,6 @@ namespace StockManagement.Controllers
 
 
         [Authorize(Roles = "Commesso, Titolare, SuperAdmin")]
-        [HttpPost, ActionName("Annulla")]
         public async Task<IActionResult> Annulla(Guid? id)
         {
             if (id == null)
@@ -184,9 +183,12 @@ namespace StockManagement.Controllers
                 return NotFound();
             }
             articolo.Annullato = true;
+
             _context.Update(articolo);
+
             await _context.SaveChangesAsync();
-            return View("Index");
+
+            return RedirectToAction(nameof(Index));
         }
         private bool ArticoloExists(Guid id)
         {
