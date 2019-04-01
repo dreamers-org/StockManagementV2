@@ -14755,6 +14755,15 @@ function getTxtValues() {
                 $('#ddlFornitore').empty().append(new Option(data.fornitore, data.idFornitore)).val(data.idFornitore);
                 $('#ddlCollezione').empty().append(new Option(data.collezione, data.idCollezione)).val(data.idCollezione);
                 $('.form-control').attr("readonly", "readonly");
+                $('#chkXXS').prop('checked', data.xxs);
+                $('#chkXS').prop('checked', data.xs);
+                $('#chkS').prop('checked', data.s);
+                $('#chkM').prop('checked', data.m);
+                $('#chkL').prop('checked', data.l);
+                $('#chkXL').prop('checked', data.xl);
+                $('#chkXXL').prop('checked', data.xxl);
+                $('#chkXXXL').prop('checked', data.xxxl);
+                $('#chkTagliaUnica').prop('checked', data.tagliaUnica);
                 $('#txtColore').removeAttr("readonly");
             }
         },

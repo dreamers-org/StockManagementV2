@@ -36,7 +36,7 @@ namespace StockManagement.Controllers
                 return NotFound();
             }
 
-            var ordineCliente = await _context.OrdineCliente.FirstOrDefaultAsync(m => m.Id == id);
+            var ordineCliente = await _context.ViewRigaOrdineClienteCommesso.Where(m => m.IdOrdine == id).ToListAsync();
             if (ordineCliente == null)
             {
                 return NotFound();
@@ -209,7 +209,8 @@ namespace StockManagement.Controllers
                     ordineCliente.SpeditoInParte = SpeditoInParte;
                     ordineCliente.Letto = Letto;
                     ordineCliente.Stampato = Stampato;
-
+                    ordineCliente.UtenteModifica = User.Identity.Name;
+                    ordineCliente.DataModifica = DateTime.Now;
                     _context.Update(ordineCliente);
                     await _context.SaveChangesAsync();
                 }

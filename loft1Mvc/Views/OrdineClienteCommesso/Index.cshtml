@@ -21,6 +21,7 @@
                 <thead class="thead-dark small">
                     <tr>
                         <th scope="col"></th>
+                        <th scope="col"></th>
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.Cliente)
                         </th>
@@ -57,6 +58,9 @@
                     <tr>
                         <td>
                             <a asp-action="Details" asp-route-id="@item.Id" title="Visualizza dettaglio"><i class="fas fa-list-alt"></i></a>
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id" title="Modifica"><i class="fas fa-list-alt"></i></a>
                         </td>
                         <td width="10%">
                             @Html.DisplayFor(modelItem => item.Cliente)

@@ -427,7 +427,7 @@ namespace StockManagement
 
         public IActionResult SelectColoriFromCodice(string codice)
         {
-            var listaColori = _context.Articolo.Where(x => x.Codice == codice)
+            var listaColori = _context.Articolo.Where(x => x.Codice == codice && x.Annullato == false)
                                      .Select(x => new
                                      {
                                          Colore = x.Colore

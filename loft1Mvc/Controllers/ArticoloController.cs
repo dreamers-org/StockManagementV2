@@ -252,7 +252,16 @@ namespace StockManagement.Controllers
                     Collezione = collezione.Nome,
                     IdFornitore = articolo.IdFornitore.ToString(),
                     IdCollezione = articolo.IdCollezione.ToString(),
-                    IdTipoProdotto = articolo.IdTipo.ToString()
+                    IdTipoProdotto = articolo.IdTipo.ToString(),
+                    XXS = articolo.Xxs,
+                    XS = articolo.Xs,
+                    S = articolo.S,
+                    M = articolo.M,
+                    L = articolo.L,
+                    XL = articolo.Xl,
+                    XXL = articolo.Xxl,
+                    XXXL = articolo.Xxxl,
+                    TagliaUnica = articolo.TagliaUnica
                 };
             }
             return Json(result);
@@ -303,6 +312,15 @@ namespace StockManagement.Controllers
             public string IdTipoProdotto { get; set; }
             public string Collezione { get; set; }
             public string IdCollezione { get; set; }
+            public bool XXS { get; set; }
+            public bool XS { get; set; }
+            public bool S { get; set; }
+            public bool M { get; set; }
+            public bool L { get; set; }
+            public bool XL { get; set; }
+            public bool XXL { get; set; }
+            public bool XXXL { get; set; }
+            public bool TagliaUnica { get; set; }
         }
 
         #endregion

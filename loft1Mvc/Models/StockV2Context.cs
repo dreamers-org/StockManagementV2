@@ -29,17 +29,17 @@ namespace StockManagement.Models
         public virtual DbSet<TipoPagamento> TipoPagamento { get; set; }
         public virtual DbQuery<ViewOrdineClienteViewModel> ViewOrdineCliente { get; set; }
         public virtual DbQuery<ViewPackingListViewModel> ViewPackingList { get; set; }
-
         public virtual DbQuery<ViewRigaOrdineClienteViewModel> ViewRigaOrdineCliente { get; set; }
         public virtual DbQuery<ViewOrdineClienteCommessoViewModel> ViewOrdineClienteCommesso { get; set; }
+        public virtual DbQuery<ViewRigaOrdineClienteCommessoViewModel> ViewRigaOrdineClienteCommesso { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-//            if (!optionsBuilder.IsConfigured)
-//            {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-//                optionsBuilder.UseSqlServer("Data Source=loft1mvc.database.windows.net;Initial Catalog=Stock;User ID=luca.bellavia.dev;Password=Pallone27@@;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-//            }
+            //            if (!optionsBuilder.IsConfigured)
+            //            {
+            //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+            //                optionsBuilder.UseSqlServer("Data Source=loft1mvc.database.windows.net;Initial Catalog=Stock;User ID=luca.bellavia.dev;Password=Pallone27@@;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            //            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -98,6 +98,49 @@ namespace StockManagement.Models
                     .IsRequired()
                     .HasMaxLength(1024)
                     .IsUnicode(false);
+
+                entity.Property(e => e.Xxs)
+                    .HasDefaultValue(false);
+
+                entity.Property(e => e.Xs)
+                    .HasDefaultValue(false);
+
+                entity.Property(e => e.S)
+                  .HasDefaultValue(false);
+
+                entity.Property(e => e.M)
+                  .HasDefaultValue(false);
+
+                entity.Property(e => e.L)
+                  .HasDefaultValue(false);
+
+                entity.Property(e => e.Xl)
+                  .HasDefaultValue(false);
+
+                entity.Property(e => e.Xs)
+                  .HasDefaultValue(false);
+
+                entity.Property(e => e.isXxsActive)
+                  .HasDefaultValue(true);
+
+                entity.Property(e => e.isXsActive)
+                  .HasDefaultValue(true);
+
+                entity.Property(e => e.isSActive)
+                  .HasDefaultValue(true);
+
+                entity.Property(e => e.isMActive)
+                 .HasDefaultValue(true);
+                entity.Property(e => e.isLActive)
+                 .HasDefaultValue(true);
+                entity.Property(e => e.isXlActive)
+                .HasDefaultValue(true);
+                entity.Property(e => e.isXxlActive)
+                .HasDefaultValue(true);
+                entity.Property(e => e.isXxxlActive)
+                .HasDefaultValue(true);
+                entity.Property(e => e.isTagliaUnicaActive)
+                .HasDefaultValue(true);
 
                 entity.Property(e => e.Xl).HasColumnName("XL");
 

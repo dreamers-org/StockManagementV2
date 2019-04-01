@@ -5,11 +5,19 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>@ViewData["Title"]</h1>
+<!-- Title -->
+<div class="row">
+    <div class="col-sm-4">
+        <a asp-action="Index" class="btn rounded-pill btn-outline-secondary float-left mt-3"><i class="fas fa-arrow-left"></i>&nbsp;Torna alla lista</a>
+    </div>
+    <div class="col-sm-4 text-center">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+    <div class="col-sm-12">
+        <hr />
+    </div>
+</div>
 
-<p>
-    <a asp-action="Create" class="btn btn-outline-primary rounded-pill">Inserisci nuovo articolo</a>
-</p>
 <div class="row">
     <div class="col-12">
         <div class="table-responsive">
@@ -83,10 +91,10 @@
                         <tr>
                             @if (User.IsInRole("SuperAdmin"))
                             {
-                            <td>
-                                <a asp-action="Delete" asp-route-id="@item.Id" title="Elimina" class="mr-3"><i class="fas fa-trash-alt text-danger"></i></a>
-                                <a asp-action="Details" asp-route-id="@item.Id" title="Visualizza dettaglio"><i class="fas fa-list-alt"></i></a>
-                            </td>
+                                <td>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" title="Elimina" class="mr-3"><i class="fas fa-trash-alt text-danger"></i></a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" title="Visualizza dettaglio"><i class="fas fa-list-alt"></i></a>
+                                </td>
                             }
                             <td>
                                 @Html.DisplayFor(modelItem => item.IdFornitoreNavigation.Nome)

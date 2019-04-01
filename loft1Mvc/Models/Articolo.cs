@@ -25,22 +25,32 @@ namespace StockManagement.Models
 		public string Colore { get; set; }
         [DisplayName("2XS/40")]
         public bool Xxs { get; set; }
+        public bool isXxsActive { get; set; }
         [DisplayName("XS/42")]
         public bool Xs { get; set; }
+        public bool isXsActive { get; set; }
         [DisplayName("S/44")]
         public bool S { get; set; }
+        public bool isSActive { get; set; }
         [DisplayName("M/46")]
         public bool M { get; set; }
+        public bool isMActive { get; set; }
         [DisplayName("L/48")]
         public bool L { get; set; }
+        public bool isLActive { get; set; }
         [DisplayName("XL/50")]
         public bool Xl { get; set; }
+        public bool isXlActive { get; set; }
         [DisplayName("2XL/52")]
         public bool Xxl { get; set; }
+        public bool isXxlActive { get; set; }
         [DisplayName("3XL/54")]
         public bool Xxxl { get; set; }
+        public bool isXxxlActive { get; set; }
         public bool TagliaUnica { get; set; }
-		[DisplayName("Tranche consegna")]
+        public bool isTagliaUnicaActive { get; set; }
+
+        [DisplayName("Tranche consegna")]
 		[Required(ErrorMessage = "Obbligatorio.")]
 		[DataType(DataType.Date, ErrorMessage = "Inserire una data valida.")]
 		[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]

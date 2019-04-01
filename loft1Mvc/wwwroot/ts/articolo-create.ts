@@ -13,7 +13,6 @@ function getTxtValues() {
         success: function (data) {
             console.log(data);
             if (data.fornitore) {
-                
                 (<JQuery<HTMLInputElement>>$('#txtDescrizione')).val(data.descrizione);;
                 (<JQuery<HTMLInputElement>>$('#txtPrezzoAcquisto')).val(data.prezzoAcquisto);;
                 (<JQuery<HTMLInputElement>>$('#txtPrezzoVendita')).val(data.prezzoVendita);;
@@ -23,6 +22,15 @@ function getTxtValues() {
                 $('#ddlFornitore').empty().append(new Option(data.fornitore, data.idFornitore)).val(data.idFornitore);
                 $('#ddlCollezione').empty().append(new Option(data.collezione, data.idCollezione)).val(data.idCollezione);
                 $('.form-control').attr("readonly", "readonly");
+                (<JQuery<HTMLInputElement>>$('#chkXXS')).prop('checked', data.xxs);
+                (<JQuery<HTMLInputElement>>$('#chkXS')).prop('checked', data.xs);
+                (<JQuery<HTMLInputElement>>$('#chkS')).prop('checked', data.s);
+                (<JQuery<HTMLInputElement>>$('#chkM')).prop('checked', data.m);
+                (<JQuery<HTMLInputElement>>$('#chkL')).prop('checked', data.l);
+                (<JQuery<HTMLInputElement>>$('#chkXL')).prop('checked', data.xl);
+                (<JQuery<HTMLInputElement>>$('#chkXXL')).prop('checked', data.xxl);
+                (<JQuery<HTMLInputElement>>$('#chkXXXL')).prop('checked', data.xxxl);
+                (<JQuery<HTMLInputElement>>$('#chkTagliaUnica')).prop('checked', data.tagliaUnica);
                 (<JQuery<HTMLInputElement>>$('#txtColore')).removeAttr("readonly");
             }
         },
