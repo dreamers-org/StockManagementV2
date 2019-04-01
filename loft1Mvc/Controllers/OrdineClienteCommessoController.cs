@@ -18,9 +18,10 @@ namespace StockManagement.Controllers
         private readonly StockV2Context _context;
         private readonly IdentityContext _identityContext;
 
-        public OrdineClienteCommessoController(StockV2Context context)
+        public OrdineClienteCommessoController(StockV2Context context, IdentityContext identityContext)
         {
             _context = context;
+            _identityContext = identityContext;
         }
 
         public async Task<IActionResult> Index()

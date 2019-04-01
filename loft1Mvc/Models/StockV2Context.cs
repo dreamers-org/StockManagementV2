@@ -412,5 +412,7 @@ namespace StockManagement.Models
                 entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             });
         }
+
+        public DbSet<StockManagement.Models.ViewModels.EditRigaOrdineClienteViewModel> EditRigaOrdineClienteViewModel { get; set; }
     }
 }

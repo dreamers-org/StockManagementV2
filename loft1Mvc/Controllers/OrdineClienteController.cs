@@ -372,6 +372,79 @@ namespace StockManagement
             return View(ordineCliente);
         }
 
+        public async Task<IActionResult> EditRow(Guid id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var rigaOrdineCliente = await _context.RigaOrdineCliente.FindAsync(id);
+            if (rigaOrdineCliente == null)
+            {
+                return NotFound();
+            }
+            var EditRigaOrdineClienteViewModel = new EditRigaOrdineClienteViewModel()
+            {
+                CodiceArticolo = _context.Articolo.Where(x => x.Id == rigaOrdineCliente.IdArticolo).Select(x => x.Codice).FirstOrDefault(),
+                Colore = _context.Articolo.Where(x => x.Id == rigaOrdineCliente.IdArticolo).Select(x => x.Codice).FirstOrDefault(),
+                IdRiga = rigaOrdineCliente.Id,
+                Xxs = rigaOrdineCliente.Xxs,
+                Xs = rigaOrdineCliente.Xs,
+                S = rigaOrdineCliente.S,
+                M = rigaOrdineCliente.M,
+                L = rigaOrdineCliente.L,
+                Xl = rigaOrdineCliente.Xl,
+                Xxl = rigaOrdineCliente.Xxl,
+                Xxxl = rigaOrdineCliente.Xxxl,
+                TagliaUnica = rigaOrdineCliente.TagliaUnica
+            };
+            return View("EditRigaOrdineCliente", EditRigaOrdineClienteViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditRow(Guid id, EditRigaOrdineClienteViewModel rigaOrdine)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var rigaOrdineCliente = await _context.RigaOrdineCliente.FindAsync(id);
+            if (rigaOrdineCliente == null)
+            {
+                return NotFound();
+            }
+            rigaOrdineCliente.Xxs = rigaOrdine.Xxs;
+            rigaOrdineCliente.Xs = rigaOrdine.Xs;
+            rigaOrdineCliente.S = rigaOrdine.S;
+            rigaOrdineCliente.M = rigaOrdine.M;
+            rigaOrdineCliente.L = rigaOrdine.L;
+            rigaOrdineCliente.Xl = rigaOrdine.Xl;
+            rigaOrdineCliente.Xxl = rigaOrdine.Xxl;
+            rigaOrdineCliente.Xxxl = rigaOrdine.Xxxl;
+            rigaOrdineCliente.TagliaUnica = rigaOrdine.TagliaUnica;
+
+            try
+            {
+                _context.Update(rigaOrdineCliente);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!OrdineClienteExists(rigaOrdineCliente.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Create));
+        }
+
         [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Delete(Guid? id)
         {
@@ -407,6 +480,51 @@ namespace StockManagement
         {
             return _context.OrdineCliente.Any(e => e.Id == id);
         }
+
+
+        public async Task<IActionResult> DeleteRow(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var rigaOrdineCliente = await _context.RigaOrdineCliente.FirstOrDefaultAsync(m => m.Id == id);
+            if (rigaOrdineCliente == null)
+            {
+                return NotFound();
+            }
+
+            EditRigaOrdineClienteViewModel tempRigaOrdineCliente = new EditRigaOrdineClienteViewModel()
+            {
+                IdRiga = rigaOrdineCliente.Id,
+                CodiceArticolo = _context.Articolo.Where(x => x.Id == rigaOrdineCliente.IdArticolo).Select(x => x.Codice).FirstOrDefault(),
+                Colore = _context.Articolo.Where(x => x.Id == rigaOrdineCliente.IdArticolo).Select(x => x.Codice).FirstOrDefault(),
+                Xxs = rigaOrdineCliente.Xxs,
+                Xs = rigaOrdineCliente.Xs,
+                S = rigaOrdineCliente.S,
+                M = rigaOrdineCliente.M,
+                L = rigaOrdineCliente.L,
+                Xl = rigaOrdineCliente.Xl,
+                Xxl = rigaOrdineCliente.Xxl,
+                Xxxl = rigaOrdineCliente.Xxxl,
+                TagliaUnica = rigaOrdineCliente.TagliaUnica
+            };
+
+            return View("DeleteRow", tempRigaOrdineCliente);
+        }
+
+        [HttpPost, ActionName("DeleteRow")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteRowConfirmed(Guid id)
+        {
+            var rigaOrdineCliente = await _context.RigaOrdineCliente.FindAsync(id);
+            _context.RigaOrdineCliente.Remove(rigaOrdineCliente);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Create));
+        }
+
+
         #endregion
 
         #region MetodiLatoClient

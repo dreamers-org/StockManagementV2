@@ -38,6 +38,5 @@ namespace StockManagement.Models.ViewModels
         public string UtenteModifica { get; set; }
         [DisplayName("Totale ordine")]
         public double? SommaPrezzo { get; set; }
-
     }
 }

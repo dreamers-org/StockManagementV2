@@ -1,0 +1,95 @@
+﻿@model StockManagement.Models.ViewModels.EditRigaOrdineClienteViewModel
+
+@{
+    ViewData["Title"] = "Cancella riga";
+}
+
+<!-- Title -->
+<div class="row">
+    <div class="col-sm-4">
+        <a asp-action="Index" class="btn rounded-pill btn-outline-secondary float-left mt-3"><i class="fas fa-arrow-left"></i>&nbsp;Indietro</a>
+    </div>
+    <div class="col-sm-4">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+    <div class="col-sm-12">
+        <hr />
+    </div>
+</div>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CodiceArticolo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CodiceArticolo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Colore)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Colore)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Xxs)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Xxs)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Xs)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Xs)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.S)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.S)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.M)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.M)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.L)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.L)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Xl)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Xl)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Xxl)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Xxl)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Xxxl)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Xxxl)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TagliaUnica)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TagliaUnica)
+        </dd>
+    </dl>
+
+    <form asp-action="DeleteRow">
+        <input type="hidden" asp-for="IdRiga" />
+        <input type="submit" value="DeleteRow" class="btn btn-default" /> |
+        <a asp-action="Index">Torna alla lista</a>
+    </form>
+</div>
