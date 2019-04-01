@@ -63,5 +63,10 @@ namespace StockManagement.Models.ViewModels
         [Required(ErrorMessage = "Campo obbligatorio.")]
         [Range(0, 99, ErrorMessage = "E' possibile inserire solo valori positivi.")]
         public int Xxxl { get; set; }
+
+        [DisplayName("Taglia unica")]
+        [Required(ErrorMessage = "Campo obbligatorio.")]
+        [Range(0, 99, ErrorMessage = "E' possibile inserire solo valori positivi.")]
+        public int TagliaUnica { get; set; }
     }
 }

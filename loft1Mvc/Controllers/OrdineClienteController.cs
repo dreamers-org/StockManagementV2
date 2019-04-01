@@ -31,7 +31,7 @@ namespace StockManagement
             {
                 //ottengo l'id del rappresentante
                 Guid idRappresentante = _identityContext.Users.Where(utente => utente.Email == User.Identity.Name).Select(utente => new Guid(utente.Id)).First();
-                var lista = _context.ViewOrdineCliente.Where(x => x.IdRappresentante == idRappresentante).OrderByDescending(x => x.DataInserimento);
+                var lista = _context.ViewOrdineCliente.Where(x => x.IdRappresentante == idRappresentante && x.Completato == true).OrderByDescending(x => x.DataInserimento);
 
                 List<ViewOrdineClienteViewModel> listaOrdini = new List<ViewOrdineClienteViewModel>();
                 if (lista != null && lista.Count() > 0)
@@ -85,16 +85,6 @@ namespace StockManagement
 
         public IActionResult Create()
         {
-
-            //IEnumerable<SelectListItem> i = _context.Articolo.Select(x => new SelectListItem
-            //{
-            //    Value = x.Codice,
-            //    Text = x.Codice
-            //}).Distinct().AsEnumerable();
-
-            //i.Append(new SelectListItem { Value = "Selezionare un codice", Text = "Selezionare un codice", Selected = true });     
-
-            //ViewData["CodiceArticolo"] = new SelectList(i, "Value", "Text");
             ViewData["NomeCliente"] = HttpContext.Session.GetString("NomeCliente");
             ViewData["EmailCliente"] = HttpContext.Session.GetString("EmailCliente");
             ViewData["IndirizzoCliente"] = HttpContext.Session.GetString("IndirizzoCliente");
@@ -129,7 +119,7 @@ namespace StockManagement
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Id,DataConsegna,NomeCliente,IndirizzoCliente,EmailCliente,CodiceArticolo,ColoreArticolo,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl")] OrdineClienteViewModel ordineCliente)
+        public IActionResult Create([Bind("Id,DataConsegna,NomeCliente,IndirizzoCliente,EmailCliente,CodiceArticolo,ColoreArticolo,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl,TagliaUnica")] OrdineClienteViewModel ordineCliente)
         {
             if (ModelState.IsValid)
             {
@@ -182,7 +172,8 @@ namespace StockManagement
 
                 //Se esiste già un record lo modifico altrimenti lo creo.
                 List<RigaOrdineCliente> rigaOrdineClienteEsistente = _context.RigaOrdineCliente.Where(x => x.IdOrdine == ordineCliente.Id && x.IdArticolo == idArticolo).ToList();
-                RigaOrdineCliente rigaOrdineCliente = new RigaOrdineCliente() {
+                RigaOrdineCliente rigaOrdineCliente = new RigaOrdineCliente()
+                {
                     Id = new Guid(),
                     IdOrdine = ordineCliente.Id,
                     IdArticolo = idArticolo,
@@ -194,8 +185,10 @@ namespace StockManagement
                     Xl = ordineCliente.Xl,
                     Xxl = ordineCliente.Xxl,
                     Xxxl = ordineCliente.Xxxl,
+                    TagliaUnica = ordineCliente.TagliaUnica,
                     UtenteInserimento = User.Identity.Name,
-                    DataInserimento = DateTime.Now };
+                    DataInserimento = DateTime.Now
+                };
 
                 if (rigaOrdineClienteEsistente != null && rigaOrdineClienteEsistente.Count > 0)
                 {

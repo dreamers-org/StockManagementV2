@@ -148,6 +148,11 @@
                             <input asp-for="Xxxl" value="0" class="form-control" />
                             <span asp-validation-for="Xxxl" class="text-danger"></span>
                         </div>
+                        <div class="col-md-2 mb-3">
+                            <label asp-for="TagliaUnica" class="control-label"></label>
+                            <input asp-for="TagliaUnica" value="0" class="form-control" />
+                            <span asp-validation-for="TagliaUnica" class="text-danger"></span>
+                        </div>
                     </div>
                     <div class="form-row mt-4">
                         <div class="col-sm-6">
@@ -187,7 +192,7 @@
             </div>
         </div>
 
-        <partial name="_OridniClienteRighePartial" model="ViewBag.ListaOrdini" />
+        <partial name="_OrdiniClienteRighePartial" model="ViewBag.ListaOrdini" />
     }
 }
 
