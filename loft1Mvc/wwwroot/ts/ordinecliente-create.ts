@@ -6,6 +6,8 @@ export function attivatorePaginaCreate() {
 
     window["caricaArticoli"] = caricaArticoli;
 
+    window["getTaglieDisponibiliArticolo"] = getTaglieDisponibiliArticolo;
+
     //carico la combo degli articoli
     caricaArticoli();
 
@@ -108,3 +110,82 @@ function caricaArticoli() {
         console.log("Errore caricaArticoli");
     }
 }
+
+function getTaglieDisponibiliArticolo() {
+    let codice = $('#txtCodiceArticolo').val();
+    let colore = $('#dropdownColore').val()
+    $.ajax({
+        type: "POST",
+        url: "/Articolo/getTaglieDisponibili",
+        data: { codice: codice, colore: colore },
+        success: function (data) {
+            console.log(data);
+            if (data.xxs) {
+                (<JQuery<HTMLInputElement>>$('#txtXxs')).val("0");
+                (<JQuery<HTMLInputElement>>$('#txtXxs')).attr("readonly","readonly");
+            }
+            else {
+                (<JQuery<HTMLInputElement>>$('#txtXxs')).removeAttr("readonly");
+            }
+            if (data.xs) {
+                (<JQuery<HTMLInputElement>>$('#txtXs')).val("0");
+                (<JQuery<HTMLInputElement>>$('#txtXs')).attr("readonly", "readonly");
+            }
+            else {
+                (<JQuery<HTMLInputElement>>$('#txtXs')).removeAttr("readonly");
+            }
+            if (data.s) {
+                (<JQuery<HTMLInputElement>>$('#txtS')).val("0");
+                (<JQuery<HTMLInputElement>>$('#txtS')).attr("readonly", "readonly");
+            }
+            else {
+                (<JQuery<HTMLInputElement>>$('#txtS')).removeAttr("readonly");
+            }
+            if (data.m) {
+                (<JQuery<HTMLInputElement>>$('#txtM')).val("0");
+                (<JQuery<HTMLInputElement>>$('#txtM')).attr("readonly", "readonly");
+            }
+            else {
+                (<JQuery<HTMLInputElement>>$('#txtM')).removeAttr("readonly");
+            }
+            if (data.l) {
+                (<JQuery<HTMLInputElement>>$('#txtL')).val("0");
+                (<JQuery<HTMLInputElement>>$('#txtL')).attr("readonly", "readonly");
+            }
+            else {
+                (<JQuery<HTMLInputElement>>$('#txtL')).removeAttr("readonly");
+            }
+            if (data.xl) {
+                (<JQuery<HTMLInputElement>>$('#txtXl')).val("0");
+                (<JQuery<HTMLInputElement>>$('#txtXl')).attr("readonly", "readonly");
+            }
+            else {
+                (<JQuery<HTMLInputElement>>$('#txtXl')).removeAttr("readonly");
+            }
+            if (data.xxl) {
+                (<JQuery<HTMLInputElement>>$('#txtXxl')).val("0");
+                (<JQuery<HTMLInputElement>>$('#txtXxl')).attr("readonly", "readonly");
+            }
+            else {
+                (<JQuery<HTMLInputElement>>$('#txtXxl')).removeAttr("readonly");
+            }
+            if (data.xxxl) {
+                (<JQuery<HTMLInputElement>>$('#txtXxxl')).val("0");
+                (<JQuery<HTMLInputElement>>$('#txtXxxl')).attr("readonly", "readonly");
+            }
+            else {
+                (<JQuery<HTMLInputElement>>$('#txtXxxl')).removeAttr("readonly");
+            }
+            if (data.tagliaUnica) {
+                (<JQuery<HTMLInputElement>>$('#txtTagliaUnica')).val("0");
+                (<JQuery<HTMLInputElement>>$('#txtTagliaUnica')).attr("readonly", "readonly");
+            }
+            else {
+                (<JQuery<HTMLInputElement>>$('#txtTagliaUnica')).removeAttr("readonly");
+            }
+        },
+        error: function () {
+            alert("Errore");
+        }
+    })
+};

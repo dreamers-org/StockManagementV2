@@ -230,38 +230,23 @@ namespace StockManagement.Controllers
         }
 
         #region MetodiLatoCliente
-        public async Task<IActionResult> getTxtValues(string Codice)
+        public ActionResult getTaglieDisponibili(string Codice, string Colore)
         {
-            TempObject result = new TempObject();
-            var articolo = await _context.Articolo
-                .FirstOrDefaultAsync(m => m.Codice == Codice && m.Annullato == false);
+            TaglieNonAttiveArticolo result = new TaglieNonAttiveArticolo();
+            Articolo articolo = _context.Articolo.Where(x => x.Codice == Codice && x.Annullato == false && x.Colore == Colore).FirstOrDefault();
             if (articolo != null)
             {
-                Fornitore fornitore = await _context.Fornitore.FindAsync(articolo.IdFornitore);
-                Tipo tipo = await _context.Tipo.FindAsync(articolo.IdTipo);
-                Collezione collezione = await _context.Collezione.FindAsync(articolo.IdCollezione);
-                result = new TempObject
+                result = new TaglieNonAttiveArticolo
                 {
-                    Fornitore = fornitore.Nome,
-                    Descrizione = articolo.Descrizione,
-                    PrezzoAcquisto = articolo.PrezzoAcquisto.ToString(),
-                    PrezzoVendita = articolo.PrezzoVendita.ToString(),
-                    TrancheConsegna = articolo.TrancheConsegna.ToString("yyyy-MM-dd"),
-                    GenereProdotto = articolo.Genere,
-                    TipoProdotto = tipo.Nome,
-                    Collezione = collezione.Nome,
-                    IdFornitore = articolo.IdFornitore.ToString(),
-                    IdCollezione = articolo.IdCollezione.ToString(),
-                    IdTipoProdotto = articolo.IdTipo.ToString(),
-                    XXS = articolo.Xxs,
-                    XS = articolo.Xs,
-                    S = articolo.S,
-                    M = articolo.M,
-                    L = articolo.L,
-                    XL = articolo.Xl,
-                    XXL = articolo.Xxl,
-                    XXXL = articolo.Xxxl,
-                    TagliaUnica = articolo.TagliaUnica
+                    Xxs = !(articolo.Xxs && articolo.isXxsActive),
+                    Xs = !(articolo.Xs && articolo.isXsActive),
+                    S = !(articolo.S && articolo.isSActive),
+                    M = !(articolo.M && articolo.isMActive),
+                    L = !(articolo.L && articolo.isLActive),
+                    Xl = !(articolo.Xl && articolo.isXlActive),
+                    Xxl = !(articolo.Xxl && articolo.isXxlActive),
+                    Xxxl = !(articolo.Xxxl && articolo.isXxxlActive),
+                    TagliaUnica = !(articolo.TagliaUnica && articolo.isTagliaUnicaActive)
                 };
             }
             return Json(result);
@@ -321,6 +306,20 @@ namespace StockManagement.Controllers
             public bool XXL { get; set; }
             public bool XXXL { get; set; }
             public bool TagliaUnica { get; set; }
+        }
+
+        protected class TaglieNonAttiveArticolo
+        {
+            public bool Xxs { get; set; }
+            public bool Xs { get; set; }
+            public bool S { get; set; }
+            public bool M { get; set; }
+            public bool L { get; set; }
+            public bool Xl { get; set; }
+            public bool Xxl { get; set; }
+            public bool Xxxl { get; set; }
+            public bool TagliaUnica { get; set; }
+
         }
 
         #endregion

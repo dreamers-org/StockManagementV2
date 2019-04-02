@@ -5,6 +5,7 @@ var articoliDisponibili = null;
 function attivatorePaginaCreate() {
     window["getColorePerArticolo"] = getColorePerArticolo;
     window["caricaArticoli"] = caricaArticoli;
+    window["getTaglieDisponibiliArticolo"] = getTaglieDisponibiliArticolo;
     //carico la combo degli articoli
     caricaArticoli();
     //nascondo il div d'errore.
@@ -98,4 +99,74 @@ function caricaArticoli() {
         console.log("Errore caricaArticoli");
     }
 }
+function getTaglieDisponibiliArticolo() {
+    var codice = $('#txtCodiceArticolo').val();
+    var colore = $('#dropdownColore').val();
+    $.ajax({
+        type: "POST",
+        url: "/Articolo/getTaglieDisponibili",
+        data: { codice: codice, colore: colore },
+        success: function (data) {
+            console.log(data);
+            if (data.xxs) {
+                $('#txtXxs').attr("readonly", "readonly");
+            }
+            else {
+                $('#txtXxs').removeAttr("readonly");
+            }
+            if (data.xs) {
+                $('#txtXs').attr("readonly", "readonly");
+            }
+            else {
+                $('#txtXs').removeAttr("readonly");
+            }
+            if (data.s) {
+                $('#txtS').attr("readonly", "readonly");
+            }
+            else {
+                $('#txtS').removeAttr("readonly");
+            }
+            if (data.m) {
+                $('#txtM').attr("readonly", "readonly");
+            }
+            else {
+                $('#txtM').removeAttr("readonly");
+            }
+            if (data.l) {
+                $('#txtL').attr("readonly", "readonly");
+            }
+            else {
+                $('#txtL').removeAttr("readonly");
+            }
+            if (data.xl) {
+                $('#txtXl').attr("readonly", "readonly");
+            }
+            else {
+                $('#txtXl').removeAttr("readonly");
+            }
+            if (data.xxl) {
+                $('#txtXxl').attr("readonly", "readonly");
+            }
+            else {
+                $('#txtXxl').removeAttr("readonly");
+            }
+            if (data.xxxl) {
+                $('#txtXxxl').attr("readonly", "readonly");
+            }
+            else {
+                $('#txtXxxl').removeAttr("readonly");
+            }
+            if (data.tagliaUnica) {
+                $('#txtTagliaUnica').attr("readonly", "readonly");
+            }
+            else {
+                $('#txtTagliaUnica').removeAttr("readonly");
+            }
+        },
+        error: function () {
+            alert("Errore");
+        }
+    });
+}
+;
 //# sourceMappingURL=ordinecliente-create.js.map
