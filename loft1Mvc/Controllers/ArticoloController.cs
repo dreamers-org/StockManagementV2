@@ -233,20 +233,22 @@ namespace StockManagement.Controllers
         public ActionResult getTaglieDisponibili(string Codice, string Colore)
         {
             TaglieNonAttiveArticolo result = new TaglieNonAttiveArticolo();
-            Articolo articolo = _context.Articolo.Where(x => x.Codice == Codice && x.Annullato == false && x.Colore == Colore).FirstOrDefault();
-            if (articolo != null)
+            result.isArticoloValido = false;
+            if (ArticoloExists(Codice, Colore))
             {
-                result = new TaglieNonAttiveArticolo
+                Articolo articolo = _context.Articolo.Where(x => x.Codice == Codice && x.Annullato == false && x.Colore == Colore).FirstOrDefault();
+                if (articolo != null)
                 {
-                    Xxs = !(articolo.Xxs && articolo.isXxsActive),
-                    Xs = !(articolo.Xs && articolo.isXsActive),
-                    S = !(articolo.S && articolo.isSActive),
-                    M = !(articolo.M && articolo.isMActive),
-                    L = !(articolo.L && articolo.isLActive),
-                    Xl = !(articolo.Xl && articolo.isXlActive),
-                    Xxl = !(articolo.Xxl && articolo.isXxlActive),
-                    Xxxl = !(articolo.Xxxl && articolo.isXxxlActive),
-                    TagliaUnica = !(articolo.TagliaUnica && articolo.isTagliaUnicaActive)
+                    result.isArticoloValido = true;
+                    result.Xxs = !(articolo.Xxs && articolo.isXxsActive);
+                    result.Xs = !(articolo.Xs && articolo.isXsActive);
+                    result.S = !(articolo.S && articolo.isSActive);
+                    result.M = !(articolo.M && articolo.isMActive);
+                    result.L = !(articolo.L && articolo.isLActive);
+                    result.Xl = !(articolo.Xl && articolo.isXlActive);
+                    result.Xxl = !(articolo.Xxl && articolo.isXxlActive);
+                    result.Xxxl = !(articolo.Xxxl && articolo.isXxxlActive);
+                    result.TagliaUnica = !(articolo.TagliaUnica && articolo.isTagliaUnicaActive);
                 };
             }
             return Json(result);
@@ -310,6 +312,7 @@ namespace StockManagement.Controllers
 
         protected class TaglieNonAttiveArticolo
         {
+            public bool isArticoloValido { get; set; }
             public bool Xxs { get; set; }
             public bool Xs { get; set; }
             public bool S { get; set; }

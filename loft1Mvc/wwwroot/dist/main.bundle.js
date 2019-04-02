@@ -14627,6 +14627,7 @@ function attivatorePaginaCreate() {
     window["getColorePerArticolo"] = getColorePerArticolo;
     window["caricaArticoli"] = caricaArticoli;
     window["getTaglieDisponibiliArticolo"] = getTaglieDisponibiliArticolo;
+    window["disableBtnInserisci"] = disableBtnInserisci;
     //carico la combo degli articoli
     caricaArticoli();
     //nascondo il div d'errore.
@@ -14663,6 +14664,7 @@ function getColorePerArticolo() {
                                 console.log(data[i]);
                                 s += '<option value="' + data[i].colore + '">' + data[i].colore + '</option>';
                             }
+                            $('#btnInserisci').attr("disabled", "disabled");
                             $("#dropdownColore").html(s);
                             $("#dropdownColore").removeAttr("disabled");
                         }
@@ -14792,6 +14794,12 @@ function getTaglieDisponibiliArticolo() {
             else {
                 $('#txtTagliaUnica').removeAttr("readonly");
             }
+            if (data.isArticoloValido) {
+                $('#btnInserisci').removeAttr("disabled");
+            }
+            else {
+                $('#btnInserisci').attr("disabled", "disabled");
+            }
         },
         error: function () {
             alert("Errore");
@@ -14799,6 +14807,9 @@ function getTaglieDisponibiliArticolo() {
     });
 }
 ;
+function disableBtnInserisci() {
+    $('#btnInserisci').attr("disabled", "disabled");
+}
 
 
 /***/ }),

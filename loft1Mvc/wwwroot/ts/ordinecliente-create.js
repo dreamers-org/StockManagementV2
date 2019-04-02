@@ -6,6 +6,7 @@ function attivatorePaginaCreate() {
     window["getColorePerArticolo"] = getColorePerArticolo;
     window["caricaArticoli"] = caricaArticoli;
     window["getTaglieDisponibiliArticolo"] = getTaglieDisponibiliArticolo;
+    window["disableBtnInserisci"] = disableBtnInserisci;
     //carico la combo degli articoli
     caricaArticoli();
     //nascondo il div d'errore.
@@ -42,6 +43,7 @@ function getColorePerArticolo() {
                                 console.log(data[i]);
                                 s += '<option value="' + data[i].colore + '">' + data[i].colore + '</option>';
                             }
+                            $('#btnInserisci').attr("disabled", "disabled");
                             $("#dropdownColore").html(s);
                             $("#dropdownColore").removeAttr("disabled");
                         }
@@ -109,58 +111,73 @@ function getTaglieDisponibiliArticolo() {
         success: function (data) {
             console.log(data);
             if (data.xxs) {
+                $('#txtXxs').val("0");
                 $('#txtXxs').attr("readonly", "readonly");
             }
             else {
                 $('#txtXxs').removeAttr("readonly");
             }
             if (data.xs) {
+                $('#txtXs').val("0");
                 $('#txtXs').attr("readonly", "readonly");
             }
             else {
                 $('#txtXs').removeAttr("readonly");
             }
             if (data.s) {
+                $('#txtS').val("0");
                 $('#txtS').attr("readonly", "readonly");
             }
             else {
                 $('#txtS').removeAttr("readonly");
             }
             if (data.m) {
+                $('#txtM').val("0");
                 $('#txtM').attr("readonly", "readonly");
             }
             else {
                 $('#txtM').removeAttr("readonly");
             }
             if (data.l) {
+                $('#txtL').val("0");
                 $('#txtL').attr("readonly", "readonly");
             }
             else {
                 $('#txtL').removeAttr("readonly");
             }
             if (data.xl) {
+                $('#txtXl').val("0");
                 $('#txtXl').attr("readonly", "readonly");
             }
             else {
                 $('#txtXl').removeAttr("readonly");
             }
             if (data.xxl) {
+                $('#txtXxl').val("0");
                 $('#txtXxl').attr("readonly", "readonly");
             }
             else {
                 $('#txtXxl').removeAttr("readonly");
             }
             if (data.xxxl) {
+                $('#txtXxxl').val("0");
                 $('#txtXxxl').attr("readonly", "readonly");
             }
             else {
                 $('#txtXxxl').removeAttr("readonly");
             }
             if (data.tagliaUnica) {
+                $('#txtTagliaUnica').val("0");
                 $('#txtTagliaUnica').attr("readonly", "readonly");
             }
             else {
                 $('#txtTagliaUnica').removeAttr("readonly");
+            }
+            if (data.isArticoloValido) {
+                $('#btnInserisci').removeAttr("disabled");
+            }
+            else {
+                $('#btnInserisci').attr("disabled", "disabled");
             }
         },
         error: function () {
@@ -169,4 +186,7 @@ function getTaglieDisponibiliArticolo() {
     });
 }
 ;
+function disableBtnInserisci() {
+    $('#btnInserisci').attr("disabled", "disabled");
+}
 //# sourceMappingURL=ordinecliente-create.js.map

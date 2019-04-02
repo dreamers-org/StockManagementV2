@@ -90,7 +90,7 @@
                     <div class="form-row justify-content-center">
                         <div class="col-md-3 mb-3 ">
                             <label asp-for="CodiceArticolo" class="control-label">Codice Articolo</label>
-                            <input id="txtCodiceArticolo" asp-for="CodiceArticolo" class="form-control" onblur="getColorePerArticolo();" readonly="readonly" />
+                            <input id="txtCodiceArticolo" asp-for="CodiceArticolo" class="form-control" onfocus="disableBtnInserisci();" onblur="getColorePerArticolo();" readonly="readonly" />
                             <span asp-validation-for="CodiceArticolo" class="text-danger"></span>
 
                             @*<select id="dropdownCodiceArticolo" class="form-control" name="CodiceArticolo" asp-items="ViewBag.CodiceArticolo" onblur="getColorePerArticolo();"></select>*@
@@ -156,7 +156,7 @@
                     </div>
                     <div class="form-row mt-4">
                         <div class="col-sm-6">
-                            <input type="submit" value="Inserisci" class="btn btn-primary float-left mr-3" />
+                            <input id="btnInserisci" type="submit" value="Inserisci" disabled="disabled" class="btn btn-primary float-left mr-3" />
                             <a asp-controller="OrdineCliente" asp-action="Create" class="btn btn-secondary float-left text-white mr-3">Svuota campi</a>
                             <a asp-controller="OrdineCliente" asp-action="CancellaOrdine" class="btn btn-danger float-left text-white">Elimina ordine</a>
                         </div>
