@@ -387,7 +387,7 @@ namespace StockManagement
             var EditRigaOrdineClienteViewModel = new EditRigaOrdineClienteViewModel()
             {
                 CodiceArticolo = _context.Articolo.Where(x => x.Id == rigaOrdineCliente.IdArticolo).Select(x => x.Codice).FirstOrDefault(),
-                Colore = _context.Articolo.Where(x => x.Id == rigaOrdineCliente.IdArticolo).Select(x => x.Codice).FirstOrDefault(),
+                Colore = _context.Articolo.Where(x => x.Id == rigaOrdineCliente.IdArticolo).Select(x => x.Colore).FirstOrDefault(),
                 IdRiga = rigaOrdineCliente.Id,
                 Xxs = rigaOrdineCliente.Xxs,
                 Xs = rigaOrdineCliente.Xs,
@@ -499,7 +499,7 @@ namespace StockManagement
             {
                 IdRiga = rigaOrdineCliente.Id,
                 CodiceArticolo = _context.Articolo.Where(x => x.Id == rigaOrdineCliente.IdArticolo).Select(x => x.Codice).FirstOrDefault(),
-                Colore = _context.Articolo.Where(x => x.Id == rigaOrdineCliente.IdArticolo).Select(x => x.Codice).FirstOrDefault(),
+                Colore = _context.Articolo.Where(x => x.Id == rigaOrdineCliente.IdArticolo).Select(x => x.Colore).FirstOrDefault(),
                 Xxs = rigaOrdineCliente.Xxs,
                 Xs = rigaOrdineCliente.Xs,
                 S = rigaOrdineCliente.S,

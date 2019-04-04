@@ -22,15 +22,14 @@ namespace StockManagement.Controllers
             _context = context;
         }
 
-        [Authorize(Roles = "SuperAdmin,Commesso, Titolare")]
+        [Authorize(Roles = "SuperAdmin, Commesso, Titolare")]
         public async Task<IActionResult> Index()
         {
             var stockV2Context = _context.Articolo.Where(x => x.Annullato == false).Include(a => a.IdCollezioneNavigation).Include(a => a.IdFornitoreNavigation).Include(a => a.IdTipoNavigation);
             return View(await stockV2Context.ToListAsync());
         }
 
-
-        [Authorize(Roles = "SuperAdmin,Commesso, Titolare")]
+        [Authorize(Roles = "SuperAdmin, Commesso, Titolare")]
         public async Task<IActionResult> IndexAnnullati()
         {
             var stockV2Context = _context.Articolo.Where(x => x.Annullato == true).Include(a => a.IdCollezioneNavigation).Include(a => a.IdFornitoreNavigation).Include(a => a.IdTipoNavigation);
@@ -58,8 +57,7 @@ namespace StockManagement.Controllers
             return View(articolo);
         }
 
-
-        [Authorize(Roles = "SuperAdmin,Commesso, Titolare")]
+        [Authorize(Roles = "SuperAdmin, Commesso, Titolare")]
         public IActionResult Create()
         {
             ViewData["IdCollezione"] = new SelectList(_context.Collezione, "Id", "Nome");
@@ -68,7 +66,7 @@ namespace StockManagement.Controllers
             return View();
         }
 
-        [Authorize(Roles = "SuperAdmin,Commesso, Titolare")]
+        [Authorize(Roles = "SuperAdmin, Commesso, Titolare")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Codice,Descrizione,IdFornitore,Colore,Xxs,Xs,S,M,L,Xl,Xxl,TagliaUnica,TrancheConsegna,Genere,IdTipo,PrezzoAcquisto,PrezzoVendita,IdCollezione,Xxxl")] Articolo articolo)
@@ -168,8 +166,7 @@ namespace StockManagement.Controllers
             return View(articolo);
         }
 
-
-        [Authorize(Roles = "Commesso, Titolare, SuperAdmin")]
+        [Authorize(Roles = "SuperAdmin, Commesso, Titolare")]
         public async Task<IActionResult> Annulla(Guid? id)
         {
             if (id == null)
@@ -190,6 +187,7 @@ namespace StockManagement.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
         private bool ArticoloExists(Guid id)
         {
             return _context.Articolo.Any(e => e.Id == id);
@@ -229,7 +227,28 @@ namespace StockManagement.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> Ordina(string Parametro)
+        {
+            IOrderedQueryable<Articolo> context;
+            switch (Parametro)
+            {
+                case "Data":
+                    context = _context.Articolo.Where(x => x.Annullato == false).Include(a => a.IdCollezioneNavigation).Include(a => a.IdFornitoreNavigation).Include(a => a.IdTipoNavigation).OrderByDescending(x => x.DataInserimento);
+                    return View("Index", await context.ToListAsync());
+                case "Codice":
+                    context = _context.Articolo.Where(x => x.Annullato == false).Include(a => a.IdCollezioneNavigation).Include(a => a.IdFornitoreNavigation).Include(a => a.IdTipoNavigation).OrderBy(x => x.Codice);
+                    return View("Index", await context.ToListAsync());
+                case "Fornitore":
+                    context = _context.Articolo.Where(x => x.Annullato == false).Include(a => a.IdCollezioneNavigation).Include(a => a.IdFornitoreNavigation).Include(a => a.IdTipoNavigation).OrderBy(x => x.IdFornitoreNavigation.Nome);
+                    return View("Index", await context.ToListAsync());
+                default:
+                    context = _context.Articolo.Where(x => x.Annullato == false).Include(a => a.IdCollezioneNavigation).Include(a => a.IdFornitoreNavigation).Include(a => a.IdTipoNavigation).OrderByDescending(x => x.DataInserimento);
+                    return View("Index", await context.ToListAsync());
+            }
+        }
+
         #region MetodiLatoCliente
+
         public ActionResult getTaglieDisponibili(string Codice, string Colore)
         {
             TaglieNonAttiveArticolo result = new TaglieNonAttiveArticolo();

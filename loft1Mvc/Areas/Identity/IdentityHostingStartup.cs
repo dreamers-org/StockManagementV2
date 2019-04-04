@@ -17,23 +17,18 @@ namespace loft1Mvc.Areas.Identity
 		{
 			builder.ConfigureServices((context, services) =>
 			{
-                //var lockoutOptions = new LockoutOptions()
-                //{
-                //	DefaultLockoutTimeSpan = TimeSpan.FromDays(365),
-                //	MaxFailedAccessAttempts = 3
-                //};
 
                 services.AddDbContext<IdentityContext>(options => options.UseSqlServer(context.Configuration.GetConnectionString("IdentityContextConnection")));
+
+                //PRODUZIONE
                 //services.AddDbContext<IdentityContext>(options => options.UseSqlServer(context.Configuration.GetConnectionString("IdentityProduction")));
 
 				services.AddIdentity<GenericUser, IdentityRole>(config =>
 				{
-					//config.Lockout = lockoutOptions; //TODO LUCA: SERVE? UTILE?
 					config.SignIn.RequireConfirmedEmail = true;
 				})
-
-					.AddEntityFrameworkStores<IdentityContext>()
-					 .AddDefaultTokenProviders();
+                .AddEntityFrameworkStores<IdentityContext>()
+				.AddDefaultTokenProviders();
 			    });
 		}
 	}
