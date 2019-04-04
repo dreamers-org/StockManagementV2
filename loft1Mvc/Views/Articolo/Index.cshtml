@@ -28,6 +28,8 @@
                         {
                             <th scope="col">
                             </th>
+                            <th scope="col">
+                            </th>
                         }
                         <th scope="col">
                         </th>
@@ -85,66 +87,69 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            @if (User.IsInRole("SuperAdmin"))
-                            {
-                                <td>
-                                    <a asp-action="Delete" asp-route-id="@item.Id" title="Elimina"><i class="fas fa-trash-alt text-danger"></i></a>
-                                </td>
-                            }
+                    <tr>
+                        @if (User.IsInRole("SuperAdmin"))
+                        {
                             <td>
-                                <a asp-action="Annulla" asp-route-id="@item.Id" title="Annulla articolo"><i class="fas fa-list-alt"></i></a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" title="Elimina"><i class="fas fa-trash-alt text-danger"></i></a>
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.IdFornitoreNavigation.Nome)
+                                <a asp-action="Edit" asp-route-id="@item.Id" title="Modifica"><i class="far fa-edit"></i></a>
                             </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Codice)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Descrizione)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Colore)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Xxs)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Xs)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.S)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.M)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.L)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Xl)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Xxl)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Xxxl)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.TagliaUnica)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.TrancheConsegna)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.PrezzoAcquisto)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.PrezzoVendita)
-                            </td>
+                        }
+                        <td>
+                            <a asp-action="CreateAnnullamento" asp-route-id="@item.Id" title="Annulla taglie"><i class="fas fa-list-alt"></i></a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdFornitoreNavigation.Nome)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Codice)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Descrizione)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Colore)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Xxs)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Xs)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.S)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.M)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.L)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Xl)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Xxl)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Xxxl)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TagliaUnica)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TrancheConsegna)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PrezzoAcquisto)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PrezzoVendita)
+                        </td>
 
-                        </tr>
+                    </tr>
                     }
                 </tbody>
             </table>

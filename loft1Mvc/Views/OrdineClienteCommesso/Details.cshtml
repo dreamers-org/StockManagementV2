@@ -62,9 +62,9 @@
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.Xxxl)
                         </th>
-                        @*<th scope="col">
+                        <th scope="col">
                             @Html.DisplayNameFor(model => model.TagliaUnica)
-                        </th>*@
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,7 +78,7 @@
                                 </td>
                             }
                             <td>
-                                <a asp-action="EditRow" asp-route-id="@item.IdRigaOrdine" title="Visualizza dettaglio"><i class="fas fa-list-alt"></i></a>
+                                <a asp-action="EditRow" asp-controller="OrdineCliente"  asp-route-id="@item.IdRigaOrdine" title="Visualizza dettaglio"><i class="fas fa-edit"></i></a>
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Codice)

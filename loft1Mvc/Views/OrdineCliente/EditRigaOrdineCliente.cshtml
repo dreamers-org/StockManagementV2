@@ -7,7 +7,7 @@
 <!-- Title -->
 <div class="row">
     <div class="col-sm-4">
-        <a asp-action="Create" class="btn rounded-pill btn-outline-secondary float-left mt-3"><i class="fas fa-arrow-left"></i>&nbsp;Indietro</a>
+        <a asp-controller="OrdineClienteCommesso" asp-action="Index" class="btn rounded-pill btn-outline-secondary float-left mt-3"><i class="fas fa-arrow-left"></i>&nbsp;Indietro</a>
     </div>
     <div class="col-sm-4">
         <h1>@ViewData["Title"]</h1>
@@ -86,7 +86,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <input type="submit" id="btnConferma" value="Conferma" class="btn btn-primary" />
+                            <input type="submit" id="btnConferma" value="Conferma" disabled="disabled" class="btn btn-primary" />
                         </div>
                     </form>
                 </div>
@@ -111,6 +111,7 @@
                 }
                 else {
                     $('#txtXxs').removeAttr("readonly");
+                    $('#btnConferma').removeAttr("disabled");
                 }
                 if (data.xs) {
                     $('#txtXs').val("0");
@@ -118,6 +119,7 @@
                 }
                 else {
                     $('#txtXs').removeAttr("readonly");
+                    $('#btnConferma').removeAttr("disabled");
                 }
                 if (data.s) {
                     $('#txtS').val("0");
@@ -125,6 +127,7 @@
                 }
                 else {
                     $('#txtS').removeAttr("readonly");
+                    $('#btnConferma').removeAttr("disabled");
                 }
                 if (data.m) {
                     $('#txtM').val("0");
@@ -132,6 +135,7 @@
                 }
                 else {
                     $('#txtM').removeAttr("readonly");
+                    $('#btnConferma').removeAttr("disabled");
                 }
                 if (data.l) {
                     $('#txtL').val("0");
@@ -139,6 +143,7 @@
                 }
                 else {
                     $('#txtL').removeAttr("readonly");
+                    $('#btnConferma').removeAttr("disabled");
                 }
                 if (data.xl) {
                     $('#txtXl').val("0");
@@ -146,6 +151,7 @@
                 }
                 else {
                     $('#txtXl').removeAttr("readonly");
+                    $('#btnConferma').removeAttr("disabled");
                 }
                 if (data.xxl) {
                     $('#txtXxl').val("0");
@@ -153,6 +159,7 @@
                 }
                 else {
                     $('#txtXxl').removeAttr("readonly");
+                    $('#btnConferma').removeAttr("disabled");
                 }
                 if (data.xxxl) {
                     $('#txtXxxl').val("0");
@@ -160,6 +167,7 @@
                 }
                 else {
                     $('#txtXxxl').removeAttr("readonly");
+                    $('#btnConferma').removeAttr("disabled");
                 }
                 if (data.tagliaUnica) {
                     $('#txtTagliaUnica').val("0");
@@ -167,12 +175,7 @@
                 }
                 else {
                     $('#txtTagliaUnica').removeAttr("readonly");
-                }
-                if (data.isArticoloValido) {
-                    $('#btnInserisci').removeAttr("disabled");
-                }
-                else {
-                    $('#btnInserisci').attr("disabled", "disabled");
+                    $('#btnConferma').removeAttr("disabled");
                 }
             },
             error: function () {

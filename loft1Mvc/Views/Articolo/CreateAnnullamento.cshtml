@@ -1,0 +1,103 @@
+﻿@model StockManagement.Models.ViewModels.ArticoloAnnullatoViewModel
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Annulla/attiva taglie per articolo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Title -->
+<div class="row">
+    <div class="col-sm-4">
+        <a asp-action="Index" class="btn rounded-pill btn-outline-secondary float-left mt-3"><i class="fas fa-arrow-left"></i>&nbsp;Torna alla lista</a>
+    </div>
+    <div class="col-sm-8">
+        <h1 class="float-left">@ViewData["Title"]</h1>
+    </div>
+    <div class="col-sm-12">
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+    <div class=" col-sm-10 col-md-10 mx-auto mb-3">
+        <div class="card border-left-primary shadow h-100">
+            <div class="card-body">
+                <form class="needs-validation" asp-action="CreateAnnullamento">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-2 mb-4">
+                            <label asp-for="Codice" class="control-label"></label>
+                            <input asp-for="Codice" class="form-control" autocomplete="off" id="txtCodice" onblur="return getTxtValues();" readonly="readonly"/>
+                            <span asp-validation-for="Codice" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2 mb-4">
+                            <label asp-for="Colore" class="control-label"></label>
+                            <input asp-for="Colore" class="form-control" autocomplete="off" id="txtColore" onblur="return verifyCorrectness();" readonly="readonly" />
+                            <span asp-validation-for="Colore" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center mt-3">
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="isXxsToBeNullified" id="chkXXS" /> @Html.DisplayNameFor(model => model.isXxsToBeNullified)
+                            </label>
+                        </div>
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="isXsToBeNullified" id="chkXS" /> @Html.DisplayNameFor(model => model.isXsToBeNullified)
+                            </label>
+                        </div>
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="isSToBeNullified" id="chkS" /> @Html.DisplayNameFor(model => model.isSToBeNullified)
+                            </label>
+                        </div>
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="isMToBeNullified" id="chkM" /> @Html.DisplayNameFor(model => model.isMToBeNullified)
+                            </label>
+                        </div>
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="isLToBeNullified" id="chkL" /> @Html.DisplayNameFor(model => model.isLToBeNullified)
+                            </label>
+                        </div>
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="isXlToBeNullified" id="chkXL" /> @Html.DisplayNameFor(model => model.isXlToBeNullified)
+                            </label>
+                        </div>
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="isXxlToBeNullified" id="chkXXL" /> @Html.DisplayNameFor(model => model.isXxlToBeNullified)
+                            </label>
+                        </div>
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="isXxxlToBeNullified" id="chkXXXL" /> @Html.DisplayNameFor(model => model.isXxxlToBeNullified)
+                            </label>
+                        </div>
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="isTagliaUnicaToBeNullified" id="chkTagliaUnica" /> @Html.DisplayNameFor(model => model.isTagliaUnicaToBeNullified)
+                            </label>
+                        </div>
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="isAllToBeNullified" id="chkTagliaUnica" /> @Html.DisplayNameFor(model => model.isAllToBeNullified)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-sm-6 offset-1">
+                            <input type="submit" id="btnInserisci" value="Conferma" style="height:100% !important" class="btn btn-lg btn-primary float-left" />
+                            <a asp-action="index" class="btn btn-lg btn-danger float-left ml-3">Annulla</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

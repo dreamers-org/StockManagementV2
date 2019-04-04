@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Core;
 using StockManagement.Models;
+using StockManagement.Models.ViewModels;
 
 namespace StockManagement.Controllers
 {
@@ -67,6 +68,28 @@ namespace StockManagement.Controllers
         }
 
         [Authorize(Roles = "SuperAdmin, Commesso, Titolare")]
+        public IActionResult CreateAnnullamento(Guid id)
+        {
+            var articolo = _context.Articolo.Where(x => x.Id == id && x.Annullato == false).FirstOrDefault();
+            var articoloDaAnnullare = new ArticoloAnnullatoViewModel()
+            {
+                Codice = articolo.Codice,
+                Colore = articolo.Colore,
+                isXxsToBeNullified = !articolo.isXxsActive,
+                isXsToBeNullified = !articolo.isXsActive,
+                isSToBeNullified = !articolo.isSActive,
+                isMToBeNullified = !articolo.isMActive,
+                isLToBeNullified = !articolo.isLActive,
+                isXlToBeNullified = !articolo.isXlActive,
+                isXxlToBeNullified = !articolo.isXxlActive,
+                isXxxlToBeNullified = !articolo.isXxxlActive,
+                isTagliaUnicaToBeNullified = !articolo.isTagliaUnicaActive,
+                isAllToBeNullified = articolo.Annullato
+            };
+            return View("CreateAnnullamento", articoloDaAnnullare);
+        }
+
+        [Authorize(Roles = "SuperAdmin, Commesso, Titolare")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Codice,Descrizione,IdFornitore,Colore,Xxs,Xs,S,M,L,Xl,Xxl,TagliaUnica,TrancheConsegna,Genere,IdTipo,PrezzoAcquisto,PrezzoVendita,IdCollezione,Xxxl")] Articolo articolo)
@@ -92,6 +115,62 @@ namespace StockManagement.Controllers
             ViewData["IdTipo"] = new SelectList(_context.Tipo, "Id", "Nome", articolo.IdTipo);
             return View();
         }
+
+        [Authorize(Roles = "SuperAdmin, Commesso, Titolare")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateAnnullamento(ArticoloAnnullatoViewModel articoloAnnullato)
+        {
+            if (ModelState.IsValid)
+            {
+                //if (ArticoloExists(articoloAnnullato.Codice, articoloAnnullato.Colore))
+                //{
+                //    HttpContext.Session.SetString("ErrorMessage", "L'articolo esiste già.");
+                //    return RedirectToAction("Create");
+                //}
+                if (!ArticoloExists(articoloAnnullato.Codice, articoloAnnullato.Colore))
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    var articolo = _context.Articolo.Where(x => x.Codice == articoloAnnullato.Codice && x.Colore == articoloAnnullato.Colore && x.Annullato == false).FirstOrDefault();
+                    if (articoloAnnullato.isAllToBeNullified)
+                    {
+                        articolo.isXxsActive = false;
+                        articolo.isXsActive = false;
+                        articolo.isSActive = false;
+                        articolo.isMActive = false;
+                        articolo.isLActive = false;
+                        articolo.isXlActive = false;
+                        articolo.isXxlActive = false;
+                        articolo.isXxxlActive = false;
+                        articolo.isTagliaUnicaActive = false;
+                        articolo.Annullato = true;
+                    }
+                    else
+                    {
+                        articolo.isXxsActive = !articoloAnnullato.isXxsToBeNullified;
+                        articolo.isXsActive = !articoloAnnullato.isXsToBeNullified;
+                        articolo.isSActive = !articoloAnnullato.isSToBeNullified;
+                        articolo.isMActive = !articoloAnnullato.isMToBeNullified;
+                        articolo.isLActive = !articoloAnnullato.isLToBeNullified;
+                        articolo.isXlActive = !articoloAnnullato.isXlToBeNullified;
+                        articolo.isXxlActive = !articoloAnnullato.isXxlToBeNullified;
+                        articolo.isXxxlActive = !articoloAnnullato.isXxxlToBeNullified;
+                        articolo.isTagliaUnicaActive = !articoloAnnullato.isTagliaUnicaToBeNullified;
+                    }
+
+                    Log.Warning($"{User.Identity.Name} --> annullato articolo: {articolo.Codice}");
+                    _context.Update(articolo);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+
+            return View();
+        }
+
 
         [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Edit(Guid? id)
@@ -126,7 +205,7 @@ namespace StockManagement.Controllers
             {
                 try
                 {
-                    Articolo old = _context.Articolo.AsNoTracking().Where(x => x.Id == articolo.Id).ToList().FirstOrDefault();
+                    Articolo old = _context.Articolo.AsNoTracking().Where(x => x.Id == articolo.Id).FirstOrDefault();
                     articolo.DataInserimento = old.DataInserimento;
                     articolo.DataModifica = DateTime.Now;
                     articolo.UtenteInserimento = old.UtenteInserimento;

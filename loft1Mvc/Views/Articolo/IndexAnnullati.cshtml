@@ -21,14 +21,13 @@
 <div class="row">
     <div class="col-12">
         <div class="table-responsive">
-            <table class="table">e
+            <table class="table">
                 <thead class="thead-dark small">
                     <tr>
                         @if (User.IsInRole("SuperAdmin"))
                         {
                             <th scope="col"></th>
                         }
-
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.IdFornitoreNavigation)
                         </th>
