@@ -29,7 +29,7 @@ namespace loft1Mvc.Areas.Identity
 				services.AddIdentity<GenericUser, IdentityRole>(config =>
 				{
 					//config.Lockout = lockoutOptions; //TODO LUCA: SERVE? UTILE?
-					config.SignIn.RequireConfirmedEmail = false;
+					config.SignIn.RequireConfirmedEmail = true;
 				})
 
 					.AddEntityFrameworkStores<IdentityContext>()

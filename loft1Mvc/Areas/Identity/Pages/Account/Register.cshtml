@@ -17,27 +17,37 @@
 		<div class="col-lg-6 offset-3">
 			<div class="panel panel-default">
 				<div class="panel-body">
-					<form asp-route-returnurl="@Model.ReturnUrl" method="post">
-						<h4>Crea un nuovo account.</h4>
-						<hr>
-						<div asp-validation-summary="All" class="text-danger"></div>
-						<div class="form-group">
-							<label asp-for="Input.Email"></label>
-							<input asp-for="Input.Email" class="form-control">
-							<span asp-validation-for="Input.Email" class="text-danger"></span>
-						</div>
-						<div class="form-group">
-							<label asp-for="Input.Password"></label>
-							<input asp-for="Input.Password" class="form-control">
-							<span asp-validation-for="Input.Password" class="text-danger"></span>
-						</div>
-						<div class="form-group">
-							<label asp-for="Input.ConfirmPassword"></label>
-							<input asp-for="Input.ConfirmPassword" class="form-control">
-							<span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-						</div>
-						<button type="submit" disabled="disabled" class="btn btn-primary">Inserisci Utente</button>
-					</form>
+                    <form asp-route-returnurl="@Model.ReturnUrl" method="post">
+                        <h4>Crea un nuovo account.</h4>
+                        <hr>
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Input.Email"></label>
+                            <input asp-for="Input.Email" class="form-control">
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Input.AgenziaRappresentanza"></label>
+                            <input asp-for="Input.AgenziaRappresentanza" class="form-control">
+                            <span asp-validation-for="Input.AgenziaRappresentanza" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Input.Regione"></label>
+                            <input asp-for="Input.Regione" class="form-control">
+                            <span asp-validation-for="Input.Regione" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Input.Password"></label>
+                            <input asp-for="Input.Password" class="form-control">
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Input.ConfirmPassword"></label>
+                            <input asp-for="Input.ConfirmPassword" class="form-control">
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Inserisci Utente</button>
+                    </form>
 				</div>
 			</div>
 		</div>

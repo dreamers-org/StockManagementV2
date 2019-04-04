@@ -30,7 +30,6 @@ export var arrayPageModules: pageModule[] = [
         function: function (destination, template) { attivatorePaginaIndexPackingList() },
         menuItem: "navbarDropdown"
     }
-
 ];
 
 

@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Serilog;
 using StockManagement.Services;
+using loft1Mvc.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace loft1Mvc
 {
@@ -37,7 +39,9 @@ namespace loft1Mvc
                 //services.AddDbContext<StockV2Context>(options => options.UseSqlServer(Configuration.GetConnectionString("Production")));
                 services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 				services.AddTransient<IEmailSender, EmailSender>();
-				services.AddSession(options =>
+                services.AddScoped<IUserClaimsPrincipalFactory<GenericUser>, CustomClaimsPrincipalFactory>();
+
+                services.AddSession(options =>
 				{
 					options.IdleTimeout = TimeSpan.FromMinutes(30);
 				});

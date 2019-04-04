@@ -40,12 +40,19 @@ namespace loft1Mvc.Areas.Identity.Pages.Account
 
 		public class InputModel
 		{
-			[Required]
+			[Required(ErrorMessage = "Campo obbligatorio.")]
 			[EmailAddress(ErrorMessage = "Inserire una mail valida.")]
 			[Display(Name = "Email")]
 			public string Email { get; set; }
 
-			[Required]
+            [Required(ErrorMessage = "Inserire un'agenzia valida")]
+            [Display(Name = "Agenzia di rappresentanza")]
+            public string AgenziaRappresentanza { get; set; }
+
+            [Required(ErrorMessage = "Inserire una regione valida")]
+            public string Regione { get; set; }
+
+            [Required]
 			[StringLength(100, ErrorMessage = "La password deve essere lunga almeno 6 caratteri", MinimumLength = 6)]
 			[DataType(DataType.Password)]
 			[Display(Name = "Password")]
@@ -67,7 +74,12 @@ namespace loft1Mvc.Areas.Identity.Pages.Account
 			returnUrl = returnUrl ?? Url.Content("~/");
 			if (ModelState.IsValid)
 			{
-                var user = new GenericUser { UserName = Input.Email, Email = Input.Email };
+                var user = new GenericUser {
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    AgenziaRappresentanza = Input.AgenziaRappresentanza,
+                    Regione = Input.Regione
+                };
 				var result = await _userManager.CreateAsync(user, Input.Password);
 				if (result.Succeeded)
 				{
