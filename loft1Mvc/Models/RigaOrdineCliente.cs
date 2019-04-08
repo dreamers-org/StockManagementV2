@@ -25,5 +25,10 @@ namespace StockManagement.Models
 
         public virtual OrdineCliente Id1 { get; set; }
         public virtual Articolo IdNavigation { get; set; }
+
+        public override string ToString()
+        {
+            return $"Xxs: {Xxs}, Xs: {Xs}, S: {S}, M: {M}, L: {L}, Xl: {Xl}, Xxl: {Xxl}, Xxxl: {Xxxl}, VU: {TagliaUnica}";
+        }
     }
 }

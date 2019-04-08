@@ -28,9 +28,10 @@
                         {
                             <th scope="col">
                             </th>
-                            <th scope="col">
-                            </th>
+
                         }
+                        <th scope="col">
+                        </th>
                         <th scope="col">
                         </th>
                         <th scope="col">
@@ -97,6 +98,9 @@
                                 <a asp-action="Edit" asp-route-id="@item.Id" title="Modifica"><i class="far fa-edit"></i></a>
                             </td>
                         }
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id" title="Modifica"><i class="far fa-edit"></i></a>
+                        </td>
                         <td>
                             <a asp-action="CreateAnnullamento" asp-route-id="@item.Id" title="Annulla taglie"><i class="fas fa-list-alt"></i></a>
                         </td>

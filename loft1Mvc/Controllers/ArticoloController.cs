@@ -172,7 +172,7 @@ namespace StockManagement.Controllers
         }
 
 
-        [Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "SuperAdmin, Commesso, Titolare")]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -191,7 +191,7 @@ namespace StockManagement.Controllers
             return View(articolo);
         }
 
-        [Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "SuperAdmin, Commesso, Titolare")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("Id,Codice,Descrizione,IdFornitore,Colore,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl,TagliaUnica,TrancheConsegna,Genere,IdTipo,PrezzoAcquisto,PrezzoVendita,IdCollezione")] Articolo articolo)
@@ -382,6 +382,43 @@ namespace StockManagement.Controllers
             string descrizione = _context.Articolo.Where(x => x.Codice == codice)
                                      .Select(x => x.Descrizione).FirstOrDefault();
             return Json(descrizione);
+        }
+
+        public async Task<IActionResult> getTxtValues(string Codice)
+        {
+            TempObject result = new TempObject();
+            var articolo = await _context.Articolo
+                .FirstOrDefaultAsync(m => m.Codice == Codice && m.Annullato == false);
+            if (articolo != null)
+            {
+                Fornitore fornitore = await _context.Fornitore.FindAsync(articolo.IdFornitore);
+                Tipo tipo = await _context.Tipo.FindAsync(articolo.IdTipo);
+                Collezione collezione = await _context.Collezione.FindAsync(articolo.IdCollezione);
+                result = new TempObject
+                {
+                    Fornitore = fornitore.Nome,
+                    Descrizione = articolo.Descrizione,
+                    PrezzoAcquisto = articolo.PrezzoAcquisto.ToString(),
+                    PrezzoVendita = articolo.PrezzoVendita.ToString(),
+                    TrancheConsegna = articolo.TrancheConsegna.ToString("yyyy-MM-dd"),
+                    GenereProdotto = articolo.Genere,
+                    TipoProdotto = tipo.Nome,
+                    Collezione = collezione.Nome,
+                    IdFornitore = articolo.IdFornitore.ToString(),
+                    IdCollezione = articolo.IdCollezione.ToString(),
+                    IdTipoProdotto = articolo.IdTipo.ToString(),
+                    XXS = articolo.Xxs,
+                    XS = articolo.Xs,
+                    S = articolo.S,
+                    M = articolo.M,
+                    L = articolo.L,
+                    XL = articolo.Xl,
+                    XXL = articolo.Xxl,
+                    XXXL = articolo.Xxxl,
+                    TagliaUnica = articolo.TagliaUnica
+                };
+            }
+            return Json(result);
         }
 
         protected class TempObject

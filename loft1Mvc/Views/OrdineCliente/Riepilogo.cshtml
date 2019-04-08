@@ -1,7 +1,7 @@
 ﻿@model StockManagement.Models.OrdineCliente
 
 @{
-    ViewData["Title"] = "Riepilogo ordine";
+    ViewData["Title"] = "Note finali";
 }
 
 <!-- Title -->
@@ -18,20 +18,36 @@
 </div>
 
 <div class="row">
-    <div class="col-12">
-        <div class="embed-responsive embed-responsive-16by9">
-            <iframe class="embed-responsive-item" src="~/documenti/CONDIZIONI GENERALI DI VENDITA.pdf"></iframe>
+    @*<div class="col-12">
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="~/documenti/CONDIZIONI GENERALI DI VENDITA.pdf"></iframe>
+            </div>
         </div>
-    </div>
+        <div class="col-12 mt-3">
+            <form asp-action="Riepilogo">
+                <div class="form-check float-left">
+                    <input class="form-check-input" type="checkbox" value="false" name="condizioniAccettate" id="condizioniAccettate" onchange="abilitaConcludiOrdine(this)">
+                    <label class="form-check-label" for="condizioniAccettate">
+                        Accetta le condizioni
+                    </label>
+                </div>
+                <input type="submit" id="btnConcludiOrdine" class="btn rounded-pill btn-outline-danger float-right" value="Concludi ordine" disabled="disabled"/>
+            </form>
+        </div>*@
     <div class="col-12 mt-3">
         <form asp-action="Riepilogo">
             <div class="form-check float-left">
+                <div class="container">
+                    <h1 class="display-4">Attenzione</h1>
+                    <p class="lead">
+                        Si ricorda che l'effettiva validità dell'ordine avrà luogo solo una volta inserita anche la foto relativa all'accettazione delle condizioni da parte del cliente consumatore.
+                    </p>
+                </div>
                 <input class="form-check-input" type="checkbox" value="false" name="condizioniAccettate" id="condizioniAccettate" onchange="abilitaConcludiOrdine(this)">
                 <label class="form-check-label" for="condizioniAccettate">
                     Accetta le condizioni
                 </label>
             </div>
-            <input type="submit" id="btnConcludiOrdine" class="btn rounded-pill btn-outline-danger float-right" value="Concludi ordine" disabled="disabled"/>
+            <input type="submit" id="btnConcludiOrdine" class="btn rounded-pill btn-outline-danger float-right" value="Concludi ordine" disabled="disabled" />
         </form>
     </div>
-</div>
