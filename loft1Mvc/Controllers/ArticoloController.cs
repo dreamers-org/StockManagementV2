@@ -223,14 +223,19 @@ namespace StockManagement.Controllers
                     articolo.Annullato = old.Annullato;
                     articolo.Video = "";
                     //Convert Image to byte and save to database
-                    byte[] p1 = null;
-                    using (var fs1 = Image.OpenReadStream())
-                    using (var ms1 = new MemoryStream())
+                    if (Image != null)
                     {
-                        fs1.CopyTo(ms1);
-                        p1 = ms1.ToArray();
+                        byte[] p1 = null;
+                        using (var fs1 = Image.OpenReadStream())
+                        using (var ms1 = new MemoryStream())
+                        {
+                            fs1.CopyTo(ms1);
+                            p1 = ms1.ToArray();
+                        }
+                        articolo.Foto = p1;
                     }
-                    articolo.Foto = p1;
+
+                    articolo.Foto = null;
 
                     Log.Warning($"{User.Identity.Name} --> modificato articolo: {articolo.Codice}");
                     _context.Update(articolo);
