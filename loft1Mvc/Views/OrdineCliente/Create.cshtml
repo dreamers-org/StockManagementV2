@@ -97,7 +97,7 @@
                         </div>
                         <div class="col-md-3 mb-3">
                             <label asp-for="ColoreArticolo" class="control-label text-center">Colore Articolo</label>
-                            <select id="dropdownColore" class="form-control" asp-for="ColoreArticolo" onblur="getTaglieDisponibiliArticolo();"  readonly="readonly"></select>
+                            <select id="dropdownColore" class="form-control" asp-for="ColoreArticolo" onblur="getTaglieDisponibiliArticolo();" readonly="readonly"></select>
                             <span asp-validation-for="ColoreArticolo" class="text-danger"></span>
                         </div>
                         <div class="col-md-3 mb-3">
@@ -115,7 +115,7 @@
                         </div>
                         <div class="col-md-1 mb-3">
                             <label asp-for="Xs" class="control-label"></label>
-                            <input asp-for="Xs" value="0" class="form-control" id="txtXs"/>
+                            <input asp-for="Xs" value="0" class="form-control" id="txtXs" />
                             <span asp-validation-for="Xs" class="text-danger"></span>
                         </div>
                         <div class="col-md-1 mb-3">
@@ -175,6 +175,18 @@
                         </div>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalFoto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <img id="divFoto" width="600" height="600" src="" class="img-fluid" />
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
             </div>
         </div>
     </div>

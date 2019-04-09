@@ -5,16 +5,17 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SendGrid;
 using SendGrid.Helpers.Mail;
+using Serilog;
 using StockManagement.Models;
 using StockManagement.Models.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace StockManagement
 {
-    [Authorize]
     public class OrdineClienteController : Controller
     {
         private readonly StockV2Context _context;
@@ -27,6 +28,7 @@ namespace StockManagement
         }
 
         #region Index
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             if (User.IsInRole("Rappresentante"))
@@ -55,30 +57,7 @@ namespace StockManagement
             }
         }
 
-        public IActionResult CancellaOrdine()
-        {
-            string idOrdineSession = HttpContext.Session.GetString("IdOrdine");
-            if (idOrdineSession != null && !String.IsNullOrEmpty(idOrdineSession))
-            {
-                //Ottengo tutte le righe dell'ordine e le cancello.
-                List<RigaOrdineCliente> listaRigheOrdine = _context.RigaOrdineCliente.Where(x => x.IdOrdine.ToString().ToUpper() == idOrdineSession.ToUpper()).ToList();
-                foreach (RigaOrdineCliente riga in listaRigheOrdine)
-                {
-                    _context.RigaOrdineCliente.Remove(riga);
-                    _context.SaveChanges();
-                }
-
-                //Cancello l'ordine.
-                OrdineCliente ordine = _context.OrdineCliente.Where(x => x.Id.ToString().ToUpper() == idOrdineSession.ToUpper()).FirstOrDefault();
-                _context.OrdineCliente.Remove(ordine);
-                _context.SaveChanges();
-
-                //Cancello la sessione.
-                HttpContext.Session.Clear();
-            }
-
-            return RedirectToAction("Index", "Home");
-        }
+      
 
         #endregion
 
@@ -90,6 +69,7 @@ namespace StockManagement
         // STEP 1)
         //***********************************************
         //***********************************************
+        [Authorize]
         public IActionResult Create()
         {
             ViewData["NomeCliente"] = HttpContext.Session.GetString("NomeCliente");
@@ -123,6 +103,7 @@ namespace StockManagement
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("Id,DataConsegna,NomeCliente,IndirizzoCliente,EmailCliente,CodiceArticolo,ColoreArticolo,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl,TagliaUnica")] OrdineClienteViewModel ordineCliente)
@@ -228,6 +209,7 @@ namespace StockManagement
         //***********************************************
         //***********************************************
 
+        [Authorize]
         public IActionResult ImpostaTipoPagamento()
         {
             string idOrdineSession = HttpContext.Session.GetString("IdOrdine");
@@ -246,13 +228,12 @@ namespace StockManagement
                 listaPagamenti = _context.TipoPagamento.Where(x => (x.Codice == 4 || x.Codice == 3 || x.Codice == 6 || x.Codice == 7)).AsEnumerable();
             }
 
-            //TODO: Creare la combo usando la tabella idTipoPagamento
             ViewData["TipoPagamento"] = new SelectList(listaPagamenti, "Id", "Nome");
 
             return View(_context.OrdineCliente.Where(x => x.Id == new Guid(idOrdineSession)).FirstOrDefault());
         }
 
-
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult ImpostaTipoPagamento([Bind("IdTipoPagamento,Note")] OrdineCliente ordineCliente)
@@ -281,11 +262,13 @@ namespace StockManagement
         //***********************************************
         //***********************************************
 
+        [Authorize]
         public IActionResult Riepilogo()
         {
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Riepilogo(bool condizioniAccettate)
@@ -306,7 +289,7 @@ namespace StockManagement
 
                 //Invio la mail ai 3 attori
                 var emailCliente = _context.Cliente.Where(x => x.Id == ordineClienteCurrent.IdCliente).Select(x => x.Email).FirstOrDefault();
-                Execute(ordineClienteCurrent, emailCliente, User.Identity.Name, false).Wait();
+                Execute(ordineClienteCurrent, emailCliente, User.Identity.Name).Wait();
 
                 //svuoto la sessione.
                 HttpContext.Session.Clear();
@@ -395,6 +378,7 @@ namespace StockManagement
             return View(ordineCliente);
         }
 
+        [Authorize]
         public async Task<IActionResult> EditRow(Guid id)
         {
             if (id == null)
@@ -488,6 +472,32 @@ namespace StockManagement
             return View(ordineCliente);
         }
 
+        [Authorize]
+        public IActionResult CancellaOrdine()
+        {
+            string idOrdineSession = HttpContext.Session.GetString("IdOrdine");
+            if (idOrdineSession != null && !String.IsNullOrEmpty(idOrdineSession))
+            {
+                //Ottengo tutte le righe dell'ordine e le cancello.
+                List<RigaOrdineCliente> listaRigheOrdine = _context.RigaOrdineCliente.Where(x => x.IdOrdine.ToString().ToUpper() == idOrdineSession.ToUpper()).ToList();
+                foreach (RigaOrdineCliente riga in listaRigheOrdine)
+                {
+                    _context.RigaOrdineCliente.Remove(riga);
+                    _context.SaveChanges();
+                }
+
+                //Cancello l'ordine.
+                OrdineCliente ordine = _context.OrdineCliente.Where(x => x.Id.ToString().ToUpper() == idOrdineSession.ToUpper()).FirstOrDefault();
+                _context.OrdineCliente.Remove(ordine);
+                _context.SaveChanges();
+
+                //Cancello la sessione.
+                HttpContext.Session.Clear();
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
         [Authorize(Roles = "SuperAdmin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -504,7 +514,7 @@ namespace StockManagement
             return _context.OrdineCliente.Any(e => e.Id == id);
         }
 
-
+        [Authorize]
         public async Task<IActionResult> DeleteRow(Guid? id)
         {
             if (id == null)
@@ -537,6 +547,7 @@ namespace StockManagement
             return View("DeleteRow", tempRigaOrdineCliente);
         }
 
+        [Authorize]
         [HttpPost, ActionName("DeleteRow")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteRowConfirmed(Guid id)
@@ -547,15 +558,68 @@ namespace StockManagement
             return RedirectToAction(nameof(Create));
         }
 
-        async Task Execute(OrdineCliente ordineCliente, string emailCliente, string emailRappresentante, bool isLoft1)
+        [Authorize]
+        public IActionResult UploadAccettazioneCondizioni(Guid Id)
         {
+            try
+            {
+                var idCliente = _context.OrdineCliente.Where(x => x.Id == Id).Select(x => x.IdCliente).FirstOrDefault();
+                var nomeCliente = _context.Cliente.Where(x => x.Id == idCliente).Select(x => x.Nome).FirstOrDefault();
+                var dataOrdine = _context.OrdineCliente.Where(x => x.Id == Id).Select(x => x.DataInserimento).FirstOrDefault();
+                AccettazioneCondizioni accettazione = new AccettazioneCondizioni() {
+                IdOrdine = Id,
+                Cliente = nomeCliente,
+                DataOrdine = dataOrdine.ToString("dd/MM/yyyy")};
+                if (_context.OrdineCliente.Where(x => x.Id == Id).Select(x => x.AccettazioneCondizioni).FirstOrDefault() != null)
+                {
+                    ViewBag("Message", "E' già stata caricata una copia dell'accettazione delle condizioni. Se si procede, questa verrà sovrascritta.");
+                }
+                return View("AccettazioneCondizioni", accettazione);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                throw;
+            }
+        }
+
+        [Authorize]
+        [HttpPost, ActionName("UploadAccettazioneCondizioni")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UploadAccettazioneCondizioni(Guid Id, IFormFile Image)
+        {
+            try
+            {
+                //Convert Image to byte and save to database
+                byte[] p1 = null;
+                using (var fs1 = Image.OpenReadStream())
+                using (var ms1 = new MemoryStream())
+                {
+                    fs1.CopyTo(ms1);
+                    p1 = ms1.ToArray();
+                }
+                var ordineCliente = _context.OrdineCliente.Where(x => x.Id == Id).FirstOrDefault();
+                ordineCliente.AccettazioneCondizioni = p1;
+
+                _context.Update(ordineCliente);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                throw;
+            }
+        }
+
+
+        [Authorize]
+        async Task Execute(OrdineCliente ordineCliente, string emailCliente, string emailRappresentante)
+        {
+            //TODO METTERE API SENDGRID
             var client = new SendGridClient("");
             var from = new EmailAddress("info@loft1.it", "Loft1");
-            if (!isLoft1)
-            {
-                from = new EmailAddress("zero_meno@outlook.it", "Zero Meno");
-
-            }
             var tos = new List<EmailAddress>
             {
                 from,
@@ -563,16 +627,12 @@ namespace StockManagement
                 new EmailAddress(emailRappresentante,emailRappresentante)
             };
 
-            var cliente = _context.Cliente.Where(x => x.Id == ordineCliente.IdCliente).Select(x => x.Nome).FirstOrDefault();
+            var cliente = _context.Cliente.Where(x => x.Id == ordineCliente.IdCliente).FirstOrDefault();
             var pagamento = _context.TipoPagamento.Where(x => x.Id == ordineCliente.IdTipoPagamento).Select(x => x.Nome).FirstOrDefault();
 
-            var subject = $"Riepilogo ordine";
+            var subject = $"Riepilogo ordine " + ordineCliente.Id;
             var plainTextContent = $"";
-            //                "Cliente: {cliente}\n" +
-            //                $"Data Consegna: {ordineCliente.DataConsegna}\n" +
-            //                $"Metodo di pagamento: {pagamento}\n" +
-            //                $"Note: {ordineCliente.Note}\n\n" +
-            //                $"Righe dell'ordine:\n
+          
             var html = @"<!DOCTYPE html>
 <html>
 <head>
@@ -742,7 +802,7 @@ namespace StockManagement
           <!-- start copy -->
           <tr>
             <td align=""left"" bgcolor=""#ffffff"" style=""padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">
-              <p style=""margin: 0;"">Ecco il riepilogo del tuo ordine. Restiamo in attesa di ricevere la foto dell'avvenuta accettazione delle condizioni.</p>
+              <p style=""margin: 0;"">Ecco il riepilogo degli articoli ordinati. Restiamo in attesa di ricevere la foto dell'avvenuta accettazione delle condizioni da parte del cliente consumatore.</p>
             </td>
           </tr>
           <!-- end copy -->
@@ -752,10 +812,10 @@ namespace StockManagement
             <td align=""left"" bgcolor=""#ffffff"" style=""padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">
               <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%"">
                 <tr>
-                  <td align=""left"" bgcolor=""#D2C7BA"" width=""75%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong>Ordine #</strong></td>
+                  <td align=""left"" bgcolor=""#D2C7BA"" width=""75%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong>Codice #</strong></td>
                   <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong></strong></td>
-                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong></strong></td>
-                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong></strong></td>
+                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong>Colore</strong></td>
+                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong>Descrizione</strong></td>
                   <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong>Xxs/40</strong></td>
                   <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong>Xs/42</strong></td>
                   <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong>S/44</strong></td>
@@ -766,19 +826,16 @@ namespace StockManagement
                   <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong>Xxxl/54</strong></td>
                   <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong>VU</strong></td>
                   <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong>Prezzo</strong></td>
-                </tr>
-                <tr>
-                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">Codice</td>";
-            //var htmlContent = $"Cliente: { cliente}<br>" +
-            //    $"Data Consegna: {ordineCliente.DataConsegna}<br>" +
-            //    $"Metodo di pagamento: {pagamento}<br>" + (!string.IsNullOrEmpty(ordineCliente.Note) ? $"Note: {ordineCliente.Note}<br>" : "") +
-            //    $"<strong>Righe dell'ordine:</strong><br>";
+                </tr>";
             var righeOrdine = _context.RigaOrdineCliente.Where(x => x.IdOrdine == ordineCliente.Id).ToList();
             var totale = 0.0;
+
             foreach (var item in righeOrdine)
             {
                 var articolo = _context.Articolo.Where(x => x.Id == item.IdArticolo).Select(x => x).FirstOrDefault();
-                html += $@"<td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">{articolo.Codice}</td>
+                html +=
+                   $@"<tr><td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">{articolo.Codice}</td>
+                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""></td>
                   <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">{articolo.Colore}</td>
                   <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">{articolo.Descrizione}</td>
                   <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">{item.Xxs}</td>
@@ -790,12 +847,14 @@ namespace StockManagement
                   <td align=""left"" width=""25%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">{item.Xxl}</td>
                   <td align=""left"" width=""25%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">{item.Xxxl}</td>
                   <td align=""left"" width=""25%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">{item.TagliaUnica}</td>
-                  <td align=""left"" width=""25%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">{articolo.PrezzoVendita}</td>";
-                totale += (item.Xxs + item.Xs + item.S + item.M + item.L + item.Xl + item.Xxl + item.Xxxl + item.TagliaUnica) * articolo.PrezzoVendita; 
+                  <td align=""left"" width=""25%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">{articolo.PrezzoVendita}</td></tr>";
+                totale += (item.Xxs + item.Xs + item.S + item.M + item.L + item.Xl + item.Xxl + item.Xxxl + item.TagliaUnica) * articolo.PrezzoVendita;
             }
 
-            html += $@" </tr>
+            html += $@"
                 <tr>
+                  <td align=""left"" width=""100%"" style=""padding: 12px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-top: 2px dashed #D2C7BA; border-bottom: 2px dashed #D2C7BA;""><strong></strong></td>
+                  <td align=""left"" width=""100%"" style=""padding: 12px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-top: 2px dashed #D2C7BA; border-bottom: 2px dashed #D2C7BA;""><strong></strong></td>
                   <td align=""left"" width=""100%"" style=""padding: 12px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-top: 2px dashed #D2C7BA; border-bottom: 2px dashed #D2C7BA;""><strong></strong></td>
                   <td align=""left"" width=""100%"" style=""padding: 12px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-top: 2px dashed #D2C7BA; border-bottom: 2px dashed #D2C7BA;""><strong></strong></td>
                   <td align=""left"" width=""100%"" style=""padding: 12px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-top: 2px dashed #D2C7BA; border-bottom: 2px dashed #D2C7BA;""><strong></strong></td>
@@ -834,7 +893,7 @@ namespace StockManagement
         <![endif]-->
         <table align=""center"" bgcolor=""#ffffff"" border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%"" style=""max-width: 1200px;"">
           <tr>
-            <td align=""center"" valign=""top"" style=""font-size: 0; border-bottom: 3px solid #d4dadf"">
+            <td align=""left"" valign=""top"" style=""font-size: 0; border-bottom: 3px solid #d4dadf"">
               <!--[if (gte mso 9)|(IE)]>
               <table align=""center"" border=""0"" cellpadding=""0"" cellspacing=""0"" width=""600"">
               <tr>
@@ -843,9 +902,27 @@ namespace StockManagement
               <div style=""display: inline-block; width: 100%; max-width: 50%; min-width: 240px; vertical-align: top;"">
                 <table align=""left"" border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%"" style=""max-width: 300px;"">
                   <tr>
-                    <td align=""left"" valign=""top"" style=""padding-bottom: 36px; padding-left: 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">
+                    <td align=""left"" valign=""top"" style=""padding-bottom: 6px; padding-left: 6px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">
                       <p><strong>Indirizzo di spedizione</strong></p>
-                      <p></p>
+                      <p>{cliente.Indirizzo}</p>
+                    </td>
+                  </tr>
+                    <tr>
+                    <td align=""left"" valign=""top"" style=""padding-bottom: 6px; padding-left: 6px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">
+                      <p><strong>Data consegna</strong></p>
+                      <p>{ordineCliente.DataConsegna.ToString("dd/MM/yyyy")}</p>
+                    </td>
+                  </tr>
+                    <tr>
+                    <td align=""left"" valign=""top"" style=""padding-bottom: 6px; padding-left: 6px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">
+                      <p><strong>Metodo pagamento</strong></p>
+                      <p>{pagamento}</p>
+                    </td>
+                  </tr>
+                    <tr>
+                    <td align=""left"" valign=""top"" style=""padding-bottom: 6px; padding-left: 6px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">
+                      <p><strong>{(string.IsNullOrEmpty(ordineCliente.Note) ? "Note" : "")}</strong></p>
+                      <p>{(string.IsNullOrEmpty(ordineCliente.Note) ? ordineCliente.Note : "")}</p>
                     </td>
                   </tr>
                 </table>
@@ -871,15 +948,14 @@ namespace StockManagement
         <td align=""center"" valign=""top"" width=""600"">
         <![endif]-->
         <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%"" style=""max-width: 800px;"">
-
           <!-- start permission -->
           <tr>
             <td align=""center"" bgcolor=""#D2C7BA"" style=""padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;"">
               <p style=""margin: 0;"">Ai sensi del D. Lgs. 196/03 e dal regolamento UE 2016/679 per la protezione dei dati personali, questo messaggio è destinato unicamente alla persona o al soggetto al quale è indirizzato e può contenere informazioni riservate e/o coperte da segreto professionale, la cui divulgazione è proibita. Qualora non siate i destinatari designati non dovrete leggere, utilizzare, diffondere o copiare le informazioni trasmesse. Nel caso aveste ricevuto questo messaggio per errore, vogliate cortesemente contattare il mittente e cancellare il materiale dai vostri computer.
- <br>
-According to D. Lgs. 196/03 and by the EU regulation 2016/679 for the protection of personal data, this message is intended only for the person or entity to which it is addressed and may contain confidential and/or privileged information, the disclosure of which is prohibited. If you are not the intended recipient you may not read, use, disseminate or copy the information transmitted. If you have received this message in error, please contact the sender and delete the material from any computer.
-Area degli allegati
-</p>
+             <br>
+            According to D. Lgs. 196/03 and by the EU regulation 2016/679 for the protection of personal data, this message is intended only for the person or entity to which it is addressed and may contain confidential and/or privileged information, the disclosure of which is prohibited. If you are not the intended recipient you may not read, use, disseminate or copy the information transmitted. If you have received this message in error, please contact the sender and delete the material from any computer.
+            Area degli allegati
+            </p>
             </td>
           </tr>
           <!-- end permission -->
@@ -892,23 +968,14 @@ Area degli allegati
       </td>
     </tr>
     <!-- end footer -->
-
   </table>
   <!-- end body -->
-
 </body>
-</html>
-";
+</html>";
 
-            var showAllRecipients = true; // Set to true if you want the recipients to see each others email addresses
+            var showAllRecipients = false; // Set to true if you want the recipients to see each others email addresses
 
-            var msg = MailHelper.CreateSingleEmailToMultipleRecipients(from,
-                                                                       tos,
-                                                                       subject,
-                                                                       plainTextContent,
-                                                                       html,
-                                                                       showAllRecipients
-                                                                       );
+            var msg = MailHelper.CreateSingleEmailToMultipleRecipients(from, tos, subject, plainTextContent, html, showAllRecipients);
             var response = await client.SendEmailAsync(msg);
         }
 
@@ -919,25 +986,18 @@ Area degli allegati
         public IActionResult SelectCodiciArticoli(DateTime dataconsegna)
         {
             var listaArticoli = _context.Articolo.Where(x => x.TrancheConsegna <= dataconsegna && x.Annullato == false).Select(x => x.Codice).Distinct().ToArray();
-
             return Json(listaArticoli);
         }
 
         public IActionResult SelectColoriFromCodice(string codice)
         {
-            var listaColori = _context.Articolo.Where(x => x.Codice == codice && x.Annullato == false)
-                                     .Select(x => new
-                                     {
-                                         Colore = x.Colore
-                                     }).ToList();
-
+            var listaColori = _context.Articolo.Where(x => x.Codice == codice && x.Annullato == false).Select(x => new {Colore = x.Colore}).ToList();
             return Json(listaColori);
         }
 
         public IActionResult SelectDescrizioneFromCodice(string codice)
         {
-            string descrizione = _context.Articolo.Where(x => x.Codice == codice)
-                                     .Select(x => x.Descrizione).FirstOrDefault();
+            string descrizione = _context.Articolo.Where(x => x.Codice == codice).Select(x => x.Descrizione).FirstOrDefault();
             return Json(descrizione);
         }
 

@@ -237,5 +237,18 @@ namespace StockManagement.Controllers
         {
             return _context.OrdineCliente.Any(e => e.Id == id);
         }
+
+
+        [Authorize]
+        public IActionResult ViewAccettazioneCondizioni(Guid id)
+        {
+            var foto = _context.OrdineCliente.Where(x => x.Id == id).Select(x => x.AccettazioneCondizioni).FirstOrDefault();
+            if (foto != null && foto.Length > 0)
+            {
+                return View("AccettazioneCondizioni", foto);
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }

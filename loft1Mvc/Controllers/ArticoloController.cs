@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -11,6 +13,7 @@ using Serilog;
 using Serilog.Core;
 using StockManagement.Models;
 using StockManagement.Models.ViewModels;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace StockManagement.Controllers
 {
@@ -104,7 +107,7 @@ namespace StockManagement.Controllers
                 articolo.Id = Guid.NewGuid();
                 articolo.UtenteInserimento = User.Identity.Name;
                 articolo.DataModifica = DateTime.Now;
-                articolo.Foto = "";
+                articolo.Foto = null;
                 articolo.Video = "";
                 _context.Add(articolo);
                 await _context.SaveChangesAsync();
@@ -191,10 +194,17 @@ namespace StockManagement.Controllers
             return View(articolo);
         }
 
+        //public ActionResult GetImage(int id)
+        //{
+        //    // fetch image data from database
+        //    var 
+        //    return File(imageData, "image/jpg");
+        //}
+
         [Authorize(Roles = "SuperAdmin, Commesso, Titolare")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Codice,Descrizione,IdFornitore,Colore,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl,TagliaUnica,TrancheConsegna,Genere,IdTipo,PrezzoAcquisto,PrezzoVendita,IdCollezione")] Articolo articolo)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Codice,Descrizione,IdFornitore,Colore,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl,TagliaUnica,TrancheConsegna,Genere,IdTipo,PrezzoAcquisto,PrezzoVendita,IdCollezione")] Articolo articolo, IFormFile Image)
         {
             if (id != articolo.Id)
             {
@@ -211,17 +221,17 @@ namespace StockManagement.Controllers
                     articolo.UtenteInserimento = old.UtenteInserimento;
                     articolo.UtenteModifica = User.Identity.Name;
                     articolo.Annullato = old.Annullato;
-                    articolo.Foto = "";
                     articolo.Video = "";
-                    //Se cambio alcuni dati per un codice devo cambiarli per tutti gli articoli con lo stesso codice ---> errori dipendenze FK se fatto a posteriori!!!!!!
-                    //if (old.Descrizione != articolo.Descrizione)
-                    //{
-                    //   var articoliStessoCodice =  _context.Articolo.Where(x => x.Descrizione == articolo.Descrizione).ToList();
-                    //    foreach (var item in articoliStessoCodice)
-                    //    {
-                    //        item.Descrizione = articolo.Descrizione;
-                    //    }
-                    //}
+                    //Convert Image to byte and save to database
+                    byte[] p1 = null;
+                    using (var fs1 = Image.OpenReadStream())
+                    using (var ms1 = new MemoryStream())
+                    {
+                        fs1.CopyTo(ms1);
+                        p1 = ms1.ToArray();
+                    }
+                    articolo.Foto = p1;
+
                     Log.Warning($"{User.Identity.Name} --> modificato articolo: {articolo.Codice}");
                     _context.Update(articolo);
                     await _context.SaveChangesAsync();
@@ -347,6 +357,7 @@ namespace StockManagement.Controllers
                     result.Xxl = !(articolo.Xxl && articolo.isXxlActive);
                     result.Xxxl = !(articolo.Xxxl && articolo.isXxxlActive);
                     result.TagliaUnica = !(articolo.TagliaUnica && articolo.isTagliaUnicaActive);
+                    result.Foto = (articolo.Foto.Length > 0) ? String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(articolo.Foto)) : null;
                 };
             }
             return Json(result);
@@ -457,7 +468,7 @@ namespace StockManagement.Controllers
             public bool Xxl { get; set; }
             public bool Xxxl { get; set; }
             public bool TagliaUnica { get; set; }
-
+            public string Foto { get; set; }
         }
 
         #endregion

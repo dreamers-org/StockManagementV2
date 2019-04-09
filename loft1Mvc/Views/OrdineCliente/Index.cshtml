@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Ordini inseriti";
-    var count = 0;
 }
 <!-- Title -->
 <div class="row">
@@ -22,6 +21,7 @@
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
+                        <th scope="col">Caricamento foglio condizioni</th>
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.NomeCliente)
                         </th>
@@ -43,6 +43,9 @@
                     @foreach (var item in Model)
                     {
                         <tr>
+                            <td>
+                            <a asp-controller="OrdineCliente" asp-action="UploadAccettazioneCondizioni" asp-route-id=@item.Id><i class="fas fa-cloud-upload-alt"></i></a>    
+                            </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.NomeCliente)
                             </td>

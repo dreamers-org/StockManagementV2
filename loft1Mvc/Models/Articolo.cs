@@ -70,8 +70,7 @@ namespace StockManagement.Models
 		[DisplayName("€ Vendita")]
 		[Required(ErrorMessage = "Obbligatorio.")]
 		public double PrezzoVendita { get; set; }
-		[BindNever]
-		public string Foto { get; set; }
+		public byte[] Foto { get; set; }
 		[BindNever]
 		public string Video { get; set; }
 		[DisplayName("Collezione")]

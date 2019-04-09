@@ -33,14 +33,14 @@
         <hr />
         @if (User.IsInRole("Rappresentante"))
         {
-            <div class="row justify-content-center">
-                <a class="btn btn-lg btn-outline-primary rounded-pill mr-3" asp-controller="OrdineCliente" asp-action="Create">
-                    Nuovo ordine
-                </a>
-                <a class="btn btn-lg btn-outline-primary rounded-pill" asp-controller="OrdineCliente" asp-action="Index">
-                    Visualizza ordini
-                </a>
-            </div>
+    <div class="row justify-content-center">
+        <a class="btn btn-lg btn-outline-primary rounded-pill mr-3" asp-controller="OrdineCliente" asp-action="Create">
+            Nuovo ordine
+        </a>
+        <a class="btn btn-lg btn-outline-primary rounded-pill mr-3" asp-controller="OrdineCliente" asp-action="Index">
+            Visualizza ordini
+        </a>
+    </div>
         }
         else
         {

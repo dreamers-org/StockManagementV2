@@ -1,0 +1,55 @@
+﻿@model StockManagement.Models.ViewModels.AccettazioneCondizioni
+
+@{
+    ViewData["Title"] = "Inserimento accettazione condizioni di vendita";
+}
+
+<!-- Title -->
+<div class="row">
+    <div class="col-sm-4">
+        <a asp-controller="Home" asp-action="Index" class="btn rounded-pill btn-outline-secondary float-left mt-3"><i class="fas fa-arrow-left"></i>&nbsp;Indietro</a>
+    </div>
+</div>
+<div class="jumbotron">
+    <h1 class="display-4">Inserimento foglio di accettazione delle condizioni</h1>
+    <p class="lead"></p>
+    <hr class="my-4">
+    <p>Si prega di inserire foto leggibili. Se così non fosse l'ordine non verrà considerato valido.</p>
+</div>
+
+
+<!-- form inserimento -->
+<div class="row">
+    <div class=" col-sm-12 col-md-12 mx-auto mb-3">
+        <div class="card border-left-primary shadow h-100">
+            <div class="card-body">
+                <div class="form-row justify-content-center">
+                    <form asp-action="UploadAccettazioneCondizioni" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="IdOrdine" />
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="Cliente" class="control-label"></label>
+                                <input asp-for="Cliente" class="form-control" autocomplete="off" id="txtCodice" disabled />
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="DataOrdine" class="control-label"></label>
+                                <input asp-for="DataOrdine" class="form-control" autocomplete="off" id="txtCodice" disabled />
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="control-label">Foto</label>
+                                <input accept="image/*" type="file" name="Image" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-sm-12">
+                                <input type="submit" value="Salva" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

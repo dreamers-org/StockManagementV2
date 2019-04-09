@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StockManagement.Models;
 
 namespace StockManagement.Migrations
 {
     [DbContext(typeof(StockV2Context))]
-    partial class StockV2ContextModelSnapshot : ModelSnapshot
+    [Migration("20190408132938_ChangedTypePhotoInByteArray")]
+    partial class ChangedTypePhotoInByteArray
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -237,8 +239,6 @@ namespace StockManagement.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("(newid())");
-
-                    b.Property<byte[]>("AccettazioneCondizioni");
 
                     b.Property<bool>("Completato");
 
@@ -526,40 +526,6 @@ namespace StockManagement.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TipoPagamento");
-                });
-
-            modelBuilder.Entity("StockManagement.Models.ViewModels.EditRigaOrdineClienteViewModel", b =>
-                {
-                    b.Property<Guid>("IdRiga")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("CodiceArticolo")
-                        .IsRequired();
-
-                    b.Property<string>("Colore")
-                        .IsRequired();
-
-                    b.Property<int>("L");
-
-                    b.Property<int>("M");
-
-                    b.Property<int>("S");
-
-                    b.Property<int>("TagliaUnica");
-
-                    b.Property<int>("Xl");
-
-                    b.Property<int>("Xs");
-
-                    b.Property<int>("Xxl");
-
-                    b.Property<int>("Xxs");
-
-                    b.Property<int>("Xxxl");
-
-                    b.HasKey("IdRiga");
-
-                    b.ToTable("EditRigaOrdineClienteViewModel");
                 });
 
             modelBuilder.Entity("StockManagement.Models.Articolo", b =>

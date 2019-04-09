@@ -1,4 +1,6 @@
-﻿//variabile globale usata per gestire gli articoli disponibili.
+﻿import "bootstrap";
+
+//variabile globale usata per gestire gli articoli disponibili.
 var articoliDisponibili: Array<String> = null; 
 
 export function attivatorePaginaCreate() {
@@ -187,10 +189,18 @@ function getTaglieDisponibiliArticolo() {
                 (<JQuery<HTMLInputElement>>$('#txtTagliaUnica')).removeAttr("readonly");
             }
             if (data.isArticoloValido) {
+              
                 (<JQuery<HTMLInputElement>>$('#btnInserisci')).removeAttr("disabled");
             }
             else {
                 (<JQuery<HTMLInputElement>>$('#btnInserisci')).attr("disabled", "disabled");
+            }
+            if (data.foto) {
+                $("#modalFoto").modal("show");
+                (<JQuery<HTMLInputElement>>$('#divFoto')).attr("src", data.foto);
+            }
+            else {
+                $("#modalFoto").modal("hide");
             }
         },
         error: function () {

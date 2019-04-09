@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+require("bootstrap");
 //variabile globale usata per gestire gli articoli disponibili.
 var articoliDisponibili = null;
 function attivatorePaginaCreate() {
@@ -178,6 +179,13 @@ function getTaglieDisponibiliArticolo() {
             }
             else {
                 $('#btnInserisci').attr("disabled", "disabled");
+            }
+            if (data.foto) {
+                $("#modalFoto").modal("show");
+                $('#divFoto').attr("src", data.foto);
+            }
+            else {
+                $("#modalFoto").modal("hide");
             }
         },
         error: function () {

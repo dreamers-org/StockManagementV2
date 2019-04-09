@@ -18,7 +18,7 @@ namespace StockManagement.Models.ViewModels
         public int Xl { get; set; }
         public int Xxl { get; set; }
         public int Xxxl { get; set; }
-        public int TagliaUnica { get; set; } //TODO: Togliere il fatto che sia nullabile
+        public int TagliaUnica { get; set; }
         public Guid IdRigaOrdine { get; set; }
         public Guid IdOrdine { get; set; }
     }
