@@ -615,7 +615,6 @@ namespace StockManagement
             }
         }
 
-
         [Authorize]
         async Task Execute(OrdineCliente ordineCliente, string emailCliente, string emailRappresentante, bool isLoft1)
         {
