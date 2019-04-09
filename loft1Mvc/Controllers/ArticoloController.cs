@@ -362,7 +362,7 @@ namespace StockManagement.Controllers
                     result.Xxl = !(articolo.Xxl && articolo.isXxlActive);
                     result.Xxxl = !(articolo.Xxxl && articolo.isXxxlActive);
                     result.TagliaUnica = !(articolo.TagliaUnica && articolo.isTagliaUnicaActive);
-                    result.Foto = (articolo.Foto.Length > 0) ? String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(articolo.Foto)) : null;
+                    result.Foto = (articolo.Foto != null && articolo.Foto.Length > 0) ? String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(articolo.Foto)) : null;
                 };
             }
             return Json(result);
