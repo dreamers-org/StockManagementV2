@@ -289,7 +289,8 @@ namespace StockManagement
 
                 //Invio la mail ai 3 attori
                 var emailCliente = _context.Cliente.Where(x => x.Id == ordineClienteCurrent.IdCliente).Select(x => x.Email).FirstOrDefault();
-                Execute(ordineClienteCurrent, emailCliente, User.Identity.Name).Wait();
+                Execute(ordineClienteCurrent, emailCliente, User.Identity.Name, false).Wait();
+                //TODO DA MODIFICARE il false
 
                 //svuoto la sessione.
                 HttpContext.Session.Clear();
@@ -570,9 +571,10 @@ namespace StockManagement
                 IdOrdine = Id,
                 Cliente = nomeCliente,
                 DataOrdine = dataOrdine.ToString("dd/MM/yyyy")};
-                if (_context.OrdineCliente.Where(x => x.Id == Id).Select(x => x.AccettazioneCondizioni).FirstOrDefault() != null)
+                var isFotoGiàInserita = _context.OrdineCliente.Where(x => x.Id == Id).Select(x => x.AccettazioneCondizioni).FirstOrDefault();
+                if (isFotoGiàInserita != null)
                 {
-                    ViewBag("Message", "E' già stata caricata una copia dell'accettazione delle condizioni. Se si procede, questa verrà sovrascritta.");
+                    ViewData["Message"] = "E' già stata caricata una copia dell'accettazione delle condizioni per l'ordine seguente. Se si procede, questa verrà sovrascritta.";
                 }
                 return View("AccettazioneCondizioni", accettazione);
             }
@@ -615,11 +617,15 @@ namespace StockManagement
 
 
         [Authorize]
-        async Task Execute(OrdineCliente ordineCliente, string emailCliente, string emailRappresentante)
+        async Task Execute(OrdineCliente ordineCliente, string emailCliente, string emailRappresentante, bool isLoft1)
         {
             //TODO METTERE API SENDGRID
             var client = new SendGridClient("");
-            var from = new EmailAddress("info@loft1.it", "Loft1");
+            var from = new EmailAddress("zero_meno@outlook.it", "Zero Meno");
+            if (isLoft1)
+            {
+                from = new EmailAddress("info@loft1.it", "Loft1"); ;
+            }
             var tos = new List<EmailAddress>
             {
                 from,

@@ -84,6 +84,7 @@ namespace loft1Mvc.Areas.Identity.Pages.Account.Manage
             var changePasswordResult = await _userManager.ChangePasswordAsync(user, Input.OldPassword, Input.NewPassword);
             if (!changePasswordResult.Succeeded)
             {
+                StatusMessage = "La nuova password non rispetta i requisiti minimi di sicurezza.";
                 foreach (var error in changePasswordResult.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
