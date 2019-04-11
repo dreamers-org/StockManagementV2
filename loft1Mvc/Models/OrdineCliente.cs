@@ -31,7 +31,5 @@ namespace StockManagement.Models
         public bool SpeditoInParte { get; set; }
         public bool Letto { get; set; }
         public bool Stampato { get; set; }
-        public byte[] AccettazioneCondizioni { get; set; }
-
     }
 }

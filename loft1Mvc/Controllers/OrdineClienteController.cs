@@ -57,7 +57,7 @@ namespace StockManagement
             }
         }
 
-      
+
 
         #endregion
 
@@ -96,6 +96,14 @@ namespace StockManagement
                 {
                     ViewBag.SommaPrezzo = sommaPrezzo.Value;
                 }
+
+                var totalePezzi = 0;
+                foreach (var item in listaRigheOrdineCliente)
+                {
+                    totalePezzi += item.Xxs + item.Xs + item.S + item.M + item.L + item.Xl + item.Xxl + item.Xxxl + item.TagliaUnica;
+                }
+
+                HttpContext.Session.SetString("TotalePezzi", totalePezzi.ToString());
             }
 
             ViewBag.ListaOrdini = listaRigheOrdineCliente;
@@ -567,11 +575,13 @@ namespace StockManagement
                 var idCliente = _context.OrdineCliente.Where(x => x.Id == Id).Select(x => x.IdCliente).FirstOrDefault();
                 var nomeCliente = _context.Cliente.Where(x => x.Id == idCliente).Select(x => x.Nome).FirstOrDefault();
                 var dataOrdine = _context.OrdineCliente.Where(x => x.Id == Id).Select(x => x.DataInserimento).FirstOrDefault();
-                AccettazioneCondizioni accettazione = new AccettazioneCondizioni() {
-                IdOrdine = Id,
-                Cliente = nomeCliente,
-                DataOrdine = dataOrdine.ToString("dd/MM/yyyy")};
-                var isFotoGiàInserita = _context.OrdineCliente.Where(x => x.Id == Id).Select(x => x.AccettazioneCondizioni).FirstOrDefault();
+                AccettazioneCondizioni accettazione = new AccettazioneCondizioni()
+                {
+                    IdOrdine = Id,
+                    Cliente = nomeCliente,
+                    DataOrdine = dataOrdine.ToString("dd/MM/yyyy")
+                };
+                var isFotoGiàInserita = _context.OrdineClienteFoto.Where(x => x.IdOrdine == Id).Select(x => x.Foto).FirstOrDefault();
                 if (isFotoGiàInserita != null)
                 {
                     ViewData["Message"] = "E' già stata caricata una copia dell'accettazione delle condizioni per l'ordine seguente. Se si procede, questa verrà sovrascritta.";
@@ -592,19 +602,22 @@ namespace StockManagement
         {
             try
             {
-                //Convert Image to byte and save to database
-                byte[] p1 = null;
-                using (var fs1 = Image.OpenReadStream())
-                using (var ms1 = new MemoryStream())
+                if (Image != null)
                 {
-                    fs1.CopyTo(ms1);
-                    p1 = ms1.ToArray();
-                }
-                var ordineCliente = _context.OrdineCliente.Where(x => x.Id == Id).FirstOrDefault();
-                ordineCliente.AccettazioneCondizioni = p1;
+                    //Convert Image to byte and save to database
+                    byte[] p1 = null;
+                    using (var fs1 = Image.OpenReadStream())
+                    using (var ms1 = new MemoryStream())
+                    {
+                        fs1.CopyTo(ms1);
+                        p1 = ms1.ToArray();
+                    }
+                    var ordineClienteFoto = _context.OrdineClienteFoto.Where(x => x.IdOrdine == Id).Select(x => x).FirstOrDefault();
+                    ordineClienteFoto.Foto = p1;
 
-                _context.Update(ordineCliente);
-                await _context.SaveChangesAsync();
+                    _context.Update(ordineClienteFoto);
+                    await _context.SaveChangesAsync();
+                }
 
                 return RedirectToAction(nameof(Index));
             }
@@ -618,7 +631,6 @@ namespace StockManagement
         [Authorize]
         async Task Execute(OrdineCliente ordineCliente, string emailCliente, string emailRappresentante, bool isLoft1)
         {
-            //TODO METTERE API SENDGRID
             var client = new SendGridClient("");
             var from = new EmailAddress("zero_meno@outlook.it", "Zero Meno");
             if (isLoft1)
@@ -637,7 +649,7 @@ namespace StockManagement
 
             var subject = $"Riepilogo ordine " + ordineCliente.Id;
             var plainTextContent = $"";
-          
+
             var html = @"<!DOCTYPE html>
 <html>
 <head>
@@ -906,6 +918,18 @@ namespace StockManagement
               <![endif]-->
               <div style=""display: inline-block; width: 100%; max-width: 50%; min-width: 240px; vertical-align: top;"">
                 <table align=""left"" border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%"" style=""max-width: 300px;"">
+<tr>
+                    <td align=""left"" valign=""top"" style=""padding-bottom: 6px; padding-left: 6px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">
+                      <p><strong>{(string.IsNullOrEmpty(cliente.Nome) ? "Indirizzo email cliente" : "")}</strong></p>
+                      <p>{(string.IsNullOrEmpty(cliente.Nome) ? cliente.Nome : "")}</p>
+                    </td>
+                  </tr>                     
+<tr>
+                    <td align=""left"" valign=""top"" style=""padding-bottom: 6px; padding-left: 6px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">
+                      <p><strong>{(string.IsNullOrEmpty(cliente.Email) ? "Indirizzo email cliente" : "")}</strong></p>
+                      <p>{(string.IsNullOrEmpty(cliente.Email) ? cliente.Email : "")}</p>
+                    </td>
+                  </tr>                  
                   <tr>
                     <td align=""left"" valign=""top"" style=""padding-bottom: 6px; padding-left: 6px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">
                       <p><strong>Indirizzo di spedizione</strong></p>
@@ -996,7 +1020,7 @@ namespace StockManagement
 
         public IActionResult SelectColoriFromCodice(string codice)
         {
-            var listaColori = _context.Articolo.Where(x => x.Codice == codice && x.Annullato == false).Select(x => new {Colore = x.Colore}).ToList();
+            var listaColori = _context.Articolo.Where(x => x.Codice == codice && x.Annullato == false).Select(x => new { Colore = x.Colore }).ToList();
             return Json(listaColori);
         }
 

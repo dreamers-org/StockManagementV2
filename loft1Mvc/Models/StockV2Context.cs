@@ -25,6 +25,8 @@ namespace StockManagement.Models
         public virtual DbSet<RigaOrdineCliente> RigaOrdineCliente { get; set; }
         public virtual DbSet<RigaOrdineFornitore> RigaOrdineFornitore { get; set; }
         public virtual DbSet<Tipo> Tipo { get; set; }
+        public virtual DbSet<ArticoloFoto> ArticoloFoto { get; set; }
+        public virtual DbSet<OrdineClienteFoto> OrdineClienteFoto { get; set; }
         public virtual DbSet<PackingList> PackingList { get; set; }
         public virtual DbSet<TipoPagamento> TipoPagamento { get; set; }
         public virtual DbQuery<ViewOrdineClienteViewModel> ViewOrdineCliente { get; set; }
@@ -71,11 +73,6 @@ namespace StockManagement.Models
                 entity.Property(e => e.Descrizione)
                     .IsRequired()
                     .HasMaxLength(256)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Foto)
-                    .IsRequired()
-                    .HasMaxLength(1024)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Genere)
@@ -410,6 +407,26 @@ namespace StockManagement.Models
             modelBuilder.Entity<PackingList>(entity =>
             {
                 entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
+            });
+
+            modelBuilder.Entity<ArticoloFoto>(entity =>
+            {
+                entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
+                entity.HasOne(d => d.IdNavigation)
+                   .WithOne()
+                   .HasForeignKey<Articolo>(d => d.Id)
+                   .OnDelete(DeleteBehavior.ClientSetNull)
+                   .HasConstraintName("FK_ArticoloFoto_Articolo");
+            });
+
+            modelBuilder.Entity<OrdineClienteFoto>(entity =>
+            {
+                entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
+                entity.HasOne(d => d.IdNavigation)
+                   .WithOne()
+                   .HasForeignKey<OrdineCliente>(d => d.Id)
+                   .OnDelete(DeleteBehavior.ClientSetNull)
+                   .HasConstraintName("FK_OrdineClienteFoto_OrdineCliente");
             });
         }
 

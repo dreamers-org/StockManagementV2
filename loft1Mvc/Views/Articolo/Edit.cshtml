@@ -84,7 +84,7 @@
                         </div>
                         <div class="col-md-2 mb-3">
                             <label class="control-label">Foto</label>
-                            <input accept="image/*" type="file" name="Image" class="form-control" />
+                            <input accept="image/*" type="file" name="Foto" class="form-control" />
                         </div>
                     </div>
                     <div class="form-row justify-content-center">
@@ -141,8 +141,8 @@
                     </div>
                 </form>
                 <hr />
-                @if (Model.Foto != null && Model.Foto.Length > 0) {
-                var base64 = Convert.ToBase64String(Model.Foto);
+                @if (ViewData["Foto"] != null && ((byte[])ViewData["Foto"]).Length > 0) {
+                var base64 = Convert.ToBase64String((byte[])ViewData["Foto"]);
                 var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
                 <img width="600" height="600" src="@imgSrc" class="img-fluid" />
                 }

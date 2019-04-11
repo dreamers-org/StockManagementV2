@@ -242,7 +242,7 @@ namespace StockManagement.Controllers
         [Authorize]
         public IActionResult ViewAccettazioneCondizioni(Guid id)
         {
-            var foto = _context.OrdineCliente.Where(x => x.Id == id).Select(x => x.AccettazioneCondizioni).FirstOrDefault();
+            var foto = _context.OrdineClienteFoto.Where(x => x.IdOrdine == id).Select(x => x.Foto).FirstOrDefault();
             if (foto != null && foto.Length > 0)
             {
                 return View("AccettazioneCondizioni", foto);

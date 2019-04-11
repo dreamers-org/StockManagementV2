@@ -27,10 +27,32 @@ namespace StockManagement.Controllers
         }
 
         [Authorize(Roles = "SuperAdmin, Commesso, Titolare")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string orderBy)
         {
-            var stockV2Context = _context.Articolo.Where(x => x.Annullato == false).Include(a => a.IdCollezioneNavigation).Include(a => a.IdFornitoreNavigation).Include(a => a.IdTipoNavigation);
-            return View(await stockV2Context.ToListAsync());
+            IOrderedQueryable<Articolo> context;
+            switch (orderBy)
+            {
+                case "Data":
+                    HttpContext.Session.SetString("OrderBy", "Data");
+                    context = _context.Articolo.Where(x => x.Annullato == false).Include(a => a.IdCollezioneNavigation).Include(a => a.IdFornitoreNavigation).Include(a => a.IdTipoNavigation).OrderByDescending(x => x.DataInserimento);
+                    return View("Index", await context.ToListAsync());
+                case "Codice":
+                    HttpContext.Session.SetString("OrderBy", "Codice");
+                    context = _context.Articolo.Where(x => x.Annullato == false).Include(a => a.IdCollezioneNavigation).Include(a => a.IdFornitoreNavigation).Include(a => a.IdTipoNavigation).OrderBy(x => x.Codice);
+                    return View("Index", await context.ToListAsync());
+                case "Fornitore":
+                    HttpContext.Session.SetString("OrderBy", "Fornitore");
+                    context = _context.Articolo.Where(x => x.Annullato == false).Include(a => a.IdCollezioneNavigation).Include(a => a.IdFornitoreNavigation).Include(a => a.IdTipoNavigation).OrderBy(x => x.IdFornitoreNavigation.Nome);
+                    return View("Index", await context.ToListAsync());
+                default:
+                    var orderByParam = HttpContext.Session.GetString("OrderBy");
+                    if (!string.IsNullOrEmpty(orderByParam))
+                    {
+                        return RedirectToAction(nameof(Index), new { orderBy = orderByParam });
+                    }
+                    context = _context.Articolo.Where(x => x.Annullato == false).Include(a => a.IdCollezioneNavigation).Include(a => a.IdFornitoreNavigation).Include(a => a.IdTipoNavigation).OrderByDescending(x => x.DataInserimento);
+                    return View("Index", await context.ToListAsync());
+            }
         }
 
         [Authorize(Roles = "SuperAdmin, Commesso, Titolare")]
@@ -95,7 +117,7 @@ namespace StockManagement.Controllers
         [Authorize(Roles = "SuperAdmin, Commesso, Titolare")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Codice,Descrizione,IdFornitore,Colore,Xxs,Xs,S,M,L,Xl,Xxl,TagliaUnica,TrancheConsegna,Genere,IdTipo,PrezzoAcquisto,PrezzoVendita,IdCollezione,Xxxl")] Articolo articolo)
+        public async Task<IActionResult> Create([Bind("Id,Codice,Descrizione,IdFornitore,Colore,Xxs,Xs,S,M,L,Xl,Xxl,TagliaUnica,TrancheConsegna,Genere,IdTipo,PrezzoAcquisto,PrezzoVendita,IdCollezione,Xxxl")] Articolo articolo, IFormFile Foto)
         {
             if (ModelState.IsValid)
             {
@@ -107,10 +129,24 @@ namespace StockManagement.Controllers
                 articolo.Id = Guid.NewGuid();
                 articolo.UtenteInserimento = User.Identity.Name;
                 articolo.DataModifica = DateTime.Now;
-                articolo.Foto = null;
                 articolo.Video = "";
                 _context.Add(articolo);
                 await _context.SaveChangesAsync();
+
+                if (Foto != null)
+                {
+                    byte[] p1 = null;
+                    using (var fs1 = Foto.OpenReadStream())
+                    using (var ms1 = new MemoryStream())
+                    {
+                        fs1.CopyTo(ms1);
+                        p1 = ms1.ToArray();
+                    }
+                    var fotoArticolo = _context.ArticoloFoto.Where(x => x.IdArticolo == articolo.Id).Select(x => x).FirstOrDefault();
+                    fotoArticolo.Foto = p1;
+                    await _context.SaveChangesAsync();
+                }
+               
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdCollezione"] = new SelectList(_context.Collezione, "Id", "Nome", articolo.IdCollezione);
@@ -191,20 +227,15 @@ namespace StockManagement.Controllers
             ViewData["IdCollezione"] = new SelectList(_context.Collezione, "Id", "Nome", articolo.IdCollezione);
             ViewData["IdFornitore"] = new SelectList(_context.Fornitore, "Id", "Nome", articolo.IdFornitore);
             ViewData["IdTipo"] = new SelectList(_context.Tipo, "Id", "Nome", articolo.IdTipo);
+            var fotoArticolo = _context.ArticoloFoto.Where(x => x.IdArticolo == id).Select(x => x.Foto).FirstOrDefault();
+            ViewData["Foto"] = fotoArticolo;
             return View(articolo);
         }
-
-        //public ActionResult GetImage(int id)
-        //{
-        //    // fetch image data from database
-        //    var 
-        //    return File(imageData, "image/jpg");
-        //}
 
         [Authorize(Roles = "SuperAdmin, Commesso, Titolare")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Codice,Descrizione,IdFornitore,Colore,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl,TagliaUnica,TrancheConsegna,Genere,IdTipo,PrezzoAcquisto,PrezzoVendita,IdCollezione")] Articolo articolo, IFormFile Image)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Codice,Descrizione,IdFornitore,Colore,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl,TagliaUnica,TrancheConsegna,Genere,IdTipo,PrezzoAcquisto,PrezzoVendita,IdCollezione")] Articolo articolo, IFormFile Foto)
         {
             if (id != articolo.Id)
             {
@@ -222,20 +253,19 @@ namespace StockManagement.Controllers
                     articolo.UtenteModifica = User.Identity.Name;
                     articolo.Annullato = old.Annullato;
                     articolo.Video = "";
-                    //Convert Image to byte and save to database
-                    if (Image != null)
+                    if (Foto != null)
                     {
                         byte[] p1 = null;
-                        using (var fs1 = Image.OpenReadStream())
+                        using (var fs1 = Foto.OpenReadStream())
                         using (var ms1 = new MemoryStream())
                         {
                             fs1.CopyTo(ms1);
                             p1 = ms1.ToArray();
                         }
-                        articolo.Foto = p1;
+                        var fotoArticolo = _context.ArticoloFoto.Where(x => x.IdArticolo == articolo.Id).Select(x => x).FirstOrDefault();
+                        fotoArticolo.Foto = p1;
+                        await _context.SaveChangesAsync();
                     }
-
-                    articolo.Foto = null;
 
                     Log.Warning($"{User.Identity.Name} --> modificato articolo: {articolo.Codice}");
                     _context.Update(articolo);
@@ -362,7 +392,11 @@ namespace StockManagement.Controllers
                     result.Xxl = !(articolo.Xxl && articolo.isXxlActive);
                     result.Xxxl = !(articolo.Xxxl && articolo.isXxxlActive);
                     result.TagliaUnica = !(articolo.TagliaUnica && articolo.isTagliaUnicaActive);
-                    result.Foto = (articolo.Foto != null && articolo.Foto.Length > 0) ? String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(articolo.Foto)) : null;
+
+                    //Prendo la foto dell'articolo dall'altra tabella
+                    var fotoArticolo = _context.ArticoloFoto.Where(x => x.IdArticolo == articolo.Id).Select(x => x.Foto).FirstOrDefault();
+
+                    result.Foto = (fotoArticolo != null && fotoArticolo.Length > 0) ? String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(fotoArticolo)) : null;
                 };
             }
             return Json(result);

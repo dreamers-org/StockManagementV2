@@ -33,5 +33,8 @@ namespace StockManagement.Models.ViewModels
 
         [DisplayName("Descr.")]
         public string DescrizioneArticolo { get; set; }
+
+        [DisplayName("Colore")]
+        public string Colore { get; set; }
     }
 }

@@ -14,10 +14,9 @@ namespace loft1Mvc
 			try
 			{
                 Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Warning()
+                .MinimumLevel.Error()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                 .Enrich.FromLogContext()
-                //.WriteTo.ApplicationInsights(TelemetryConfiguration.Active, TelemetryConverter.Traces)
                 .WriteTo.MSSqlServer("Data Source=loft1mvc.database.windows.net;Initial Catalog=StockV2;User ID=luca.bellavia.dev;Password=Pallone27@@;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False", "Logs", autoCreateSqlTable: true)
                 //.WriteTo.MSSqlServer("Server=tcp:loftserver.database.windows.net,1433;Initial Catalog=Stock;Persist Security Info=False;User ID=loftadmin;Password=loft1loft1@h2o;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30", "Logs", autoCreateSqlTable: true)
                 .CreateLogger();
