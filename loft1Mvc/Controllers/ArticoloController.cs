@@ -142,11 +142,27 @@ namespace StockManagement.Controllers
                         fs1.CopyTo(ms1);
                         p1 = ms1.ToArray();
                     }
-                    var fotoArticolo = _context.ArticoloFoto.Where(x => x.IdArticolo == articolo.Id).Select(x => x).FirstOrDefault();
-                    fotoArticolo.Foto = p1;
+                    var fotoArticolo = new ArticoloFoto()
+                    {
+                        Id = Guid.NewGuid(),
+                        Foto = p1,
+                        IdArticolo = articolo.Id
+                    };
+                    _context.Add(fotoArticolo);
                     await _context.SaveChangesAsync();
                 }
-               
+                else
+                {
+                    var fotoArticolo = new ArticoloFoto()
+                    {
+                        Id = Guid.NewGuid(),
+                        Foto = null,
+                        IdArticolo = articolo.Id
+                    };
+                    _context.Add(fotoArticolo);
+                    await _context.SaveChangesAsync();
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdCollezione"] = new SelectList(_context.Collezione, "Id", "Nome", articolo.IdCollezione);
@@ -253,6 +269,16 @@ namespace StockManagement.Controllers
                     articolo.UtenteModifica = User.Identity.Name;
                     articolo.Annullato = old.Annullato;
                     articolo.Video = "";
+                    articolo.isXxsActive = old.isXxsActive;
+                    articolo.isXsActive = old.isXsActive;
+                    articolo.isSActive = old.isSActive;
+                    articolo.isMActive = old.isMActive;
+                    articolo.isLActive = old.isLActive;
+                    articolo.isXlActive = old.isXlActive;
+                    articolo.isXxlActive = old.isXxlActive;
+                    articolo.isXxxlActive = old.isXxxlActive;
+                    articolo.isTagliaUnicaActive = old.isTagliaUnicaActive;
+
                     if (Foto != null)
                     {
                         byte[] p1 = null;
@@ -315,6 +341,11 @@ namespace StockManagement.Controllers
         private bool ArticoloExists(Guid id)
         {
             return _context.Articolo.Any(e => e.Id == id);
+        }
+
+        private bool ArticoloFotoExists(Guid id)
+        {
+            return _context.ArticoloFoto.Any(e => e.Id == id);
         }
 
         private bool ArticoloExists(string codice, string colore)

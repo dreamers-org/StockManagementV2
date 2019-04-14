@@ -35,8 +35,8 @@ namespace loft1Mvc
 					options.MinimumSameSitePolicy = SameSiteMode.None;
 				});
 
-                //services.AddDbContext<StockV2Context>(options => options.UseSqlServer(Configuration.GetConnectionString("StockV2ContextConnection")));
-                services.AddDbContext<StockV2Context>(options => options.UseSqlServer(Configuration.GetConnectionString("Production")));
+                services.AddDbContext<StockV2Context>(options => options.UseSqlServer(Configuration.GetConnectionString("StockV2ContextConnection")));
+                //services.AddDbContext<StockV2Context>(options => options.UseSqlServer(Configuration.GetConnectionString("Production")));
                 services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 				services.AddTransient<IEmailSender, EmailSender>();
                 services.AddScoped<IUserClaimsPrincipalFactory<GenericUser>, CustomClaimsPrincipalFactory>();

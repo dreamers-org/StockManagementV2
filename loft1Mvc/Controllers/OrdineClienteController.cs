@@ -604,7 +604,6 @@ namespace StockManagement
             {
                 if (Image != null)
                 {
-                    //Convert Image to byte and save to database
                     byte[] p1 = null;
                     using (var fs1 = Image.OpenReadStream())
                     using (var ms1 = new MemoryStream())
@@ -612,13 +611,15 @@ namespace StockManagement
                         fs1.CopyTo(ms1);
                         p1 = ms1.ToArray();
                     }
-                    var ordineClienteFoto = _context.OrdineClienteFoto.Where(x => x.IdOrdine == Id).Select(x => x).FirstOrDefault();
-                    ordineClienteFoto.Foto = p1;
-
-                    _context.Update(ordineClienteFoto);
+                    var fotoArticolo = new ArticoloFoto()
+                    {
+                        Id = Guid.NewGuid(),
+                        Foto = p1,
+                        IdArticolo = Id
+                    };
+                    _context.Add(fotoArticolo);
                     await _context.SaveChangesAsync();
                 }
-
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)

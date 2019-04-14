@@ -25,29 +25,39 @@ namespace StockManagement.Models
 		public string Colore { get; set; }
         [DisplayName("2XS/40")]
         public bool Xxs { get; set; }
+        [BindNever]
         public bool isXxsActive { get; set; }
         [DisplayName("XS/42")]
         public bool Xs { get; set; }
+        [BindNever]
         public bool isXsActive { get; set; }
         [DisplayName("S/44")]
         public bool S { get; set; }
+        [BindNever]
         public bool isSActive { get; set; }
         [DisplayName("M/46")]
         public bool M { get; set; }
+        [BindNever]
         public bool isMActive { get; set; }
         [DisplayName("L/48")]
         public bool L { get; set; }
+        [BindNever]
         public bool isLActive { get; set; }
         [DisplayName("XL/50")]
         public bool Xl { get; set; }
+        [BindNever]
         public bool isXlActive { get; set; }
         [DisplayName("2XL/52")]
         public bool Xxl { get; set; }
+        [BindNever]
         public bool isXxlActive { get; set; }
         [DisplayName("3XL/54")]
         public bool Xxxl { get; set; }
+        [BindNever]
         public bool isXxxlActive { get; set; }
+        [DisplayName("Taglia unica")]
         public bool TagliaUnica { get; set; }
+        [BindNever]
         public bool isTagliaUnicaActive { get; set; }
 
         [DisplayName("Tranche consegna")]

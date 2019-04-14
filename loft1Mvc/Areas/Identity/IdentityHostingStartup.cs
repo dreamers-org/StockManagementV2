@@ -18,10 +18,10 @@ namespace loft1Mvc.Areas.Identity
 			builder.ConfigureServices((context, services) =>
 			{
 
-                //services.AddDbContext<IdentityContext>(options => options.UseSqlServer(context.Configuration.GetConnectionString("IdentityContextConnection")));
+                services.AddDbContext<IdentityContext>(options => options.UseSqlServer(context.Configuration.GetConnectionString("IdentityContextConnection")));
 
                 //PRODUZIONE
-                services.AddDbContext<IdentityContext>(options => options.UseSqlServer(context.Configuration.GetConnectionString("IdentityProduction")));
+                //services.AddDbContext<IdentityContext>(options => options.UseSqlServer(context.Configuration.GetConnectionString("IdentityProduction")));
 
 				services.AddIdentity<GenericUser, IdentityRole>(config =>
 				{

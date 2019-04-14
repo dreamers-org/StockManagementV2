@@ -238,8 +238,59 @@ namespace StockManagement.Controllers
             return _context.OrdineCliente.Any(e => e.Id == id);
         }
 
+        public IActionResult AddRow(Guid id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            return View();
+        }
 
-        [Authorize]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> AddRow(Guid id, EditRigaOrdineClienteViewModel rigaOrdine)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var rigaOrdineCliente = await _context.RigaOrdineCliente.FindAsync(id);
+        //    if (rigaOrdineCliente == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    rigaOrdineCliente.Xxs = rigaOrdine.Xxs;
+        //    rigaOrdineCliente.Xs = rigaOrdine.Xs;
+        //    rigaOrdineCliente.S = rigaOrdine.S;
+        //    rigaOrdineCliente.M = rigaOrdine.M;
+        //    rigaOrdineCliente.L = rigaOrdine.L;
+        //    rigaOrdineCliente.Xl = rigaOrdine.Xl;
+        //    rigaOrdineCliente.Xxl = rigaOrdine.Xxl;
+        //    rigaOrdineCliente.Xxxl = rigaOrdine.Xxxl;
+        //    rigaOrdineCliente.TagliaUnica = rigaOrdine.TagliaUnica;
+
+        //    try
+        //    {
+        //        _context.Update(rigaOrdineCliente);
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!OrdineClienteExists(rigaOrdineCliente.Id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
+        //    return RedirectToAction(nameof(Index));
+        //}
+
+
         public IActionResult ViewAccettazioneCondizioni(Guid id)
         {
             var foto = _context.OrdineClienteFoto.Where(x => x.IdOrdine == id).Select(x => x.Foto).FirstOrDefault();

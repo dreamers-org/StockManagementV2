@@ -68,7 +68,7 @@
                             @Html.DropDownListFor(p => p.Genere, new List<SelectListItem> {
                                new SelectListItem { Value = "Uomo" , Text = "Uomo" },
                                new SelectListItem { Value = "Donna" , Text = "Donna" },
-                            }, new { @class = "form-control", @id= "ddlGenereProdotto" })
+                            }, new { @class = "form-control", @id = "ddlGenereProdotto" })
                             <span asp-validation-for="Genere" class="text-danger"></span>
                         </div>
                         <div class="col-md-2 mb-3">
@@ -90,6 +90,10 @@
                             <label asp-for="PrezzoVendita" class="control-label"></label>
                             <input asp-for="PrezzoVendita" class="form-control" autocomplete="off" id="txtPrezzoVendita" />
                             <span asp-validation-for="PrezzoVendita" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label class="control-label">Foto</label>
+                            <input accept="image/*" type="file" name="Foto" class="form-control" />
                         </div>
                     </div>
 
