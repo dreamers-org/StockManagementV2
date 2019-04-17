@@ -632,7 +632,7 @@ namespace StockManagement
         [Authorize]
         async Task Execute(OrdineCliente ordineCliente, string emailCliente, string emailRappresentante, bool isLoft1)
         {
-            var client = new SendGridClient("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");
+            var client = new SendGridClient("");
             var from = new EmailAddress("zero_meno@outlook.it", "Zero Meno");
             if (isLoft1)
             {
