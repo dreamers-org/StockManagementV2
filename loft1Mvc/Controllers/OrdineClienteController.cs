@@ -611,11 +611,11 @@ namespace StockManagement
                         fs1.CopyTo(ms1);
                         p1 = ms1.ToArray();
                     }
-                    var fotoArticolo = new ArticoloFoto()
+                    var fotoArticolo = new OrdineClienteFoto()
                     {
                         Id = Guid.NewGuid(),
                         Foto = p1,
-                        IdArticolo = Id
+                        IdOrdine = Id
                     };
                     _context.Add(fotoArticolo);
                     await _context.SaveChangesAsync();
@@ -632,7 +632,7 @@ namespace StockManagement
         [Authorize]
         async Task Execute(OrdineCliente ordineCliente, string emailCliente, string emailRappresentante, bool isLoft1)
         {
-            var client = new SendGridClient("");
+            var client = new SendGridClient("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");
             var from = new EmailAddress("zero_meno@outlook.it", "Zero Meno");
             if (isLoft1)
             {
@@ -919,13 +919,19 @@ namespace StockManagement
               <![endif]-->
               <div style=""display: inline-block; width: 100%; max-width: 50%; min-width: 240px; vertical-align: top;"">
                 <table align=""left"" border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%"" style=""max-width: 300px;"">
-<tr>
+                    <tr>
                     <td align=""left"" valign=""top"" style=""padding-bottom: 6px; padding-left: 6px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">
-                      <p><strong>{(string.IsNullOrEmpty(cliente.Nome) ? "Indirizzo email cliente" : "")}</strong></p>
+                      <p><strong>{(string.IsNullOrEmpty(cliente.Nome) ? "Cliente" : "")}</strong></p>
                       <p>{(string.IsNullOrEmpty(cliente.Nome) ? cliente.Nome : "")}</p>
                     </td>
-                  </tr>                     
-<tr>
+                  </tr>      
+                 <tr>
+                    <td align=""left"" valign=""top"" style=""padding-bottom: 6px; padding-left: 6px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">
+                      <p><strong>{(string.IsNullOrEmpty(cliente.Email) ? "Indirizzo email cliente" : "")}</strong></p>
+                      <p>{(string.IsNullOrEmpty(cliente.Email) ? cliente.Email : "")}</p>
+                    </td>
+                  </tr>  
+                    <tr>
                     <td align=""left"" valign=""top"" style=""padding-bottom: 6px; padding-left: 6px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">
                       <p><strong>{(string.IsNullOrEmpty(cliente.Email) ? "Indirizzo email cliente" : "")}</strong></p>
                       <p>{(string.IsNullOrEmpty(cliente.Email) ? cliente.Email : "")}</p>

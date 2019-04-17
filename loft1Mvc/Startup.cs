@@ -13,111 +13,124 @@ using Serilog;
 using StockManagement.Services;
 using loft1Mvc.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace loft1Mvc
 {
-	public class Startup
-	{
-		public Startup(IConfiguration configuration)
-		{
-			Configuration = configuration;
-		}
+    public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
 
-		public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; }
 
-		public void ConfigureServices(IServiceCollection services)
-		{
-			try
-			{
-				services.Configure<CookiePolicyOptions>(options =>
-				{
-					options.CheckConsentNeeded = context => true;
-					options.MinimumSameSitePolicy = SameSiteMode.None;
-				});
+        public void ConfigureServices(IServiceCollection services)
+        {
+            try
+            {
+                services.Configure<CookiePolicyOptions>(options =>
+                {
+                    options.CheckConsentNeeded = context => false;
+                    options.MinimumSameSitePolicy = SameSiteMode.None;
+                });
 
                 services.AddDbContext<StockV2Context>(options => options.UseSqlServer(Configuration.GetConnectionString("StockV2ContextConnection")));
                 //services.AddDbContext<StockV2Context>(options => options.UseSqlServer(Configuration.GetConnectionString("Production")));
                 services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-				services.AddTransient<IEmailSender, EmailSender>();
+                services.AddTransient<IEmailSender, EmailSender>();
                 services.AddScoped<IUserClaimsPrincipalFactory<GenericUser>, CustomClaimsPrincipalFactory>();
-
                 services.AddSession(options =>
-				{
-					options.IdleTimeout = TimeSpan.FromMinutes(30);
-				});
+                {
+                    options.IdleTimeout = TimeSpan.FromMinutes(30);
+                });
 
-				services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-			}
-			catch (Exception ex)
-			{
-				Log.Error(ex.Message);
-				throw;
-			}
-		}
+                //services.AddAuthentication()
+                // .AddCookie(cfg => cfg.SlidingExpiration = true);
+                //services.ConfigureApplicationCookie(options =>
+                //{
+                //    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                //    options.Cookie.Name = "Gestionale-ordini";
+                //    options.Cookie.HttpOnly = true;
+                //    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+                //    options.LoginPath = "/Identity/Account/Login";
+                //    options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+                //    options.SlidingExpiration = true;
+                //});
 
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
-		{
-			try
-			{
+                services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                throw;
+            }
+        }
 
-				Serilog.Debugging.SelfLog.Enable(Console.Error);
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
+        {
+            try
+            {
 
-				if (env.IsDevelopment())
-				{
-					app.UseDeveloperExceptionPage();
-					app.UseDatabaseErrorPage();
-				}
-				else
-				{
-					app.UseExceptionHandler("/Home/Error");
-					app.UseHsts();
-				}
+                Serilog.Debugging.SelfLog.Enable(Console.Error);
 
-				app.UseHttpsRedirection();
-				app.UseStaticFiles();
-				app.UseCookiePolicy();
-				app.UseAuthentication();
-				app.UseSession();
-				app.UseMvc(routes =>
-				{
-					routes.MapRoute(
-						name: "default",
-						template: "{controller=Home}/{action=Index}/{id?}");
-				});
-			}
-			catch (Exception ex)
-			{
-				Log.Error(ex.Message);
-				throw;
-			}
-			//CreateRoles(serviceProvider).Wait();
-		}
+                if (env.IsDevelopment())
+                {
+                    app.UseDeveloperExceptionPage();
+                    app.UseDatabaseErrorPage();
+                }
+                else
+                {
+                    app.UseExceptionHandler("/Home/Error");
+                    app.UseHsts();
+                }
 
-		//private async Task CreateRoles(IServiceProvider serviceProvider)
-		//{
-		//	//adding custom roles
-		//	var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-		//	var UserManager = serviceProvider.GetRequiredService<UserManager<GenericUser>>();
-		//	string[] roleNames = { "Rappresentante","Commesso", "Titolare", "SuperAdmin" };
-		//	IdentityResult roleResult;
+                app.UseHttpsRedirection();
+                app.UseStaticFiles();
+                app.UseCookiePolicy();
+                app.UseAuthentication();
+                app.UseSession();
+                app.UseMvc(routes =>
+                {
+                    routes.MapRoute(
+                        name: "default",
+                        template: "{controller=Home}/{action=Index}/{id?}");
+                });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                throw;
+            }
+            //CreateRoles(serviceProvider).Wait();
+        }
 
-  //          foreach (var roleName in roleNames)
-  //          {
-  //              //creating the roles and seeding them to the database
-  //              var roleExist = await RoleManager.RoleExistsAsync(roleName);
-  //              if (!roleExist)
-  //              {
-  //                  roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
-  //              }
-  //          }
+        //private async Task CreateRoles(IServiceProvider serviceProvider)
+        //{
+        //	//adding custom roles
+        //	var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        //	var UserManager = serviceProvider.GetRequiredService<UserManager<GenericUser>>();
+        //	string[] roleNames = { "Rappresentante","Commesso", "Titolare", "SuperAdmin" };
+        //	IdentityResult roleResult;
 
-  //          var _user = await UserManager.FindByEmailAsync("luca@admin.it");
-		//	if (_user != null)
-		//	{
-		//		await UserManager.AddToRoleAsync(_user, "SuperAdmin");
-		//	}
-		//}
+        //          foreach (var roleName in roleNames)
+        //          {
+        //              //creating the roles and seeding them to the database
+        //              var roleExist = await RoleManager.RoleExistsAsync(roleName);
+        //              if (!roleExist)
+        //              {
+        //                  roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+        //              }
+        //          }
+
+        //          var _user = await UserManager.FindByEmailAsync("luca@admin.it");
+        //	if (_user != null)
+        //	{
+        //		await UserManager.AddToRoleAsync(_user, "SuperAdmin");
+        //	}
+        //}
 
 
-	}
+    }
 }
