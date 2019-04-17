@@ -65,6 +65,15 @@
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.TagliaUnica)
                         </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.TotalePezzi)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.PrezzoArticolo)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.TotaleRiga)
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,7 +87,7 @@
                                 </td>
                             }
                             <td>
-                                <a asp-action="EditRow" asp-controller="OrdineCliente"  asp-route-id="@item.IdRigaOrdine" title="Visualizza dettaglio"><i class="fas fa-edit"></i></a>
+                                <a asp-action="EditRow" asp-controller="OrdineCliente" asp-route-id="@item.IdRigaOrdine" title="Visualizza dettaglio"><i class="fas fa-edit"></i></a>
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Codice)
@@ -116,8 +125,30 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.TagliaUnica)
                             </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TotalePezzi)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PrezzoArticolo) €
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TotaleRiga) €
+                            </td>
                         </tr>
                     }
+                    <tr class="bg-warning">
+                        @if (User.IsInRole("SuperAdmin"))
+                        {
+                            <td colspan="16"></td>
+                        }
+                        else
+                        {
+                            <td colspan="15"></td>
+                        }
+                        <td class="text-center">
+                            <strong>@ViewBag.TotalePrezzoOrdine €</strong> 
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

@@ -42,6 +42,9 @@ namespace StockManagement.Controllers
             {
                 return NotFound();
             }
+            {
+                ViewData["TotalePrezzoOrdine"] = ordineCliente.Select(x => x.TotaleRiga).ToList().Sum();
+            }
 
             return View(ordineCliente);
         }

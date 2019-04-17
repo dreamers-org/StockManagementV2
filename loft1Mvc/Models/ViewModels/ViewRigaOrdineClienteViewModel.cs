@@ -36,5 +36,7 @@ namespace StockManagement.Models.ViewModels
 
         [DisplayName("Colore")]
         public string Colore { get; set; }
+
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,5 +22,14 @@ namespace StockManagement.Models.ViewModels
         public int TagliaUnica { get; set; }
         public Guid IdRigaOrdine { get; set; }
         public Guid IdOrdine { get; set; }
+
+        [DisplayName("Prezzo articolo")]
+        public double PrezzoArticolo { get; set; }
+
+        [DisplayName("Numero articoli")]
+        public int TotalePezzi { get; set; }
+
+        [DisplayName("Totale €")]
+        public double TotaleRiga { get; set; }
     }
 }

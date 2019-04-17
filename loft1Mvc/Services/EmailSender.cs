@@ -8,7 +8,7 @@ namespace StockManagement.Services
     public class EmailSender : IEmailSender
     {
         //TODO METTERE API SENDGRID
-        string apiKey = "";
+        string apiKey = "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";
         public EmailSender()
         {
         }
