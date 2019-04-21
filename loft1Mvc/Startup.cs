@@ -48,16 +48,14 @@ namespace loft1Mvc
 
                 //services.AddAuthentication()
                 // .AddCookie(cfg => cfg.SlidingExpiration = true);
-                //services.ConfigureApplicationCookie(options =>
-                //{
-                //    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-                //    options.Cookie.Name = "Gestionale-ordini";
-                //    options.Cookie.HttpOnly = true;
-                //    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
-                //    options.LoginPath = "/Identity/Account/Login";
-                //    options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
-                //    options.SlidingExpiration = true;
-                //});
+                services.ConfigureApplicationCookie(options =>
+                {
+                    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+                    options.LoginPath = "/Identity/Account/Login";
+                    options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+                    options.SlidingExpiration = true;
+                });
 
                 services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             }

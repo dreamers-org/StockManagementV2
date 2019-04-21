@@ -3,17 +3,15 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StockManagement.Models;
 
-namespace StockManagement.Migrations
+namespace StockManagement.Migrations.StockV2
 {
     [DbContext(typeof(StockV2Context))]
-    [Migration("20190317183536_pendingChanges")]
-    partial class pendingChanges
+    partial class StockV2ContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,11 +50,6 @@ namespace StockManagement.Migrations
                         .HasMaxLength(256)
                         .IsUnicode(false);
 
-                    b.Property<string>("Foto")
-                        .IsRequired()
-                        .HasMaxLength(1024)
-                        .IsUnicode(false);
-
                     b.Property<string>("Genere")
                         .IsRequired()
                         .HasMaxLength(16)
@@ -68,15 +61,21 @@ namespace StockManagement.Migrations
 
                     b.Property<Guid>("IdTipo");
 
-                    b.Property<bool>("L");
+                    b.Property<bool>("L")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
-                    b.Property<bool>("M");
+                    b.Property<bool>("M")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
                     b.Property<double>("PrezzoAcquisto");
 
                     b.Property<double>("PrezzoVendita");
 
-                    b.Property<bool>("S");
+                    b.Property<bool>("S")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
                     b.Property<bool>("TagliaUnica");
 
@@ -98,19 +97,61 @@ namespace StockManagement.Migrations
                         .IsUnicode(false);
 
                     b.Property<bool>("Xl")
-                        .HasColumnName("XL");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("XL")
+                        .HasDefaultValue(false);
 
                     b.Property<bool>("Xs")
-                        .HasColumnName("XS");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("XS")
+                        .HasDefaultValue(false);
 
                     b.Property<bool>("Xxl")
                         .HasColumnName("XXL");
 
                     b.Property<bool>("Xxs")
-                        .HasColumnName("XXS");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("XXS")
+                        .HasDefaultValue(false);
 
                     b.Property<bool>("Xxxl")
                         .HasColumnName("XXXL");
+
+                    b.Property<bool>("isLActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
+
+                    b.Property<bool>("isMActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
+
+                    b.Property<bool>("isSActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
+
+                    b.Property<bool>("isTagliaUnicaActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
+
+                    b.Property<bool>("isXlActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
+
+                    b.Property<bool>("isXsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
+
+                    b.Property<bool>("isXxlActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
+
+                    b.Property<bool>("isXxsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
+
+                    b.Property<bool>("isXxxlActive")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
                     b.HasKey("Id");
 
@@ -121,6 +162,21 @@ namespace StockManagement.Migrations
                     b.HasIndex("IdTipo");
 
                     b.ToTable("Articolo");
+                });
+
+            modelBuilder.Entity("StockManagement.Models.ArticoloFoto", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("(newid())");
+
+                    b.Property<byte[]>("Foto");
+
+                    b.Property<Guid>("IdArticolo");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ArticoloFoto");
                 });
 
             modelBuilder.Entity("StockManagement.Models.Cliente", b =>
@@ -211,11 +267,27 @@ namespace StockManagement.Migrations
 
                     b.Property<Guid?>("IdTipoPagamento");
 
+                    b.Property<bool>("Letto")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
+
                     b.Property<string>("Note")
                         .HasMaxLength(8000)
                         .IsUnicode(false);
 
                     b.Property<bool>("Pagato");
+
+                    b.Property<bool>("Spedito")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("SpeditoInParte")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("Stampato")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
                     b.Property<string>("UtenteInserimento")
                         .IsRequired()
@@ -231,6 +303,21 @@ namespace StockManagement.Migrations
                     b.HasIndex("IdTipoPagamento");
 
                     b.ToTable("OrdineCliente");
+                });
+
+            modelBuilder.Entity("StockManagement.Models.OrdineClienteFoto", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("(newid())");
+
+                    b.Property<byte[]>("Foto");
+
+                    b.Property<Guid>("IdOrdine");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrdineClienteFoto");
                 });
 
             modelBuilder.Entity("StockManagement.Models.OrdineFornitore", b =>
@@ -271,25 +358,25 @@ namespace StockManagement.Migrations
 
                     b.Property<Guid>("IdArticolo");
 
-                    b.Property<int?>("L");
+                    b.Property<int>("L");
 
-                    b.Property<int?>("M");
+                    b.Property<int>("M");
 
-                    b.Property<int?>("S");
+                    b.Property<int>("S");
 
-                    b.Property<int?>("TagliaUnica");
+                    b.Property<int>("TagliaUnica");
 
                     b.Property<string>("UtenteInserimento");
 
-                    b.Property<int?>("Xl");
+                    b.Property<int>("Xl");
 
-                    b.Property<int?>("Xs");
+                    b.Property<int>("Xs");
 
-                    b.Property<int?>("Xxl");
+                    b.Property<int>("Xxl");
 
-                    b.Property<int?>("Xxs");
+                    b.Property<int>("Xxs");
 
-                    b.Property<int?>("Xxxl");
+                    b.Property<int>("Xxxl");
 
                     b.HasKey("Id");
 
@@ -321,6 +408,8 @@ namespace StockManagement.Migrations
                     b.Property<int>("S");
 
                     b.Property<bool>("Spedito");
+
+                    b.Property<int>("TagliaUnica");
 
                     b.Property<string>("UtenteInserimento")
                         .IsRequired()
@@ -450,6 +539,8 @@ namespace StockManagement.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("(newid())");
 
+                    b.Property<int>("Codice");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(64)
@@ -460,8 +551,47 @@ namespace StockManagement.Migrations
                     b.ToTable("TipoPagamento");
                 });
 
+            modelBuilder.Entity("StockManagement.Models.ViewModels.EditRigaOrdineClienteViewModel", b =>
+                {
+                    b.Property<Guid>("IdRiga")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CodiceArticolo")
+                        .IsRequired();
+
+                    b.Property<string>("Colore")
+                        .IsRequired();
+
+                    b.Property<int>("L");
+
+                    b.Property<int>("M");
+
+                    b.Property<int>("S");
+
+                    b.Property<int>("TagliaUnica");
+
+                    b.Property<int>("Xl");
+
+                    b.Property<int>("Xs");
+
+                    b.Property<int>("Xxl");
+
+                    b.Property<int>("Xxs");
+
+                    b.Property<int>("Xxxl");
+
+                    b.HasKey("IdRiga");
+
+                    b.ToTable("EditRigaOrdineClienteViewModel");
+                });
+
             modelBuilder.Entity("StockManagement.Models.Articolo", b =>
                 {
+                    b.HasOne("StockManagement.Models.ArticoloFoto")
+                        .WithOne("IdNavigation")
+                        .HasForeignKey("StockManagement.Models.Articolo", "Id")
+                        .HasConstraintName("FK_ArticoloFoto_Articolo");
+
                     b.HasOne("StockManagement.Models.Collezione", "IdCollezioneNavigation")
                         .WithMany("Articolo")
                         .HasForeignKey("IdCollezione")
@@ -484,6 +614,11 @@ namespace StockManagement.Migrations
                         .WithOne("OrdineCliente")
                         .HasForeignKey("StockManagement.Models.OrdineCliente", "Id")
                         .HasConstraintName("FK_OrdineCliente_Cliente");
+
+                    b.HasOne("StockManagement.Models.OrdineClienteFoto")
+                        .WithOne("IdNavigation")
+                        .HasForeignKey("StockManagement.Models.OrdineCliente", "Id")
+                        .HasConstraintName("FK_OrdineClienteFoto_OrdineCliente");
 
                     b.HasOne("StockManagement.Models.TipoPagamento", "IdPagamentoNavigation")
                         .WithMany("OrdineCliente")

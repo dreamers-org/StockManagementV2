@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace StockManagement.Migrations.Identity
+namespace StockManagement.Migrations
 {
-    public partial class AddedUserProperties : Migration
+    public partial class firstIdentity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
