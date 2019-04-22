@@ -8,6 +8,7 @@ function attivatorePaginaCreate() {
     window["caricaArticoli"] = caricaArticoli;
     window["getTaglieDisponibiliArticolo"] = getTaglieDisponibiliArticolo;
     window["disableBtnInserisci"] = disableBtnInserisci;
+    window["getFotoArticolo"] = getFotoArticolo;
     //carico la combo degli articoli
     caricaArticoli();
     //nascondo il div d'errore.
@@ -180,12 +181,31 @@ function getTaglieDisponibiliArticolo() {
             else {
                 $('#btnInserisci').attr("disabled", "disabled");
             }
+        },
+        error: function () {
+            alert("Errore");
+        }
+    });
+}
+;
+function getFotoArticolo() {
+    var codice = $('#txtCodiceArticolo').val();
+    var colore = $('#dropdownColore').val();
+    $.ajax({
+        type: "POST",
+        url: "/Articolo/getFotoArticolo",
+        data: { codice: codice, colore: colore },
+        success: function (data) {
+            console.log(data);
+            if (data.isArticoloValido) {
+                $('#btnInserisci').removeAttr("disabled");
+            }
+            else {
+                $('#btnInserisci').attr("disabled", "disabled");
+            }
             if (data.foto) {
                 $("#modalFoto").modal("show");
                 $('#divFoto').attr("src", data.foto);
-            }
-            else {
-                $("#modalFoto").modal("hide");
             }
         },
         error: function () {

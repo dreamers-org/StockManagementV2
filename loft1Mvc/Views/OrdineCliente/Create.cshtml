@@ -94,8 +94,6 @@
                             <label asp-for="CodiceArticolo" class="control-label">Codice Articolo</label>
                             <input id="txtCodiceArticolo" asp-for="CodiceArticolo" class="form-control" onfocus="disableBtnInserisci();" onblur="getColorePerArticolo();" readonly="readonly" />
                             <span asp-validation-for="CodiceArticolo" class="text-danger"></span>
-
-                            @*<select id="dropdownCodiceArticolo" class="form-control" name="CodiceArticolo" asp-items="ViewBag.CodiceArticolo" onblur="getColorePerArticolo();"></select>*@
                         </div>
                         <div class="col-md-3 mb-3">
                             <label asp-for="ColoreArticolo" class="control-label text-center">Colore Articolo</label>
@@ -106,6 +104,11 @@
                             <div class="form-group text-center">
                                 <label class="control-label text-center">Descrizione</label>
                                 <input class="form-control" type="text" id="txtDescrizione" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div class="col-md-1 mt-4">
+                            <div class="form-group text-center">
+                                <a onclick="getFotoArticolo();"><i class="fas fa-3x fa-image"></i></a>
                             </div>
                         </div>
                     </div>
@@ -186,10 +189,10 @@
 <div class="modal fade" id="modalFoto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <img id="divFoto" width="600" height="600" src="" class="img-fluid" />
-            <div class="modal-footer">
+            <div class="modal-header">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
             </div>
+            <img id="divFoto" width="600" height="600" src="" class="img-fluid" />
         </div>
     </div>
 </div>

@@ -45,6 +45,15 @@
                     <th scope="col">
                         @Html.DisplayNameFor(model => model.TagliaUnica)
                     </th>
+                    <th scope="col">
+                        TOT Pezzi
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.PrezzoVendita)
+                    </th>
+                    <th scope="col">
+                        TOT €
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -92,6 +101,15 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.TagliaUnica)
+                    </td>
+                    <td>
+                        @(item.TagliaUnica + item.Xxs + item.Xs + item.S + item.M + item.L + item.Xl + item.Xxl + item.Xxxl)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PrezzoVendita)
+                    </td>
+                    <td>
+                        @((item.TagliaUnica + item.Xxs + item.Xs + item.S + item.M + item.L + item.Xl + item.Xxl + item.Xxxl)*item.PrezzoVendita)
                     </td>
                 </tr>
                 }

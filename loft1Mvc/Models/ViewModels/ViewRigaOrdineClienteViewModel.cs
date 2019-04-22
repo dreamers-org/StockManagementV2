@@ -14,13 +14,21 @@ namespace StockManagement.Models.ViewModels
         public Guid IdOrdine { get; set; }
         public Guid IdArticolo { get; set; }
         public bool Spedito { get; set; }
+        [DisplayName("2XS/40")]
         public int Xxs { get; set; }
+        [DisplayName("XS/42")]
         public int Xs { get; set; }
+        [DisplayName("S/44")]
         public int S { get; set; }
+        [DisplayName("M/46")]
         public int M { get; set; }
+        [DisplayName("L/48")]
         public int L { get; set; }
+        [DisplayName("XL/50")]
         public int Xl { get; set; }
+        [DisplayName("2XL/52")]
         public int Xxl { get; set; }
+        [DisplayName("3XL/54")]
         public int Xxxl { get; set; }
         public int TagliaUnica { get; set; }
         public string UtenteModifica { get; set; }
@@ -36,6 +44,9 @@ namespace StockManagement.Models.ViewModels
 
         [DisplayName("Colore")]
         public string Colore { get; set; }
+
+        [DisplayName("€")]
+        public double PrezzoVendita { get; set; }
 
 
     }

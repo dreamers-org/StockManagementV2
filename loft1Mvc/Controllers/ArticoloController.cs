@@ -404,6 +404,29 @@ namespace StockManagement.Controllers
 
         #region MetodiLatoCliente
 
+        public ActionResult getFotoArticolo(string Codice, string Colore)
+        {
+            FotoArticolo result = new FotoArticolo
+            {
+                isArticoloValido = false
+            };
+
+            if (ArticoloExists(Codice, Colore))
+            {
+                Articolo articolo = _context.Articolo.Where(x => x.Codice == Codice && x.Annullato == false && x.Colore == Colore).FirstOrDefault();
+                if (articolo != null)
+                {
+                    result.isArticoloValido = true;
+
+                    //Prendo la foto dell'articolo dall'altra tabella
+                    var fotoArticolo = _context.ArticoloFoto.Where(x => x.IdArticolo == articolo.Id).Select(x => x.Foto).FirstOrDefault();
+
+                    result.Foto = (fotoArticolo != null && fotoArticolo.Length > 0) ? string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(fotoArticolo)) : null;
+                };
+            }
+            return Json(result);
+        }
+
         public ActionResult getTaglieDisponibili(string Codice, string Colore)
         {
             TaglieNonAttiveArticolo result = new TaglieNonAttiveArticolo();
@@ -423,11 +446,6 @@ namespace StockManagement.Controllers
                     result.Xxl = !(articolo.Xxl && articolo.isXxlActive);
                     result.Xxxl = !(articolo.Xxxl && articolo.isXxxlActive);
                     result.TagliaUnica = !(articolo.TagliaUnica && articolo.isTagliaUnicaActive);
-
-                    //Prendo la foto dell'articolo dall'altra tabella
-                    var fotoArticolo = _context.ArticoloFoto.Where(x => x.IdArticolo == articolo.Id).Select(x => x.Foto).FirstOrDefault();
-
-                    result.Foto = (fotoArticolo != null && fotoArticolo.Length > 0) ? String.Format("data:image/gif;base64,{0}", Convert.ToBase64String(fotoArticolo)) : null;
                 };
             }
             return Json(result);
@@ -538,9 +556,13 @@ namespace StockManagement.Controllers
             public bool Xxl { get; set; }
             public bool Xxxl { get; set; }
             public bool TagliaUnica { get; set; }
-            public string Foto { get; set; }
         }
 
+        protected class FotoArticolo
+        {
+            public bool isArticoloValido { get; set; }
+            public string Foto { get; set; }
+        }
         #endregion
     }
 }

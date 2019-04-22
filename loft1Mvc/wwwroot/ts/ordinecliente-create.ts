@@ -12,6 +12,8 @@ export function attivatorePaginaCreate() {
 
     window["disableBtnInserisci"] = disableBtnInserisci;
 
+    window["getFotoArticolo"] = getFotoArticolo;
+
     //carico la combo degli articoli
     caricaArticoli();
 
@@ -195,12 +197,32 @@ function getTaglieDisponibiliArticolo() {
             else {
                 (<JQuery<HTMLInputElement>>$('#btnInserisci')).attr("disabled", "disabled");
             }
+        },
+        error: function () {
+            alert("Errore");
+        }
+    })
+};
+
+function getFotoArticolo() {
+    let codice = $('#txtCodiceArticolo').val();
+    let colore = $('#dropdownColore').val()
+    $.ajax({
+        type: "POST",
+        url: "/Articolo/getFotoArticolo",
+        data: { codice: codice, colore: colore },
+        success: function (data) {
+            console.log(data);
+            if (data.isArticoloValido) {
+
+                (<JQuery<HTMLInputElement>>$('#btnInserisci')).removeAttr("disabled");
+            }
+            else {
+                (<JQuery<HTMLInputElement>>$('#btnInserisci')).attr("disabled", "disabled");
+            }
             if (data.foto) {
                 $("#modalFoto").modal("show");
                 (<JQuery<HTMLInputElement>>$('#divFoto')).attr("src", data.foto);
-            }
-            else {
-                $("#modalFoto").modal("hide");
             }
         },
         error: function () {
@@ -208,6 +230,7 @@ function getTaglieDisponibiliArticolo() {
         }
     })
 };
+
 
 function disableBtnInserisci() {
         (<JQuery<HTMLInputElement>>$('#btnInserisci')).attr("disabled", "disabled");

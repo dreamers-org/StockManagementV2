@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
 using SendGrid;
 using SendGrid.Helpers.Mail;
+using System;
 using System.Threading.Tasks;
 
 namespace StockManagement.Services
 {
     public class EmailSender : IEmailSender
     {
-        //TODO METTERE API SENDGRID
-        string apiKey = "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";
+        string apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
         public EmailSender()
         {
         }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using StockManagement.Models;
 using Serilog;
 using Microsoft.AspNetCore.Authorization;
+using System;
 
 namespace loft1Mvc.Controllers
 {
@@ -10,16 +11,6 @@ namespace loft1Mvc.Controllers
 	{
 		public IActionResult Index()
 		{
-			try
-			{
-                var i = User.Identity.Name;
-			}
-			catch (System.Exception)
-			{
-				Log.Error("Test");
-				throw;
-			}
-			Log.Error("Test");
 			return View();
 		}
 

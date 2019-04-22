@@ -632,7 +632,7 @@ namespace StockManagement
         [Authorize]
         async Task Execute(OrdineCliente ordineCliente, string emailCliente, string emailRappresentante, bool isLoft1)
         {
-            var client = new SendGridClient("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");
+            var client = new SendGridClient(Environment.GetEnvironmentVariable("SENDGRID_API_KEY"));
             var from = new EmailAddress("zero_meno@outlook.it", "Zero Meno");
             if (isLoft1)
             {
@@ -831,20 +831,21 @@ namespace StockManagement
             <td align=""left"" bgcolor=""#ffffff"" style=""padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">
               <table border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%"">
                 <tr>
-                  <td align=""left"" bgcolor=""#D2C7BA"" width=""75%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong>Codice #</strong></td>
-                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong></strong></td>
-                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong>Colore</strong></td>
-                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong>Descrizione</strong></td>
-                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong>Xxs/40</strong></td>
-                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong>Xs/42</strong></td>
-                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong>S/44</strong></td>
-                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong>M/46</strong></td>
-                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong>L/48</strong></td>
-                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong>Xl/50</strong></td>
-                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong>Xxl/52</strong></td>
-                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong>Xxxl/54</strong></td>
-                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong>VU</strong></td>
-                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""><strong>Prezzo</strong></td>
+                  <td align=""left"" bgcolor=""#D2C7BA"" width=""75%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;""><strong>Codice</strong></td>
+                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;""><strong>Colore</strong></td>
+                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;""><strong>Descrizione</strong></td>
+                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;""><strong>2XS/40</strong></td>
+                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;""><strong>Xs/42</strong></td>
+                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;""><strong>S/44</strong></td>
+                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;""><strong>M/46</strong></td>
+                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;""><strong>L/48</strong></td>
+                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;""><strong>Xl/50</strong></td>
+                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;""><strong>2XL/52</strong></td>
+                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;""><strong>3XL/54</strong></td>
+                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;""><strong>VU</strong></td>
+                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;""><strong>Tot.</strong></td>
+                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;""><strong>€/cad.</strong></td>
+                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;""><strong>TOT. €</strong></td>
                 </tr>";
             var righeOrdine = _context.RigaOrdineCliente.Where(x => x.IdOrdine == ordineCliente.Id).ToList();
             var totale = 0.0;
@@ -853,20 +854,21 @@ namespace StockManagement
             {
                 var articolo = _context.Articolo.Where(x => x.Id == item.IdArticolo).Select(x => x).FirstOrDefault();
                 html +=
-                   $@"<tr><td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">{articolo.Codice}</td>
-                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;""></td>
-                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">{articolo.Colore}</td>
-                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">{articolo.Descrizione}</td>
-                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">{item.Xxs}</td>
-                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">{item.Xs}</td>
-                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">{item.S}</td>
-                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">{item.M}</td>
-                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">{item.L}</td>
-                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">{item.Xl}</td>
-                  <td align=""left"" width=""25%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">{item.Xxl}</td>
-                  <td align=""left"" width=""25%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">{item.Xxxl}</td>
-                  <td align=""left"" width=""25%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">{item.TagliaUnica}</td>
-                  <td align=""left"" width=""25%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">{articolo.PrezzoVendita}</td></tr>";
+                   $@"<tr><td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;"">{articolo.Codice}</td>
+                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;"">{articolo.Colore}</td>
+                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;"">{articolo.Descrizione}</td>
+                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;"">{item.Xxs}</td>
+                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;"">{item.Xs}</td>
+                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;"">{item.S}</td>
+                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;"">{item.M}</td>
+                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;"">{item.L}</td>
+                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;"">{item.Xl}</td>
+                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;"">{item.Xxl}</td>
+                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;"">{item.Xxxl}</td>
+                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;"">{item.TagliaUnica}</td>
+                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;"">{(item.Xxs + item.Xs + item.S + item.M + item.L + item.Xl + item.Xxl + item.Xxxl + item.TagliaUnica)}</td>
+                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;"">{articolo.PrezzoVendita}</td>
+                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;"">{ articolo.PrezzoVendita * (item.Xxs + item.Xs + item.S + item.M + item.L + item.Xl + item.Xxl + item.Xxxl + item.TagliaUnica)}</td></tr>";
                 totale += (item.Xxs + item.Xs + item.S + item.M + item.L + item.Xl + item.Xxl + item.Xxxl + item.TagliaUnica) * articolo.PrezzoVendita;
             }
 
@@ -885,7 +887,8 @@ namespace StockManagement
                   <td align=""left"" width=""100%"" style=""padding: 12px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-top: 2px dashed #D2C7BA; border-bottom: 2px dashed #D2C7BA;""><strong></strong></td>
                   <td align=""left"" width=""100%"" style=""padding: 12px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-top: 2px dashed #D2C7BA; border-bottom: 2px dashed #D2C7BA;""><strong></strong></td>
                   <td align=""left"" width=""100%"" style=""padding: 12px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-top: 2px dashed #D2C7BA; border-bottom: 2px dashed #D2C7BA;""><strong>Totale</strong></td>
-                  <td align=""left"" width=""25%"" style=""padding: 12px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-top: 2px dashed #D2C7BA; border-bottom: 2px dashed #D2C7BA;""><strong>€ {totale}</strong></td>
+                  <td align=""left"" width=""100%"" style=""padding: 12px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-top: 2px dashed #D2C7BA; border-bottom: 2px dashed #D2C7BA;""><strong>€</strong></td>
+                  <td align=""left"" width=""25%"" style=""padding: 12px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-top: 2px dashed #D2C7BA; border-bottom: 2px dashed #D2C7BA;""><strong>{totale}</strong></td>
                 </tr>
               </table>
             </td>
@@ -922,22 +925,16 @@ namespace StockManagement
                 <table align=""left"" border=""0"" cellpadding=""0"" cellspacing=""0"" width=""100%"" style=""max-width: 300px;"">
                     <tr>
                     <td align=""left"" valign=""top"" style=""padding-bottom: 6px; padding-left: 6px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">
-                      <p><strong>{(string.IsNullOrEmpty(cliente.Nome) ? "Cliente" : "")}</strong></p>
-                      <p>{(string.IsNullOrEmpty(cliente.Nome) ? cliente.Nome : "")}</p>
+                      <p><strong>Cliente</strong></p>
+                      <p>{cliente.Nome}</p>
                     </td>
                   </tr>      
                  <tr>
                     <td align=""left"" valign=""top"" style=""padding-bottom: 6px; padding-left: 6px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">
-                      <p><strong>{(string.IsNullOrEmpty(cliente.Email) ? "Indirizzo email cliente" : "")}</strong></p>
-                      <p>{(string.IsNullOrEmpty(cliente.Email) ? cliente.Email : "")}</p>
+                      <p><strong>Indirizzo email cliente</strong></p>
+                      <p>{cliente.Email}</p>
                     </td>
                   </tr>  
-                    <tr>
-                    <td align=""left"" valign=""top"" style=""padding-bottom: 6px; padding-left: 6px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">
-                      <p><strong>{(string.IsNullOrEmpty(cliente.Email) ? "Indirizzo email cliente" : "")}</strong></p>
-                      <p>{(string.IsNullOrEmpty(cliente.Email) ? cliente.Email : "")}</p>
-                    </td>
-                  </tr>                  
                   <tr>
                     <td align=""left"" valign=""top"" style=""padding-bottom: 6px; padding-left: 6px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">
                       <p><strong>Indirizzo di spedizione</strong></p>
@@ -958,8 +955,8 @@ namespace StockManagement
                   </tr>
                     <tr>
                     <td align=""left"" valign=""top"" style=""padding-bottom: 6px; padding-left: 6px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">
-                      <p><strong>{(string.IsNullOrEmpty(ordineCliente.Note) ? "Note" : "")}</strong></p>
-                      <p>{(string.IsNullOrEmpty(ordineCliente.Note) ? ordineCliente.Note : "")}</p>
+                      <p><strong>{(!string.IsNullOrEmpty(ordineCliente.Note) ? "Note" : "")}</strong></p>
+                      <p>{(!string.IsNullOrEmpty(ordineCliente.Note) ? ordineCliente.Note : "")}</p>
                     </td>
                   </tr>
                 </table>
