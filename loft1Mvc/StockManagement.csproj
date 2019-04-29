@@ -19,6 +19,7 @@
     <Content Remove="wwwroot\ts\main.ts" />
     <Content Remove="wwwroot\ts\ordinecliente-create.ts" />
     <Content Remove="wwwroot\ts\ordinecliente-riepilogo.ts" />
+    <Content Remove="wwwroot\ts\ordinefornitore-create.ts" />
     <Content Remove="wwwroot\ts\packinglist-index.ts" />
     <Content Remove="wwwroot\ts\sitemap.ts" />
   </ItemGroup>
@@ -27,7 +28,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
     <PackageReference Include="SendGrid" Version="9.10.0" />
     <PackageReference Include="Serilog" Version="2.8.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />
@@ -53,6 +54,7 @@
     <TypeScriptCompile Include="wwwroot\ts\ordinecliente-create.ts" />
     <TypeScriptCompile Include="wwwroot\ts\ordinecliente-riepilogo.ts" />
     <TypeScriptCompile Include="wwwroot\ts\articolo-create.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\ordinefornitore-create.ts" />
     <TypeScriptCompile Include="wwwroot\ts\packinglist-index.ts" />
     <TypeScriptCompile Include="wwwroot\ts\sitemap.ts" />
     <TypeScriptCompile Include="wwwroot\ts\main.ts" />

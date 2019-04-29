@@ -21,7 +21,6 @@ namespace StockManagement.Models
         public virtual DbSet<Collezione> Collezione { get; set; }
         public virtual DbSet<Fornitore> Fornitore { get; set; }
         public virtual DbSet<OrdineCliente> OrdineCliente { get; set; }
-        public virtual DbSet<OrdineFornitore> OrdineFornitore { get; set; }
         public virtual DbSet<RigaOrdineCliente> RigaOrdineCliente { get; set; }
         public virtual DbSet<RigaOrdineFornitore> RigaOrdineFornitore { get; set; }
         public virtual DbSet<Tipo> Tipo { get; set; }
@@ -34,6 +33,7 @@ namespace StockManagement.Models
         public virtual DbQuery<ViewRigaOrdineClienteViewModel> ViewRigaOrdineCliente { get; set; }
         public virtual DbQuery<ViewOrdineClienteCommessoViewModel> ViewOrdineClienteCommesso { get; set; }
         public virtual DbQuery<ViewRigaOrdineClienteCommessoViewModel> ViewRigaOrdineClienteCommesso { get; set; }
+        public virtual DbQuery<ViewOrdineClienteRiepilogoBreveViewModel> ViewOrdineClienteRiepilogoBreve { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -264,26 +264,6 @@ namespace StockManagement.Models
                  .HasDefaultValue(false);
             });
 
-            modelBuilder.Entity<OrdineFornitore>(entity =>
-            {
-                entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
-
-                entity.Property(e => e.DataInserimento)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.DataModifica).HasColumnType("datetime");
-
-                entity.Property(e => e.UtenteInserimento)
-                    .IsRequired()
-                    .HasMaxLength(128)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UtenteModifica)
-                    .HasMaxLength(128)
-                    .IsUnicode(false);
-            });
-
             modelBuilder.Entity<RigaOrdineCliente>(entity =>
             {
                 entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
@@ -336,11 +316,7 @@ namespace StockManagement.Models
 
                 entity.Property(e => e.DataModifica).HasColumnType("datetime");
 
-                entity.Property(e => e.Larrivato).HasColumnName("LArrivato");
-
-                entity.Property(e => e.Marrivato).HasColumnName("MArrivato");
-
-                entity.Property(e => e.Sarrivato).HasColumnName("SArrivato");
+               
 
                 entity.Property(e => e.UtenteInserimento)
                     .IsRequired()
@@ -353,35 +329,21 @@ namespace StockManagement.Models
 
                 entity.Property(e => e.Xl).HasColumnName("XL");
 
-                entity.Property(e => e.Xlarrivato).HasColumnName("XLArrivato");
-
                 entity.Property(e => e.Xs).HasColumnName("XS");
-
-                entity.Property(e => e.Xsarrivato).HasColumnName("XSArrivato");
 
                 entity.Property(e => e.Xxl).HasColumnName("XXL");
 
-                entity.Property(e => e.Xxlarrivato).HasColumnName("XXLArrivato");
+                entity.Property(e => e.TagliaUnica).HasColumnName("TagliaUnica");
 
                 entity.Property(e => e.Xxs).HasColumnName("XXS");
 
-                entity.Property(e => e.Xxsarrivato).HasColumnName("XXSArrivato");
-
                 entity.Property(e => e.Xxxl).HasColumnName("XXXL");
-
-                entity.Property(e => e.Xxxlarrivato).HasColumnName("XXXLArrivato");
 
                 entity.HasOne(d => d.IdNavigation)
                     .WithOne(p => p.RigaOrdineFornitore)
                     .HasForeignKey<RigaOrdineFornitore>(d => d.Id)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_RigaOrdineFornitore_Articolo");
-
-                entity.HasOne(d => d.Id1)
-                    .WithOne(p => p.RigaOrdineFornitore)
-                    .HasForeignKey<RigaOrdineFornitore>(d => d.Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_RigaOrdineFornitore_OrdineFornitore");
             });
 
             modelBuilder.Entity<Tipo>(entity =>

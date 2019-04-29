@@ -38,14 +38,10 @@ namespace StockManagement.Controllers
             }
 
             var ordineCliente = await _context.ViewRigaOrdineClienteCommesso.Where(m => m.IdOrdine == id).ToListAsync();
-            if (ordineCliente == null)
-            {
-                return NotFound();
-            }
-            {
-                ViewData["TotalePrezzoOrdine"] = ordineCliente.Select(x => x.TotaleRiga).ToList().Sum();
-            }
-
+            if (ordineCliente == null) return NotFound();
+            var riepilogoOrdine = _context.ViewOrdineClienteRiepilogoBreve.Where(m => m.Id == id).FirstOrDefault();
+            ViewData["TotalePrezzoOrdine"] = ordineCliente.Select(x => x.TotaleRiga).ToList().Sum();
+            ViewData["RiepilogoOrdine"] = riepilogoOrdine;
             return View(ordineCliente);
         }
 

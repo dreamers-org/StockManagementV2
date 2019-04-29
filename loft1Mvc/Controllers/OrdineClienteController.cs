@@ -298,7 +298,6 @@ namespace StockManagement
                 //Invio la mail ai 3 attori
                 var emailCliente = _context.Cliente.Where(x => x.Id == ordineClienteCurrent.IdCliente).Select(x => x.Email).FirstOrDefault();
                 Execute(ordineClienteCurrent, emailCliente, User.Identity.Name, false).Wait();
-                //TODO DA MODIFICARE il false
 
                 //svuoto la sessione.
                 HttpContext.Session.Clear();
@@ -632,7 +631,7 @@ namespace StockManagement
         [Authorize]
         async Task Execute(OrdineCliente ordineCliente, string emailCliente, string emailRappresentante, bool isLoft1)
         {
-            var client = new SendGridClient(Environment.GetEnvironmentVariable("SENDGRID_API_KEY"));
+            var client = new SendGridClient(Environment.GetEnvironmentVariable("SENDGRID_API_KEY", EnvironmentVariableTarget.User));
             var from = new EmailAddress("zero_meno@outlook.it", "Zero Meno");
             if (isLoft1)
             {

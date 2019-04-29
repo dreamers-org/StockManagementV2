@@ -1,7 +1,9 @@
-﻿@model StockManagement.Models.PackingList
+﻿@model StockManagement.Models.RigaOrdineFornitore
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 
 @{
-    ViewData["Title"] = "Inserimento packing list";
+    ViewData["Title"] = "Inserimento nuovo ordine fornitore";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -10,86 +12,98 @@
     <div class="col-sm-4">
         <a asp-action="Index" class="btn rounded-pill btn-outline-secondary float-left mt-3"><i class="fas fa-arrow-left"></i>&nbsp;Torna alla lista</a>
     </div>
-    <div class="col-sm-4 text-center">
-        <h1>@ViewData["Title"]</h1>
+    <div class="col-sm-8">
+        <h1 class="float-left">@ViewData["Title"]</h1>
     </div>
     <div class="col-sm-12">
         <hr />
     </div>
 </div>
+
 <div class="row">
-    <div class="col-sm-10 col-md-10 mx-auto mb-3">
+    <div class=" col-sm-10 col-md-10 mx-auto mb-3">
         <div class="card border-left-primary shadow h-100">
             <div class="card-body">
-                <form asp-action="Create">
+                <form class="needs-validation" asp-action="Create" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-row justify-content-center">
-                        <div class="col-md-3 mb-3">
-                            @Html.Label("Codice")
-                            @Html.TextBox("Codice", null, new { @class = "form-control", @Id = "txtCodice", @onblur = "return getColoriPerArticolo();" })
+                        <div class="col-md-2 mb-4">
+                            <label class="control-label">Codice</label>
+                            <input type="text" class="form-control" autocomplete="off" id="txtCodice" onblur="return getColoriPerArticolo();" />
                         </div>
-                        <div class="col-md-3 mb-3">
-                            @Html.Label("Colore")
-                            @Html.DropDownList("Colore", new List<SelectListItem> {
-                               new SelectListItem { Value = "-1" , Text = "Selezionare un colore" }
-                            }, new { @class = "form-control", @id = "ddlColore", @onblur = "return getTaglieArticolo();" })
+                        <div class="col-md-2 mb-4">
+                            <label class="control-label">Colore</label>
+                            <select id="ddlColore" class="form-control" onblur="return getTaglieArticolo();" readonly="readonly"></select>
                         </div>
-                    </div>
-                    <div class="form-row justify-content-center">
-                        <div class="col-md-1 mb-3">
-                            <label asp-for="Xxs" class="control-label"></label>
-                            <input asp-for="Xxs" value="0" id="txtXxs" class="form-control" />
-                            <span asp-validation-for="Xxs" class="text-danger"></span>
+                        <div class="col-md-2 mb-4">
+                            <label class="control-label">Descrizione</label>
+                            <input type="text" class="form-control" autocomplete="off" id="txtDescrizione" readonly="readonly" />
                         </div>
-                        <div class="col-md-1 mb-3">
-                            <label asp-for="Xs" class="control-label"></label>
-                            <input asp-for="Xs" id="txtXs" value="0" class="form-control" />
-                            <span asp-validation-for="Xs" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-1 mb-3">
-                            <label asp-for="S" class="control-label"></label>
-                            <input asp-for="S" value="0" id="txtS" class="form-control" />
-                            <span asp-validation-for="S" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-1 mb-3">
-                            <label asp-for="M" class="control-label"></label>
-                            <input asp-for="M" value="0" id="txtM" class="form-control" />
-                            <span asp-validation-for="M" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-1 mb-3">
-                            <label asp-for="L" class="control-label"></label>
-                            <input asp-for="L" value="0" id="txtL" class="form-control" />
-                            <span asp-validation-for="L" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-1 mb-3">
-                            <label asp-for="Xl" class="control-label"></label>
-                            <input asp-for="Xl" value="0" id="txtXl" class="form-control" />
-                            <span asp-validation-for="Xl" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-1 mb-3">
-                            <label asp-for="Xxl" class="control-label"></label>
-                            <input asp-for="Xxl" value="0" id="txtXxl" class="form-control" />
-                            <span asp-validation-for="Xxl" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-1 mb-3">
-                            <label asp-for="Xxxl" class="control-label"></label>
-                            <input asp-for="Xxxl" value="0" id="txtXxxl" class="form-control" />
-                            <span asp-validation-for="Xxxl" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-1 mb-3">
-                            <label asp-for="TagliaUnica" class="control-label"></label>
-                            <input asp-for="TagliaUnica" value="0" id="txtTagliaUnica" class="form-control" />
-                            <span asp-validation-for="TagliaUnica" class="text-danger"></span>
+                        <div class="col-md-2 mb-4">
+                            <label class="control-label">Fornitore</label>
+                            <input type="text" class="form-control" id="txtFornitore" readonly="readonly" />
                         </div>
                     </div>
-                    <div class="form-group">
-                        <input type="submit" value="Inserisci" class="btn btn-primary" />
+                    <div class="form-row justify-content-center mt-3">
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-control" asp-for="Xxs" id="txtXxs" /> @Html.DisplayNameFor(model => model.Xxs)
+                            </label>
+                        </div>
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-control" asp-for="Xs" id="txtXs" /> @Html.DisplayNameFor(model => model.Xs)
+                            </label>
+                        </div>
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-control" asp-for="S" id="txtS" /> @Html.DisplayNameFor(model => model.S)
+                            </label>
+                        </div>
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-control" asp-for="M" id="txtM" /> @Html.DisplayNameFor(model => model.M)
+                            </label>
+                        </div>
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-control" asp-for="L" id="txtL" /> @Html.DisplayNameFor(model => model.L)
+                            </label>
+                        </div>
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-control" asp-for="Xl" id="txtXl" /> @Html.DisplayNameFor(model => model.Xl)
+                            </label>
+                        </div>
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-control" asp-for="Xxl" id="txtXxl" /> @Html.DisplayNameFor(model => model.Xxl)
+                            </label>
+                        </div>
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-control" asp-for="Xxxl" id="txtXxxl" /> @Html.DisplayNameFor(model => model.Xxxl)
+                            </label>
+                        </div>
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
+                                <input class="form-control" asp-for="TagliaUnica" id="txtTagliaUnica" /> @Html.DisplayNameFor(model => model.TagliaUnica)
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <input type="submit" id="btnConferma" value="Inserisci" style="height:100% !important" class="btn btn-lg btn-primary float-left" disabled="disabled" />
+                            <a asp-action="create" class="btn btn-lg btn-danger float-left ml-3">Annulla</a>
+                        </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
 
 @section Scripts {
 
@@ -98,15 +112,17 @@
             let codice = $('#txtCodice').val();
             $.ajax({
                 type: "POST",
-                url: "/Articolo/SelectColoriFromCodice",
+                url: "/Articolo/getTxtValuesOrdineFornitore",
                 data: { codice: codice },
                 success: function (data) {
-                    console.log(data);
                     if (data) {
                         $('#ddlColore').empty();
                         for (var i = 0; i < data.length; i++) {
+                            $('#ddlColore').removeAttr("readonly");
                             $('#ddlColore').append(new Option(data[i].colore, data[i].colore));
-                        }
+                        };
+                         $('#txtFornitore').val("" + data[0].fornitore);
+                         $('#txtDescrizione').val(data[0].descrizione);
                     }
                 },
                 error: function () {
@@ -115,7 +131,7 @@
             })
         };
 
-         function getTaglieArticolo() {
+        function getTaglieArticolo() {
             let codice = $('#txtCodice').val();
             let colore = $('#ddlColore').val()
             $.ajax({
@@ -204,4 +220,3 @@
         };
     </script>
 }
-

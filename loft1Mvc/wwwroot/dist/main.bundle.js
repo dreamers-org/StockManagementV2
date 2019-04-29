@@ -8944,7 +8944,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(23);
+var	fixUrls = __webpack_require__(24);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -9299,8 +9299,8 @@ __webpack_require__(15);
 //import librerie interne
 var sitemap_1 = __webpack_require__(16);
 //import dei css
-__webpack_require__(21);
-__webpack_require__(24);
+__webpack_require__(22);
+__webpack_require__(25);
 $(document).ready(function () {
     try {
         //ottengo l'url corrente.
@@ -14590,6 +14590,7 @@ var ordinecliente_create_1 = __webpack_require__(17);
 var articolo_create_1 = __webpack_require__(18);
 var packinglist_index_1 = __webpack_require__(19);
 var ordinecliente_riepilogo_1 = __webpack_require__(20);
+var ordinefornitore_create_1 = __webpack_require__(21);
 exports.arrayPageModules = [
     {
         page: "/OrdineCliente/Create",
@@ -14610,6 +14611,11 @@ exports.arrayPageModules = [
         page: "/PackingList/Index",
         function: function (destination, template) { packinglist_index_1.attivatorePaginaIndexPackingList(); },
         menuItem: "navbarDropdown"
+    },
+    {
+        page: "/OrdineFornitore/Create",
+        function: function (destination, template) { ordinefornitore_create_1.attivatorePaginaOrdineFornitoreCreate(); }
+        //menuitem: "navbarDropdown"
     }
 ];
 
@@ -15000,8 +15006,112 @@ function abilitaConcludiOrdine(checkbox) {
 /* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
 
-var content = __webpack_require__(22);
+Object.defineProperty(exports, "__esModule", { value: true });
+function attivatorePaginaOrdineFornitoreCreate() {
+    window["getTxtValues"] = getTxtValues;
+    window["verifyCorrectness"] = verifyCorrectness;
+    window["getColorePerArticolo"] = getColorePerArticolo;
+}
+exports.attivatorePaginaOrdineFornitoreCreate = attivatorePaginaOrdineFornitoreCreate;
+function getTxtValues() {
+    var codice = $('#txtCodice').val();
+    $.ajax({
+        type: "POST",
+        url: "/Articolo/getTxtValues",
+        data: { codice: codice },
+        success: function (data) {
+            console.log(data);
+            if (data.fornitore) {
+                $('#txtDescrizione').val(data.descrizione);
+                ;
+                $('#txtPrezzoAcquisto').val(data.prezzoAcquisto);
+                ;
+                $('#txtPrezzoVendita').val(data.prezzoVendita);
+                ;
+                $('#txtTrancheConsegna').val(data.trancheConsegna);
+                ;
+                $('#ddlGenereProdotto').empty().append(new Option(data.genereProdotto, data.genereProdotto)).val(data.genereProdotto);
+                $('#ddlTipoProdotto').empty().append(new Option(data.tipoProdotto, data.idTipoProdotto)).val(data.idTipoProdotto);
+                $('#ddlFornitore').empty().append(new Option(data.fornitore, data.idFornitore)).val(data.idFornitore);
+                $('#ddlCollezione').empty().append(new Option(data.collezione, data.idCollezione)).val(data.idCollezione);
+                $('.form-control').attr("readonly", "readonly");
+                $('#txtColore').removeAttr("readonly");
+            }
+        },
+        error: function () {
+            alert("Errore");
+        }
+    });
+}
+;
+function verifyCorrectness() {
+    var codice = $('#txtCodice').val();
+    var colore = $('#txtColore').val();
+    $.ajax({
+        type: "POST",
+        url: "/Articolo/verifyCorrectness",
+        data: { codice: codice, colore: colore },
+        success: function (data) {
+            console.log(data);
+            if (!(data)) {
+                $('#divError').show();
+                $('#btnInserisci').attr("disabled", "disabled");
+            }
+            else {
+                $('#divError').hide();
+                $('#btnInserisci').removeAttr("disabled");
+            }
+        },
+        error: function () {
+            alert("Errore");
+        }
+    });
+}
+;
+//ottiene la lista dei colori per il codice selezionato.
+function getColorePerArticolo() {
+    var txtCodice = $("#txtCodice");
+    if (txtCodice != null) {
+        var codice = txtCodice.val().toString();
+        $.ajax({
+            type: "POST",
+            url: "/OrdineCliente/SelectColoriFromCodice",
+            data: { codice: codice },
+            success: function (data) {
+                console.log(data.length);
+                $('#ddlColore').removeAttr("disabled");
+                if (data.length == 0) {
+                    var s = '<option value="-1">Seleziona un colore</option>';
+                    $("#dropdownColore").html(s);
+                }
+                else {
+                    for (var i = 0; i < data.length; i++) {
+                        var s = '<option value="-1">Seleziona un colore</option>';
+                        for (var i = 0; i < data.length; i++) {
+                            console.log(data[i]);
+                            s += '<option value="' + data[i].colore + '">' + data[i].colore + '</option>';
+                        }
+                        $("#dropdownColore").html(s);
+                        $("#dropdownColore").removeAttr("disabled");
+                    }
+                }
+            },
+            error: function () {
+                console.log("Errore");
+            }
+        });
+    }
+}
+
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(23);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -15047,7 +15157,7 @@ if(false) {
 }
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(5)(false);
@@ -15057,7 +15167,7 @@ exports.push([module.i, "/*!\n * Bootstrap v4.3.1 (https://getbootstrap.com/)\n 
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports) {
 
 
@@ -15152,11 +15262,11 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(25);
+var content = __webpack_require__(26);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -15202,7 +15312,7 @@ if(false) {
 }
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(5)(false);

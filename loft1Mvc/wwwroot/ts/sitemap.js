@@ -4,6 +4,7 @@ var ordinecliente_create_1 = require("./ordinecliente-create");
 var articolo_create_1 = require("./articolo-create");
 var packinglist_index_1 = require("./packinglist-index");
 var ordinecliente_riepilogo_1 = require("./ordinecliente-riepilogo");
+var ordinefornitore_create_1 = require("./ordinefornitore-create");
 exports.arrayPageModules = [
     {
         page: "/OrdineCliente/Create",
@@ -24,6 +25,11 @@ exports.arrayPageModules = [
         page: "/PackingList/Index",
         function: function (destination, template) { packinglist_index_1.attivatorePaginaIndexPackingList(); },
         menuItem: "navbarDropdown"
+    },
+    {
+        page: "/OrdineFornitore/Create",
+        function: function (destination, template) { ordinefornitore_create_1.attivatorePaginaOrdineFornitoreCreate(); }
+        //menuitem: "navbarDropdown"
     }
 ];
 //# sourceMappingURL=sitemap.js.map

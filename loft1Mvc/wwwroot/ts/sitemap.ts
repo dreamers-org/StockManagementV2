@@ -2,6 +2,7 @@
 import { attivatorePaginaCreateArticolo } from "./articolo-create";
 import { attivatorePaginaIndexPackingList } from "./packinglist-index";
 import { attivatorePaginaOrdineClienteRiepilogo } from "./ordinecliente-riepilogo"
+import { attivatorePaginaOrdineFornitoreCreate } from "./ordinefornitore-create"
 
 export interface pageModule {
     page?: string;
@@ -29,6 +30,11 @@ export var arrayPageModules: pageModule[] = [
         page: "/PackingList/Index",
         function: function (destination, template) { attivatorePaginaIndexPackingList() },
         menuItem: "navbarDropdown"
+    },
+    {
+        page: "/OrdineFornitore/Create",
+        function: function (destination, template) { attivatorePaginaOrdineFornitoreCreate() }
+        //menuitem: "navbarDropdown"
     }
 ];
 

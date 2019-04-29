@@ -41,15 +41,14 @@
                                         <a class="dropdown-item" asp-controller="Tipo" asp-action="Index">Tipi Articoli</a>
                                         <a class="dropdown-item" asp-controller="Fornitore" asp-action="Index">Fornitori</a>
                                         <a class="dropdown-item" asp-controller="PackingList" asp-action="Index">Packing list</a>
-                                        <a class="dropdown-item" asp-controller="OrdineClienteCommesso" asp-action="Index">Ordine Clienti</a>
+                                        <a class="dropdown-item" asp-controller="OrdineClienteCommesso" asp-action="Index">Ordini Clienti</a>
+                                        <a class="dropdown-item" asp-controller="OrdineFornitore" asp-action="Index">Ordini Fornitore</a>
 
                                         @if ((User.IsInRole("SuperAdmin")))
                                         {
                                             <a class="dropdown-item" asp-controller="Collezione" asp-action="Index">Collezioni</a>
-                                            <a class="dropdown-item" asp-controller="OrdineAlFornitore" asp-action="Index">Ordine al fornitore</a>
                                         }
                                     }
-
                                 </div>
                             </li>
                             @if ((User.IsInRole("Titolare")) || (User.IsInRole("SuperAdmin")))

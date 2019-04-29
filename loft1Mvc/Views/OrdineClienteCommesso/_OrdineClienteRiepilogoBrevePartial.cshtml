@@ -1,0 +1,54 @@
+﻿@model StockManagement.Models.ViewModels.ViewOrdineClienteRiepilogoBreveViewModel
+
+<div class="row">
+    <div class="col-12">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Cliente)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Agente)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.DataInserimento)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.DataConsegna)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.TipoPagamento)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Note)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => model.Cliente)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.Agente)
+                    </td>
+                    <td>
+                        <label class="control-label">@(Model.DataInserimento.ToString("dd/MM/yyyy"))</label>
+                    </td>
+                    <td>
+                        <label class="control-label">@(Model.DataConsegna.ToString("dd/MM/yyyy"))</label>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.TipoPagamento)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.Note)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

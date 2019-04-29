@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,10 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using Serilog.Core;
 using StockManagement.Models;
 using StockManagement.Models.ViewModels;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace StockManagement.Controllers
 {
@@ -471,6 +467,20 @@ namespace StockManagement.Controllers
                                      .Select(x => new
                                      {
                                          Colore = x.Colore
+                                     }).ToList();
+
+            return Json(listaColori);
+        }
+
+
+        public IActionResult getTxtValuesOrdineFornitore(string codice)
+        {
+            var listaColori = _context.Articolo.Where(x => x.Codice == codice)
+                                     .Select(x => new
+                                     {
+                                         Colore = x.Colore,
+                                         Descrizione = x.Descrizione,
+                                         Fornitore = x.IdFornitoreNavigation.Nome
                                      }).ToList();
 
             return Json(listaColori);
