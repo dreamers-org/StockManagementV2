@@ -16,6 +16,7 @@ namespace StockManagement.Models.ViewModels
         public string IndirizzoCliente { get; set; }
 
         [Required(ErrorMessage = "Campo obbligatorio")]
+        [EmailAddress(ErrorMessage = "Inserire una mail valida.")]
         public string EmailCliente { get; set; }
 
         [Required(ErrorMessage = "Campo obbligatorio")]
