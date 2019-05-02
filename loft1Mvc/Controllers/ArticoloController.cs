@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -404,6 +405,28 @@ namespace StockManagement.Controllers
             return View(await stockV2Context.ToListAsync());
         }
 
+        [Authorize(Roles = "SuperAdmin, Commesso, Titolare")]
+        public async Task<IActionResult> DifferenzaOrdinatoVenduto(string orderBy)
+        {
+            List<ViewDifferenzaOrdinatoVenduto> viewDifferenzaOrdinatoVendutos;
+
+            switch (orderBy)
+            {
+                case "Codice":
+                    HttpContext.Session.SetString("OrderBy", "Codice");
+                    viewDifferenzaOrdinatoVendutos = await _context.ViewDifferenzaOrdinatoVenduto.OrderBy(x => x.Codice).ToListAsync();
+                    break;
+                case "Fornitore":
+                    HttpContext.Session.SetString("OrderBy", "Fornitore");
+                    viewDifferenzaOrdinatoVendutos = await _context.ViewDifferenzaOrdinatoVenduto.OrderBy(x => x.Fornitore).ToListAsync();
+                    break;
+                default:
+                    viewDifferenzaOrdinatoVendutos =await _context.ViewDifferenzaOrdinatoVenduto.ToListAsync();
+                    break;
+            }
+
+            return View(viewDifferenzaOrdinatoVendutos);
+        }
 
         #region MetodiLatoCliente
 

@@ -1,0 +1,230 @@
+﻿@model IEnumerable<StockManagement.Models.ViewModels.ViewDifferenzaOrdinatoVenduto>
+
+@{
+    ViewData["Title"] = "Elenco articoli";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-12">
+        <a asp-action="DifferenzaOrdinatoVenduto" asp-route-orderBy="Codice" class="btn btn-primary float-left mr-2">Per Codice</a>
+        <a asp-action="DifferenzaOrdinatoVenduto" asp-route-orderBy="Fornitore" class="btn btn-primary float-left">Per Fornitore</a>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table  table-sm">
+                <thead class="thead-dark small">
+                    <tr>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.Fornitore)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.Collezione)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.Codice)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.Colore)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.Descrizione)
+                        </th>
+                        <th scope="col" class="table-primary">
+                            @Html.DisplayNameFor(model => model.VXXS)
+                        </th>
+                        <th scope="col" class="table-primary">
+                            @Html.DisplayNameFor(model => model.VXS)
+                        </th>
+                        <th scope="col" class="table-primary">
+                            @Html.DisplayNameFor(model => model.VS)
+                        </th>
+                        <th scope="col" class="table-primary">
+                            @Html.DisplayNameFor(model => model.VM)
+                        </th>
+                        <th scope="col" class="table-primary">
+                            @Html.DisplayNameFor(model => model.VL)
+                        </th>
+                        <th scope="col" class="table-primary">
+                            @Html.DisplayNameFor(model => model.VXL)
+                        </th>
+                        <th scope="col" class="table-primary">
+                            @Html.DisplayNameFor(model => model.VXXL)
+                        </th>
+                        <th scope="col" class="table-primary">
+                            @Html.DisplayNameFor(model => model.VXXXL)
+                        </th>
+                        <th scope="col" class="table-primary">
+                            @Html.DisplayNameFor(model => model.VTU)
+                        </th>
+                        <th scope="col" class="table-success">
+                            @Html.DisplayNameFor(model => model.CXXS)
+                        </th>
+                        <th scope="col" class="table-success">
+                            @Html.DisplayNameFor(model => model.CXS)
+                        </th>
+                        <th scope="col" class="table-success">
+                            @Html.DisplayNameFor(model => model.CS)
+                        </th>
+                        <th scope="col" class="table-success">
+                            @Html.DisplayNameFor(model => model.CM)
+                        </th>
+                        <th scope="col" class="table-success">
+                            @Html.DisplayNameFor(model => model.CL)
+                        </th>
+                        <th scope="col" class="table-success">
+                            @Html.DisplayNameFor(model => model.CXL)
+                        </th>
+                        <th scope="col" class="table-success">
+                            @Html.DisplayNameFor(model => model.CXXL)
+                        </th>
+                        <th scope="col" class="table-success">
+                            @Html.DisplayNameFor(model => model.CXXXL)
+                        </th>
+                        <th scope="col" class="table-success">
+                            @Html.DisplayNameFor(model => model.CTU)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.DIFFXXS)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.DIFFXS)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.DIFFS)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.DIFFM)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.DIFFL)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.DIFFXL)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.DIFFXXL)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.DIFFXXXL)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.DIFFTU)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Fornitore)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Collezione)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Codice)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Colore)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descrizione)
+                            </td>
+                            <td class="table-primary">
+                                @Html.DisplayFor(modelItem => item.VXXS)
+                            </td>
+                            <td class="table-primary">
+                                @Html.DisplayFor(modelItem => item.VXS)
+                            </td>
+                            <td class="table-primary">
+                                @Html.DisplayFor(modelItem => item.VS)
+                            </td>
+                            <td class="table-primary">
+                                @Html.DisplayFor(modelItem => item.VM)
+                            </td>
+                            <td class="table-primary">
+                                @Html.DisplayFor(modelItem => item.VL)
+                            </td>
+                            <td class="table-primary">
+                                @Html.DisplayFor(modelItem => item.VXL)
+                            </td>
+                            <td class="table-primary">
+                                @Html.DisplayFor(modelItem => item.VXXL)
+                            </td>
+                            <td class="table-primary">
+                                @Html.DisplayFor(modelItem => item.VXXXL)
+                            </td>
+                            <td class="table-primary">
+                                @Html.DisplayFor(modelItem => item.VTU)
+                            </td>
+                            <td class="table-success">
+                                @Html.DisplayFor(modelItem => item.CXXS)
+                            </td>
+                            <td class="table-success">
+                                @Html.DisplayFor(modelItem => item.CXS)
+                            </td>
+                            <td class="table-success">
+                                @Html.DisplayFor(modelItem => item.CS)
+                            </td>
+                            <td class="table-success">
+                                @Html.DisplayFor(modelItem => item.CM)
+                            </td>
+                            <td class="table-success">
+                                @Html.DisplayFor(modelItem => item.CL)
+                            </td>
+                            <td class="table-success">
+                                @Html.DisplayFor(modelItem => item.CXL)
+                            </td>
+                            <td class="table-success">
+                                @Html.DisplayFor(modelItem => item.CXXL)
+                            </td>
+                            <td class="table-success">
+                                @Html.DisplayFor(modelItem => item.CXXXL)
+                            </td>
+                            <td class="table-success">
+                                @Html.DisplayFor(modelItem => item.CTU)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DIFFXXS)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DIFFXS)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DIFFS)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DIFFM)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DIFFL)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DIFFXL)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DIFFXXL)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DIFFXXXL)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DIFFTU)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
