@@ -1019,19 +1019,19 @@ namespace StockManagement
 
         public IActionResult SelectCodiciArticoli(DateTime dataconsegna)
         {
-            var listaArticoli = _context.Articolo.Where(x => x.TrancheConsegna <= dataconsegna && x.Annullato == false).Select(x => x.Codice).Distinct().ToArray();
+            var listaArticoli = _context.Articolo.Where(x => x.TrancheConsegna <= dataconsegna && x.Annullato == false).Select(x => x.Codice.ToUpper()).Distinct().ToArray();
             return Json(listaArticoli);
         }
 
         public IActionResult SelectColoriFromCodice(string codice)
         {
-            var listaColori = _context.Articolo.Where(x => x.Codice == codice && x.Annullato == false).Select(x => new { Colore = x.Colore }).ToList();
+            var listaColori = _context.Articolo.Where(x => x.Codice.ToLower() == codice.ToLower() && x.Annullato == false).Select(x => new { Colore = x.Colore }).ToList();
             return Json(listaColori);
         }
 
         public IActionResult SelectDescrizioneFromCodice(string codice)
         {
-            string descrizione = _context.Articolo.Where(x => x.Codice == codice).Select(x => x.Descrizione).FirstOrDefault();
+            string descrizione = _context.Articolo.Where(x => x.Codice.ToLower() == codice.ToLower()).Select(x => x.Descrizione).FirstOrDefault();
             return Json(descrizione);
         }
 

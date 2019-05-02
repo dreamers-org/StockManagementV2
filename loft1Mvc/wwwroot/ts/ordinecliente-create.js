@@ -9,6 +9,7 @@ function attivatorePaginaCreate() {
     window["getTaglieDisponibiliArticolo"] = getTaglieDisponibiliArticolo;
     window["disableBtnInserisci"] = disableBtnInserisci;
     window["getFotoArticolo"] = getFotoArticolo;
+    $("#btnVisualizzaImmagine").hide();
     //carico la combo degli articoli
     caricaArticoli();
     //nascondo il div d'errore.
@@ -25,7 +26,7 @@ function getColorePerArticolo() {
     $("#divAlertError").hide();
     if (txtCodice != null && txtCodice.val().toString() != "") {
         var codice = txtCodice.val().toString();
-        if (jQuery.inArray(codice, articoliDisponibili) != -1) {
+        if (jQuery.inArray(codice.toUpperCase(), articoliDisponibili) != -1) {
             //carico la lista dei colori.
             $.ajax({
                 type: "POST",
@@ -106,112 +107,122 @@ function caricaArticoli() {
 function getTaglieDisponibiliArticolo() {
     var codice = $('#txtCodiceArticolo').val();
     var colore = $('#dropdownColore').val();
-    $.ajax({
-        type: "POST",
-        url: "/Articolo/getTaglieDisponibili",
-        data: { codice: codice, colore: colore },
-        success: function (data) {
-            console.log(data);
-            if (data.xxs) {
-                $('#txtXxs').val("0");
-                $('#txtXxs').attr("readonly", "readonly");
+    if ((codice != null && codice != "") && (colore != null && colore != "-1")) {
+        $.ajax({
+            type: "POST",
+            url: "/Articolo/getTaglieDisponibili",
+            data: { codice: codice, colore: colore },
+            success: function (data) {
+                console.log(data);
+                if (data.xxs) {
+                    $('#txtXxs').val("0");
+                    $('#txtXxs').attr("readonly", "readonly");
+                }
+                else {
+                    $('#txtXxs').removeAttr("readonly");
+                }
+                if (data.xs) {
+                    $('#txtXs').val("0");
+                    $('#txtXs').attr("readonly", "readonly");
+                }
+                else {
+                    $('#txtXs').removeAttr("readonly");
+                }
+                if (data.s) {
+                    $('#txtS').val("0");
+                    $('#txtS').attr("readonly", "readonly");
+                }
+                else {
+                    $('#txtS').removeAttr("readonly");
+                }
+                if (data.m) {
+                    $('#txtM').val("0");
+                    $('#txtM').attr("readonly", "readonly");
+                }
+                else {
+                    $('#txtM').removeAttr("readonly");
+                }
+                if (data.l) {
+                    $('#txtL').val("0");
+                    $('#txtL').attr("readonly", "readonly");
+                }
+                else {
+                    $('#txtL').removeAttr("readonly");
+                }
+                if (data.xl) {
+                    $('#txtXl').val("0");
+                    $('#txtXl').attr("readonly", "readonly");
+                }
+                else {
+                    $('#txtXl').removeAttr("readonly");
+                }
+                if (data.xxl) {
+                    $('#txtXxl').val("0");
+                    $('#txtXxl').attr("readonly", "readonly");
+                }
+                else {
+                    $('#txtXxl').removeAttr("readonly");
+                }
+                if (data.xxxl) {
+                    $('#txtXxxl').val("0");
+                    $('#txtXxxl').attr("readonly", "readonly");
+                }
+                else {
+                    $('#txtXxxl').removeAttr("readonly");
+                }
+                if (data.tagliaUnica) {
+                    $('#txtTagliaUnica').val("0");
+                    $('#txtTagliaUnica').attr("readonly", "readonly");
+                }
+                else {
+                    $('#txtTagliaUnica').removeAttr("readonly");
+                }
+                if (data.isArticoloValido) {
+                    $('#btnInserisci').removeAttr("disabled");
+                }
+                else {
+                    $('#btnInserisci').attr("disabled", "disabled");
+                }
+            },
+            error: function () {
+                alert("Errore");
             }
-            else {
-                $('#txtXxs').removeAttr("readonly");
-            }
-            if (data.xs) {
-                $('#txtXs').val("0");
-                $('#txtXs').attr("readonly", "readonly");
-            }
-            else {
-                $('#txtXs').removeAttr("readonly");
-            }
-            if (data.s) {
-                $('#txtS').val("0");
-                $('#txtS').attr("readonly", "readonly");
-            }
-            else {
-                $('#txtS').removeAttr("readonly");
-            }
-            if (data.m) {
-                $('#txtM').val("0");
-                $('#txtM').attr("readonly", "readonly");
-            }
-            else {
-                $('#txtM').removeAttr("readonly");
-            }
-            if (data.l) {
-                $('#txtL').val("0");
-                $('#txtL').attr("readonly", "readonly");
-            }
-            else {
-                $('#txtL').removeAttr("readonly");
-            }
-            if (data.xl) {
-                $('#txtXl').val("0");
-                $('#txtXl').attr("readonly", "readonly");
-            }
-            else {
-                $('#txtXl').removeAttr("readonly");
-            }
-            if (data.xxl) {
-                $('#txtXxl').val("0");
-                $('#txtXxl').attr("readonly", "readonly");
-            }
-            else {
-                $('#txtXxl').removeAttr("readonly");
-            }
-            if (data.xxxl) {
-                $('#txtXxxl').val("0");
-                $('#txtXxxl').attr("readonly", "readonly");
-            }
-            else {
-                $('#txtXxxl').removeAttr("readonly");
-            }
-            if (data.tagliaUnica) {
-                $('#txtTagliaUnica').val("0");
-                $('#txtTagliaUnica').attr("readonly", "readonly");
-            }
-            else {
-                $('#txtTagliaUnica').removeAttr("readonly");
-            }
-            if (data.isArticoloValido) {
-                $('#btnInserisci').removeAttr("disabled");
-            }
-            else {
-                $('#btnInserisci').attr("disabled", "disabled");
-            }
-        },
-        error: function () {
-            alert("Errore");
-        }
-    });
+        });
+        //mostro il pulsante per visualizzare l'immagine.
+        $("#btnVisualizzaImmagine").show();
+    }
+    else {
+        //nascondo il pulsante per visualizzare l'immagine.
+        $("#btnVisualizzaImmagine").hide();
+    }
 }
 ;
 function getFotoArticolo() {
     var codice = $('#txtCodiceArticolo').val();
     var colore = $('#dropdownColore').val();
-    $.ajax({
-        type: "POST",
-        url: "/Articolo/getFotoArticolo",
-        data: { codice: codice, colore: colore },
-        success: function (data) {
-            console.log(data);
-            if (data.isArticoloValido) {
-                $('#btnInserisci').removeAttr("disabled");
+    if ((codice != null && codice != "") && (colore != null && colore != "-1")) {
+        $.ajax({
+            type: "POST",
+            url: "/Articolo/getFotoArticolo",
+            data: { codice: codice, colore: colore },
+            success: function (data) {
+                console.log(data);
+                if (data.isArticoloValido) {
+                    $('#btnInserisci').removeAttr("disabled");
+                }
+                else {
+                    $('#btnInserisci').attr("disabled", "disabled");
+                }
+                if (data.foto) {
+                    $("#modalFoto").modal("show");
+                    $('#divFoto').attr("src", data.foto);
+                }
+            },
+            error: function () {
+                alert("Errore");
             }
-            else {
-                $('#btnInserisci').attr("disabled", "disabled");
-            }
-            if (data.foto) {
-                $("#modalFoto").modal("show");
-                $('#divFoto').attr("src", data.foto);
-            }
-        },
-        error: function () {
-            alert("Errore");
-        }
-    });
+        });
+    }
 }
 ;
 function disableBtnInserisci() {
