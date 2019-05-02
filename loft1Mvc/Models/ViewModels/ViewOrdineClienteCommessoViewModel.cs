@@ -8,9 +8,11 @@ namespace StockManagement.Models.ViewModels
     {
         public Guid Id { get; set; }
         public string Cliente { get; set; }
+        public string AgenziaRappresentanza { get; set; }
         [DisplayName("Consegna")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime DataConsegna { get; set; }
+        public DateTime DataInserimento { get; set; }
         [DisplayName("Pagamento")]
         public string TipoPagamento { get; set; }
         public string Note { get; set; }

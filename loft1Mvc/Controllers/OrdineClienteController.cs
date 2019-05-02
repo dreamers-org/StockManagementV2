@@ -631,7 +631,8 @@ namespace StockManagement
         [Authorize]
         async Task Execute(OrdineCliente ordineCliente, string emailCliente, string emailRappresentante, bool isLoft1)
         {
-            var client = new SendGridClient(Environment.GetEnvironmentVariable("SENDGRID_API_KEY", EnvironmentVariableTarget.User));
+            //var client = new SendGridClient(Environment.GetEnvironmentVariable("SENDGRID_API_KEY", EnvironmentVariableTarget.User));
+            var client = new SendGridClient("");
             var from = new EmailAddress("zero_meno@outlook.it", "Zero Meno");
             if (isLoft1)
             {

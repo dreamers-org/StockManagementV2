@@ -23,13 +23,6 @@
             <table class="table">
                 <thead class="thead-dark small">
                     <tr>
-                        @if (User.IsInRole("SuperAdmin"))
-                        {
-                            <th scope="col">
-                            </th>
-                        }
-                        <th scope="col">
-                        </th>
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.Fornitore)
                         </th>
@@ -78,21 +71,19 @@
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.TotaleRiga)
                         </th>
+                        @if (User.IsInRole("SuperAdmin"))
+                        {
+                            <th scope="col">
+                            </th>
+                        }
+                        <th scope="col">
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
                     <tr>
-                        @if (User.IsInRole("SuperAdmin"))
-                        {
-                            <td>
-                                <a asp-action="Delete" asp-controller="OrdineClienteCommesso" asp-route-id="@item.IdRigaOrdine" title="Elimina"><i class="fas fa-trash-alt text-danger"></i></a>
-                            </td>
-                        }
-                        <td>
-                            <a asp-action="EditRow" asp-controller="OrdineCliente" asp-route-id="@item.IdRigaOrdine" title="Visualizza dettaglio"><i class="fas fa-edit"></i></a>
-                        </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Fornitore)
                         </td>
@@ -140,6 +131,15 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.TotaleRiga) €
+                        </td>
+                        @if (User.IsInRole("SuperAdmin"))
+                        {
+                            <td>
+                                <a asp-action="Delete" asp-controller="OrdineClienteCommesso" asp-route-id="@item.IdRigaOrdine" title="Elimina"><i class="fas fa-trash-alt text-danger"></i></a>
+                            </td>
+                        }
+                        <td>
+                            <a asp-action="EditRow" asp-controller="OrdineCliente" asp-route-id="@item.IdRigaOrdine" title="Visualizza dettaglio"><i class="fas fa-edit"></i></a>
                         </td>
                     </tr>
                     }

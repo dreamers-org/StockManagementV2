@@ -8,7 +8,8 @@ namespace StockManagement.Services
 {
     public class EmailSender : IEmailSender
     {
-        string apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+        //string apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+        string apiKey = Environment.GetEnvironmentVariable("");
         public EmailSender()
         {
         }

@@ -20,11 +20,12 @@
             <table class="table">
                 <thead class="thead-dark small">
                     <tr>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
+
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.Cliente)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.AgenziaRappresentanza)
                         </th>
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.DataConsegna)
@@ -32,7 +33,7 @@
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.TipoPagamento)
                         </th>
-                        <th scope="col" class="w-50">
+                        <th scope="col">
                             @Html.DisplayNameFor(model => model.Note)
                         </th>
                         <th scope="col">
@@ -41,7 +42,7 @@
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.Spedito)
                         </th>
-                        <th scope="col" class="w-25">
+                        <th scope="col">
                             @Html.DisplayNameFor(model => model.SpeditoInParte)
                         </th>
                         <th scope="col">
@@ -50,24 +51,20 @@
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.Stampato)
                         </th>
-
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
                     <tr>
-                        <td>
-                            <a asp-action="Details" asp-route-id="@item.Id" title="Visualizza dettaglio"><i class="fas fa-list-alt"></i></a>
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id" title="Modifica"><i class="fas fa-edit"></i></a>
-                        </td>
-                        <td>
-                            <a asp-action="ViewAccettazioneCondizioni" asp-route-id="@item.Id" title="Visualizza foto condizioni"><i class="fas fa-file-signature"></i></a>
-                        </td>
                         <td width="10%">
                             @Html.DisplayFor(modelItem => item.Cliente)
+                        </td>
+                        <td width="10%">
+                            @Html.DisplayFor(modelItem => item.AgenziaRappresentanza)
                         </td>
                         <td width="10%">
                             @Html.DisplayFor(modelItem => item.DataConsegna)
@@ -93,7 +90,15 @@
                         <td width="4%">
                             @Html.DisplayFor(modelItem => item.Stampato)
                         </td>
-
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id" title="Visualizza dettaglio"><i class="fas fa-list-alt"></i></a>
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id" title="Modifica"><i class="fas fa-edit"></i></a>
+                        </td>
+                        <td>
+                            <a asp-action="ViewAccettazioneCondizioni" asp-route-id="@item.Id" title="Visualizza foto condizioni"><i class="fas fa-file-signature"></i></a>
+                        </td>
                     </tr>
                     }
                 </tbody>

@@ -1,42 +1,40 @@
-﻿@model IEnumerable<StockManagement.Models.RigaOrdineFornitore>
+﻿@model IEnumerable<StockManagement.Models.ViewModels.ViewOrdineFornitoreViewModel>
 
 @{
     ViewData["Title"] = "Elenco ordini fornitore";
 }
 
 <!-- Title -->
-    <h1>@ViewData["Title"]</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
     <a asp-action="Create">Nuovo ordine</a>
 </p>
 <hr />
+<div class="row mb-4">
+        <a asp-action="Index" asp-route-orderBy="Data" class="btn btn-primary ml-3">Per Data inserimento</a>
+        <a asp-action="Index" asp-route-orderBy="Codice" class="btn btn-primary ml-1">Per Codice</a>
+        <a asp-action="Index" asp-route-orderBy="Fornitore" class="btn btn-primary ml-1">Per Fornitore</a>
+</div>
 <div class="row">
     <div class="col-12">
         <div class="table-responsive">
             <table class="table">
                 <thead class="thead-dark small">
                     <tr>
-                        @if (User.IsInRole("SuperAdmin"))
-                        {
-                            <th scope="col">
-                            </th>
-                        }
+                        @*<th scope="col">
+                         </th>*@
                         <th scope="col">
+                            @Html.DisplayNameFor(model => model.Fornitore)
                         </th>
                         <th scope="col">
+                            @Html.DisplayNameFor(model => model.Codice)
                         </th>
                         <th scope="col">
-                            Fornitore
+                            @Html.DisplayNameFor(model => model.Descrizione)
                         </th>
                         <th scope="col">
-                            @Html.DisplayNameFor(model => model.IdNavigation.Codice)
-                        </th>
-                        <th scope="col">
-                            @Html.DisplayNameFor(model => model.IdNavigation.Descrizione)
-                        </th>
-                        <th scope="col">
-                            @Html.DisplayNameFor(model => model.IdNavigation.Colore)
+                            @Html.DisplayNameFor(model => model.Colore)
                         </th>
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.Xxs)
@@ -66,10 +64,12 @@
                             @Html.DisplayNameFor(model => model.TagliaUnica)
                         </th>
                         <th scope="col">
-                            @Html.DisplayNameFor(model => model.IdNavigation.PrezzoAcquisto)
+                            @Html.DisplayNameFor(model => model.PrezzoAcquisto)
                         </th>
                         <th scope="col">
-                            @Html.DisplayNameFor(model => model.IdNavigation.PrezzoVendita)
+                            @Html.DisplayNameFor(model => model.PrezzoVendita)
+                        </th>
+                        <th scope="col">
                         </th>
                     </tr>
                 </thead>
@@ -77,32 +77,20 @@
                     @foreach (var item in Model)
                     {
                     <tr>
-                        @if (User.IsInRole("SuperAdmin"))
-                        {
-                            <td>
-                                <a asp-action="Delete" asp-route-id="@item.Id" title="Elimina"><i class="fas fa-trash-alt text-danger"></i></a>
-                            </td>
-                            <td>
-                                <a asp-action="Edit" asp-route-id="@item.Id" title="Modifica"><i class="far fa-edit"></i></a>
-                            </td>
-                        }
+                        @*<td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" title="Modifica"><i class="far fa-edit"></i></a>
+                        </td>*@
                         <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id" title="Modifica"><i class="far fa-edit"></i></a>
+                            @Html.DisplayFor(modelItem => item.Fornitore)
                         </td>
                         <td>
-                            <a asp-action="CreateAnnullamento" asp-route-id="@item.Id" title="Annulla taglie"><i class="fas fa-list-alt"></i></a>
+                            @Html.DisplayFor(modelItem => item.Codice)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.IdFornitoreNavigation.Nome)
+                            @Html.DisplayFor(modelItem => item.Descrizione)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.IdNavigation.Codice)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.IdNavigation.Descrizione)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.IdNavigation.Colore)
+                            @Html.DisplayFor(modelItem => item.Colore)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Xxs)
@@ -132,10 +120,13 @@
                             @Html.DisplayFor(modelItem => item.TagliaUnica)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.IdNavigation.PrezzoAcquisto)
+                            @Html.DisplayFor(modelItem => item.PrezzoAcquisto)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.IdNavigation.PrezzoVendita)
+                            @Html.DisplayFor(modelItem => item.PrezzoVendita)
+                        </td>
+                        <td>
+                            <a asp-action="Delete" asp-route-id="@item.Id" title="Elimina"><i class="fas fa-trash-alt text-danger"></i></a>
                         </td>
                     </tr>
                     }

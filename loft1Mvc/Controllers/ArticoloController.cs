@@ -398,6 +398,13 @@ namespace StockManagement.Controllers
             }
         }
 
+        public async Task<IActionResult> Listino()
+        {
+            var stockV2Context = _context.ViewArticoloOrdineFornitore.OrderBy(x => x.Codice);
+            return View(await stockV2Context.ToListAsync());
+        }
+
+
         #region MetodiLatoCliente
 
         public ActionResult getFotoArticolo(string Codice, string Colore)

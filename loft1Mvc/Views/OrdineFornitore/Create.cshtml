@@ -29,11 +29,11 @@
                     <div class="form-row justify-content-center">
                         <div class="col-md-2 mb-4">
                             <label class="control-label">Codice</label>
-                            <input type="text" class="form-control" autocomplete="off" id="txtCodice" onblur="return getColoriPerArticolo();" />
+                            <input type="text" name="Codice" class="form-control" autocomplete="off" id="txtCodice" onblur="return getColoriPerArticolo();" />
                         </div>
                         <div class="col-md-2 mb-4">
                             <label class="control-label">Colore</label>
-                            <select id="ddlColore" class="form-control" onblur="return getTaglieArticolo();" readonly="readonly"></select>
+                            <select id="ddlColore" name="Colore" class="form-control" onblur="return getTaglieArticolo();" readonly="readonly"></select>
                         </div>
                         <div class="col-md-2 mb-4">
                             <label class="control-label">Descrizione</label>
@@ -41,7 +41,7 @@
                         </div>
                         <div class="col-md-2 mb-4">
                             <label class="control-label">Fornitore</label>
-                            <input type="text" class="form-control" id="txtFornitore" readonly="readonly" />
+                            <input type="text" class="form-control" name="Fornitore" id="txtFornitore" readonly="readonly" />
                         </div>
                     </div>
                     <div class="form-row justify-content-center mt-3">

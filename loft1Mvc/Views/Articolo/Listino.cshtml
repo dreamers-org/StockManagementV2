@@ -1,0 +1,53 @@
+﻿@model IEnumerable<StockManagement.Models.ViewModels.ViewArticoloFornitoreViewModel>
+
+@{
+    ViewData["Title"] = "Listino articoli con fornitore";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+<div class="row">
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="thead-dark small">
+                    <tr>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.Fornitore)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.Codice)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.Descrizione)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.Colore)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Fornitore)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Codice)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descrizione)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Colore)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

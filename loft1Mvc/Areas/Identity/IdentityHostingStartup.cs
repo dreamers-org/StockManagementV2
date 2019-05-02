@@ -19,10 +19,6 @@ namespace loft1Mvc.Areas.Identity
 			{
 
                 services.AddDbContext<IdentityContext>(options => options.UseSqlServer(context.Configuration.GetConnectionString("IdentityContextConnection")));
-
-                //PRODUZIONE
-                //services.AddDbContext<IdentityContext>(options => options.UseSqlServer(context.Configuration.GetConnectionString("IdentityProduction")));
-
 				services.AddIdentity<GenericUser, IdentityRole>(config =>
 				{
 					config.SignIn.RequireConfirmedEmail = true;

@@ -2,14 +2,16 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StockManagement.Models;
+using StockManagement.Models.ViewModels;
 
 namespace StockManagement.Controllers
 {
-    [Authorize(Roles = "SuperAdmin")]
+    [Authorize(Roles = "SuperAdmin, Commesso")]
     public class OrdineFornitoreController : Controller
     {
         private readonly StockV2Context _context;
@@ -19,28 +21,39 @@ namespace StockManagement.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string orderBy)
         {
-            var stockV2Context = _context.RigaOrdineFornitore.Include(r => r.IdNavigation);
-            return View(await stockV2Context.ToListAsync());
-        }
-
-        public async Task<IActionResult> Details(Guid? id)
-        {
-            if (id == null)
+            try
             {
-                return NotFound();
+                IOrderedQueryable<ViewOrdineFornitoreViewModel> context;
+                switch (orderBy)
+                {
+                    case "Data":
+                        HttpContext.Session.SetString("OrderBy", "Data");
+                        context = _context.ViewOrdineFornitore.OrderByDescending(x => x.DataInserimento);
+                        return View("Index", await context.ToListAsync());
+                    case "Codice":
+                        HttpContext.Session.SetString("OrderBy", "Codice");
+                        context = _context.ViewOrdineFornitore.OrderBy(x => x.Codice);
+                        return View("Index", await context.ToListAsync());
+                    case "Fornitore":
+                        HttpContext.Session.SetString("OrderBy", "Fornitore");
+                        context = _context.ViewOrdineFornitore.OrderBy(x => x.Fornitore);
+                        return View("Index", await context.ToListAsync());
+                    default:
+                        var orderByParam = HttpContext.Session.GetString("OrderBy");
+                        if (!string.IsNullOrEmpty(orderByParam))
+                        {
+                            return RedirectToAction(nameof(Index), new { orderBy = orderByParam });
+                        }
+                        context = _context.ViewOrdineFornitore.OrderByDescending(x => x.DataInserimento);
+                        return View("Index", await context.ToListAsync());
+                }
             }
-
-            var rigaOrdineFornitore = await _context.RigaOrdineFornitore
-                .Include(r => r.IdNavigation)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (rigaOrdineFornitore == null)
+            catch (Exception)
             {
-                return NotFound();
+                throw;
             }
-
-            return View(rigaOrdineFornitore);
         }
 
         public IActionResult Create()
@@ -50,93 +63,130 @@ namespace StockManagement.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(RigaOrdineFornitore rigaOrdineFornitore)
+        public async Task<IActionResult> Create(string Codice, string Colore, string Fornitore, RigaOrdineFornitore rigaOrdineFornitore)
         {
-            if (ModelState.IsValid)
+            try
             {
-                rigaOrdineFornitore.Id = Guid.NewGuid();
-                _context.Add(rigaOrdineFornitore);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    rigaOrdineFornitore.Id = Guid.NewGuid();
+                    rigaOrdineFornitore.IdArticolo = _context.Articolo.Where(x => x.Codice == Codice && x.Colore == Colore).Select(x => x.Id).FirstOrDefault();
+                    rigaOrdineFornitore.IdFornitore = _context.Articolo.Where(x => x.Id == rigaOrdineFornitore.IdArticolo).Select(x => x.IdFornitore).FirstOrDefault();
+                    rigaOrdineFornitore.UtenteInserimento = User.Identity.Name;
+                    rigaOrdineFornitore.DataInserimento = DateTime.Now;
+                    _context.Add(rigaOrdineFornitore);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(rigaOrdineFornitore);
             }
-            return View(rigaOrdineFornitore);
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<IActionResult> Edit(Guid? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var rigaOrdineFornitore = await _context.RigaOrdineFornitore.FindAsync(id);
-            if (rigaOrdineFornitore == null)
-            {
-                return NotFound();
+                var rigaOrdineFornitore = await _context.RigaOrdineFornitore.FindAsync(id);
+                if (rigaOrdineFornitore == null)
+                {
+                    return NotFound();
+                }
+                ViewData["Id"] = new SelectList(_context.Articolo, "Id", "Codice", rigaOrdineFornitore.Id);
+                return View(rigaOrdineFornitore);
             }
-            ViewData["Id"] = new SelectList(_context.Articolo, "Id", "Codice", rigaOrdineFornitore.Id);
-            return View(rigaOrdineFornitore);
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, RigaOrdineFornitore rigaOrdineFornitore)
         {
-            if (id != rigaOrdineFornitore.Id)
+            try
             {
-                return NotFound();
-            }
+                if (id != rigaOrdineFornitore.Id)
+                {
+                    return NotFound();
+                }
 
-            if (ModelState.IsValid)
-            {
-                try
+                if (ModelState.IsValid)
                 {
-                    _context.Update(rigaOrdineFornitore);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!RigaOrdineFornitoreExists(rigaOrdineFornitore.Id))
+                    try
                     {
-                        return NotFound();
+                        _context.Update(rigaOrdineFornitore);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!RigaOrdineFornitoreExists(rigaOrdineFornitore.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
+                ViewData["Id"] = new SelectList(_context.Articolo, "Id", "Codice", rigaOrdineFornitore.Id);
+                return View(rigaOrdineFornitore);
             }
-            ViewData["Id"] = new SelectList(_context.Articolo, "Id", "Codice", rigaOrdineFornitore.Id);
-            return View(rigaOrdineFornitore);
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<IActionResult> Delete(Guid? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var rigaOrdineFornitore = await _context.RigaOrdineFornitore
-                .Include(r => r.IdNavigation)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (rigaOrdineFornitore == null)
+                var rigaOrdineFornitore = await _context.RigaOrdineFornitore.FirstOrDefaultAsync(m => m.Id == id);
+                if (rigaOrdineFornitore == null)
+                {
+                    return NotFound();
+                }
+
+                return View(rigaOrdineFornitore);
+            }
+            catch (Exception)
             {
-                return NotFound();
+                throw;
             }
-
-            return View(rigaOrdineFornitore);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var rigaOrdineFornitore = await _context.RigaOrdineFornitore.FindAsync(id);
-            _context.RigaOrdineFornitore.Remove(rigaOrdineFornitore);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                var rigaOrdineFornitore = await _context.RigaOrdineFornitore.FindAsync(id);
+                _context.RigaOrdineFornitore.Remove(rigaOrdineFornitore);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         private bool RigaOrdineFornitoreExists(Guid id)
