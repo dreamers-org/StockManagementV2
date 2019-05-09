@@ -33,13 +33,13 @@ namespace StockManagement.Models.ViewModels
         public Guid IdRigaOrdine { get; set; }
         public Guid IdOrdine { get; set; }
 
-        [DisplayName("Prezzo articolo")]
+        [DisplayName("€/articolo")]
         public double PrezzoArticolo { get; set; }
 
-        [DisplayName("Numero articoli")]
+        [DisplayName("N. articoli")]
         public int TotalePezzi { get; set; }
 
-        [DisplayName("Totale €")]
+        [DisplayName("€/riga")]
         public double TotaleRiga { get; set; }
     }
 }

@@ -1,0 +1,123 @@
+﻿@model IEnumerable<StockManagement.Models.ViewModels.ViewRigaOrdineClienteViewModel>
+
+<div class="row">
+    <div class="col-12">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.CodiceArticolo)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.DescrizioneArticolo)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Colore)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Xxs)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Xs)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.S)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.M)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.L)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Xl)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Xxl)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.Xxxl)
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.TagliaUnica)
+                    </th>
+                    <th scope="col">
+                        TOT Pezzi
+                    </th>
+                    <th scope="col">
+                        @Html.DisplayNameFor(model => model.PrezzoVendita)
+                    </th>
+                    <th scope="col">
+                        TOT €
+                    </th>
+                    <th scope="col">
+                    </th>
+                    <th scope="col">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CodiceArticolo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DescrizioneArticolo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Colore)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Xxs)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Xs)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.S)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.M)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.L)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Xl)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Xxl)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Xxxl)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TagliaUnica)
+                    </td>
+                    <td>
+                        @(item.TagliaUnica + item.Xxs + item.Xs + item.S + item.M + item.L + item.Xl + item.Xxl + item.Xxxl)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PrezzoVendita)
+                    </td>
+                    <td>
+                        @((item.TagliaUnica + item.Xxs + item.Xs + item.S + item.M + item.L + item.Xl + item.Xxl + item.Xxxl) * item.PrezzoVendita)
+                    </td>
+                    <td>
+                        <a asp-action="DeleteRow" asp-route-id="@item.Id" title="Cancella riga" onclick="return confirm('Sei sicuro di voler cancellare la riga dell ordine?')"><i class="far fa-trash-alt"></i></a>
+                    </td>
+                    <td>
+                        <a asp-action="EditRow" asp-route-id="@item.Id" title="Modifica riga"><i class="far fa-edit"></i></a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

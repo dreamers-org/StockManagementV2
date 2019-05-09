@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<StockManagement.Models.ViewModels.ViewOrdineClienteCommessoViewModel>
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 
 @{
     ViewData["Title"] = "Lista ordini cliente";
@@ -14,13 +16,13 @@
 <p>
     <a asp-controller="OrdineCliente" asp-action="Create">Inserisci un nuovo ordine</a>
 </p>
+
 <div class="row">
     <div class="col-12">
         <div class="table-responsive">
             <table class="table">
                 <thead class="thead-dark small">
                     <tr>
-
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.Cliente)
                         </th>
@@ -59,47 +61,47 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                    <tr>
-                        <td width="10%">
-                            @Html.DisplayFor(modelItem => item.Cliente)
-                        </td>
-                        <td width="10%">
-                            @Html.DisplayFor(modelItem => item.AgenziaRappresentanza)
-                        </td>
-                        <td width="10%">
-                            @Html.DisplayFor(modelItem => item.DataConsegna)
-                        </td>
-                        <td width="10%">
-                            @Html.DisplayFor(modelItem => item.TipoPagamento)
-                        </td>
-                        <td width="30%">
-                            @Html.DisplayFor(modelItem => item.Note)
-                        </td>
-                        <td width="4%">
-                            @Html.DisplayFor(modelItem => item.Pagato)
-                        </td>
-                        <td width="4%">
-                            @Html.DisplayFor(modelItem => item.Spedito)
-                        </td>
-                        <td width="4%">
-                            @Html.DisplayFor(modelItem => item.SpeditoInParte)
-                        </td>
-                        <td width="4%">
-                            @Html.DisplayFor(modelItem => item.Letto)
-                        </td>
-                        <td width="4%">
-                            @Html.DisplayFor(modelItem => item.Stampato)
-                        </td>
-                        <td>
-                            <a asp-action="Details" asp-route-id="@item.Id" title="Visualizza dettaglio"><i class="fas fa-list-alt"></i></a>
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id" title="Modifica"><i class="fas fa-edit"></i></a>
-                        </td>
-                        <td>
-                            <a asp-action="ViewAccettazioneCondizioni" asp-route-id="@item.Id" title="Visualizza foto condizioni"><i class="fas fa-file-signature"></i></a>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td width="10%">
+                                @Html.DisplayFor(modelItem => item.Cliente)
+                            </td>
+                            <td width="10%">
+                                @Html.DisplayFor(modelItem => item.AgenziaRappresentanza)
+                            </td>
+                            <td width="10%">
+                                @Html.DisplayFor(modelItem => item.DataConsegna)
+                            </td>
+                            <td width="10%">
+                                @Html.DisplayFor(modelItem => item.TipoPagamento)
+                            </td>
+                            <td width="30%">
+                                @Html.DisplayFor(modelItem => item.Note)
+                            </td>
+                            <td width="4%">
+                                @Html.DisplayFor(modelItem => item.Pagato)
+                            </td>
+                            <td width="4%">
+                                @Html.DisplayFor(modelItem => item.Spedito)
+                            </td>
+                            <td width="4%">
+                                @Html.DisplayFor(modelItem => item.SpeditoInParte)
+                            </td>
+                            <td width="4%">
+                                @Html.DisplayFor(modelItem => item.Letto)
+                            </td>
+                            <td width="4%">
+                                @Html.DisplayFor(modelItem => item.Stampato)
+                            </td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@item.Id" title="Visualizza dettaglio"><i class="fas fa-list-alt"></i></a>
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id" title="Modifica"><i class="fas fa-edit"></i></a>
+                            </td>
+                            <td>
+                                <a asp-action="ViewAccettazioneCondizioni" asp-route-id="@item.Id" title="Visualizza foto condizioni"><i class="fas fa-file-signature"></i></a>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>

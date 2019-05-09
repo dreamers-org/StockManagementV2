@@ -1,0 +1,222 @@
+﻿@model StockManagement.Models.ViewModels.OrdineClienteViewModel
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Inserisci ordine";
+}
+
+@{List<StockManagement.Models.ViewModels.ViewRigaOrdineClienteViewModel> listaOrdini = (List<StockManagement.Models.ViewModels.ViewRigaOrdineClienteViewModel>)ViewBag.ListaOrdini; }
+
+<!-- Title -->
+<div class="row">
+    <div class="col-sm-4">
+        <a asp-controller="Home" asp-action="Index" class="btn rounded-pill btn-outline-secondary float-left mt-3"><i class="fas fa-arrow-left"></i>&nbsp;Indietro</a>
+    </div>
+    <div class="col-sm-4">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+    <div class="col-sm-12">
+        <hr />
+    </div>
+</div>
+
+<!-- Alert -->
+<div class="row">
+    <div class="col-12">
+        <div id="divAlertError" class="alert alert-danger" style="display:none;">
+        </div>
+    </div>
+</div>
+
+<!-- form inserimento -->
+<div class="row">
+    <div class=" col-sm-12 col-md-12 mx-auto mb-3">
+        <div class="card border-left-primary shadow h-100">
+            <div class="card-body">
+                <form class="needs-validation" asp-action="EditOrderRows">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-3 mb-3">
+                            <label asp-for="NomeCliente" class="control-label">Nome Cliente</label>
+
+                            @if (ViewBag.NomeCliente != null && !String.IsNullOrEmpty((string)ViewBag.NomeCliente))
+                            {
+                                <input asp-for="NomeCliente" class="form-control" id="txtCliente" readonly="readonly" value="@ViewBag.NomeCliente" />
+                            }
+                            else
+                            {
+                                <input asp-for="NomeCliente" class="form-control" id="txtCliente" />
+                                <span asp-validation-for="NomeCliente" class="text-danger"></span>
+                            }
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label asp-for="IndirizzoCliente" class="control-label">Indirizzo Cliente</label>
+                            @if (ViewBag.IndirizzoCliente != null && !String.IsNullOrEmpty((string)ViewBag.IndirizzoCliente))
+                            {
+                                <input asp-for="IndirizzoCliente" class="form-control" id="txtIndirizzoCliente" readonly="readonly" value="@ViewBag.IndirizzoCliente" />
+                            }
+                            else
+                            {
+                                <input asp-for="IndirizzoCliente" class="form-control" id="txtIndirizzoCliente" />
+                                <span asp-validation-for="IndirizzoCliente" class="text-danger"></span>
+                            }
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label asp-for="EmailCliente" class="control-label">Email Cliente</label>
+
+                            @if (ViewBag.EmailCliente != null && !String.IsNullOrEmpty((string)ViewBag.EmailCliente))
+                            {
+                                <input asp-for="EmailCliente" class="form-control" id="txtEmailCliente" readonly="readonly" value="@ViewBag.EmailCliente" />
+                            }
+                            else
+                            {
+                                <input asp-for="EmailCliente" type="email" class="form-control" id="txtEmailCliente" />
+                                <span asp-validation-for="EmailCliente" class="text-danger"></span>
+                            }
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label asp-for="DataConsegna" class="control-label">Data Consegna</label>
+
+                            @if (ViewBag.DataConsegna != null)
+                            {
+                                <input id="txtDataConsegna" asp-for="DataConsegna" type="date" class="form-control" readonly="readonly" value="@ViewBag.DataConsegna.ToString("yyyy-MM-dd")" />
+                            }
+                            else
+                            {
+                                <input id="txtDataConsegna" asp-for="DataConsegna" class="form-control" type="date" onblur="caricaArticoli();" />
+                                <span asp-validation-for="DataConsegna" class="text-danger"></span>
+                            }
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-3 mb-3 ">
+                            <label asp-for="CodiceArticolo" class="control-label">Codice Articolo</label>
+                            <input id="txtCodiceArticolo" asp-for="CodiceArticolo" class="form-control" onfocus="disableBtnInserisci();" onblur="getColorePerArticolo();" />
+                            <span asp-validation-for="CodiceArticolo" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label asp-for="ColoreArticolo" class="control-label text-center">Colore Articolo</label>
+                            <select id="dropdownColore" class="form-control" asp-for="ColoreArticolo" onblur="getTaglieDisponibiliArticolo();" readonly="readonly"></select>
+                            <span asp-validation-for="ColoreArticolo" class="text-danger" readonly="readonly"></span>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="form-group text-center">
+                                <label class="control-label text-center">Descrizione</label>
+                                <input class="form-control" type="text" id="txtDescrizione" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div class="col-md-1 mt-4">
+                            <div class="form-group text-center p-1">
+                                <a id="btnVisualizzaImmagine" title="Visualizza immagine" href="#" onclick="getFotoArticolo();"><i class="fas fa-3x fa-image"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center">
+                        <div class="col-md-1 mb-3">
+                            <label asp-for="Xxs" class="control-label"></label>
+                            <input asp-for="Xxs" value="0" class="form-control" id="txtXxs" />
+                            <span asp-validation-for="Xxs" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <label asp-for="Xs" class="control-label"></label>
+                            <input asp-for="Xs" value="0" class="form-control" id="txtXs" />
+                            <span asp-validation-for="Xs" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <label asp-for="S" class="control-label"></label>
+                            <input asp-for="S" value="0" class="form-control" id="txtS" />
+                            <span asp-validation-for="S" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <label asp-for="M" class="control-label"></label>
+                            <input asp-for="M" value="0" class="form-control" id="txtM" />
+                            <span asp-validation-for="M" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <label asp-for="L" class="control-label"></label>
+                            <input asp-for="L" value="0" class="form-control" id="txtL" />
+                            <span asp-validation-for="L" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <label asp-for="Xl" class="control-label"></label>
+                            <input asp-for="Xl" value="0" class="form-control" id="txtXl" />
+                            <span asp-validation-for="Xl" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <label asp-for="Xxl" class="control-label"></label>
+                            <input asp-for="Xxl" value="0" class="form-control" id="txtXxl" />
+                            <span asp-validation-for="Xxl" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <label asp-for="Xxxl" class="control-label"></label>
+                            <input asp-for="Xxxl" value="0" class="form-control" id="txtXxxl" />
+                            <span asp-validation-for="Xxxl" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label asp-for="TagliaUnica" class="control-label"></label>
+                            <input asp-for="TagliaUnica" value="0" class="form-control" id="txtTagliaUnica" />
+                            <span asp-validation-for="TagliaUnica" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row mt-4">
+                        <div class="col-sm-8">
+                            <input id="btnInserisci" type="submit" value="Inserisci" disabled="disabled" class="btn btn-primary float-left mr-3" />
+                            <a asp-controller="OrdineClienteCommesso" asp-action="EditOrderRows" asp-route-idOrdine="@Context.Session.GetString("idOrdine")" class="btn btn-secondary float-left text-white mr-3">Svuota campi</a>
+                            <a asp-controller="OrdineCliente" asp-action="CancellaOrdine" onclick='return confirm("Sei sicuro di voler cancellare definitivamente l ordine?");' class="btn btn-danger float-left text-white">Elimina ordine</a>
+                        </div>
+                        <div class="col-sm-3 float-right">
+                            @{
+                                if ((listaOrdini == null) || (listaOrdini.Count == 0))
+                                {
+
+                                    <a href="#" class="btn rounded-pill btn-outline-danger float-right disabled" disabled="disabled">Prosegui</a>
+                                }
+                                else
+                                {
+                                    <a asp-controller="OrdineClienteCommesso" asp-action="ImpostaTipoPagamento" class="btn rounded-pill btn-outline-danger float-right">Prosegui</a>
+                                }
+                            }
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalFoto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Immagine articolo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img id="divFoto" width="600" height="600" src="" class="img-fluid" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@{
+    if (!(listaOrdini == null) && !(listaOrdini.Count == 0))
+    {
+        <div class="row justify-content-center">
+            <div class="col-3">
+                <div class="alert alert-info rounded-pill">
+                    Totale:&nbsp;<strong>@ViewBag.SommaPrezzo €</strong>, totale pezzi: <strong>@Context.Session.GetString("TotalePezzi")</strong>
+                </div>
+            </div>
+        </div>
+
+        <partial name="_OrdiniClienteRighePartial" model="ViewBag.ListaOrdini" />
+    }
+}
+

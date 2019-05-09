@@ -1,0 +1,38 @@
+﻿@model StockManagement.Models.OrdineCliente
+
+@{
+    ViewData["Title"] = "Note finali";
+}
+
+<!-- Title -->
+<div class="row">
+    <div class="col-sm-4">
+        <a asp-controller="OrdineCliente" asp-action="ImpostaTipoPagamento" class="btn rounded-pill btn-outline-secondary float-left mt-3"><i class="fas fa-arrow-left"></i>&nbsp;Indietro</a>
+    </div>
+    <div class="col-sm-4">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+    <div class="col-sm-12">
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 mt-3">
+        <form asp-action="Riepilogo">
+            <div class="container">
+                <h1 class="display-4">Attenzione</h1>
+                <p class="lead">
+                    Si ricorda che l'effettiva validità dell'ordine avrà luogo solo una volta inserita anche la foto relativa all'accettazione delle condizioni da parte del cliente consumatore.
+                </p>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="false" name="condizioniAccettate" id="condizioniAccettate" onchange="abilitaConcludiOrdine(this)">
+                <label class="form-check-label" for="condizioniAccettate">
+                    Accetta le condizioni
+                </label>
+            </div>
+            <input type="submit" id="btnConcludiOrdine" class="btn rounded-pill btn-outline-danger mt-3" value="Concludi ordine" disabled="disabled" />
+        </form>
+    </div>
+</div>

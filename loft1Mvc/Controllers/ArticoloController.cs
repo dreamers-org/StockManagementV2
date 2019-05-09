@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 using Serilog;
 using StockManagement.Models;
 using StockManagement.Models.ViewModels;
@@ -16,11 +20,13 @@ namespace StockManagement.Controllers
 {
     public class ArticoloController : Controller
     {
+        private IHostingEnvironment _hostingEnvironment;
         private readonly StockV2Context _context;
 
-        public ArticoloController(StockV2Context context)
+        public ArticoloController(StockV2Context context, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         [Authorize(Roles = "SuperAdmin, Commesso, Titolare")]
@@ -421,11 +427,22 @@ namespace StockManagement.Controllers
                     viewDifferenzaOrdinatoVendutos = await _context.ViewDifferenzaOrdinatoVenduto.OrderBy(x => x.Fornitore).ToListAsync();
                     break;
                 default:
-                    viewDifferenzaOrdinatoVendutos =await _context.ViewDifferenzaOrdinatoVenduto.ToListAsync();
+                    viewDifferenzaOrdinatoVendutos = await _context.ViewDifferenzaOrdinatoVenduto.ToListAsync();
                     break;
             }
 
             return View(viewDifferenzaOrdinatoVendutos);
+        }
+
+        [Authorize(Roles = "SuperAdmin, Commesso, Titolare")]
+        public async Task<IActionResult> Export()
+        {
+            List<ViewDifferenzaOrdinatoVenduto> viewDifferenzaOrdinatoVenduto = _context.ViewDifferenzaOrdinatoVenduto.OrderBy(x => x.Codice).ToList();
+            string sWebRootFolder = _hostingEnvironment.WebRootPath;
+            string sFileName = @"Loft.xlsx";
+
+            MemoryStream memory = await Utility.GetFileContent(viewDifferenzaOrdinatoVenduto, typeof(ViewDifferenzaOrdinatoVenduto), sWebRootFolder, sFileName);
+            return File(memory, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
         }
 
         #region MetodiLatoCliente

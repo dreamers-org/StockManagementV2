@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<StockManagement.Models.ViewModels.ViewRigaOrdineClienteCommessoViewModel>
-
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 @{
     ViewData["Title"] = "Dettagli ordine";
 }
@@ -20,7 +21,7 @@
 <div class="row">
     <div class="col-12">
         <div class="table-responsive">
-            <table class="table">
+            <table class="table table-sm">
                 <thead class="thead-dark small">
                     <tr>
                         <th scope="col">
@@ -71,93 +72,71 @@
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.TotaleRiga)
                         </th>
-                        @if (User.IsInRole("SuperAdmin"))
-                        {
-                            <th scope="col">
-                            </th>
-                        }
-                        <th scope="col">
-                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Fornitore)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Codice)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Descrizione)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Colore)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Xxs)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Xs)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.S)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.M)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.L)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Xl)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Xxl)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Xxxl)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TagliaUnica)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TotalePezzi)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.PrezzoArticolo) €
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TotaleRiga) €
-                        </td>
-                        @if (User.IsInRole("SuperAdmin"))
-                        {
+                        <tr>
                             <td>
-                                <a asp-action="Delete" asp-controller="OrdineClienteCommesso" asp-route-id="@item.IdRigaOrdine" title="Elimina"><i class="fas fa-trash-alt text-danger"></i></a>
+                                @Html.DisplayFor(modelItem => item.Fornitore)
                             </td>
-                        }
-                        <td>
-                            <a asp-action="EditRow" asp-controller="OrdineCliente" asp-route-id="@item.IdRigaOrdine" title="Visualizza dettaglio"><i class="fas fa-edit"></i></a>
-                        </td>
-                    </tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Codice)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descrizione)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Colore)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Xxs)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Xs)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.S)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.M)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.L)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Xl)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Xxl)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Xxxl)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TagliaUnica)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TotalePezzi)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PrezzoArticolo) €
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TotaleRiga) €
+                            </td>
+                        </tr>
                     }
                     <tr class="bg-warning">
-                        @if (User.IsInRole("SuperAdmin"))
-                        {
-                            <td colspan="17"></td>
-                        }
-                        else
-                        {
-                            <td colspan="16"></td>
-                        }
+                        <td colspan="15"></td>
                         <td class="text-center">
-                            <strong>@ViewBag.TotalePrezzoOrdine €</strong> 
+                            <strong>@ViewBag.TotalePrezzoOrdine €</strong>
                         </td>
                     </tr>
                 </tbody>
             </table>
+            <a asp-action="EditOrderRows" asp-controller="OrdineClienteCommesso" asp-route-idOrdine="@Context.Session.GetString("IdOrdine")" onclick='return confirm("Sei sicuro?");' title="Modifica"><i class="fas fa-edit"></i> Modifica righe ordine</a>
         </div>
     </div>
 </div>

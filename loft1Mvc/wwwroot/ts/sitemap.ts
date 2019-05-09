@@ -3,6 +3,8 @@ import { attivatorePaginaCreateArticolo } from "./articolo-create";
 import { attivatorePaginaIndexPackingList } from "./packinglist-index";
 import { attivatorePaginaOrdineClienteRiepilogo } from "./ordinecliente-riepilogo"
 import { attivatorePaginaOrdineFornitoreCreate } from "./ordinefornitore-create"
+import { attivatorePaginaOrdineClienteCommessoEditOrderRows } from "./ordineclientecommesso-editorderrows"
+import { attivatorePaginaOrdineClienteCommessoRiepilogo } from "./ordineclientecommesso-riepilogo"
 
 export interface pageModule {
     page?: string;
@@ -14,6 +16,16 @@ export var arrayPageModules: pageModule[] = [
     {
         page: "/OrdineCliente/Create",
         function: function (destination, template) { attivatorePaginaCreate() },
+        menuItem: "navbarDropdown"
+    },
+    {
+        page: "/OrdineClienteCommesso/EditOrderRows",
+        function: function (destination, template) { attivatorePaginaOrdineClienteCommessoEditOrderRows() },
+        menuItem: "navbarDropdown"
+    },
+    {
+        page: "/OrdineClienteCommesso/Riepilogo",
+        function: function (destination, template) { attivatorePaginaOrdineClienteCommessoRiepilogo() },
         menuItem: "navbarDropdown"
     },
     {

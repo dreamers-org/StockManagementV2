@@ -86,7 +86,7 @@ namespace StockManagement
             IEnumerable<ViewRigaOrdineClienteViewModel> listaRigheOrdineCliente = new List<ViewRigaOrdineClienteViewModel>();
 
             string idOrdineSession = HttpContext.Session.GetString("IdOrdine");
-            if (idOrdineSession != null && !String.IsNullOrEmpty(idOrdineSession))
+            if (idOrdineSession != null && !string.IsNullOrEmpty(idOrdineSession))
             {
                 listaRigheOrdineCliente = _context.ViewRigaOrdineCliente.Where(x => x.IdOrdine.ToString().ToUpper() == idOrdineSession.ToUpper()).Select(x => x).ToList();
 
@@ -233,7 +233,11 @@ namespace StockManagement
 
             if (sommaPrezzo != null && sommaPrezzo.Value < 2000)
             {
-                listaPagamenti = _context.TipoPagamento.Where(x => (x.Codice == 4 || x.Codice == 3 || x.Codice == 6 || x.Codice == 7)).AsEnumerable();
+                listaPagamenti = _context.TipoPagamento.Where(x => (x.Codice == 4 || x.Codice == 6 || x.Codice == 7)).AsEnumerable();
+            }
+            else if (sommaPrezzo != null && sommaPrezzo.Value >= 2000 && sommaPrezzo.Value < 5000)
+            {
+                listaPagamenti = _context.TipoPagamento.Where(x => x.Codice != 1).AsEnumerable();
             }
 
             ViewData["TipoPagamento"] = new SelectList(listaPagamenti, "Id", "Nome");
@@ -484,13 +488,21 @@ namespace StockManagement
         public IActionResult CancellaOrdine()
         {
             string idOrdineSession = HttpContext.Session.GetString("IdOrdine");
-            if (idOrdineSession != null && !String.IsNullOrEmpty(idOrdineSession))
+            if (idOrdineSession != null && !string.IsNullOrEmpty(idOrdineSession))
             {
                 //Ottengo tutte le righe dell'ordine e le cancello.
                 List<RigaOrdineCliente> listaRigheOrdine = _context.RigaOrdineCliente.Where(x => x.IdOrdine.ToString().ToUpper() == idOrdineSession.ToUpper()).ToList();
                 foreach (RigaOrdineCliente riga in listaRigheOrdine)
                 {
                     _context.RigaOrdineCliente.Remove(riga);
+                    _context.SaveChanges();
+                }
+
+                //Cancello la foto relativa all'accettazione delle condizioni dell'ordine
+                OrdineClienteFoto ordineFoto = _context.OrdineClienteFoto.Where(x => x.IdOrdine == Guid.Parse(idOrdineSession)).FirstOrDefault();
+                if (ordineFoto != null)
+                {
+                    _context.OrdineClienteFoto.Remove(ordineFoto);
                     _context.SaveChanges();
                 }
 
