@@ -1,13 +1,11 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using StockManagement.Models;
-using Serilog;
 using Microsoft.AspNetCore.Authorization;
-using System;
 
 namespace loft1Mvc.Controllers
 {
-	public class HomeController : Controller
+    public class HomeController : Controller
 	{
 		public IActionResult Index()
 		{

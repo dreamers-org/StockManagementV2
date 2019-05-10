@@ -50,8 +50,9 @@ namespace StockManagement.Controllers
                         return View("Index", await context.ToListAsync());
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Utility.GestioneErrori(User.Identity.Name, ex);
                 throw;
             }
         }
@@ -63,7 +64,7 @@ namespace StockManagement.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string Codice, string Colore, string Fornitore, RigaOrdineFornitore rigaOrdineFornitore)
+        public async Task<IActionResult> Create(string Codice, string Colore, RigaOrdineFornitore rigaOrdineFornitore)
         {
             try
             {
@@ -80,8 +81,9 @@ namespace StockManagement.Controllers
                 }
                 return View(rigaOrdineFornitore);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Utility.GestioneErrori(User.Identity.Name, ex);
                 throw;
             }
         }
@@ -90,21 +92,18 @@ namespace StockManagement.Controllers
         {
             try
             {
-                if (id == null)
-                {
-                    return NotFound();
-                }
+                if (id == null) return NotFound();
 
                 var rigaOrdineFornitore = await _context.RigaOrdineFornitore.FindAsync(id);
-                if (rigaOrdineFornitore == null)
-                {
-                    return NotFound();
-                }
+
+                if (rigaOrdineFornitore == null) return NotFound();
+
                 ViewData["Id"] = new SelectList(_context.Articolo, "Id", "Codice", rigaOrdineFornitore.Id);
                 return View(rigaOrdineFornitore);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Utility.GestioneErrori(User.Identity.Name, ex);
                 throw;
             }
         }
@@ -115,10 +114,7 @@ namespace StockManagement.Controllers
         {
             try
             {
-                if (id != rigaOrdineFornitore.Id)
-                {
-                    return NotFound();
-                }
+                if (id != rigaOrdineFornitore.Id) return NotFound();
 
                 if (ModelState.IsValid)
                 {
@@ -129,22 +125,17 @@ namespace StockManagement.Controllers
                     }
                     catch (DbUpdateConcurrencyException)
                     {
-                        if (!RigaOrdineFornitoreExists(rigaOrdineFornitore.Id))
-                        {
-                            return NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
+                        if (!RigaOrdineFornitoreExists(rigaOrdineFornitore.Id)) return NotFound();
+                        throw;
                     }
                     return RedirectToAction(nameof(Index));
                 }
                 ViewData["Id"] = new SelectList(_context.Articolo, "Id", "Codice", rigaOrdineFornitore.Id);
                 return View(rigaOrdineFornitore);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Utility.GestioneErrori(User.Identity.Name, ex);
                 throw;
             }
         }
@@ -153,21 +144,17 @@ namespace StockManagement.Controllers
         {
             try
             {
-                if (id == null)
-                {
-                    return NotFound();
-                }
+                if (id == null) return NotFound();
 
                 var rigaOrdineFornitore = await _context.RigaOrdineFornitore.FirstOrDefaultAsync(m => m.Id == id);
-                if (rigaOrdineFornitore == null)
-                {
-                    return NotFound();
-                }
+
+                if (rigaOrdineFornitore == null) return NotFound();
 
                 return View(rigaOrdineFornitore);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Utility.GestioneErrori(User.Identity.Name, ex);
                 throw;
             }
         }
@@ -183,15 +170,24 @@ namespace StockManagement.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Utility.GestioneErrori(User.Identity.Name, ex);
                 throw;
             }
         }
 
         private bool RigaOrdineFornitoreExists(Guid id)
         {
-            return _context.RigaOrdineFornitore.Any(e => e.Id == id);
+            try
+            {
+                return _context.RigaOrdineFornitore.Any(e => e.Id == id);
+            }
+            catch (Exception ex)
+            {
+                Utility.GestioneErrori(User.Identity.Name, ex);
+                throw;
+            }
         }
     }
 }

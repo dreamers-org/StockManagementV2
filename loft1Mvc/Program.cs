@@ -1,13 +1,13 @@
-﻿using Microsoft.ApplicationInsights.Extensibility;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Serilog;
 using Serilog.Events;
+using StockManagement;
 using System;
 
 namespace loft1Mvc
 {
-	public class Program
+    public class Program
 	{
 		public static void Main(string[] args)
 		{
@@ -15,7 +15,7 @@ namespace loft1Mvc
 			{
                 Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Error()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                 .Enrich.FromLogContext()
                 .WriteTo.MSSqlServer("Data Source=80.211.159.109;Initial Catalog=Loft1_Stock_PRODUCTION;User ID=administrator;Password=Pallone27@@@;Connect Timeout=30;Encrypt=True;TrustServerCertificate=true;ApplicationIntent=ReadWrite;MultiSubnetFailover=False", "Logs", autoCreateSqlTable: true)
                 .CreateLogger();
@@ -23,7 +23,7 @@ namespace loft1Mvc
 			}
 			catch (Exception ex)
 			{
-				Log.Error(ex.Message);
+                Utility.GestioneErrori(ex);
 				throw;
 			}
 		}

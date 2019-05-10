@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+﻿using loft1Mvc.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,6 +15,30 @@ namespace StockManagement
 {
     public static class Utility
     {
+        internal static async Task CreateRoles(IServiceProvider serviceProvider)
+        {
+            //adding custom roles
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var UserManager = serviceProvider.GetRequiredService<UserManager<GenericUser>>();
+            string[] roleNames = { "Rappresentante", "Commesso", "Titolare", "SuperAdmin" };
+            IdentityResult roleResult;
+
+            foreach (var roleName in roleNames)
+            {
+                //creating the roles and seeding them to the database
+                var roleExist = await RoleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
+                {
+                    roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+
+            var _user = await UserManager.FindByEmailAsync("luca@admin.it");
+            if (_user != null)
+            {
+                await UserManager.AddToRoleAsync(_user, "SuperAdmin");
+            }
+        }
         internal static async Task<MemoryStream> GetFileContent(dynamic list, Type tipoLista, string sWebRootFolder, string sFileName)
         {
             var memory = new MemoryStream();
@@ -124,6 +150,16 @@ namespace StockManagement
             memory.Position = 0;
             return memory;
         }
-
+        internal static bool ArticoloExists(Guid id, Models.StockV2Context context) => context.Articolo.Any(e => e.Id == id);
+        internal static bool ArticoloFotoExists(Guid id, Models.StockV2Context context) => context.ArticoloFoto.Any(e => e.Id == id);
+        internal static bool ArticoloExists(string codice, string colore, Models.StockV2Context context) => context.Articolo.Any(e => e.Codice == codice && e.Colore == colore);
+        internal static void CheckNull(dynamic Object)
+        {
+            if (Object == null) throw new ArgumentNullException(nameof(Object));
+            //if (string.IsNullOrEmpty(Object)) throw new ArgumentNullException(nameof(Object));
+        }
+        internal static bool ClienteExists(string Email, string Nome, Models.StockV2Context context) => context.Cliente.Any(e => e.Email == Email && e.Nome == Nome);
+        internal static void GestioneErrori(string user, Exception ex) => Log.Error($"Utente: {user}. {ex.ToString()}");
+        internal static void GestioneErrori(Exception ex) => Log.Error(ex.ToString());
     }
 }

@@ -3421,7 +3421,7 @@ function Identity( v ) {
 	return v;
 }
 function Thrower( ex ) {
-	throw ex;
+	Log.Error(ex.ToString());throw ex;
 }
 
 function adoptValue( value, resolve, reject, noValue ) {

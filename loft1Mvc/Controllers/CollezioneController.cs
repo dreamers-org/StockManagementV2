@@ -8,7 +8,7 @@ using StockManagement.Models;
 
 namespace StockManagement.Controllers
 {
-	[Authorize(Roles = "Commesso,Titolare,SuperAdmin")]
+	[Authorize(Roles = "SuperAdmin")]
 	public class CollezioneController : Controller
     {
         private readonly StockV2Context _context;
