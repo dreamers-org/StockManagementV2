@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -31,5 +32,7 @@ namespace StockManagement.Models
         public bool SpeditoInParte { get; set; }
         public bool Letto { get; set; }
         public bool Stampato { get; set; }
+        [BindNever]
+        public string RandomNumber { get; set; }
     }
 }

@@ -23,6 +23,7 @@ namespace StockManagement.Models.ViewModels
         public bool SpeditoInParte { get; set; }
         public bool Letto { get; set; }
         public bool Stampato { get; set; }
-
+        [DisplayName("# Ordine")]
+        public string RandomNumber { get; set; }
     }
 }

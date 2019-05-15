@@ -37,31 +37,42 @@
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.SommaPrezzo)
                         </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.RandomNumber)
+                        </th>
+                        <th scope="col">
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>
-                            <a asp-controller="OrdineCliente" asp-action="UploadAccettazioneCondizioni" asp-route-id=@item.Id><i class="fas fa-cloud-upload-alt"></i></a>    
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.NomeCliente)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.IndirizzoCliente)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DataConsegna)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Note)
-                            </td>
-                            <td>
-                                <span class="badge badge-pill badge-info"> @Html.DisplayFor(modelItem => item.SommaPrezzo)€</span>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>
+                            <a asp-controller="OrdineCliente" asp-action="UploadAccettazioneCondizioni" asp-route-id=@item.Id><i class="fas fa-cloud-upload-alt"></i></a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NomeCliente)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IndirizzoCliente)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DataConsegna)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Note)
+                        </td>
+                        <td>
+                            <span class="badge badge-pill badge-info"> @Html.DisplayFor(modelItem => item.SommaPrezzo)€</span>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RandomNumber)
+                        </td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id" title="Visualizza dettaglio"><i class="fas fa-list-alt"></i></a>
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>

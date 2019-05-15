@@ -53,6 +53,9 @@
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.Stampato)
                         </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.RandomNumber)
+                        </th>
                         <th scope="col"></th>
                         <th scope="col"></th>
                         <th scope="col"></th>
@@ -91,6 +94,9 @@
                             </td>
                             <td width="4%">
                                 @Html.DisplayFor(modelItem => item.Stampato)
+                            </td>
+                            <td width="4%">
+                                @Html.DisplayFor(modelItem => item.RandomNumber)
                             </td>
                             <td>
                                 <a asp-action="Details" asp-route-id="@item.Id" title="Visualizza dettaglio"><i class="fas fa-list-alt"></i></a>

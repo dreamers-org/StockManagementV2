@@ -21,5 +21,7 @@ namespace StockManagement.Models.ViewModels
         [DisplayName("Pagamento")]
         public string TipoPagamento { get; set; }
         public string Note { get; set; }
+        [DisplayName("# Ordine")]
+        public string RandomNumber { get; set; }
     }
 }

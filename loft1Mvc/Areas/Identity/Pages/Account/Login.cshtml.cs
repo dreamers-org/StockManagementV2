@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using loft1Mvc.Areas.Identity.Data;
@@ -11,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel;
+using Serilog;
 
 namespace loft1Mvc.Areas.Identity.Pages.Account
 {
@@ -18,12 +17,10 @@ namespace loft1Mvc.Areas.Identity.Pages.Account
     public class LoginModel : PageModel
     {
         private readonly SignInManager<GenericUser> _signInManager;
-        private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<GenericUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<GenericUser> signInManager)
         {
             _signInManager = signInManager;
-            _logger = logger;
         }
 
         [BindProperty]
@@ -79,7 +76,7 @@ namespace loft1Mvc.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
+                    Log.Warning($"{Input.Email} si è loggato.");
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -88,7 +85,7 @@ namespace loft1Mvc.Areas.Identity.Pages.Account
                 }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning("AccountBloccato.");
+                    Log.Warning($"{Input.Email}: account bloccato.");
                     return RedirectToPage("./Lockout");
                 }
                 else

@@ -42,11 +42,11 @@
 
                             @if (ViewBag.NomeCliente != null && !String.IsNullOrEmpty((string)ViewBag.NomeCliente))
                             {
-                                <input asp-for="NomeCliente" class="form-control" id="txtCliente" readonly="readonly" value="@ViewBag.NomeCliente" />
+                                <input asp-for="NomeCliente" autocomplete="off" class="form-control" id="txtCliente" readonly="readonly" value="@ViewBag.NomeCliente" />
                             }
                             else
                             {
-                                <input asp-for="NomeCliente" class="form-control" id="txtCliente" />
+                                <input asp-for="NomeCliente" autocomplete="off" class="form-control" id="txtCliente" />
                                 <span asp-validation-for="NomeCliente" class="text-danger"></span>
                             }
                         </div>
@@ -54,11 +54,11 @@
                             <label asp-for="IndirizzoCliente" class="control-label">Indirizzo Cliente</label>
                             @if (ViewBag.IndirizzoCliente != null && !String.IsNullOrEmpty((string)ViewBag.IndirizzoCliente))
                             {
-                                <input asp-for="IndirizzoCliente" class="form-control" id="txtIndirizzoCliente" readonly="readonly" value="@ViewBag.IndirizzoCliente" />
+                                <input asp-for="IndirizzoCliente" autocomplete="off" class="form-control" id="txtIndirizzoCliente" readonly="readonly" value="@ViewBag.IndirizzoCliente" />
                             }
                             else
                             {
-                                <input asp-for="IndirizzoCliente" class="form-control" id="txtIndirizzoCliente" />
+                                <input asp-for="IndirizzoCliente" autocomplete="off" class="form-control" id="txtIndirizzoCliente" />
                                 <span asp-validation-for="IndirizzoCliente" class="text-danger"></span>
                             }
                         </div>
@@ -67,11 +67,11 @@
 
                             @if (ViewBag.EmailCliente != null && !String.IsNullOrEmpty((string)ViewBag.EmailCliente))
                             {
-                                <input asp-for="EmailCliente" class="form-control" id="txtEmailCliente" readonly="readonly" value="@ViewBag.EmailCliente" />
+                                <input asp-for="EmailCliente" autocomplete="off" class="form-control" id="txtEmailCliente" readonly="readonly" value="@ViewBag.EmailCliente" />
                             }
                             else
                             {
-                                <input asp-for="EmailCliente" type="email" class="form-control" id="txtEmailCliente" />
+                                <input asp-for="EmailCliente" autocomplete="off" type="email" class="form-control" id="txtEmailCliente" />
                                 <span asp-validation-for="EmailCliente" class="text-danger"></span>
                             }
                         </div>
@@ -92,7 +92,7 @@
                     <div class="form-row justify-content-center">
                         <div class="col-md-3 mb-3 ">
                             <label asp-for="CodiceArticolo" class="control-label">Codice Articolo</label>
-                            <input id="txtCodiceArticolo" asp-for="CodiceArticolo" class="form-control" onfocus="disableBtnInserisci();" onblur="getColorePerArticolo();" readonly="readonly" />
+                            <input id="txtCodiceArticolo" asp-for="CodiceArticolo" class="form-control" autocomplete="off"  onfocus="disableBtnInserisci();" onblur="getColorePerArticolo();" readonly="readonly" />
                             <span asp-validation-for="CodiceArticolo" class="text-danger"></span>
                         </div>
                         <div class="col-md-3 mb-3">
@@ -163,7 +163,7 @@
                         <div class="col-sm-8">
                             <input id="btnInserisci" type="submit" value="Inserisci" disabled="disabled" class="btn btn-primary float-left mr-3" />
                             <a asp-controller="OrdineCliente" asp-action="Create" class="btn btn-secondary float-left text-white mr-3">Svuota campi</a>
-                            <a asp-controller="OrdineCliente" asp-action="CancellaOrdine" class="btn btn-danger float-left text-white">Elimina ordine</a>
+                            <a asp-controller="OrdineCliente" asp-action="CancellaOrdine" onclick='return alert("Sei sicuro di voler cancellare questo ordine?");' class="btn btn-danger float-left text-white">Elimina ordine</a>
                         </div>
                         <div class="col-sm-3 float-right">
                             @{

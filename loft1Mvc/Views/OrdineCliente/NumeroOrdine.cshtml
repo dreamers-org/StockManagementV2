@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Numero ordine";
+}
+
+<!-- Title -->
+<div class="row">
+    <div class="col-sm-4">
+        @if (User.IsInRole("Rappresentante"))
+        {
+        <a asp-action="Index" class="btn rounded-pill btn-outline-secondary float-left mt-3">&nbsp;Torna alla lista</a>
+        }
+        else
+        {
+        <a asp-action="IndexCommesso" class="btn rounded-pill btn-outline-secondary float-left mt-3">&nbsp;Torna alla lista</a>
+        }
+    </div>
+    <div class="col-sm-12">
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 mt-3">
+            <div class="container">
+                <h1 class="display-4">Numero ordine:</h1>
+                <p class="lead">
+                    @ViewData["numeroOrdine"]
+                </p>
+            </div>
+    </div>
+</div>

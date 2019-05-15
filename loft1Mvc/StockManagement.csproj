@@ -4,9 +4,9 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <TypeScriptToolsVersion>3.1.5</TypeScriptToolsVersion>
     <UserSecretsId>9cd7a5af-3409-4dfa-84f5-c1b6747dd613</UserSecretsId>
-    <AssemblyVersion>1.1.2.1</AssemblyVersion>
+    <AssemblyVersion>1.2.2.1</AssemblyVersion>
     <FileVersion>1.1.2.1</FileVersion>
-    <Version>1.2.1</Version>
+    <Version>1.2.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
