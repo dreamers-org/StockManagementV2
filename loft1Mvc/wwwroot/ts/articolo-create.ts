@@ -30,6 +30,7 @@ function getTxtValues() {
                 (<JQuery<HTMLInputElement>>$('#chkXL')).prop('checked', data.xl);
                 (<JQuery<HTMLInputElement>>$('#chkXXL')).prop('checked', data.xxl);
                 (<JQuery<HTMLInputElement>>$('#chkXXXL')).prop('checked', data.xxxl);
+                (<JQuery<HTMLInputElement>>$('#chkXXXXL')).prop('checked', data.xxxxl);
                 (<JQuery<HTMLInputElement>>$('#chkTagliaUnica')).prop('checked', data.tagliaUnica);
                 (<JQuery<HTMLInputElement>>$('#txtColore')).removeAttr("readonly");
             }

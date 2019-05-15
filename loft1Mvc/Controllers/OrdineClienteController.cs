@@ -115,7 +115,7 @@ namespace StockManagement
 
                     foreach (var item in listaRigheOrdineCliente)
                     {
-                        totalePezzi += item.Xxs + item.Xs + item.S + item.M + item.L + item.Xl + item.Xxl + item.Xxxl + item.TagliaUnica;
+                        totalePezzi += item.Xxs + item.Xs + item.S + item.M + item.L + item.Xl + item.Xxl + item.Xxxl + item.Xxxxl + item.TagliaUnica;
                     }
 
                     HttpContext.Session.SetString("TotalePezzi", totalePezzi.ToString());
@@ -321,7 +321,8 @@ namespace StockManagement
                 string emailCliente = _context.Cliente.Where(x => x.Id == ordineClienteCurrent.IdCliente).Select(x => x.Email).FirstOrDefault();
 
                 var collezione = HttpContext.Session.GetString("Collezione");
-                Utility.Execute(_context, ordineClienteCurrent, emailCliente, User.Identity.Name, collezione).Wait();
+                var regione = _identityContext.Users.Where(x => x.Email == User.Identity.Name).Select(x => x.Regione).FirstOrDefault();
+                Utility.Execute(_context, ordineClienteCurrent, emailCliente, User.Identity.Name, collezione, regione).Wait();
 
                 //svuoto la sessione.
                 HttpContext.Session.Clear();
@@ -701,6 +702,7 @@ namespace StockManagement
                     Xl = ordineCliente.Xl,
                     Xxl = ordineCliente.Xxl,
                     Xxxl = ordineCliente.Xxxl,
+                    Xxxxl = ordineCliente.Xxxxl,
                     TagliaUnica = ordineCliente.TagliaUnica,
                     UtenteInserimento = User.Identity.Name,
                     DataInserimento = DateTime.Now
@@ -724,6 +726,7 @@ namespace StockManagement
                 rigaOrdineCliente.Xl = rigaOrdine.Xl;
                 rigaOrdineCliente.Xxl = rigaOrdine.Xxl;
                 rigaOrdineCliente.Xxxl = rigaOrdine.Xxxl;
+                rigaOrdineCliente.Xxxxl = rigaOrdine.Xxxxl;
                 rigaOrdineCliente.TagliaUnica = rigaOrdine.TagliaUnica;
             }
             catch (Exception ex)
@@ -749,6 +752,7 @@ namespace StockManagement
                     Xl = rigaOrdineCliente.Xl,
                     Xxl = rigaOrdineCliente.Xxl,
                     Xxxl = rigaOrdineCliente.Xxxl,
+                    Xxxxl = rigaOrdineCliente.Xxxxl,
                     TagliaUnica = rigaOrdineCliente.TagliaUnica
                 };
             }
@@ -816,6 +820,7 @@ namespace StockManagement
                     Xl = rigaOrdineCliente.Xl,
                     Xxl = rigaOrdineCliente.Xxl,
                     Xxxl = rigaOrdineCliente.Xxxl,
+                    Xxxxl = rigaOrdineCliente.Xxxxl,
                     TagliaUnica = rigaOrdineCliente.TagliaUnica
                 };
             }

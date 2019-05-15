@@ -18,7 +18,7 @@ namespace StockManagement
 {
     public static class Utility
     {
-        private const string SendGridApyKey = "";
+        private const string SendGridApyKey = "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";
 
         internal static async Task CreateRoles(IServiceProvider serviceProvider)
         {
@@ -194,7 +194,7 @@ namespace StockManagement
 
             return newRandomNumber;
         }
-        internal static async Task Execute(StockV2Context _context, OrdineCliente ordineCliente, string emailCliente, string emailRappresentante, string collezione)
+        internal static async Task Execute(StockV2Context _context, OrdineCliente ordineCliente, string emailCliente, string emailRappresentante, string collezione, string regione)
         {
             try
             {
@@ -411,6 +411,7 @@ namespace StockManagement
                   <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;""><strong>Xl/50</strong></td>
                   <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;""><strong>2XL/52</strong></td>
                   <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;""><strong>3XL/54</strong></td>
+                  <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;""><strong>4XL/56</strong></td>
                   <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;""><strong>VU</strong></td>
                   <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;""><strong>Tot.</strong></td>
                   <td align=""left"" bgcolor=""#D2C7BA"" width=""25%"" style=""padding: 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;""><strong>€/cad.</strong></td>
@@ -434,15 +435,17 @@ namespace StockManagement
                   <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;"">{item.Xl}</td>
                   <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;"">{item.Xxl}</td>
                   <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;"">{item.Xxxl}</td>
+                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;"">{item.Xxxxl}</td>
                   <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;"">{item.TagliaUnica}</td>
-                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;"">{(item.Xxs + item.Xs + item.S + item.M + item.L + item.Xl + item.Xxl + item.Xxxl + item.TagliaUnica)}</td>
+                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;"">{(item.Xxs + item.Xs + item.S + item.M + item.L + item.Xl + item.Xxl + item.Xxxl + item.Xxxxl + item.TagliaUnica)}</td>
                   <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;"">{articolo.PrezzoVendita}</td>
-                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;"">{ articolo.PrezzoVendita * (item.Xxs + item.Xs + item.S + item.M + item.L + item.Xl + item.Xxl + item.Xxxl + item.TagliaUnica)}</td></tr>";
-                    totale += (item.Xxs + item.Xs + item.S + item.M + item.L + item.Xl + item.Xxl + item.Xxxl + item.TagliaUnica) * articolo.PrezzoVendita;
+                  <td align=""left"" width=""75%"" style=""padding: 6px 12px;font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;"">{ articolo.PrezzoVendita * (item.Xxs + item.Xs + item.S + item.M + item.L + item.Xl + item.Xxl + item.Xxxl + item.Xxxxl + item.TagliaUnica)}</td></tr>";
+                    totale += (item.Xxs + item.Xs + item.S + item.M + item.L + item.Xl + item.Xxl + item.Xxxl + item.Xxxxl + item.TagliaUnica) * articolo.PrezzoVendita;
                 }
 
                 html += $@"
                 <tr>
+                  <td align=""left"" width=""100%"" style=""padding: 12px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-top: 2px dashed #D2C7BA; border-bottom: 2px dashed #D2C7BA;""><strong></strong></td>
                   <td align=""left"" width=""100%"" style=""padding: 12px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-top: 2px dashed #D2C7BA; border-bottom: 2px dashed #D2C7BA;""><strong></strong></td>
                   <td align=""left"" width=""100%"" style=""padding: 12px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-top: 2px dashed #D2C7BA; border-bottom: 2px dashed #D2C7BA;""><strong></strong></td>
                   <td align=""left"" width=""100%"" style=""padding: 12px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-top: 2px dashed #D2C7BA; border-bottom: 2px dashed #D2C7BA;""><strong></strong></td>
@@ -496,6 +499,12 @@ namespace StockManagement
                     <td align=""left"" valign=""top"" style=""padding-bottom: 6px; padding-left: 6px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">
                       <p><strong>Numero ordine</strong></p>
                       <p>{ordineCliente.RandomNumber}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td align=""left"" valign=""top"" style=""padding-bottom: 6px; padding-left: 6px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;"">
+                      <p><strong>Regione/rappresentante</strong></p>
+                      <p>{regione}</p>
                     </td>
                 </tr>
                 <tr>

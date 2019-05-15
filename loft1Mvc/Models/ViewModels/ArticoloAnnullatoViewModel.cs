@@ -29,6 +29,8 @@ namespace StockManagement.Models.ViewModels
         public bool isXxlToBeNullified { get; set; }
         [DisplayName("XXXL/54")]
         public bool isXxxlToBeNullified { get; set; }
+        [DisplayName("XXXXL/56")]
+        public bool isXxxxlToBeNullified { get; set; }
         [DisplayName("Taglia Unica")]
         public bool isTagliaUnicaToBeNullified { get; set; }
         [DisplayName("Annulla tutte le taglie")]

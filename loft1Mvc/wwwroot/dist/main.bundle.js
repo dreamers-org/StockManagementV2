@@ -14807,6 +14807,13 @@ function getTaglieDisponibiliArticolo() {
                 else {
                     $('#txtXxxl').removeAttr("readonly");
                 }
+                if (data.xxxxl) {
+                    $('#txtXxxxl').val("0");
+                    $('#txtXxxxl').attr("readonly", "readonly");
+                }
+                else {
+                    $('#txtXxxxl').removeAttr("readonly");
+                }
                 if (data.tagliaUnica) {
                     $('#txtTagliaUnica').val("0");
                     $('#txtTagliaUnica').attr("readonly", "readonly");
@@ -14909,6 +14916,7 @@ function getTxtValues() {
                 $('#chkXL').prop('checked', data.xl);
                 $('#chkXXL').prop('checked', data.xxl);
                 $('#chkXXXL').prop('checked', data.xxxl);
+                $('#chkXXXXL').prop('checked', data.xxxxl);
                 $('#chkTagliaUnica').prop('checked', data.tagliaUnica);
                 $('#txtColore').removeAttr("readonly");
             }
@@ -15303,6 +15311,13 @@ function getTaglieDisponibiliArticolo() {
                 }
                 else {
                     $('#txtXxxl').removeAttr("readonly");
+                }
+                if (data.xxxxl) {
+                    $('#txtXxxxl').val("0");
+                    $('#txtXxxxl').attr("readonly", "readonly");
+                }
+                else {
+                    $('#txtXxxxl').removeAttr("readonly");
                 }
                 if (data.tagliaUnica) {
                     $('#txtTagliaUnica').val("0");

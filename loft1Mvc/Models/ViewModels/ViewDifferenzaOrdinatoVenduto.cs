@@ -32,6 +32,8 @@ namespace StockManagement.Models.ViewModels
 
         public int VXXXL { get; set; }
 
+        public int VXXXXL { get; set; }
+
         public int VTU { get; set; }
 
         public int CXXS { get; set; }
@@ -50,6 +52,8 @@ namespace StockManagement.Models.ViewModels
 
         public int CXXXL { get; set; }
 
+        public int CXXXXL { get; set; }
+
         public int CTU { get; set; }
 
         public int DIFFXXS { get; set; }
@@ -67,6 +71,8 @@ namespace StockManagement.Models.ViewModels
         public int DIFFXXL { get; set; }
 
         public int DIFFXXXL { get; set; }
+
+        public int DIFFXXXXL { get; set; }
 
         public int DIFFTU { get; set; }
 

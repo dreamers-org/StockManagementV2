@@ -37,6 +37,9 @@ namespace StockManagement.Models.ViewModels
         [DisplayName("3XL/54")]
         public int Xxxl { get; set; }
         [DefaultValue(0)]
+        [DisplayName("4XL/56")]
+        public int Xxxxl { get; set; }
+        [DefaultValue(0)]
         public int TagliaUnica { get; set; }
     }
 }

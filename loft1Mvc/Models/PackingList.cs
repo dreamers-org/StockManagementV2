@@ -57,6 +57,11 @@ namespace StockManagement.Models
         public int Xxxl { get; set; }
         [Required(ErrorMessage = "Campo obbligatorio")]
         [DefaultValue(0)]
+        [Range(0, 999, ErrorMessage = "Non possono essere inseriti valori negativi")]
+        [DisplayName("4XL/56")]
+        public int Xxxxl { get; set; }
+        [Required(ErrorMessage = "Campo obbligatorio")]
+        [DefaultValue(0)]
         public int TagliaUnica { get; set; }
         [BindNever]
         public DateTime DataInserimento { get; set; }

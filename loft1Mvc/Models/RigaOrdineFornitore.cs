@@ -39,6 +39,9 @@ namespace StockManagement.Models
         [DisplayName("3XL/54")]
         [Required(ErrorMessage = "Obbligatorio")]
         public int Xxxl { get; set; }
+        [DisplayName("4XL/56")]
+        [Required(ErrorMessage = "Obbligatorio")]
+        public int Xxxxl { get; set; }
         [DisplayName("T.U.")]
         [Required(ErrorMessage = "Obbligatorio")]
         public int TagliaUnica { get; set; }

@@ -214,7 +214,7 @@ namespace StockManagement.Controllers
                 var totalePezzi = 0;
                 foreach (var item in listaRigheOrdineCliente)
                 {
-                    totalePezzi += item.Xxs + item.Xs + item.S + item.M + item.L + item.Xl + item.Xxl + item.Xxxl + item.TagliaUnica;
+                    totalePezzi += item.Xxs + item.Xs + item.S + item.M + item.L + item.Xl + item.Xxl + item.Xxxl + item.Xxxxl + item.TagliaUnica;
                 }
 
                 HttpContext.Session.SetString("TotalePezzi", totalePezzi.ToString());
@@ -294,6 +294,7 @@ namespace StockManagement.Controllers
                     Xl = ordineCliente.Xl,
                     Xxl = ordineCliente.Xxl,
                     Xxxl = ordineCliente.Xxxl,
+                    Xxxxl = ordineCliente.Xxxl,
                     TagliaUnica = ordineCliente.TagliaUnica,
                     UtenteInserimento = User.Identity.Name,
                     DataInserimento = DateTime.Now
@@ -401,8 +402,8 @@ namespace StockManagement.Controllers
                 var articoloPerRicavareCollezione = _context.RigaOrdineCliente.Where(x => x.IdOrdine == ordineClienteCurrent.Id).Select(x => x.IdArticolo).FirstOrDefault();
                 var idCollezione = _context.Articolo.Where(x => x.Id == articoloPerRicavareCollezione).Select(x => x.IdCollezione).First();
                 var collezione = _context.Collezione.Where(x => x.Id == idCollezione).Select(x => x.Nome).FirstOrDefault();
-
-                Utility.Execute(_context, ordineClienteCurrent, emailCliente, User.Identity.Name, collezione).GetAwaiter().GetResult();
+                var regione = _identityContext.Users.Where(x => x.Email == User.Identity.Name).Select(x => x.Regione).FirstOrDefault();
+                Utility.Execute(_context, ordineClienteCurrent, emailCliente, User.Identity.Name, collezione, regione).GetAwaiter().GetResult();
 
                 //svuoto la sessione.
                 HttpContext.Session.Clear();
@@ -441,6 +442,7 @@ namespace StockManagement.Controllers
                 Xl = rigaOrdineCliente.Xl,
                 Xxl = rigaOrdineCliente.Xxl,
                 Xxxl = rigaOrdineCliente.Xxxl,
+                Xxxxl = rigaOrdineCliente.Xxxxl,
                 TagliaUnica = rigaOrdineCliente.TagliaUnica
             };
             return View("EditRigaOrdineCliente", EditRigaOrdineClienteViewModel);
@@ -468,6 +470,7 @@ namespace StockManagement.Controllers
             rigaOrdineCliente.Xl = rigaOrdine.Xl;
             rigaOrdineCliente.Xxl = rigaOrdine.Xxl;
             rigaOrdineCliente.Xxxl = rigaOrdine.Xxxl;
+            rigaOrdineCliente.Xxxxl = rigaOrdine.Xxxxl;
             rigaOrdineCliente.TagliaUnica = rigaOrdine.TagliaUnica;
 
             try

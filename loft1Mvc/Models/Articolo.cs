@@ -55,6 +55,10 @@ namespace StockManagement.Models
         public bool Xxxl { get; set; }
         [BindNever]
         public bool isXxxlActive { get; set; }
+        [DisplayName("4XL/56")]
+        public bool Xxxxl { get; set; }
+        [BindNever]
+        public bool isXxxxlActive { get; set; }
         [DisplayName("Taglia unica")]
         public bool TagliaUnica { get; set; }
         [BindNever]

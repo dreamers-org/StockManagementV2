@@ -57,6 +57,8 @@ namespace StockManagement.Models.ViewModels
 
         [DisplayName("3XL/54")]
         public int? Xxxl { get; set; }
+        [DisplayName("4XL/56")]
+        public int? Xxxxl { get; set; }
 
         [DisplayName("Taglia unica")]
         public int? TagliaUnica { get; set; }

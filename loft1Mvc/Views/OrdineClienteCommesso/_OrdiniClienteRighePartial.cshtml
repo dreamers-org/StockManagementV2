@@ -40,6 +40,9 @@
                         @Html.DisplayNameFor(model => model.Xxxl)
                     </th>
                     <th scope="col">
+                        @Html.DisplayNameFor(model => model.Xxxxl)
+                    </th>
+                    <th scope="col">
                         @Html.DisplayNameFor(model => model.TagliaUnica)
                     </th>
                     <th scope="col">
@@ -96,16 +99,19 @@
                         @Html.DisplayFor(modelItem => item.Xxxl)
                     </td>
                     <td>
+                        @Html.DisplayFor(modelItem => item.Xxxxl)
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.TagliaUnica)
                     </td>
                     <td>
-                        @(item.TagliaUnica + item.Xxs + item.Xs + item.S + item.M + item.L + item.Xl + item.Xxl + item.Xxxl)
+                        @(item.TagliaUnica + item.Xxs + item.Xs + item.S + item.M + item.L + item.Xl + item.Xxl + item.Xxxl+ item.Xxxxl)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.PrezzoVendita)
                     </td>
                     <td>
-                        @((item.TagliaUnica + item.Xxs + item.Xs + item.S + item.M + item.L + item.Xl + item.Xxl + item.Xxxl) * item.PrezzoVendita)
+                        @((item.TagliaUnica + item.Xxs + item.Xs + item.S + item.M + item.L + item.Xl + item.Xxl + item.Xxxl + item.Xxxxl) * item.PrezzoVendita)
                     </td>
                     <td>
                         <a asp-action="DeleteRow" asp-route-id="@item.Id" title="Cancella riga" onclick="return confirm('Sei sicuro di voler cancellare la riga dell ordine?')"><i class="far fa-trash-alt"></i></a>

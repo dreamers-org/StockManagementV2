@@ -187,6 +187,13 @@ function getTaglieDisponibiliArticolo() {
                 else {
                     (<JQuery<HTMLInputElement>>$('#txtXxxl')).removeAttr("readonly");
                 }
+                if (data.xxxxl) {
+                    (<JQuery<HTMLInputElement>>$('#txtXxxxl')).val("0");
+                    (<JQuery<HTMLInputElement>>$('#txtXxxxl')).attr("readonly", "readonly");
+                }
+                else {
+                    (<JQuery<HTMLInputElement>>$('#txtXxxxl')).removeAttr("readonly");
+                }
                 if (data.tagliaUnica) {
                     (<JQuery<HTMLInputElement>>$('#txtTagliaUnica')).val("0");
                     (<JQuery<HTMLInputElement>>$('#txtTagliaUnica')).attr("readonly", "readonly");

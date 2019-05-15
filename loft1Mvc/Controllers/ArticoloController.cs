@@ -18,7 +18,7 @@ namespace StockManagement.Controllers
     {
         #region Costanti&Readonly
 
-        private const string A = "Id,Codice,Descrizione,IdFornitore,Colore,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl,TagliaUnica,TrancheConsegna,Genere,IdTipo,PrezzoAcquisto,PrezzoVendita,IdCollezione";
+        private const string A = "Id,Codice,Descrizione,IdFornitore,Colore,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl,Xxxxl,TagliaUnica,TrancheConsegna,Genere,IdTipo,PrezzoAcquisto,PrezzoVendita,IdCollezione";
         private const string RuoloCommesso = "SuperAdmin, Commesso, Titolare";
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly StockV2Context _context;
@@ -500,6 +500,7 @@ namespace StockManagement.Controllers
                         result.Xl = !(articolo.Xl && articolo.isXlActive);
                         result.Xxl = !(articolo.Xxl && articolo.isXxlActive);
                         result.Xxxl = !(articolo.Xxxl && articolo.isXxxlActive);
+                        result.Xxxxl = !(articolo.Xxxxl && articolo.isXxxxlActive);
                         result.TagliaUnica = !(articolo.TagliaUnica && articolo.isTagliaUnicaActive);
                     };
                 }
@@ -674,6 +675,7 @@ namespace StockManagement.Controllers
                     articolo.isXlActive = false;
                     articolo.isXxlActive = false;
                     articolo.isXxxlActive = false;
+                    articolo.isXxxxlActive = false;
                     articolo.isTagliaUnicaActive = false;
                     articolo.Annullato = true;
                 }
@@ -687,6 +689,7 @@ namespace StockManagement.Controllers
                     articolo.isXlActive = !articoloAnnullato.isXlToBeNullified;
                     articolo.isXxlActive = !articoloAnnullato.isXxlToBeNullified;
                     articolo.isXxxlActive = !articoloAnnullato.isXxxlToBeNullified;
+                    articolo.isXxxxlActive = !articoloAnnullato.isXxxxlToBeNullified;
                     articolo.isTagliaUnicaActive = !articoloAnnullato.isTagliaUnicaToBeNullified;
                 }
             }
@@ -788,6 +791,7 @@ namespace StockManagement.Controllers
                     XL = articolo.Xl,
                     XXL = articolo.Xxl,
                     XXXL = articolo.Xxxl,
+                    XXXXL = articolo.Xxxxl,
                     TagliaUnica = articolo.TagliaUnica
                 };
             }
@@ -822,6 +826,7 @@ namespace StockManagement.Controllers
             public bool XL { get; set; }
             public bool XXL { get; set; }
             public bool XXXL { get; set; }
+            public bool XXXXL { get; set; }
             public bool TagliaUnica { get; set; }
         }
 
@@ -836,6 +841,7 @@ namespace StockManagement.Controllers
             public bool Xl { get; set; }
             public bool Xxl { get; set; }
             public bool Xxxl { get; set; }
+            public bool Xxxxl { get; set; }
             public bool TagliaUnica { get; set; }
         }
 

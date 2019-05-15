@@ -35,6 +35,7 @@ function getTxtValues() {
                 $('#chkXL').prop('checked', data.xl);
                 $('#chkXXL').prop('checked', data.xxl);
                 $('#chkXXXL').prop('checked', data.xxxl);
+                $('#chkXXXXL').prop('checked', data.xxxxl);
                 $('#chkTagliaUnica').prop('checked', data.tagliaUnica);
                 $('#txtColore').removeAttr("readonly");
             }

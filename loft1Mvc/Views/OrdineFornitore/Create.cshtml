@@ -87,6 +87,11 @@
                         </div>
                         <div class="col-md-1 mb-4">
                             <label class="form-check-label">
+                                <input class="form-control" asp-for="Xxxxl" id="txtXxxxl" /> @Html.DisplayNameFor(model => model.Xxxxl)
+                            </label>
+                        </div>
+                        <div class="col-md-1 mb-4">
+                            <label class="form-check-label">
                                 <input class="form-control" asp-for="TagliaUnica" id="txtTagliaUnica" /> @Html.DisplayNameFor(model => model.TagliaUnica)
                             </label>
                         </div>
@@ -202,6 +207,14 @@
                     }
                     else {
                         $('#txtXxxl').removeAttr("readonly");
+                        $('#btnConferma').removeAttr("disabled");
+                    }
+                     if (data.xxxxl) {
+                        $('#txtXxxxl').val("0");
+                        $('#txtXxxxl').attr("readonly", "readonly");
+                    }
+                    else {
+                        $('#txtXxxxl').removeAttr("readonly");
                         $('#btnConferma').removeAttr("disabled");
                     }
                     if (data.tagliaUnica) {

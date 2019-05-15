@@ -168,6 +168,13 @@ function getTaglieDisponibiliArticolo() {
                 else {
                     $('#txtXxxl').removeAttr("readonly");
                 }
+                if (data.xxxxl) {
+                    $('#txtXxxxl').val("0");
+                    $('#txtXxxxl').attr("readonly", "readonly");
+                }
+                else {
+                    $('#txtXxxxl').removeAttr("readonly");
+                }
                 if (data.tagliaUnica) {
                     $('#txtTagliaUnica').val("0");
                     $('#txtTagliaUnica').attr("readonly", "readonly");

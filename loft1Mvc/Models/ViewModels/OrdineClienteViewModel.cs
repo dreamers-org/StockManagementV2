@@ -65,6 +65,11 @@ namespace StockManagement.Models.ViewModels
         [Range(0, 99, ErrorMessage = "E' possibile inserire solo valori positivi.")]
         public int Xxxl { get; set; }
 
+        [DisplayName("4XL/56")]
+        [Required(ErrorMessage = "Campo obbligatorio.")]
+        [Range(0, 99, ErrorMessage = "E' possibile inserire solo valori positivi.")]
+        public int Xxxxl { get; set; }
+
         [DisplayName("Taglia unica")]
         [Required(ErrorMessage = "Campo obbligatorio.")]
         [Range(0, 99, ErrorMessage = "E' possibile inserire solo valori positivi.")]

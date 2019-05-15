@@ -143,6 +143,8 @@ namespace StockManagement.Models
                 .HasDefaultValue(true);
                 entity.Property(e => e.isTagliaUnicaActive)
                 .HasDefaultValue(true);
+                entity.Property(e => e.isXxxxlActive)
+                .HasDefaultValue(true);
 
                 entity.Property(e => e.Xl).HasColumnName("XL");
 
@@ -153,6 +155,8 @@ namespace StockManagement.Models
                 entity.Property(e => e.Xxs).HasColumnName("XXS");
 
                 entity.Property(e => e.Xxxl).HasColumnName("XXXL");
+
+                entity.Property(e => e.Xxxxl).HasColumnName("XXXXL");
 
                 entity.HasOne(d => d.IdCollezioneNavigation)
                     .WithMany(p => p.Articolo)
@@ -298,6 +302,8 @@ namespace StockManagement.Models
 
                 entity.Property(e => e.Xxxl).HasColumnName("XXXL");
 
+                entity.Property(e => e.Xxxxl).HasColumnName("XXXXL");
+
                 entity.HasOne(d => d.IdNavigation)
                     .WithOne(p => p.RigaOrdineCliente)
                     .HasForeignKey<RigaOrdineCliente>(d => d.Id)
@@ -343,6 +349,8 @@ namespace StockManagement.Models
                 entity.Property(e => e.Xxs).HasColumnName("XXS");
 
                 entity.Property(e => e.Xxxl).HasColumnName("XXXL");
+
+                entity.Property(e => e.Xxxxl).HasColumnName("XXXXL");
 
                 entity.HasOne(d => d.IdNavigation)
                     .WithOne(p => p.RigaOrdineFornitore)

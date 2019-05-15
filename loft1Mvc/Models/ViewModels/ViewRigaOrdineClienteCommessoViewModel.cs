@@ -28,6 +28,8 @@ namespace StockManagement.Models.ViewModels
         public int Xxl { get; set; }
         [DisplayName("3XL/54")]
         public int Xxxl { get; set; }
+        [DisplayName("4XL/56")]
+        public int Xxxxl { get; set; }
         [DisplayName("T.U.")]
         public int TagliaUnica { get; set; }
         public Guid IdRigaOrdine { get; set; }
