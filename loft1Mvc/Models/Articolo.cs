@@ -80,11 +80,8 @@ namespace StockManagement.Models
 		public bool Annullato { get; set; }
 		[DisplayName("€ Acquisto")]
 		[Required(ErrorMessage = "Obbligatorio.")]
-        [RegularExpression(@"^\d+\.\d{0,2}$", ErrorMessage = "Inserire un prezzo valido")]
-        [Range(0, 9999999999999999.99, ErrorMessage = "Inserire un prezzo valido")]
         public double PrezzoAcquisto { get; set; }
 		[DisplayName("€ Vendita")]
-        [RegularExpression(@"^\d+\.\d{0,2}$", ErrorMessage = "Inserire un prezzo valido")]
         [Required(ErrorMessage = "Obbligatorio.")]
         public double PrezzoVendita { get; set; }
 		[BindNever]
