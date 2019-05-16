@@ -14,6 +14,7 @@ using StockManagement.Services;
 using loft1Mvc.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Globalization;
 
 namespace loft1Mvc
 {
@@ -66,6 +67,12 @@ namespace loft1Mvc
         {
             try
             {
+                var cultureInfo = new CultureInfo("it-IT");
+                cultureInfo.NumberFormat.CurrencySymbol = "€";
+
+                CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+                CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+
                 Serilog.Debugging.SelfLog.Enable(Console.Error);
 
                 if (env.IsDevelopment())

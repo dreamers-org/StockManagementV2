@@ -27,11 +27,6 @@
             <table class="table">
                 <thead class="thead-dark small">
                     <tr>
-                        @if (User.IsInRole("SuperAdmin"))
-                        {
-                            <th scope="col">
-                            </th>
-                        }
                         <th scope="col">
                         </th>
                         <th scope="col">
@@ -94,15 +89,6 @@
                     @foreach (var item in Model)
                     {
                     <tr>
-                        @if (User.IsInRole("SuperAdmin"))
-                        {
-                            <td>
-                                <a asp-action="Delete" asp-route-id="@item.Id" title="Elimina"><i class="fas fa-trash-alt text-danger"></i></a>
-                            </td>
-                            <td>
-                                <a asp-action="Edit" asp-route-id="@item.Id" title="Modifica"><i class="far fa-edit"></i></a>
-                            </td>
-                        }
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.Id" title="Modifica"><i class="far fa-edit"></i></a>
                         </td>

@@ -228,7 +228,7 @@ namespace StockManagement.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditOrderRows([Bind("Id,DataConsegna,NomeCliente,IndirizzoCliente,EmailCliente,CodiceArticolo,ColoreArticolo,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl,TagliaUnica")] OrdineClienteViewModel ordineCliente)
+        public IActionResult EditOrderRows([Bind("Id,DataConsegna,NomeCliente,IndirizzoCliente,EmailCliente,CodiceArticolo,ColoreArticolo,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl, Xxxxl,TagliaUnica")] OrdineClienteViewModel ordineCliente)
         {
             if (ModelState.IsValid)
             {
@@ -294,7 +294,7 @@ namespace StockManagement.Controllers
                     Xl = ordineCliente.Xl,
                     Xxl = ordineCliente.Xxl,
                     Xxxl = ordineCliente.Xxxl,
-                    Xxxxl = ordineCliente.Xxxl,
+                    Xxxxl = ordineCliente.Xxxxl,
                     TagliaUnica = ordineCliente.TagliaUnica,
                     UtenteInserimento = User.Identity.Name,
                     DataInserimento = DateTime.Now

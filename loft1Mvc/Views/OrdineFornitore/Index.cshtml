@@ -72,8 +72,8 @@
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.PrezzoVendita)
                         </th>
-                        <th scope="col">
-                        </th>
+                        @*<th scope="col">
+                        </th>*@
                     </tr>
                 </thead>
                 <tbody>
@@ -81,8 +81,8 @@
                     {
                     <tr>
                         @*<td>
-                        <a asp-action="Edit" asp-route-id="@item.Id" title="Modifica"><i class="far fa-edit"></i></a>
-                        </td>*@
+        <a asp-action="Edit" asp-route-id="@item.Id" title="Modifica"><i class="far fa-edit"></i></a>
+        </td>*@
                         <td>
                             @Html.DisplayFor(modelItem => item.Fornitore)
                         </td>
@@ -120,6 +120,9 @@
                             @Html.DisplayFor(modelItem => item.Xxxl)
                         </td>
                         <td>
+                            @Html.DisplayFor(modelItem => item.Xxxxl)
+                        </td>
+                        <td>
                             @Html.DisplayFor(modelItem => item.TagliaUnica)
                         </td>
                         <td>
@@ -128,9 +131,9 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.PrezzoVendita)
                         </td>
-                        <td>
+                        @*<td>
                             <a asp-action="Delete" asp-route-id="@item.Id" title="Elimina"><i class="fas fa-trash-alt text-danger"></i></a>
-                        </td>
+                        </td>*@
                     </tr>
                     }
                 </tbody>

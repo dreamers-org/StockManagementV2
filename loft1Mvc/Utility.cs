@@ -18,7 +18,7 @@ namespace StockManagement
 {
     public static class Utility
     {
-        private const string SendGridApyKey = "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";
+        private const string SendGridApyKey = "";
 
         internal static async Task CreateRoles(IServiceProvider serviceProvider)
         {

@@ -24,7 +24,7 @@ namespace StockManagement
 
         #region Costanti&Readonly
 
-        private const string OC = "Id,DataConsegna,NomeCliente,IndirizzoCliente,EmailCliente,CodiceArticolo,ColoreArticolo,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl,TagliaUnica";
+        private const string OC = "Id,DataConsegna,NomeCliente,IndirizzoCliente,EmailCliente,CodiceArticolo,ColoreArticolo,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl,Xxxxl,TagliaUnica";
         private const string OC1 = "Id,IdRappresentante,IdCliente,DataConsegna,IdPagamento,Note,Completato,Pagato,DataInserimento,DataModifica,UtenteInserimento,UtenteModifica";
         private const string NoteOc = "IdTipoPagamento,Note";
         private readonly StockV2Context _context;

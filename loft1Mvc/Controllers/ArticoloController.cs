@@ -715,6 +715,7 @@ namespace StockManagement.Controllers
                     isXlToBeNullified = !articolo.isXlActive,
                     isXxlToBeNullified = !articolo.isXxlActive,
                     isXxxlToBeNullified = !articolo.isXxxlActive,
+                    isXxxxlToBeNullified = !articolo.isXxxxlActive,
                     isTagliaUnicaToBeNullified = !articolo.isTagliaUnicaActive,
                     isAllToBeNullified = articolo.Annullato
                 };
