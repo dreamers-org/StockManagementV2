@@ -84,10 +84,8 @@ namespace StockManagement.Models
         [Range(0, 9999999999999999.99, ErrorMessage = "Inserire un prezzo valido")]
         public double PrezzoAcquisto { get; set; }
 		[DisplayName("€ Vendita")]
-        [DataType(DataType.Currency, ErrorMessage = "Inserire un valore valido.")]
-        [Required(ErrorMessage = "Obbligatorio.")]
         [RegularExpression(@"^\d+\.\d{0,2}$", ErrorMessage = "Inserire un prezzo valido")]
-        [Range(0, 9999999999999999.99, ErrorMessage = "Inserire un prezzo valido")]
+        [Required(ErrorMessage = "Obbligatorio.")]
         public double PrezzoVendita { get; set; }
 		[BindNever]
 		public string Video { get; set; }
