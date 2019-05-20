@@ -114,38 +114,6 @@ namespace StockManagement.Controllers
         }
 
         [Authorize]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult InviaMailConferma(string idOrdine)
-        {
-            try
-            {
-                //OrdineCliente ordineClienteCurrent = _context.OrdineCliente.Where(x => x.Id == Guid.Parse(idOrdine)).FirstOrDefault();
-
-                ////Setto il campo completato, data modifica e utente modifica.
-                //ordineClienteCurrent.UtenteModifica = User.Identity.Name;
-                //ordineClienteCurrent.DataModifica = DateTime.Now;
-
-                ////salvo il nuovo record.
-                //_context.OrdineCliente.Update(ordineClienteCurrent);
-                //_context.SaveChanges();
-
-                ////Invio la mail ai 3 attori
-                //var emailCliente = _context.Cliente.Where(x => x.Id == ordineClienteCurrent.IdCliente).Select(x => x.Email).FirstOrDefault();
-                ////Execute(ordineClienteCurrent, emailCliente, User.Identity.Name, false);
-
-                ////svuoto la sessione.
-                //HttpContext.Session.Clear();
-
-                return RedirectToAction("Index", "Home");
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        [Authorize]
         public async Task<IActionResult> DeleteRow(Guid id)
         {
             var rigaOrdineCliente = await _context.RigaOrdineCliente.FindAsync(id);

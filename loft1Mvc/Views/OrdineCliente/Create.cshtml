@@ -29,6 +29,18 @@
     </div>
 </div>
 
+@if (@ViewData["CancellazioneOrdinePrecedenteObbligatoria"] != null)
+{
+    <!-- Alert -->
+    <div class="row">
+        <div class="col-12">
+            <div id="divAlertError" class="alert alert-danger">
+                @ViewData["CancellazioneOrdinePrecedenteObbligatoria"].ToString()
+            </div>
+        </div>
+    </div>
+}
+
 <!-- form inserimento -->
 <div class="row">
     <div class=" col-sm-12 col-md-12 mx-auto mb-3">
@@ -92,7 +104,7 @@
                     <div class="form-row justify-content-center">
                         <div class="col-md-3 mb-3 ">
                             <label asp-for="CodiceArticolo" class="control-label">Codice Articolo</label>
-                            <input id="txtCodiceArticolo" asp-for="CodiceArticolo" class="form-control" autocomplete="off"  onfocus="disableBtnInserisci();" onblur="getColorePerArticolo();" readonly="readonly" />
+                            <input id="txtCodiceArticolo" asp-for="CodiceArticolo" class="form-control" autocomplete="off" onfocus="disableBtnInserisci();" onblur="getColorePerArticolo();" readonly="readonly" />
                             <span asp-validation-for="CodiceArticolo" class="text-danger"></span>
                         </div>
                         <div class="col-md-3 mb-3">

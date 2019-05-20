@@ -84,11 +84,44 @@ namespace StockManagement
                 ViewData["NomeCliente"] = HttpContext.Session.GetString("NomeCliente");
                 ViewData["EmailCliente"] = HttpContext.Session.GetString("EmailCliente");
                 ViewData["IndirizzoCliente"] = HttpContext.Session.GetString("IndirizzoCliente");
+
                 string idOrdineSession = HttpContext.Session.GetString("IdOrdine");
                 string dataConsegnaSess = HttpContext.Session.GetString("DataConsegna");
+
                 if (!string.IsNullOrEmpty(dataConsegnaSess)) ViewData["DataConsegna"] = DateTime.Parse(dataConsegnaSess);
 
+                Guid idRappresentante = _identityContext.Users.Where(x => x.Email == User.Identity.Name).Select(x => Guid.Parse(x.Id)).FirstOrDefault();
+                OrdineCliente ordineCliente = _context.OrdineCliente.Where(x => x.Completato == false && x.IdRappresentante == idRappresentante).FirstOrDefault();
+                Guid idOrdineAperto = ordineCliente.Id;
+
                 IEnumerable<ViewRigaOrdineClienteViewModel> listaRigheOrdineCliente = new List<ViewRigaOrdineClienteViewModel>();
+
+                if (idOrdineSession == null && idOrdineAperto != null)
+                {
+                    ViewData["CancellazioneOrdinePrecedenteObbligatoria"] = "E' presente in memoria un ordine iniziato precedentemente e non terminato. Per proseguire occorre cancellarlo, o completarlo.";
+
+                    //Recupero i dati
+                    Guid idCliente= ordineCliente.IdCliente;
+                    Cliente cliente = _context.Cliente.Where(x => x.Id == idCliente).FirstOrDefault() ;
+
+                    //Metto in sessione i dati
+                    HttpContext.Session.SetString("NomeCliente", cliente.Nome);
+                    HttpContext.Session.SetString("EmailCliente", cliente.Email);
+                    HttpContext.Session.SetString("IndirizzoCliente", cliente.Indirizzo);
+                    HttpContext.Session.SetString("DataConsegna", ordineCliente.DataConsegna.ToString());
+                    HttpContext.Session.SetString("IdOrdine", ordineCliente.Id.ToString());
+
+                    //Passo i dati al ViewData
+                    ViewData["NomeCliente"] = HttpContext.Session.GetString("NomeCliente");
+                    ViewData["EmailCliente"] = HttpContext.Session.GetString("EmailCliente");
+                    ViewData["IndirizzoCliente"] = HttpContext.Session.GetString("IndirizzoCliente");
+
+                    dataConsegnaSess = HttpContext.Session.GetString("DataConsegna");
+
+                    if (!string.IsNullOrEmpty(dataConsegnaSess)) ViewData["DataConsegna"] = DateTime.Parse(dataConsegnaSess);
+                }
+
+                idOrdineSession = idOrdineSession ?? (idOrdineAperto == null ? null : idOrdineAperto.ToString());
 
                 if (!string.IsNullOrEmpty(idOrdineSession))
                 {
@@ -98,11 +131,20 @@ namespace StockManagement
 
                     Utility.CheckNull(listaRigheOrdineCliente);
 
-                    if (listaRigheOrdineCliente != null && listaRigheOrdineCliente.Count() == 0)
+                    if (listaRigheOrdineCliente.Count() == 0)
                     {
                         if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Collezione")))
                         {
                             HttpContext.Session.Remove("Collezione");
+                        }
+                    }
+                    else
+                    {
+                        if (string.IsNullOrEmpty(HttpContext.Session.GetString("Collezione")))
+                        {
+                            string tempCodiceArticolo = listaRigheOrdineCliente.FirstOrDefault().CodiceArticolo;
+                            string collezioneArticolo = _context.Articolo.Where(x => x.Codice == tempCodiceArticolo).Select(x => x.IdCollezioneNavigation.Nome).FirstOrDefault();
+                            HttpContext.Session.SetString("Collezione", collezioneArticolo);
                         }
                     }
 

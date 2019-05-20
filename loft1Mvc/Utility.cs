@@ -18,142 +18,166 @@ namespace StockManagement
 {
     public static class Utility
     {
-        private const string SendGridApyKey = "";
+        internal const string SendGridApyKey = "";
 
         internal static async Task CreateRoles(IServiceProvider serviceProvider)
         {
-            //adding custom roles
-            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var UserManager = serviceProvider.GetRequiredService<UserManager<GenericUser>>();
-            string[] roleNames = { "Rappresentante", "Commesso", "Titolare", "SuperAdmin" };
-            IdentityResult roleResult;
-
-            foreach (var roleName in roleNames)
+            try
             {
-                //creating the roles and seeding them to the database
-                var roleExist = await RoleManager.RoleExistsAsync(roleName);
-                if (!roleExist)
+                //adding custom roles
+                var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                var UserManager = serviceProvider.GetRequiredService<UserManager<GenericUser>>();
+                string[] roleNames = { "Rappresentante", "Commesso", "Titolare", "SuperAdmin" };
+                IdentityResult roleResult;
+
+                foreach (var roleName in roleNames)
                 {
-                    roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                    //creating the roles and seeding them to the database
+                    var roleExist = await RoleManager.RoleExistsAsync(roleName);
+                    if (!roleExist)
+                    {
+                        roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                    }
+                }
+
+                var _user = await UserManager.FindByEmailAsync("luca@admin.it");
+                if (_user != null)
+                {
+                    await UserManager.AddToRoleAsync(_user, "SuperAdmin");
                 }
             }
-
-            var _user = await UserManager.FindByEmailAsync("luca@admin.it");
-            if (_user != null)
+            catch (Exception ex)
             {
-                await UserManager.AddToRoleAsync(_user, "SuperAdmin");
+                GestioneErrori(ex);
+                throw;
             }
         }
         internal static async Task<MemoryStream> GetFileContent(dynamic list, Type tipoLista, string sWebRootFolder, string sFileName)
         {
-            var memory = new MemoryStream();
-            using (var fs = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Create, FileAccess.Write))
+            try
             {
-                IWorkbook workbook;
-                workbook = new XSSFWorkbook();
-                ISheet excelSheet = workbook.CreateSheet("Differenza ordinato venduto");
-                IRow row = excelSheet.CreateRow(0);
-
-                var columns = tipoLista.GetProperties()
-                        .Select(property => property.Name)
-                        .ToList();
-
-                for (int i = 0; i < columns.Count - 1; i++)
+                var memory = new MemoryStream();
+                using (var fs = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Create, FileAccess.Write))
                 {
-                    row.CreateCell(i).SetCellValue(columns[i]);
-                }
+                    IWorkbook workbook;
+                    workbook = new XSSFWorkbook();
+                    ISheet excelSheet = workbook.CreateSheet("Differenza ordinato venduto");
+                    IRow row = excelSheet.CreateRow(0);
 
-                foreach (var articolo in list)
-                {
-                    row = excelSheet.CreateRow(list.IndexOf(articolo) + 1);
-                    var arrayOfProperty = new List<PropertyInfo>(articolo.GetType().GetProperties());
+                    var columns = tipoLista.GetProperties()
+                            .Select(property => property.Name)
+                            .ToList();
 
-                    foreach (PropertyInfo prop in arrayOfProperty)
+                    for (int i = 0; i < columns.Count - 1; i++)
                     {
-                        if (arrayOfProperty.IndexOf(prop) != arrayOfProperty.Count - 1)
+                        row.CreateCell(i).SetCellValue(columns[i]);
+                    }
+
+                    foreach (var articolo in list)
+                    {
+                        row = excelSheet.CreateRow(list.IndexOf(articolo) + 1);
+                        var arrayOfProperty = new List<PropertyInfo>(articolo.GetType().GetProperties());
+
+                        foreach (PropertyInfo prop in arrayOfProperty)
                         {
-                            row.CreateCell(arrayOfProperty.IndexOf(prop)).SetCellValue(prop.GetValue(articolo).ToString());
+                            if (arrayOfProperty.IndexOf(prop) != arrayOfProperty.Count - 1)
+                            {
+                                row.CreateCell(arrayOfProperty.IndexOf(prop)).SetCellValue(prop.GetValue(articolo).ToString());
+                            }
                         }
                     }
+                    workbook.Write(fs);
                 }
-                workbook.Write(fs);
+                using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
+                {
+                    await stream.CopyToAsync(memory);
+                }
+                memory.Position = 0;
+                return memory;
             }
-            using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
+            catch (Exception ex)
             {
-                await stream.CopyToAsync(memory);
+                GestioneErrori(ex);
+                throw;
             }
-            memory.Position = 0;
-            return memory;
         }
         internal static async Task<MemoryStream> GetFilesCombinedContent(dynamic list, Type tipoLista, dynamic list2, Type tipoLista2, string sWebRootFolder, string sFileName)
         {
-            var memory = new MemoryStream();
-            using (var fs = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Create, FileAccess.Write))
+            try
             {
-                IWorkbook workbook;
-                workbook = new XSSFWorkbook();
-                ISheet excelSheet = workbook.CreateSheet("Report");
-                IRow row = excelSheet.CreateRow(0);
-
-                var columns = tipoLista.GetProperties()
-                        .Select(property => property.Name)
-                        .ToList();
-
-                for (int i = 0; i < columns.Count - 1; i++)
+                var memory = new MemoryStream();
+                using (var fs = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Create, FileAccess.Write))
                 {
-                    row.CreateCell(i).SetCellValue(columns[i]);
-                }
+                    IWorkbook workbook;
+                    workbook = new XSSFWorkbook();
+                    ISheet excelSheet = workbook.CreateSheet("Report");
+                    IRow row = excelSheet.CreateRow(0);
 
-                foreach (var item in list)
-                {
-                    row = excelSheet.CreateRow(list.IndexOf(item) + 1);
-                    var arrayOfProperty = new List<PropertyInfo>(item.GetType().GetProperties());
+                    var columns = tipoLista.GetProperties()
+                            .Select(property => property.Name)
+                            .ToList();
 
-                    foreach (PropertyInfo prop in arrayOfProperty)
+                    for (int i = 0; i < columns.Count - 1; i++)
                     {
-                        if (arrayOfProperty.IndexOf(prop) != arrayOfProperty.Count - 1)
+                        row.CreateCell(i).SetCellValue(columns[i]);
+                    }
+
+                    foreach (var item in list)
+                    {
+                        row = excelSheet.CreateRow(list.IndexOf(item) + 1);
+                        var arrayOfProperty = new List<PropertyInfo>(item.GetType().GetProperties());
+
+                        foreach (PropertyInfo prop in arrayOfProperty)
                         {
-                            row.CreateCell(arrayOfProperty.IndexOf(prop)).SetCellValue(prop.GetValue(item).ToString());
+                            if (arrayOfProperty.IndexOf(prop) != arrayOfProperty.Count - 1)
+                            {
+                                row.CreateCell(arrayOfProperty.IndexOf(prop)).SetCellValue(prop.GetValue(item).ToString());
+                            }
                         }
                     }
-                }
 
-                row = excelSheet.CreateRow(list.Count + 2);
+                    row = excelSheet.CreateRow(list.Count + 2);
 
-                var columns2 = tipoLista2.GetProperties()
-                        .Select(property => property.Name)
-                        .ToList();
+                    var columns2 = tipoLista2.GetProperties()
+                            .Select(property => property.Name)
+                            .ToList();
 
-                for (int i = 0; i < columns2.Count - 1; i++)
-                {
-                    row.CreateCell(i).SetCellValue(columns[i]);
-                }
-
-                int rowIndex = list.Count + 3;
-                foreach (var item in list2)
-                {
-                    row = excelSheet.CreateRow(rowIndex);
-                    var arrayOfProperty = new List<PropertyInfo>(item.GetType().GetProperties());
-
-                    foreach (PropertyInfo prop in arrayOfProperty)
+                    for (int i = 0; i < columns2.Count - 1; i++)
                     {
-                        if (arrayOfProperty.IndexOf(prop) != arrayOfProperty.Count - 1)
-                        {
-                            row.CreateCell(arrayOfProperty.IndexOf(prop)).SetCellValue(prop.GetValue(item).ToString());
-                        }
+                        row.CreateCell(i).SetCellValue(columns[i]);
                     }
-                    rowIndex++;
+
+                    int rowIndex = list.Count + 3;
+                    foreach (var item in list2)
+                    {
+                        row = excelSheet.CreateRow(rowIndex);
+                        var arrayOfProperty = new List<PropertyInfo>(item.GetType().GetProperties());
+
+                        foreach (PropertyInfo prop in arrayOfProperty)
+                        {
+                            if (arrayOfProperty.IndexOf(prop) != arrayOfProperty.Count - 1)
+                            {
+                                row.CreateCell(arrayOfProperty.IndexOf(prop)).SetCellValue(prop.GetValue(item).ToString());
+                            }
+                        }
+                        rowIndex++;
+                    }
+
+
+                    workbook.Write(fs);
                 }
-
-
-                workbook.Write(fs);
+                using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
+                {
+                    await stream.CopyToAsync(memory);
+                }
+                memory.Position = 0;
+                return memory;
             }
-            using (var stream = new FileStream(Path.Combine(sWebRootFolder, sFileName), FileMode.Open))
+            catch (Exception ex)
             {
-                await stream.CopyToAsync(memory);
+                GestioneErrori(ex);
+                throw;
             }
-            memory.Position = 0;
-            return memory;
         }
         internal static bool ArticoloExists(Guid id, StockV2Context context) => context.Articolo.Any(e => e.Id == id);
         internal static bool ArticoloFotoExists(Guid id, StockV2Context context) => context.ArticoloFoto.Any(e => e.Id == id);
@@ -179,20 +203,28 @@ namespace StockManagement
         }
         internal static string GetRandomNumber(StockV2Context context)
         {
-            List<string> RandomNumbersList = context.OrdineCliente.Select(x => x.RandomNumber).ToList();
-            string newRandomNumber = string.Empty;
-            bool isRandomNumberValid = false;
-
-            while (!isRandomNumberValid)
+            try
             {
-                newRandomNumber = Utility.GenerateNumber();
-                isRandomNumberValid = string.IsNullOrEmpty(RandomNumbersList.Where(x =>
-                {
-                    return x == newRandomNumber;
-                }).FirstOrDefault());
-            }
+                List<string> RandomNumbersList = context.OrdineCliente.Select(x => x.RandomNumber).ToList();
+                string newRandomNumber = string.Empty;
+                bool isRandomNumberValid = false;
 
-            return newRandomNumber;
+                while (!isRandomNumberValid)
+                {
+                    newRandomNumber = Utility.GenerateNumber();
+                    isRandomNumberValid = string.IsNullOrEmpty(RandomNumbersList.Where(x =>
+                    {
+                        return x == newRandomNumber;
+                    }).FirstOrDefault());
+                }
+
+                return newRandomNumber;
+            }
+            catch (Exception ex)
+            {
+                GestioneErrori(ex);
+                throw;
+            }
         }
         internal static async Task Execute(StockV2Context _context, OrdineCliente ordineCliente, string emailCliente, string emailRappresentante, string collezione, string regione)
         {

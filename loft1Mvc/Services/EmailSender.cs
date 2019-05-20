@@ -9,7 +9,7 @@ namespace StockManagement.Services
     public class EmailSender : IEmailSender
     {
         //string apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
-        string apiKey = "";
+        string apiKey = Utility.SendGridApyKey;
 
         public Task SendEmailAsync(string email, string subject, string message) => Execute(apiKey, subject, message, email);
 

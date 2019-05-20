@@ -447,6 +447,25 @@ namespace StockManagement.Controllers
             }
         }
 
+        [Authorize(Roles = RuoloCommesso)]
+        public async Task<IActionResult> ExportOrdinatiPerClienti()
+        {
+            try
+            {
+                List<ViewArticoliOrdinatiDaiClientiPerDataViewModel> ViewArticoliOrdinatiDaiClientiPerData = _context.ViewArticoliOrdinatiDaiClientiPerData.OrderBy(x => x.Codice).ToList();
+                string sWebRootFolder = _hostingEnvironment.WebRootPath;
+                string sFileName = @"Loft.xlsx";
+
+                MemoryStream memory = await Utility.GetFileContent(ViewArticoliOrdinatiDaiClientiPerData, typeof(ViewArticoliOrdinatiDaiClientiPerDataViewModel), sWebRootFolder, sFileName);
+                return File(memory, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
+            }
+            catch (Exception ex)
+            {
+                Utility.GestioneErrori(User.Identity.Name, ex);
+                throw;
+            }
+        }
+
         #endregion
 
         #region MetodiLatoCliente

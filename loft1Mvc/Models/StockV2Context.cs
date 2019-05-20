@@ -38,6 +38,7 @@ namespace StockManagement.Models
         public virtual DbQuery<ViewArticoloFornitoreViewModel> ViewArticoloOrdineFornitore { get; set; }
         public DbSet<EditRigaOrdineClienteViewModel> EditRigaOrdineClienteViewModel { get; set; }
         public virtual DbQuery<ViewDifferenzaOrdinatoVenduto> ViewDifferenzaOrdinatoVenduto { get; set; }
+        public virtual DbQuery<ViewArticoliOrdinatiDaiClientiPerDataViewModel> ViewArticoliOrdinatiDaiClientiPerData { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
