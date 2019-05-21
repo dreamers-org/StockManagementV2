@@ -20,8 +20,13 @@ namespace loft1Mvc.Areas.Identity
             {
                 builder.ConfigureServices((context, services) =>
                     {
+                        string connectionstring = context.Configuration.GetConnectionString("IdentityContextConnection");
 
-                        services.AddDbContext<IdentityContext>(options => options.UseSqlServer(context.Configuration.GetConnectionString("IdentityContextConnection")));
+                        if (string.IsNullOrEmpty(connectionstring))
+                        {
+                            connectionstring = Environment.GetEnvironmentVariable("IdentityConnectionString", EnvironmentVariableTarget.User);
+                        }
+                        services.AddDbContext<IdentityContext>(options => options.UseSqlServer(connectionstring));
                         services.AddIdentity<GenericUser, IdentityRole>(config =>
                         {
                             config.SignIn.RequireConfirmedEmail = true;

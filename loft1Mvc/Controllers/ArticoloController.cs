@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using StockManagement.Models;
 using StockManagement.Models.ViewModels;
 
@@ -20,15 +21,15 @@ namespace StockManagement.Controllers
 
         private const string A = "Id,Codice,Descrizione,IdFornitore,Colore,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl,Xxxxl,TagliaUnica,TrancheConsegna,Genere,IdTipo,PrezzoAcquisto,PrezzoVendita,IdCollezione";
         private const string RuoloCommesso = "SuperAdmin, Commesso, Titolare";
-        private readonly IHostingEnvironment _hostingEnvironment;
         private readonly StockV2Context _context;
+        private IConfiguration _configuration { get; }
 
         #endregion
 
-        public ArticoloController(StockV2Context context, IHostingEnvironment hostingEnvironment)
+        public ArticoloController(StockV2Context context, IConfiguration Configuration)
         {
             _context = context;
-            _hostingEnvironment = hostingEnvironment;
+            _configuration = Configuration;
         }
        
         #region Index
@@ -402,7 +403,7 @@ namespace StockManagement.Controllers
         {
             try
             {
-                List<ViewDifferenzaOrdinatoVenduto> articoli;
+                List<ViewDifferenzaOrdinatoVendutoViewModel> articoli;
 
                 switch (orderBy)
                 {
@@ -433,11 +434,11 @@ namespace StockManagement.Controllers
         {
             try
             {
-                List<ViewDifferenzaOrdinatoVenduto> viewDifferenzaOrdinatoVenduto = _context.ViewDifferenzaOrdinatoVenduto.OrderBy(x => x.Codice).ToList();
-                string sWebRootFolder = _hostingEnvironment.WebRootPath;
+                List<ViewDifferenzaOrdinatoVendutoViewModel> viewDifferenzaOrdinatoVenduto = _context.ViewDifferenzaOrdinatoVenduto.OrderBy(x => x.Codice).ToList();
+                string sWebRootFolder = _configuration.GetValue<string>("ExcelFolder");
                 string sFileName = @"Loft.xlsx";
 
-                MemoryStream memory = await Utility.GetFileContent(viewDifferenzaOrdinatoVenduto, typeof(ViewDifferenzaOrdinatoVenduto), sWebRootFolder, sFileName);
+                MemoryStream memory = await Utility.GetFileContent(viewDifferenzaOrdinatoVenduto, typeof(ViewDifferenzaOrdinatoVendutoViewModel), sWebRootFolder, sFileName);
                 return File(memory, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
             }
             catch (Exception ex)
@@ -453,10 +454,28 @@ namespace StockManagement.Controllers
             try
             {
                 List<ViewArticoliOrdinatiDaiClientiPerDataViewModel> ViewArticoliOrdinatiDaiClientiPerData = _context.ViewArticoliOrdinatiDaiClientiPerData.OrderBy(x => x.Codice).ToList();
-                string sWebRootFolder = _hostingEnvironment.WebRootPath;
+                string sWebRootFolder = _configuration.GetValue<string>("ExcelFolder");
                 string sFileName = @"Loft.xlsx";
 
                 MemoryStream memory = await Utility.GetFileContent(ViewArticoliOrdinatiDaiClientiPerData, typeof(ViewArticoliOrdinatiDaiClientiPerDataViewModel), sWebRootFolder, sFileName);
+                return File(memory, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
+            }
+            catch (Exception ex)
+            {
+                Utility.GestioneErrori(User.Identity.Name, ex);
+                throw;
+            }
+        }
+        [Authorize(Roles = RuoloCommesso)]
+        public async Task<IActionResult> ExportZeroMenoCompletato()
+        {
+            try
+            {
+                List<ViewDifferenzaOrdinatoVendutoZeroMenoCompletatoViewModel> ViewArticoliOrdinatiDaiClientiPerData = _context.ViewDifferenzaOrdinatoVendutoZeroMenoCompletato.OrderBy(x => x.Codice).ToList();
+                string sWebRootFolder = _configuration.GetValue<string>("ExcelFolder");
+                string sFileName = @"Loft.xlsx";
+
+                MemoryStream memory = await Utility.GetFileContent(ViewArticoliOrdinatiDaiClientiPerData, typeof(ViewDifferenzaOrdinatoVendutoZeroMenoCompletatoViewModel), sWebRootFolder, sFileName);
                 return File(memory, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
             }
             catch (Exception ex)

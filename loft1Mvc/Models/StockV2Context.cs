@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 using StockManagement.Models.ViewModels;
 
 namespace StockManagement.Models
@@ -37,8 +35,9 @@ namespace StockManagement.Models
         public virtual DbQuery<ViewOrdineFornitoreViewModel> ViewOrdineFornitore { get; set; }
         public virtual DbQuery<ViewArticoloFornitoreViewModel> ViewArticoloOrdineFornitore { get; set; }
         public DbSet<EditRigaOrdineClienteViewModel> EditRigaOrdineClienteViewModel { get; set; }
-        public virtual DbQuery<ViewDifferenzaOrdinatoVenduto> ViewDifferenzaOrdinatoVenduto { get; set; }
+        public virtual DbQuery<ViewDifferenzaOrdinatoVendutoViewModel> ViewDifferenzaOrdinatoVenduto { get; set; }
         public virtual DbQuery<ViewArticoliOrdinatiDaiClientiPerDataViewModel> ViewArticoliOrdinatiDaiClientiPerData { get; set; }
+        public virtual DbQuery<ViewDifferenzaOrdinatoVendutoZeroMenoCompletatoViewModel> ViewDifferenzaOrdinatoVendutoZeroMenoCompletato { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -52,8 +51,6 @@ namespace StockManagement.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Ignore<OrdineClienteViewViewModel>();
-
             modelBuilder.HasAnnotation("ProductVersion", "2.2.2-servicing-10034");
 
             modelBuilder.Entity<Articolo>(entity =>

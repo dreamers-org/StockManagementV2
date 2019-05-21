@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace StockManagement.Models.ViewModels
 {
-    public class ViewDifferenzaOrdinatoVenduto
+    public class ViewDifferenzaOrdinatoVendutoViewModel
     {
         public string Fornitore { get; set; }
 

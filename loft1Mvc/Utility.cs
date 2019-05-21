@@ -1,5 +1,6 @@
 ﻿using loft1Mvc.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
@@ -18,8 +19,6 @@ namespace StockManagement
 {
     public static class Utility
     {
-        internal const string SendGridApyKey = "";
-
         internal static async Task CreateRoles(IServiceProvider serviceProvider)
         {
             try
@@ -226,7 +225,7 @@ namespace StockManagement
                 throw;
             }
         }
-        internal static async Task Execute(StockV2Context _context, OrdineCliente ordineCliente, string emailCliente, string emailRappresentante, string collezione, string regione)
+        internal static async Task Execute(IConfiguration configuration, StockV2Context _context, OrdineCliente ordineCliente, string emailCliente, string emailRappresentante, string collezione, string regione)
         {
             try
             {
@@ -234,8 +233,16 @@ namespace StockManagement
                 CheckNull(emailCliente);
                 CheckNull(emailRappresentante);
 
-                //var client = new SendGridClient(Environment.GetEnvironmentVariable("SENDGRID_API_KEY", EnvironmentVariableTarget.User));
-                var client = new SendGridClient(SendGridApyKey);
+                var key = configuration.GetValue<string>("SendGridApiKey");
+
+                if (string.IsNullOrEmpty(key))
+                {
+                    key = Environment.GetEnvironmentVariable("SENDGRID_API_KEY", EnvironmentVariableTarget.User);
+                }
+
+                CheckNull(key);
+
+                var client = new SendGridClient(key);
                 var from = new EmailAddress();
                 if (collezione == "Loft") from = new EmailAddress("info@loft1.it", "Loft1");
                 else from = new EmailAddress("zero-meno@outlook.it", "Zero Meno");

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.Extensions.Configuration;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
@@ -8,16 +9,30 @@ namespace StockManagement.Services
 {
     public class EmailSender : IEmailSender
     {
-        //string apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
-        string apiKey = Utility.SendGridApyKey;
+        private readonly IConfiguration _configuration;
 
-        public Task SendEmailAsync(string email, string subject, string message) => Execute(apiKey, subject, message, email);
+        public EmailSender(IConfiguration Configuration)
+        {
+            _configuration = Configuration;
+        }
 
-        public Task Execute(string apiKey, string subject, string message, string email)
+        public Task SendEmailAsync(string email, string subject, string message) => Execute(subject, message, email);
+
+        public Task Execute(string subject, string message, string email)
         {
             try
             {
-                var client = new SendGridClient(apiKey);
+                string key = _configuration.GetValue<string>("SendGridApiKey");
+
+                if (string.IsNullOrEmpty(key))
+                {
+                    key = Environment.GetEnvironmentVariable("SENDGRID_API_KEY", EnvironmentVariableTarget.User);
+                }
+
+                Utility.CheckNull(key);
+
+                var client = new SendGridClient(key);
+
                 var msg = new SendGridMessage()
                 {
                     From = new EmailAddress("Info@loft1.it", "Loft1"),

@@ -40,6 +40,17 @@
         </div>
     </div>
 }
+@if (@TempData["ErroreCollezione"] != null)
+{
+    <!-- Alert -->
+    <div class="row">
+        <div class="col-12">
+            <div id="divAlertError" class="alert alert-danger">
+                @TempData["ErroreCollezione"].ToString()
+            </div>
+        </div>
+    </div>
+}
 
 <!-- form inserimento -->
 <div class="row">

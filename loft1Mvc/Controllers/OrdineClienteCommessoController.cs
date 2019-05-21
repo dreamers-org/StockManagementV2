@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using StockManagement.Models;
@@ -19,11 +20,13 @@ namespace StockManagement.Controllers
     {
         private readonly StockV2Context _context;
         private readonly IdentityContext _identityContext;
+        private readonly IConfiguration _configuration;
 
-        public OrdineClienteCommessoController(StockV2Context context, IdentityContext identityContext)
+        public OrdineClienteCommessoController(StockV2Context context, IdentityContext identityContext, IConfiguration Configuration)
         {
             _context = context;
             _identityContext = identityContext;
+            _configuration = Configuration;
         }
 
         public async Task<IActionResult> Index()
@@ -371,7 +374,7 @@ namespace StockManagement.Controllers
                 var idCollezione = _context.Articolo.Where(x => x.Id == articoloPerRicavareCollezione).Select(x => x.IdCollezione).First();
                 var collezione = _context.Collezione.Where(x => x.Id == idCollezione).Select(x => x.Nome).FirstOrDefault();
                 var regione = _identityContext.Users.Where(x => x.Email == User.Identity.Name).Select(x => x.Regione).FirstOrDefault();
-                Utility.Execute(_context, ordineClienteCurrent, emailCliente, User.Identity.Name, collezione, regione).GetAwaiter().GetResult();
+                Utility.Execute(_configuration, _context, ordineClienteCurrent, emailCliente, User.Identity.Name, collezione, regione).GetAwaiter().GetResult();
 
                 //svuoto la sessione.
                 HttpContext.Session.Clear();

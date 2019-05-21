@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Serilog;
 using StockManagement.Models;
 using StockManagement.Models.ViewModels;
@@ -16,10 +17,11 @@ namespace StockManagement
 {
     public class OrdineClienteController : Controller
     {
-        public OrdineClienteController(StockV2Context context, IdentityContext identityContext)
+        public OrdineClienteController(StockV2Context context, IdentityContext identityContext, IConfiguration Configuration)
         {
             _context = context;
             _identityContext = identityContext;
+            _configuration = Configuration;
         }
 
         #region Costanti&Readonly
@@ -29,6 +31,7 @@ namespace StockManagement
         private const string NoteOc = "IdTipoPagamento,Note";
         private readonly StockV2Context _context;
         private readonly IdentityContext _identityContext;
+        private readonly IConfiguration _configuration;
 
         #endregion
 
@@ -92,12 +95,16 @@ namespace StockManagement
 
                 Guid idRappresentante = _identityContext.Users.Where(x => x.Email == User.Identity.Name).Select(x => Guid.Parse(x.Id)).FirstOrDefault();
                 OrdineCliente ordineCliente = _context.OrdineCliente.Where(x => x.Completato == false && x.IdRappresentante == idRappresentante).FirstOrDefault();
-                Guid idOrdineAperto = ordineCliente.Id;
 
                 IEnumerable<ViewRigaOrdineClienteViewModel> listaRigheOrdineCliente = new List<ViewRigaOrdineClienteViewModel>();
 
-                if (idOrdineSession == null && idOrdineAperto != null)
+                Guid checkGuid = Guid.NewGuid();
+                Guid idOrdineAperto = new Guid();
+
+                if (idOrdineSession == null && ordineCliente != null)
                 {
+                    idOrdineAperto = ordineCliente.Id;
+
                     ViewData["CancellazioneOrdinePrecedenteObbligatoria"] = "E' presente in memoria un ordine iniziato precedentemente e non terminato. Per proseguire occorre cancellarlo, o completarlo.";
 
                     //Recupero i dati
@@ -121,7 +128,7 @@ namespace StockManagement
                     if (!string.IsNullOrEmpty(dataConsegnaSess)) ViewData["DataConsegna"] = DateTime.Parse(dataConsegnaSess);
                 }
 
-                idOrdineSession = idOrdineSession ?? (idOrdineAperto == null ? null : idOrdineAperto.ToString());
+                idOrdineSession = idOrdineSession ?? (idOrdineAperto == checkGuid ? null : idOrdineAperto.ToString());
 
                 if (!string.IsNullOrEmpty(idOrdineSession))
                 {
@@ -231,7 +238,10 @@ namespace StockManagement
 
                 if (!string.IsNullOrEmpty(collezioneSession))
                 {
-                    if (collezione != collezioneSession) return RedirectToAction(nameof(Create));
+                    if (collezione != collezioneSession)
+                    {
+                        TempData["ErroreCollezione"] = "Impossibile inserire articoli di collezioni diverse nello stesso ordine.";
+                        return RedirectToAction(nameof(Create)); }
                 }
                 HttpContext.Session.SetString("Collezione", collezione);
 
@@ -364,7 +374,7 @@ namespace StockManagement
 
                 var collezione = HttpContext.Session.GetString("Collezione");
                 var regione = _identityContext.Users.Where(x => x.Email == User.Identity.Name).Select(x => x.Regione).FirstOrDefault();
-                Utility.Execute(_context, ordineClienteCurrent, emailCliente, User.Identity.Name, collezione, regione).Wait();
+                Utility.Execute(_configuration, _context, ordineClienteCurrent, emailCliente, User.Identity.Name, collezione, regione).Wait();
 
                 //svuoto la sessione.
                 HttpContext.Session.Clear();
