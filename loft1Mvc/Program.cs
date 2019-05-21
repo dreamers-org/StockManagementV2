@@ -1,18 +1,27 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Events;
 using StockManagement;
 using System;
+using System.Configuration;
 
 namespace loft1Mvc
 {
     public class Program
 	{
+        static IConfiguration _configuration;
+        public Program(IConfiguration Configuration)
+        {
+            _configuration = Configuration;
+        }
 		public static void Main(string[] args)
 		{
 			try
 			{
+                string connectionString = _configuration.GetConnectionString("StockConnection");
+
                 Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Error()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)

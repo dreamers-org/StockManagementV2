@@ -20,12 +20,8 @@ namespace loft1Mvc.Areas.Identity
             {
                 builder.ConfigureServices((context, services) =>
                     {
-                        string connectionstring = context.Configuration.GetConnectionString("IdentityContextConnection");
+                        string connectionstring = context.Configuration.GetConnectionString("Identity");
 
-                        if (string.IsNullOrEmpty(connectionstring))
-                        {
-                            connectionstring = Environment.GetEnvironmentVariable("IdentityConnectionString", EnvironmentVariableTarget.User);
-                        }
                         services.AddDbContext<IdentityContext>(options => options.UseSqlServer(connectionstring));
                         services.AddIdentity<GenericUser, IdentityRole>(config =>
                         {
