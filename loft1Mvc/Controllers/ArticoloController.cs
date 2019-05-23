@@ -409,14 +409,14 @@ namespace StockManagement.Controllers
                 {
                     case "Codice":
                         HttpContext.Session.SetString("OrderBy", "Codice");
-                        articoli = await _context.ViewDifferenzaOrdinatoVenduto.OrderBy(x => x.Codice).ToListAsync();
+                        articoli = await _context.DifferenzaCompratoVendutoTotale.OrderBy(x => x.Codice).ThenBy(x => x.Colore).ToListAsync();
                         break;
                     case "Fornitore":
                         HttpContext.Session.SetString("OrderBy", "Fornitore");
-                        articoli = await _context.ViewDifferenzaOrdinatoVenduto.OrderBy(x => x.Fornitore).ToListAsync();
+                        articoli = await _context.DifferenzaCompratoVendutoTotale.OrderBy(x => x.Fornitore).ThenBy(x => x.Codice).ThenBy(x => x.Colore).ToListAsync();
                         break;
                     default:
-                        articoli = await _context.ViewDifferenzaOrdinatoVenduto.ToListAsync();
+                        articoli = await _context.DifferenzaCompratoVendutoTotale.OrderBy(x=> x.Fornitore).ThenBy(x => x.Codice).ThenBy(x=>x.Colore).ToListAsync();
                         break;
                 }
 
@@ -434,7 +434,7 @@ namespace StockManagement.Controllers
         {
             try
             {
-                List<ViewDifferenzaOrdinatoVendutoViewModel> viewDifferenzaOrdinatoVenduto = _context.ViewDifferenzaOrdinatoVenduto.OrderBy(x => x.Codice).ToList();
+                List<ViewDifferenzaOrdinatoVendutoViewModel> viewDifferenzaOrdinatoVenduto = _context.DifferenzaCompratoVendutoTotale.OrderBy(x => x.Codice).ToList();
                 string sWebRootFolder = _configuration.GetValue<string>("ExcelFolder");
                 string sFileName = @"Loft.xlsx";
 
@@ -471,7 +471,7 @@ namespace StockManagement.Controllers
         {
             try
             {
-                List<ViewDifferenzaOrdinatoVendutoZeroMenoCompletatoViewModel> ViewArticoliOrdinatiDaiClientiPerData = _context.ViewDifferenzaOrdinatoVendutoZeroMenoCompletato.OrderBy(x => x.Codice).ToList();
+                List<ViewDifferenzaOrdinatoVendutoZeroMenoCompletatoViewModel> ViewArticoliOrdinatiDaiClientiPerData = _context.DifferenzaCompratoVendutoTotaleZeroMeno.OrderBy(x => x.Codice).ToList();
                 string sWebRootFolder = _configuration.GetValue<string>("ExcelFolder");
                 string sFileName = @"Loft.xlsx";
 

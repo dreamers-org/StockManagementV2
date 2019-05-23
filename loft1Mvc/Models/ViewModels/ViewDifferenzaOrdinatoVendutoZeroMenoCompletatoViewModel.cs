@@ -77,7 +77,11 @@ namespace StockManagement.Models.ViewModels
 
         public int DIFFTU { get; set; }
 
-        public double TotalePrezzoArticolo { get; set; }
+        public double PrezzoAcquisto { get; set; }
+        public double PrezzoVendita { get; set; }
+        public double TotPrezzoAcquisto { get; set; }
+        public double TotPrezzoVendita { get; set; }
+        public double DifferenzaTotPrezzo { get; set; }
 
     }
 }
