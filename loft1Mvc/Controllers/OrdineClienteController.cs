@@ -94,14 +94,15 @@ namespace StockManagement
                 if (!string.IsNullOrEmpty(dataConsegnaSess)) ViewData["DataConsegna"] = DateTime.Parse(dataConsegnaSess);
 
                 Guid idRappresentante = _identityContext.Users.Where(x => x.Email == User.Identity.Name).Select(x => Guid.Parse(x.Id)).FirstOrDefault();
-                OrdineCliente ordineCliente = _context.OrdineCliente.Where(x => x.Completato == false && x.IdRappresentante == idRappresentante).FirstOrDefault();
+                OrdineCliente ordineCliente = _context.OrdineCliente.Where(x => x.IdRappresentante == idRappresentante).OrderByDescending(x=>x.DataInserimento).FirstOrDefault();
 
                 IEnumerable<ViewRigaOrdineClienteViewModel> listaRigheOrdineCliente = new List<ViewRigaOrdineClienteViewModel>();
 
                 Guid checkGuid = Guid.NewGuid();
                 Guid idOrdineAperto = new Guid();
 
-                if (idOrdineSession == null && ordineCliente != null)
+                //Se esiste un ultimo ordine e non è completato, prendo l'id e lo recupero
+                if (idOrdineSession == null && ordineCliente != null && ordineCliente.Completato == false)
                 {
                     idOrdineAperto = ordineCliente.Id;
 
@@ -922,7 +923,7 @@ namespace StockManagement
         {
             try
             {
-                var listaColori = _context.Articolo.Where(x => x.Codice.ToLower() == codice.ToLower() && x.Annullato == false).Select(x => new { Colore = x.Colore }).ToList();
+                var listaColori = _context.Articolo.Where(x => x.Codice.ToLower() == codice.ToLower() && x.Annullato == false && x.Colore.ToLower().IndexOf("disporre") == -1).Select(x => new { Colore = x.Colore }).ToList();
                 return Json(listaColori);
             }
             catch (Exception ex)

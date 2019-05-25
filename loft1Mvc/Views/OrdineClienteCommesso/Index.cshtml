@@ -105,7 +105,14 @@
                                 <a asp-action="Edit" asp-route-id="@item.Id" title="Modifica"><i class="fas fa-edit"></i></a>
                             </td>
                             <td>
+                                @if (item.CondizioniAccettate == 0)
+                                {
+                                    <a title="Visualizza foto condizioni"><i class="fas fa-file-signature text-danger"></i></a>
+                                }
+                                else
+                                {
                                 <a asp-action="ViewAccettazioneCondizioni" asp-route-id="@item.Id" title="Visualizza foto condizioni"><i class="fas fa-file-signature"></i></a>
+                                }
                             </td>
                         </tr>
                     }

@@ -25,5 +25,7 @@ namespace StockManagement.Models.ViewModels
         public bool Stampato { get; set; }
         [DisplayName("# Ordine")]
         public string RandomNumber { get; set; }
+        public long CondizioniAccettate { get; set; }
+
     }
 }
