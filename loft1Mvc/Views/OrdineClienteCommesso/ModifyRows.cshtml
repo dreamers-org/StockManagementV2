@@ -1,12 +1,13 @@
 ﻿@model StockManagement.Models.ViewModels.OrdineClienteViewModel
 @using Microsoft.AspNetCore.Http
+@using StockManagement.Models.ViewModels
 @inject IHttpContextAccessor HttpContextAccessor
 
 @{
     ViewData["Title"] = "Inserisci ordine";
 }
 
-@{List<StockManagement.Models.ViewModels.ViewRigaOrdineClienteViewModel> listaOrdini = (List<StockManagement.Models.ViewModels.ViewRigaOrdineClienteViewModel>)ViewBag.ListaOrdini; }
+@{List<ViewRigaOrdineClienteViewModel> listaOrdini = (List<ViewRigaOrdineClienteViewModel>)ViewBag.ListaOrdini; }
 
 <!-- Title -->
 <div class="row">
@@ -211,12 +212,12 @@
         <div class="row justify-content-center">
             <div class="col-3">
                 <div class="alert alert-info rounded-pill">
-                    Totale:&nbsp;<strong>@ViewBag.SommaPrezzo €</strong>, totale pezzi: <strong>@Context.Session.GetString("TotalePezzi")</strong>
+                    Totale:&nbsp;<strong>@ViewBag.SommaPrezzo €</strong>, totale pezzi: <strong>@ViewData["TotalePezzi"]</strong>
                 </div>
             </div>
         </div>
 
-        <partial name="_OrdiniClienteRighePartial" model="ViewBag.ListaOrdini" />
+        <partial name="_OrdiniClienteRighePartial" model="listaOrdini" />
     }
 }
 

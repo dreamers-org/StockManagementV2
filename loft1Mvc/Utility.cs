@@ -249,7 +249,7 @@ namespace StockManagement
 
                 var tos = new List<EmailAddress>
             {
-                from,
+                new EmailAddress("info@loft1.it", "Loft1"),
                 new EmailAddress(emailCliente, emailCliente),
                 new EmailAddress(emailRappresentante,emailRappresentante)
             };

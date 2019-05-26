@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using StockManagement.Models;
 using Microsoft.AspNetCore.Authorization;
+using StockManagement;
 
 namespace loft1Mvc.Controllers
 {

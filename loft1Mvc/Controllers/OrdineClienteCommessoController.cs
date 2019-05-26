@@ -38,17 +38,28 @@ namespace StockManagement.Controllers
 
         public async Task<IActionResult> Details(Guid? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
+
+            HttpContext.Session.Clear();
 
             var ordineCliente = await _context.ViewRigaOrdineClienteCommesso.Where(m => m.IdOrdine == id).ToListAsync();
+
             if (ordineCliente == null) return NotFound();
+
             var riepilogoOrdine = _context.ViewOrdineClienteRiepilogoBreve.Where(m => m.Id == id).FirstOrDefault();
+
+            int totalePezzi = 0;
+
+            foreach (var item in ordineCliente)
+            {
+                totalePezzi += item.TotalePezzi;
+            }
+
             ViewData["TotalePrezzoOrdine"] = ordineCliente.Select(x => x.TotaleRiga).ToList().Sum();
+            ViewData["TotalePezzi"] = totalePezzi;
             ViewData["RiepilogoOrdine"] = riepilogoOrdine;
-            HttpContext.Session.SetString("IdOrdine", id.ToString());
+            ViewData["idOrdine"] = id.ToString();
+
             return View(ordineCliente);
         }
 
@@ -152,7 +163,6 @@ namespace StockManagement.Controllers
             HttpContext.Session.SetString("NomeCliente", nomeCliente);
             HttpContext.Session.SetString("EmailCliente", emailCliente);
             HttpContext.Session.SetString("IndirizzoCliente", indirizzo);
-
             HttpContext.Session.SetString("DataConsegna", dataConsegna.ToString());
 
             //Li setto anche nel ViewData
@@ -167,20 +177,15 @@ namespace StockManagement.Controllers
                 ViewData["DataConsegna"] = DateTime.Parse(dataConsegnaSess);
             }
 
-
             IEnumerable<ViewRigaOrdineClienteViewModel> listaRigheOrdineCliente = new List<ViewRigaOrdineClienteViewModel>();
 
-            string idOrdineSession = HttpContext.Session.GetString("IdOrdine");
-            if (idOrdineSession != null && !string.IsNullOrEmpty(idOrdineSession))
+            if (idOrdineGuid != null && !string.IsNullOrEmpty(idOrdineGuid.ToString()))
             {
-                listaRigheOrdineCliente = _context.ViewRigaOrdineCliente.Where(x => x.IdOrdine.ToString().ToUpper() == idOrdineSession.ToUpper()).Select(x => x).ToList();
+                listaRigheOrdineCliente = _context.ViewRigaOrdineCliente.Where(x => x.IdOrdine.ToString().ToUpper() == idOrdineGuid.ToString().ToUpper()).ToList();
 
-                double? sommaPrezzo = _context.ViewOrdineCliente.Where(x => x.Id == new Guid(idOrdineSession)).Select(x => x.SommaPrezzo).FirstOrDefault();
+                double? sommaPrezzo = _context.ViewOrdineCliente.Where(x => x.Id == idOrdineGuid).Select(x => x.SommaPrezzo).FirstOrDefault();
 
-                if (sommaPrezzo != null)
-                {
-                    ViewBag.SommaPrezzo = sommaPrezzo.Value;
-                }
+                if (sommaPrezzo != null) ViewBag.SommaPrezzo = sommaPrezzo.Value;
 
                 var totalePezzi = 0;
                 foreach (var item in listaRigheOrdineCliente)
@@ -189,10 +194,12 @@ namespace StockManagement.Controllers
                 }
 
                 HttpContext.Session.SetString("TotalePezzi", totalePezzi.ToString());
+                ViewData["TotalePezzi"] = totalePezzi;
             }
 
             ViewBag.ListaOrdini = listaRigheOrdineCliente;
-
+            HttpContext.Session.Clear();
+            
             return View("ModifyRows");
         }
 
@@ -471,6 +478,14 @@ namespace StockManagement.Controllers
                 return View("AccettazioneCondizioni", foto);
             }
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Test()
+        {
+            
+            Statistiche.getTotalePerRappresentanteCompletatoLoft(_context, _identityContext);
+            Statistiche.getTotalePerRappresentanteCompletatoZeroMeno(_context, _identityContext);
+            return View();
         }
     }
 }

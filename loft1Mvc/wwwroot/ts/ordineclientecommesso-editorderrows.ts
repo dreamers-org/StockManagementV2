@@ -104,10 +104,8 @@ function caricaArticoli() {
 
                     success: function (data) {
                         console.log("caricamento articoli");
-                        //let txtCodiceArticolo:  JQuery<HTMLElement> =/*;*/
                         articoliDisponibili = data;
                         $("#txtCodiceArticolo").removeAttr("readonly");
-                        (<any>$("#txtCodiceArticolo")).autocomplete({ source: articoliDisponibili });
                     },
                     error: function () {
                         console.log("Errore caricaArticoli");

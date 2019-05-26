@@ -1,0 +1,55 @@
+﻿@model IEnumerable<StockManagement.Statistiche.TotalePerFornitore>
+
+@{
+    ViewData["Title"] = "Totale per fornitore";
+}
+
+    <h1>
+        Statistiche per fornitore. <br /> Totale complessivo @ViewData["Collezione"]: <strong>@ViewData["TotaleEuroComplessivo"]</strong>
+    </h1>
+<div class="row ml-2 mb-4">
+    <a asp-action="Index" class="btn btn-primary float-left mr-2">Totale</a>
+    <a asp-action="TotaleRappresentantiLoft" class="btn btn-primary float-left mr-2">Tot. rapp Loft</a>
+    <a asp-action="TotaleRappresentantiZeroMeno" class="btn btn-primary float-left mr-2">Tot. rapp ZeroMeno</a>
+</div>
+<div class="row ml-2 mb-4">
+    <a asp-action="TotaleRappresentanteSenzaCliente" class="btn btn-primary float-left mr-2">Totale per rappresentante senza cliente</a>
+    <a asp-action="TotaleRappresentanteSenzaClienteLoft" class="btn btn-primary float-left mr-2">Tot. rapp Loft senza cliente</a>
+    <a asp-action="TotaleRappresentanteSenzaClienteZeroMeno" class="btn btn-primary float-left mr-2">Tot. rapp ZeroMeno senza cliente</a>
+</div>
+<div class="row ml-2 mb-4">
+    <a asp-action="TotaleFornitore" class="btn btn-primary float-left mr-2">Totale per fornitore</a>
+    <a asp-action="TotaleFornitoreLoft" class="btn btn-primary float-left mr-2">Totale per fornitore Loft</a>
+    <a asp-action="TotaleFornitoreZeroMeno" class="btn btn-primary float-left mr-2">Totale per fornitore Zero Meno</a>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table">
+                <thead class="thead-dark small">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Fornitore)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Totale)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Fornitore)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Totale)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -80,69 +80,66 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Fornitore)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Codice)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Descrizione)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Colore)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Xxs)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Xs)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.S)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.M)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.L)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Xl)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Xxl)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Xxxl)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Xxxxl)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TagliaUnica)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TotalePezzi)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.PrezzoArticolo) €
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TotaleRiga) €
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Fornitore)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Codice)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descrizione)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Colore)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Xxs)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Xs)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.S)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.M)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.L)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Xl)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Xxl)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Xxxl)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Xxxxl)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TagliaUnica)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TotalePezzi)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PrezzoArticolo) €
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TotaleRiga) €
+                            </td>
+                        </tr>
                     }
-                    <tr class="bg-warning">
-                        <td colspan="15"></td>
-                        <td class="text-center">
-                            <strong>@ViewBag.TotalePrezzoOrdine €</strong>
-                        </td>
-                    </tr>
                 </tbody>
             </table>
-            <a asp-action="EditOrderRows" asp-controller="OrdineClienteCommesso" asp-route-idOrdine="@Context.Session.GetString("IdOrdine")" onclick='return confirm("Sei sicuro?");' title="Modifica"><i class="fas fa-edit"></i> Modifica righe ordine</a>
+            <h3>Totale pezzi: <strong class="text-danger">@ViewBag.TotalePezzi</strong> </h3>
+            <h3>Totale Euro: <strong class="text-danger">@ViewBag.TotalePrezzoOrdine</strong> </h3>
+
+            <a asp-action="EditOrderRows" asp-controller="OrdineClienteCommesso" asp-route-idOrdine="@ViewData["idOrdine"]" onclick='return confirm("Sei sicuro?");' title="Modifica"><i class="fas fa-edit mt-4"></i> Modifica righe ordine</a>
         </div>
     </div>
 </div>

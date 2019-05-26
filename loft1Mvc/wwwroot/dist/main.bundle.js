@@ -15230,10 +15230,8 @@ function caricaArticoli() {
                     data: { dataConsegna: dataConsegna },
                     success: function (data) {
                         console.log("caricamento articoli");
-                        //let txtCodiceArticolo:  JQuery<HTMLElement> =/*;*/
                         articoliDisponibili = data;
                         $("#txtCodiceArticolo").removeAttr("readonly");
-                        $("#txtCodiceArticolo").autocomplete({ source: articoliDisponibili });
                     },
                     error: function () {
                         console.log("Errore caricaArticoli");
