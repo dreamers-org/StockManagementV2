@@ -42,7 +42,7 @@ namespace StockManagement.Controllers
             List<Statistiche.TotalePerRappresentanteCompletato> result = new List<Statistiche.TotalePerRappresentanteCompletato>();
             try
             {
-                result = Statistiche.getTotalePerRappresentanteCompletatoLoft(_context, _identityContext);
+                result = Statistiche.getTotalePerRappresentanteCompletatoByCollezione(_context, _identityContext, "Loft");
                 
                 if (result != null)
                 {
@@ -63,7 +63,7 @@ namespace StockManagement.Controllers
             List<Statistiche.TotalePerRappresentanteCompletato> result = new List<Statistiche.TotalePerRappresentanteCompletato>();
             try
             {
-                result = Statistiche.getTotalePerRappresentanteCompletatoZeroMeno(_context, _identityContext);
+                result = Statistiche.getTotalePerRappresentanteCompletatoByCollezione(_context, _identityContext, "Zero Meno");
 
                 if (result != null)
                 {
@@ -87,12 +87,16 @@ namespace StockManagement.Controllers
                 var temp = Statistiche.getTotalePerRappresentanteCompletato(_context, _identityContext);
                 result = Statistiche.GetRappresentanteTotaleEuro(temp);
                 double incassoTotale = 0.0;
+                double incassoTotaleComprato = 0.0;
 
                 foreach (var item in result)
                 {
-                    incassoTotale += item.totale;
+                    incassoTotale += item.totaleVenduto;
+                    incassoTotaleComprato += item.totaleComprato;
                 }
+
                 ViewData["IncassoTotale"] = incassoTotale;
+                ViewData["IncassoTotaleComprato"] = incassoTotaleComprato;
             }
             catch (Exception ex)
             {
@@ -107,16 +111,19 @@ namespace StockManagement.Controllers
             List<Statistiche.RappresentanteTotaleEuro> result = new List<Statistiche.RappresentanteTotaleEuro>();
             try
             {
-                var temp = Statistiche.getTotalePerRappresentanteCompletatoLoft(_context, _identityContext);
+                var temp = Statistiche.getTotalePerRappresentanteCompletatoByCollezione(_context, _identityContext, "Loft");
                 result = Statistiche.GetRappresentanteTotaleEuro(temp);
                 double incassoTotale = 0.0;
+                double incassoTotaleComprato = 0.0;
 
                 foreach (var item in result)
                 {
-                    incassoTotale += item.totale;
+                    incassoTotale += item.totaleVenduto;
+                    incassoTotaleComprato += item.totaleComprato;
                 }
 
                 ViewData["IncassoTotale"] = incassoTotale;
+                ViewData["IncassoTotaleComprato"] = incassoTotaleComprato;
                 ViewData["Collezione"] = "Loft";
             }
             catch (Exception ex)
@@ -132,16 +139,19 @@ namespace StockManagement.Controllers
             List<Statistiche.RappresentanteTotaleEuro> result = new List<Statistiche.RappresentanteTotaleEuro>();
             try
             {
-                var temp = Statistiche.getTotalePerRappresentanteCompletatoZeroMeno(_context, _identityContext);
+                var temp = Statistiche.getTotalePerRappresentanteCompletatoByCollezione(_context, _identityContext, "Zero Meno");
                 result = Statistiche.GetRappresentanteTotaleEuro(temp);
                 double incassoTotale = 0.0;
+                double incassoTotaleComprato = 0.0;
 
                 foreach (var item in result)
                 {
-                    incassoTotale += item.totale;
+                    incassoTotale += item.totaleVenduto;
+                    incassoTotaleComprato += item.totaleComprato;
                 }
 
                 ViewData["IncassoTotale"] = incassoTotale;
+                ViewData["IncassoTotaleComprato"] = incassoTotaleComprato;
             }
             catch (Exception ex)
             {
@@ -163,7 +173,7 @@ namespace StockManagement.Controllers
 
                 foreach (var item in result)
                 {
-                    totaleEuroComplessivo += item.Totale;
+                    totaleEuroComplessivo += item.TotaleVenduto;
                 }
             }
             catch (Exception ex)
@@ -184,7 +194,7 @@ namespace StockManagement.Controllers
 
                 foreach (var item in result)
                 {
-                    totaleEuroComplessivo += item.Totale;
+                    totaleEuroComplessivo += item.TotaleVenduto;
                 }
             }
             catch (Exception ex)
@@ -207,7 +217,7 @@ namespace StockManagement.Controllers
 
                 foreach (var item in result)
                 {
-                    totaleEuroComplessivo += item.Totale;
+                    totaleEuroComplessivo += item.TotaleVenduto;
                 }
             }
             catch (Exception ex)

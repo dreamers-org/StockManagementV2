@@ -39,15 +39,21 @@ namespace StockManagement
                     var listaRigheOrdineCliente = _context.RigaOrdineCliente.Where(x => x.IdOrdine == item.idOrdine).ToList();
 
                     //variabile che contiene il totale dell'ordine
-                    double totale = 0.0;
+                    double totaleVendita = 0.0;
+                    double totaleAcquisto = 0.0;
 
                     foreach (var rigaordine in listaRigheOrdineCliente)
                     {
-                        var prezzoArticoloRiga = _context.Articolo.Where(x => x.Id == rigaordine.IdArticolo).Select(x => x.PrezzoVendita).First();
-                        totale += prezzoArticoloRiga * (rigaordine.Xxs + rigaordine.Xs + rigaordine.S + rigaordine.M + rigaordine.L + rigaordine.Xl + rigaordine.Xxl + rigaordine.Xxxl + rigaordine.Xxxxl + rigaordine.TagliaUnica);
+                        var prezzoArticoloRigaVendita = _context.Articolo.Where(x => x.Id == rigaordine.IdArticolo).Select(x => x.PrezzoVendita).First();
+                        var prezzoArticoloRigaComprato = _context.Articolo.Where(x => x.Id == rigaordine.IdArticolo).Select(x => x.PrezzoAcquisto).First();
+                        totaleVendita += prezzoArticoloRigaVendita * (rigaordine.Xxs + rigaordine.Xs + rigaordine.S + rigaordine.M + rigaordine.L + rigaordine.Xl + rigaordine.Xxl + rigaordine.Xxxl + rigaordine.Xxxxl + rigaordine.TagliaUnica);
+                        totaleAcquisto += prezzoArticoloRigaComprato * (rigaordine.Xxs + rigaordine.Xs + rigaordine.S + rigaordine.M + rigaordine.L + rigaordine.Xl + rigaordine.Xxl + rigaordine.Xxxl + rigaordine.Xxxxl + rigaordine.TagliaUnica);
                     }
 
-                    temp.totaleEuro = Math.Round(totale, 2);
+                    temp.totaleEuroVenduto = Math.Round(totaleVendita, 2);
+                    temp.totaleEuroComprato = Math.Round(totaleAcquisto, 2);
+                    var numeroOrdini = _context.OrdineCliente.Where(x => x.Completato == true && x.IdRappresentante == item.idRappresentante).ToList().Count();
+                    temp.numeroOrdini = numeroOrdini;
                     result.Add(temp);
                 }
             }
@@ -61,7 +67,7 @@ namespace StockManagement
         }
 
         //TotalePerRappresentanteCompletatoLoftConCLienti
-        public static List<TotalePerRappresentanteCompletato> getTotalePerRappresentanteCompletatoLoft(StockV2Context _context, IdentityContext _identityContext)
+        public static List<TotalePerRappresentanteCompletato> getTotalePerRappresentanteCompletatoByCollezione(StockV2Context _context, IdentityContext _identityContext, string collezione)
         {
             List<TotalePerRappresentanteCompletato> result = new List<TotalePerRappresentanteCompletato>();
 
@@ -74,25 +80,25 @@ namespace StockManagement
                 List<OrdineCliente> listaOrdini = _context.OrdineCliente.Where(x => x.Completato == true).ToList();
 
                 //Prendo tutti gli ordini Loft
-                List<OrdineCliente> listaOrdiniLoft = new List<OrdineCliente>();
+                List<OrdineCliente> listaOrdiniByCollezione = new List<OrdineCliente>();
 
                 foreach (var item in listaOrdini)
                 {
                     //Ricavo l'idCollezione di Loft
-                    var idCollezioneLoft = _context.Collezione.Where(x => x.Nome == "Loft").Select(x => x.Id).First();
+                    var idCollezione = _context.Collezione.Where(x => x.Nome == collezione).Select(x => x.Id).First();
 
                     //Ricavlo gli articoli Loft
-                    var articoliLoft = _context.Articolo.Where(x => x.IdCollezione == idCollezioneLoft).Select(x => x.Id).ToList();
+                    var articoliLoft = _context.Articolo.Where(x => x.IdCollezione == idCollezione).Select(x => x.Id).ToList();
 
                     //Ricavo la tutte la prima riga di ogni ordine
                     var rigaOrdine = _context.RigaOrdineCliente.Any(x => x.IdOrdine == item.Id && articoliLoft.Contains(x.IdArticolo));
 
                     //RigaOrdine == true se la collezione è loft
-                    if (rigaOrdine) listaOrdiniLoft.Add(item);
+                    if (rigaOrdine) listaOrdiniByCollezione.Add(item);
                 }
 
                 //Creo una lista di oggetti idRappresentante-idOrdine
-                var query = from ordineCompletato in listaOrdiniLoft
+                var query = from ordineCompletato in listaOrdiniByCollezione
                             select new RappresentanteCliente() { idRappresentante = ordineCompletato.IdRappresentante, idOrdine = ordineCompletato.Id, idCliente = ordineCompletato.IdCliente };
                 listaRappresentantiOrdiniClienti = query.ToList();
 
@@ -112,16 +118,20 @@ namespace StockManagement
                     var listaRigheOrdineCliente = _context.RigaOrdineCliente.Where(x => x.IdOrdine == item.idOrdine).ToList();
 
                     //variabile che contiene il totale dell'ordine
-                    double totale = 0.0;
+                    double totaleVenduto = 0.0;
+                    double totaleComprato = 0.0;
 
                     foreach (var rigaordine in listaRigheOrdineCliente)
                     {
-                        var prezzoArticoloRiga = _context.Articolo.Where(x => x.Id == rigaordine.IdArticolo).Select(x => x.PrezzoVendita).First();
+                        var prezzoVenditaArticoloRiga = _context.Articolo.Where(x => x.Id == rigaordine.IdArticolo).Select(x => x.PrezzoVendita).First();
+                        var prezzoAcquistoArticoloRiga = _context.Articolo.Where(x => x.Id == rigaordine.IdArticolo).Select(x => x.PrezzoAcquisto).First();
 
-                        totale += prezzoArticoloRiga * (rigaordine.Xxs + rigaordine.Xs + rigaordine.S + rigaordine.M + rigaordine.L + rigaordine.Xl + rigaordine.Xxl + rigaordine.Xxxl + rigaordine.Xxxxl + rigaordine.TagliaUnica);
+                        totaleVenduto += prezzoVenditaArticoloRiga * (rigaordine.Xxs + rigaordine.Xs + rigaordine.S + rigaordine.M + rigaordine.L + rigaordine.Xl + rigaordine.Xxl + rigaordine.Xxxl + rigaordine.Xxxxl + rigaordine.TagliaUnica);
+                        totaleComprato += prezzoAcquistoArticoloRiga * (rigaordine.Xxs + rigaordine.Xs + rigaordine.S + rigaordine.M + rigaordine.L + rigaordine.Xl + rigaordine.Xxl + rigaordine.Xxxl + rigaordine.Xxxxl + rigaordine.TagliaUnica);
                     }
 
-                    temp.totaleEuro = Math.Round(totale, 2);
+                    temp.totaleEuroVenduto = Math.Round(totaleVenduto, 2);
+                    temp.totaleEuroComprato = Math.Round(totaleComprato, 2);
                     result.Add(temp);
                 }
             }
@@ -130,81 +140,6 @@ namespace StockManagement
                 Utility.GestioneErrori(ex);
                 throw;
             }
-            result = result.OrderBy(x => x.nomeAgenzia).ThenBy(x => x.nomeCliente).ToList();
-            return result;
-        }
-
-        //TotalePerRappresentanteCompletatoZeroMenoConCLienti
-        public static List<TotalePerRappresentanteCompletato> getTotalePerRappresentanteCompletatoZeroMeno(StockV2Context _context, IdentityContext _identityContext)
-        {
-            List<TotalePerRappresentanteCompletato> result = new List<TotalePerRappresentanteCompletato>();
-
-            try
-            {
-                //Prendo tutti i rappresentanti con un numero di ordini completati > 0
-                List<RappresentanteCliente> listaRappresentantiOrdiniClienti = new List<RappresentanteCliente>();
-
-                //Ricavo tutti gli ordiniCompletati
-                List<OrdineCliente> listaOrdini = _context.OrdineCliente.Where(x => x.Completato == true).ToList();
-
-                //Prendo tutti gli ordini Loft
-                List<OrdineCliente> listaOrdiniZeroMeno = new List<OrdineCliente>();
-
-                foreach (var item in listaOrdini)
-                {
-                    //Ricavo l'idCollezione di Loft
-                    var idCollezioneZeroMeno = _context.Collezione.Where(x => x.Nome == "Zero Meno").Select(x => x.Id).First();
-
-                    //Ricavlo gli articoli Loft
-                    var articoliLoft = _context.Articolo.Where(x => x.IdCollezione == idCollezioneZeroMeno).Select(x => x.Id).ToList();
-
-                    //Ricavo la tutte la prima riga di ogni ordine
-                    var rigaOrdine = _context.RigaOrdineCliente.Any(x => x.IdOrdine == item.Id && articoliLoft.Contains(x.IdArticolo));
-
-                    //RigaOrdine == true se la collezione è loft
-                    if (rigaOrdine) listaOrdiniZeroMeno.Add(item);
-                }
-
-                //Creo una lista di oggetti idRappresentante-idOrdine
-                var query = from ordineCompletato in listaOrdiniZeroMeno
-                            select new RappresentanteCliente() { idRappresentante = ordineCompletato.IdRappresentante, idOrdine = ordineCompletato.Id, idCliente = ordineCompletato.IdCliente };
-                listaRappresentantiOrdiniClienti = query.ToList();
-
-
-                //Per ogni rappresentante, prendo la lista degli ordini dove completato == 1
-                foreach (var item in listaRappresentantiOrdiniClienti)
-                {
-                    //Creo un elemento della lista di ritorno
-                    TotalePerRappresentanteCompletato temp = new TotalePerRappresentanteCompletato();
-                    string nomeAgenzia = _identityContext.Users.Where(x => x.Id == item.idRappresentante.ToString()).Select(x => x.AgenziaRappresentanza).FirstOrDefault();
-                    string nomeCliente = _context.Cliente.Where(x => x.Id == item.idCliente).Select(x => x.Nome).FirstOrDefault();
-
-                    temp.nomeAgenzia = nomeAgenzia;
-                    temp.nomeCliente = nomeCliente;
-
-                    //calcolo il totale dell'ordine: mi servono le righe
-                    var listaRigheOrdineCliente = _context.RigaOrdineCliente.Where(x => x.IdOrdine == item.idOrdine).ToList();
-
-                    //variabile che contiene il totale dell'ordine
-                    double totale = 0.0;
-
-                    foreach (var rigaordine in listaRigheOrdineCliente)
-                    {
-                        var prezzoArticoloRiga = _context.Articolo.Where(x => x.Id == rigaordine.IdArticolo).Select(x => x.PrezzoVendita).First();
-
-                        totale += prezzoArticoloRiga * (rigaordine.Xxs + rigaordine.Xs + rigaordine.S + rigaordine.M + rigaordine.L + rigaordine.Xl + rigaordine.Xxl + rigaordine.Xxxl + rigaordine.Xxxxl + rigaordine.TagliaUnica);
-                    }
-
-                    temp.totaleEuro = Math.Round(totale, 2);
-                    result.Add(temp);
-                }
-            }
-            catch (Exception ex)
-            {
-                Utility.GestioneErrori(ex);
-                throw;
-            }
-
             result = result.OrderBy(x => x.nomeAgenzia).ThenBy(x => x.nomeCliente).ToList();
             return result;
         }
@@ -225,16 +160,19 @@ namespace StockManagement
                     RappresentanteTotaleEuro temp = new RappresentanteTotaleEuro();
                     temp.nomeAgenzia = item;
 
-                    double totale = 0.0;
+                    double totaleVenduto = 0.0;
+                    double totaleComprato = 0.0;
 
                     foreach (var totaleCliente in totalone)
                     {
                         if (totaleCliente.nomeAgenzia == item)
                         {
-                            totale += totaleCliente.totaleEuro;
+                            totaleVenduto += totaleCliente.totaleEuroVenduto;
+                            totaleComprato += totaleCliente.totaleEuroComprato;
                         }
                     }
-                    temp.totale = Math.Round(totale, 2);
+                    temp.totaleVenduto = Math.Round(totaleVenduto, 2);
+                    temp.totaleComprato = Math.Round(totaleComprato, 2);
                     result.Add(temp);
                 }
             }
@@ -280,7 +218,7 @@ namespace StockManagement
                 }
                 foreach (var key in totaleFornitoreMap.Keys)
                 {
-                    result.Add(new TotalePerFornitore() { Fornitore = key, Totale = totaleFornitoreMap[key] });
+                    result.Add(new TotalePerFornitore() { Fornitore = key, TotaleVenduto = totaleFornitoreMap[key] });
                 }
             }
             catch (Exception ex)
@@ -336,7 +274,7 @@ namespace StockManagement
                 }
                 foreach (var key in totaleFornitoreMap.Keys)
                 {
-                    result.Add(new TotalePerFornitore() { Fornitore = key, Totale = totaleFornitoreMap[key] });
+                    result.Add(new TotalePerFornitore() { Fornitore = key, TotaleVenduto = totaleFornitoreMap[key] });
                 }
             }
             catch (Exception ex)
@@ -355,8 +293,12 @@ namespace StockManagement
             public string nomeAgenzia { get; set; }
             [DisplayName("Cliente")]
             public string nomeCliente { get; set; }
-            [DisplayName("Euro Totali")]
-            public double totaleEuro { get; set; }
+            [DisplayName("Totale Venduto")]
+            public double totaleEuroVenduto { get; set; }
+            [DisplayName("Totale Comprato")]
+            public double totaleEuroComprato { get; set; }
+            [DisplayName("Numero Ordini")]
+            public int numeroOrdini { get; set; }
         }
 
         public class RappresentanteCliente
@@ -370,23 +312,18 @@ namespace StockManagement
         {
             [DisplayName("Agenzia")]
             public string nomeAgenzia { get; set; }
-            [DisplayName("Euro Totali")]
-            public double totale { get; set; }
+            [DisplayName("Totale Venduto")]
+            public double totaleVenduto { get; set; }
+            [DisplayName("Totale Comprato")]
+            public double totaleComprato { get; set; }
         }
 
         public class TotalePerFornitore
         {
             public string Fornitore { get; set; }
-            public double Totale { get; set; }
+            [DisplayName("Totale Venduto")]
+            public double TotaleVenduto { get; set; }
         }
 
-
-        public class TotalePerFornitoreConArticoli
-        {
-            public string Fornitore { get; set; }
-            public string Codice { get; set; }
-            public string Colore { get; set; }
-            public double Totale { get; set; }
-        }
     }
 }

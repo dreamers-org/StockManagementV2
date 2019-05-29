@@ -480,12 +480,5 @@ namespace StockManagement.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Test()
-        {
-            
-            Statistiche.getTotalePerRappresentanteCompletatoLoft(_context, _identityContext);
-            Statistiche.getTotalePerRappresentanteCompletatoZeroMeno(_context, _identityContext);
-            return View();
-        }
     }
 }

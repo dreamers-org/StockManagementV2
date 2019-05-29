@@ -5,7 +5,8 @@
 }
 
     <h1>
-        Statistiche per fornitore. <br /> Totale complessivo @ViewData["Collezione"]: <strong>@ViewData["TotaleEuroComplessivo"]</strong>
+        Statistiche per fornitore <span class="text-danger">@ViewData["Collezione"]</span>.
+        <br />Totale complessivo <strong>@ViewData["TotaleEuroComplessivo"]</strong>
     </h1>
 <div class="row ml-2 mb-4">
     <a asp-action="Index" class="btn btn-primary float-left mr-2">Totale</a>
@@ -32,7 +33,7 @@
                             @Html.DisplayNameFor(model => model.Fornitore)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Totale)
+                            @Html.DisplayNameFor(model => model.TotaleVenduto)
                         </th>
                     </tr>
                 </thead>
@@ -44,7 +45,7 @@
                                 @Html.DisplayFor(modelItem => item.Fornitore)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Totale)
+                                @Html.DisplayFor(modelItem => item.TotaleVenduto)
                             </td>
                         </tr>
                     }

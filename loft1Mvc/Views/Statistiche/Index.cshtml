@@ -35,24 +35,36 @@
                             @Html.DisplayNameFor(model => model.nomeCliente)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.totaleEuro)
+                            @Html.DisplayNameFor(model => model.totaleEuroVenduto)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.totaleEuroComprato)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.numeroOrdini)
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.nomeAgenzia)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.nomeCliente)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.totaleEuro)
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.nomeAgenzia)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.nomeCliente)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.totaleEuroVenduto)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.totaleEuroComprato)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.numeroOrdini)
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>
