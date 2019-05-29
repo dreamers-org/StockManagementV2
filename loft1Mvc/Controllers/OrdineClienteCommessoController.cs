@@ -138,6 +138,8 @@ namespace StockManagement.Controllers
 
         public IActionResult EditOrderRows(string idOrdine)
         {
+            HttpContext.Session.Clear();
+
             Guid idOrdineGuid = new Guid();
             if (!string.IsNullOrEmpty(idOrdine))
             {
@@ -198,7 +200,6 @@ namespace StockManagement.Controllers
             }
 
             ViewBag.ListaOrdini = listaRigheOrdineCliente;
-            HttpContext.Session.Clear();
             
             return View("ModifyRows");
         }
@@ -215,11 +216,11 @@ namespace StockManagement.Controllers
                 ordineCliente.Id = Guid.NewGuid();
 
                 //Controllo se l'Id dell'ordine esiste già in sessione.
-                var idOrdine = HttpContext.Session.GetString("IdOrdine");
+                var idOrdine = HttpContext.Session.GetString("idOrdine");
                 if (!string.IsNullOrEmpty(idOrdine))
                 {
                     //Se esiste significa che il rappresentante ha già creato un ordine.
-                    ordineCliente.Id = new Guid(HttpContext.Session.GetString("IdOrdine"));
+                    ordineCliente.Id = new Guid(HttpContext.Session.GetString("idOrdine"));
                     //idCliente = _context.OrdineCliente.Where(x => x.Id == Guid.Parse(idOrdine)).Select(x => x.IdCliente).FirstOrDefault();
                     //setto la data di modifica e l'utente di modifica.
                     ordineCliente.DataModifica = DateTime.Now;
@@ -306,7 +307,7 @@ namespace StockManagement.Controllers
         [Authorize]
         public IActionResult ImpostaTipoPagamento()
         {
-            string idOrdineSession = HttpContext.Session.GetString("IdOrdine");
+            string idOrdineSession = HttpContext.Session.GetString("idOrdine");
 
             double? sommaPrezzo = _context.ViewOrdineCliente.Where(x => x.Id == new Guid(idOrdineSession)).Select(x => x.SommaPrezzo).FirstOrDefault();
 
@@ -334,7 +335,7 @@ namespace StockManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                string idOrdineSession = HttpContext.Session.GetString("IdOrdine");
+                string idOrdineSession = HttpContext.Session.GetString("idOrdine");
                 OrdineCliente ordineClienteCurrent = _context.OrdineCliente.Where(x => x.Id == Guid.Parse(idOrdineSession)).First();
 
                 ordineClienteCurrent.UtenteModifica = User.Identity.Name;
@@ -362,7 +363,7 @@ namespace StockManagement.Controllers
         {
             if (condizioniAccettate)
             {
-                string idOrdineSession = HttpContext.Session.GetString("IdOrdine");
+                string idOrdineSession = HttpContext.Session.GetString("idOrdine");
                 OrdineCliente ordineClienteCurrent = _context.OrdineCliente.Where(x => x.Id == Guid.Parse(idOrdineSession)).FirstOrDefault();
 
                 //Setto il campo completato, data modifica e utente modifica.

@@ -6,6 +6,7 @@ using Serilog.Events;
 using StockManagement;
 using System;
 using System.Configuration;
+using System.Globalization;
 
 namespace loft1Mvc
 {
@@ -20,6 +21,7 @@ namespace loft1Mvc
 		{
 			try
 			{
+                CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
                 string connectionString = _configuration.GetConnectionString("StockConnection");
 
                 Log.Logger = new LoggerConfiguration()
