@@ -84,8 +84,6 @@ namespace StockManagement
         {
             try
             {
-                HttpContext.Session.Clear();
-
                 ViewData["NomeCliente"] = HttpContext.Session.GetString("NomeCliente");
                 ViewData["EmailCliente"] = HttpContext.Session.GetString("EmailCliente");
                 ViewData["IndirizzoCliente"] = HttpContext.Session.GetString("IndirizzoCliente");
