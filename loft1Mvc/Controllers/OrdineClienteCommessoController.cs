@@ -84,42 +84,50 @@ namespace StockManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, string DataConsegna, string IdTipoPagamento, string Note, bool Completato, bool Pagato, bool Spedito, bool SpeditoInParte, bool Letto, bool Stampato)
         {
-            OrdineCliente ordineCliente = new OrdineCliente();
-            if (ModelState.IsValid)
+            try
             {
-                try
+                OrdineCliente ordineCliente = new OrdineCliente();
+                if (ModelState.IsValid)
                 {
-                    ordineCliente = _context.OrdineCliente.Where(x => x.Id == id).Select(x => x).First();
-                    ordineCliente.Note = Note;
-                    ordineCliente.DataConsegna = DateTime.Parse(DataConsegna);
-                    ordineCliente.IdTipoPagamento = Guid.Parse(IdTipoPagamento);
-                    ordineCliente.Completato = Completato;
-                    ordineCliente.Pagato = Pagato;
-                    ordineCliente.Spedito = Spedito;
-                    ordineCliente.SpeditoInParte = SpeditoInParte;
-                    ordineCliente.Letto = Letto;
-                    ordineCliente.Stampato = Stampato;
-                    ordineCliente.UtenteModifica = User.Identity.Name;
-                    ordineCliente.DataModifica = DateTime.Now;
-                    _context.Update(ordineCliente);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OrdineClienteExists(id))
+                    try
                     {
-                        return NotFound();
+                        ordineCliente = _context.OrdineCliente.Where(x => x.Id == id).Select(x => x).First();
+                        ordineCliente.Note = Note;
+                        ordineCliente.DataConsegna = DateTime.Parse(DataConsegna);
+                        ordineCliente.IdTipoPagamento = Guid.Parse(IdTipoPagamento);
+                        ordineCliente.Completato = Completato;
+                        ordineCliente.Pagato = Pagato;
+                        ordineCliente.Spedito = Spedito;
+                        ordineCliente.SpeditoInParte = SpeditoInParte;
+                        ordineCliente.Letto = Letto;
+                        ordineCliente.Stampato = Stampato;
+                        ordineCliente.UtenteModifica = User.Identity.Name;
+                        ordineCliente.DataModifica = DateTime.Now;
+                        _context.Update(ordineCliente);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!OrdineClienteExists(id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
+                ViewData["Id"] = new SelectList(_context.Cliente, "Id", "Email", ordineCliente.Id);
+                ViewData["IdTipoPagamento"] = new SelectList(_context.TipoPagamento, "Id", "Nome", ordineCliente.IdTipoPagamento);
+                return View(ordineCliente);
             }
-            ViewData["Id"] = new SelectList(_context.Cliente, "Id", "Email", ordineCliente.Id);
-            ViewData["IdTipoPagamento"] = new SelectList(_context.TipoPagamento, "Id", "Nome", ordineCliente.IdTipoPagamento);
-            return View(ordineCliente);
+            catch (Exception ex)
+            {
+                Utility.GestioneErrori(ex);
+                throw;
+            }
         }
 
         private bool OrdineClienteExists(Guid id)
@@ -138,70 +146,76 @@ namespace StockManagement.Controllers
 
         public IActionResult EditOrderRows(string idOrdine)
         {
-            HttpContext.Session.Clear();
-
-            Guid idOrdineGuid = new Guid();
-            if (!string.IsNullOrEmpty(idOrdine))
+            try
             {
-                HttpContext.Session.SetString("idOrdine", idOrdine);
-                idOrdineGuid = Guid.Parse(idOrdine);
-            }
-            else
-            {
-                var idOrdineFromSession = HttpContext.Session.GetString("idOrdine");
-                if (idOrdineFromSession != null)
+                Guid idOrdineGuid = new Guid();
+                if (!string.IsNullOrEmpty(idOrdine))
                 {
-                    idOrdineGuid = Guid.Parse(idOrdineFromSession);
+                    HttpContext.Session.SetString("idOrdine", idOrdine);
+                    idOrdineGuid = Guid.Parse(idOrdine);
                 }
-            }
-            //Recupero i dati che mi servono a partire dall'idRigaOrdine
-            var idCliente = _context.OrdineCliente.Where(x => x.Id == idOrdineGuid).Select(x => x.IdCliente).FirstOrDefault();
-            var dataConsegna = _context.OrdineCliente.Where(x => x.Id == idOrdineGuid).Select(x => x.DataConsegna).FirstOrDefault();
-            var nomeCliente = _context.Cliente.Where(x => x.Id == idCliente).Select(x => x.Nome).FirstOrDefault();
-            var emailCliente = _context.Cliente.Where(x => x.Id == idCliente).Select(x => x.Email).FirstOrDefault();
-            var indirizzo = _context.Cliente.Where(x => x.Id == idCliente).Select(x => x.Indirizzo).FirstOrDefault();
-
-            //Setto i valori appena recuperati in sessione
-            HttpContext.Session.SetString("NomeCliente", nomeCliente);
-            HttpContext.Session.SetString("EmailCliente", emailCliente);
-            HttpContext.Session.SetString("IndirizzoCliente", indirizzo);
-            HttpContext.Session.SetString("DataConsegna", dataConsegna.ToString());
-
-            //Li setto anche nel ViewData
-            ViewData["NomeCliente"] = HttpContext.Session.GetString("NomeCliente");
-            ViewData["EmailCliente"] = HttpContext.Session.GetString("EmailCliente");
-            ViewData["IndirizzoCliente"] = HttpContext.Session.GetString("IndirizzoCliente");
-
-            string dataConsegnaSess = HttpContext.Session.GetString("DataConsegna");
-
-            if (!string.IsNullOrEmpty(dataConsegnaSess))
-            {
-                ViewData["DataConsegna"] = DateTime.Parse(dataConsegnaSess);
-            }
-
-            IEnumerable<ViewRigaOrdineClienteViewModel> listaRigheOrdineCliente = new List<ViewRigaOrdineClienteViewModel>();
-
-            if (idOrdineGuid != null && !string.IsNullOrEmpty(idOrdineGuid.ToString()))
-            {
-                listaRigheOrdineCliente = _context.ViewRigaOrdineCliente.Where(x => x.IdOrdine.ToString().ToUpper() == idOrdineGuid.ToString().ToUpper()).ToList();
-
-                double? sommaPrezzo = _context.ViewOrdineCliente.Where(x => x.Id == idOrdineGuid).Select(x => x.SommaPrezzo).FirstOrDefault();
-
-                if (sommaPrezzo != null) ViewBag.SommaPrezzo = sommaPrezzo.Value;
-
-                var totalePezzi = 0;
-                foreach (var item in listaRigheOrdineCliente)
+                else
                 {
-                    totalePezzi += item.Xxs + item.Xs + item.S + item.M + item.L + item.Xl + item.Xxl + item.Xxxl + item.Xxxxl + item.TagliaUnica;
+                    var idOrdineFromSession = HttpContext.Session.GetString("idOrdine");
+                    if (idOrdineFromSession != null)
+                    {
+                        idOrdineGuid = Guid.Parse(idOrdineFromSession);
+                    }
+                }
+                //Recupero i dati che mi servono a partire dall'idRigaOrdine
+                var idCliente = _context.OrdineCliente.Where(x => x.Id == idOrdineGuid).Select(x => x.IdCliente).FirstOrDefault();
+                var dataConsegna = _context.OrdineCliente.Where(x => x.Id == idOrdineGuid).Select(x => x.DataConsegna).FirstOrDefault();
+                var nomeCliente = _context.Cliente.Where(x => x.Id == idCliente).Select(x => x.Nome).FirstOrDefault();
+                var emailCliente = _context.Cliente.Where(x => x.Id == idCliente).Select(x => x.Email).FirstOrDefault();
+                var indirizzo = _context.Cliente.Where(x => x.Id == idCliente).Select(x => x.Indirizzo).FirstOrDefault();
+
+                //Setto i valori appena recuperati in sessione
+                HttpContext.Session.SetString("NomeCliente", nomeCliente);
+                HttpContext.Session.SetString("EmailCliente", emailCliente);
+                HttpContext.Session.SetString("IndirizzoCliente", indirizzo);
+                HttpContext.Session.SetString("DataConsegna", dataConsegna.ToString());
+
+                //Li setto anche nel ViewData
+                ViewData["NomeCliente"] = HttpContext.Session.GetString("NomeCliente");
+                ViewData["EmailCliente"] = HttpContext.Session.GetString("EmailCliente");
+                ViewData["IndirizzoCliente"] = HttpContext.Session.GetString("IndirizzoCliente");
+
+                string dataConsegnaSess = HttpContext.Session.GetString("DataConsegna");
+
+                if (!string.IsNullOrEmpty(dataConsegnaSess))
+                {
+                    ViewData["DataConsegna"] = DateTime.Parse(dataConsegnaSess);
                 }
 
-                HttpContext.Session.SetString("TotalePezzi", totalePezzi.ToString());
-                ViewData["TotalePezzi"] = totalePezzi;
-            }
+                IEnumerable<ViewRigaOrdineClienteViewModel> listaRigheOrdineCliente = new List<ViewRigaOrdineClienteViewModel>();
 
-            ViewBag.ListaOrdini = listaRigheOrdineCliente;
-            
-            return View("ModifyRows");
+                if (idOrdineGuid != null && !string.IsNullOrEmpty(idOrdineGuid.ToString()))
+                {
+                    listaRigheOrdineCliente = _context.ViewRigaOrdineCliente.Where(x => x.IdOrdine.ToString().ToUpper() == idOrdineGuid.ToString().ToUpper()).ToList();
+
+                    double? sommaPrezzo = _context.ViewOrdineCliente.Where(x => x.Id == idOrdineGuid).Select(x => x.SommaPrezzo).FirstOrDefault();
+
+                    if (sommaPrezzo != null) ViewBag.SommaPrezzo = sommaPrezzo.Value;
+
+                    var totalePezzi = 0;
+                    foreach (var item in listaRigheOrdineCliente)
+                    {
+                        totalePezzi += item.Xxs + item.Xs + item.S + item.M + item.L + item.Xl + item.Xxl + item.Xxxl + item.Xxxxl + item.TagliaUnica;
+                    }
+
+                    HttpContext.Session.SetString("TotalePezzi", totalePezzi.ToString());
+                    ViewData["TotalePezzi"] = totalePezzi;
+                }
+
+                ViewBag.ListaOrdini = listaRigheOrdineCliente;
+
+                return View("ModifyRows");
+            }
+            catch (Exception ex)
+            {
+                Utility.GestioneErrori(ex);
+                throw;
+            }
         }
 
         [Authorize]
@@ -209,99 +223,107 @@ namespace StockManagement.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditOrderRows([Bind("Id,DataConsegna,NomeCliente,IndirizzoCliente,EmailCliente,CodiceArticolo,ColoreArticolo,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl, Xxxxl,TagliaUnica")] OrdineClienteViewModel ordineCliente)
         {
-            if (ModelState.IsValid)
+            try
             {
-                //creo i nuovi guid per IdCliente e IdOrdine.
-                Guid idCliente = Guid.NewGuid();
-                ordineCliente.Id = Guid.NewGuid();
+                if (ModelState.IsValid)
+                {
+                    //creo i nuovi guid per IdCliente e IdOrdine.
+                    Guid idCliente = Guid.NewGuid();
+                    ordineCliente.Id = Guid.NewGuid();
 
-                //Controllo se l'Id dell'ordine esiste già in sessione.
-                var idOrdine = HttpContext.Session.GetString("idOrdine");
-                if (!string.IsNullOrEmpty(idOrdine))
-                {
-                    //Se esiste significa che il rappresentante ha già creato un ordine.
-                    ordineCliente.Id = new Guid(HttpContext.Session.GetString("idOrdine"));
-                    //idCliente = _context.OrdineCliente.Where(x => x.Id == Guid.Parse(idOrdine)).Select(x => x.IdCliente).FirstOrDefault();
-                    //setto la data di modifica e l'utente di modifica.
-                    ordineCliente.DataModifica = DateTime.Now;
-                    ordineCliente.UtenteModifica = User.Identity.Name;
-                }
-                else
-                {
-                    //verifico che i campi siano valorizzati
-                    if (!string.IsNullOrEmpty(ordineCliente.NomeCliente) && !string.IsNullOrEmpty(ordineCliente.IndirizzoCliente) && !string.IsNullOrEmpty(ordineCliente.EmailCliente))
+                    //Controllo se l'Id dell'ordine esiste già in sessione.
+                    var idOrdine = HttpContext.Session.GetString("idOrdine");
+                    if (!string.IsNullOrEmpty(idOrdine))
                     {
-                        //Ottengo o creo il nuovo cliente
-                        List<Cliente> clienti = _context.Cliente.Where(clienteQ => clienteQ.Indirizzo.ToUpper() == ordineCliente.IndirizzoCliente.ToUpper() && clienteQ.Nome.ToUpper() == ordineCliente.NomeCliente.ToUpper() && clienteQ.Email.ToUpper() == ordineCliente.EmailCliente.ToUpper()).ToList();
-                        if (clienti != null && clienti.Count > 0)
+                        //Se esiste significa che il rappresentante ha già creato un ordine.
+                        ordineCliente.Id = new Guid(HttpContext.Session.GetString("idOrdine"));
+                        //idCliente = _context.OrdineCliente.Where(x => x.Id == Guid.Parse(idOrdine)).Select(x => x.IdCliente).FirstOrDefault();
+                        //setto la data di modifica e l'utente di modifica.
+                        ordineCliente.DataModifica = DateTime.Now;
+                        ordineCliente.UtenteModifica = User.Identity.Name;
+                    }
+                    else
+                    {
+                        //verifico che i campi siano valorizzati
+                        if (!string.IsNullOrEmpty(ordineCliente.NomeCliente) && !string.IsNullOrEmpty(ordineCliente.IndirizzoCliente) && !string.IsNullOrEmpty(ordineCliente.EmailCliente))
                         {
-                            idCliente = clienti[0].Id;
-                        }
-                        else
-                        {
-                            Cliente cliente = new Cliente() { Id = idCliente, Email = ordineCliente.EmailCliente, Indirizzo = ordineCliente.IndirizzoCliente, Nome = ordineCliente.NomeCliente };
-                            _context.Cliente.Add(cliente);
+                            //Ottengo o creo il nuovo cliente
+                            List<Cliente> clienti = _context.Cliente.Where(clienteQ => clienteQ.Indirizzo.ToUpper() == ordineCliente.IndirizzoCliente.ToUpper() && clienteQ.Nome.ToUpper() == ordineCliente.NomeCliente.ToUpper() && clienteQ.Email.ToUpper() == ordineCliente.EmailCliente.ToUpper()).ToList();
+                            if (clienti != null && clienti.Count > 0)
+                            {
+                                idCliente = clienti[0].Id;
+                            }
+                            else
+                            {
+                                Cliente cliente = new Cliente() { Id = idCliente, Email = ordineCliente.EmailCliente, Indirizzo = ordineCliente.IndirizzoCliente, Nome = ordineCliente.NomeCliente };
+                                _context.Cliente.Add(cliente);
+                                _context.SaveChanges();
+                            }
+
+                            //setto le informazioni sull'utente, sul cliente e sul rappresentante.
+                            ordineCliente.UtenteInserimento = User.Identity.Name;
+                            ordineCliente.DataInserimento = DateTime.Now;
+                            ordineCliente.IdCliente = idCliente;
+                            ordineCliente.IdRappresentante = _identityContext.Users.Where(utente => utente.Email == User.Identity.Name).Select(utente => new Guid(utente.Id)).First();
+
+                            _context.Add(ordineCliente);
                             _context.SaveChanges();
                         }
-
-                        //setto le informazioni sull'utente, sul cliente e sul rappresentante.
-                        ordineCliente.UtenteInserimento = User.Identity.Name;
-                        ordineCliente.DataInserimento = DateTime.Now;
-                        ordineCliente.IdCliente = idCliente;
-                        ordineCliente.IdRappresentante = _identityContext.Users.Where(utente => utente.Email == User.Identity.Name).Select(utente => new Guid(utente.Id)).First();
-
-                        _context.Add(ordineCliente);
-                        _context.SaveChanges();
                     }
+
+                    //ottengo l'articolo.
+                    Guid idArticolo = _context.Articolo.Where(x => x.Colore.ToUpper() == ordineCliente.ColoreArticolo.ToUpper() && x.Codice.ToUpper() == ordineCliente.CodiceArticolo.ToUpper()).Select(x => x.Id).FirstOrDefault();
+
+                    //Se esiste già un record lo modifico altrimenti lo creo.
+                    List<RigaOrdineCliente> rigaOrdineClienteEsistente = _context.RigaOrdineCliente.Where(x => x.IdOrdine == ordineCliente.Id && x.IdArticolo == idArticolo).ToList();
+                    RigaOrdineCliente rigaOrdineCliente = new RigaOrdineCliente()
+                    {
+                        Id = new Guid(),
+                        IdOrdine = ordineCliente.Id,
+                        IdArticolo = idArticolo,
+                        Xxs = ordineCliente.Xxs,
+                        Xs = ordineCliente.Xs,
+                        S = ordineCliente.S,
+                        M = ordineCliente.M,
+                        L = ordineCliente.L,
+                        Xl = ordineCliente.Xl,
+                        Xxl = ordineCliente.Xxl,
+                        Xxxl = ordineCliente.Xxxl,
+                        Xxxxl = ordineCliente.Xxxxl,
+                        TagliaUnica = ordineCliente.TagliaUnica,
+                        UtenteInserimento = User.Identity.Name,
+                        DataInserimento = DateTime.Now
+                    };
+
+                    if (rigaOrdineClienteEsistente != null && rigaOrdineClienteEsistente.Count > 0)
+                    {
+                        _context.RigaOrdineCliente.Update(rigaOrdineCliente);
+                    }
+                    else
+                    {
+                        _context.RigaOrdineCliente.Add(rigaOrdineCliente);
+                    }
+
+                    _context.SaveChanges();
+
+
+                    //salvo in sessione i valori.
+                    HttpContext.Session.SetString("IdOrdine", ordineCliente.Id.ToString());
+                    HttpContext.Session.SetString("IdCliente", ordineCliente.IdCliente.ToString());
+                    HttpContext.Session.SetString("NomeCliente", ordineCliente.NomeCliente);
+                    HttpContext.Session.SetString("EmailCliente", ordineCliente.EmailCliente);
+                    HttpContext.Session.SetString("IndirizzoCliente", ordineCliente.IndirizzoCliente);
+                    HttpContext.Session.SetString("DataConsegna", ordineCliente.DataConsegna.ToString());
+
                 }
 
-                //ottengo l'articolo.
-                Guid idArticolo = _context.Articolo.Where(x => x.Colore.ToUpper() == ordineCliente.ColoreArticolo.ToUpper() && x.Codice.ToUpper() == ordineCliente.CodiceArticolo.ToUpper()).Select(x => x.Id).FirstOrDefault();
-
-                //Se esiste già un record lo modifico altrimenti lo creo.
-                List<RigaOrdineCliente> rigaOrdineClienteEsistente = _context.RigaOrdineCliente.Where(x => x.IdOrdine == ordineCliente.Id && x.IdArticolo == idArticolo).ToList();
-                RigaOrdineCliente rigaOrdineCliente = new RigaOrdineCliente()
-                {
-                    Id = new Guid(),
-                    IdOrdine = ordineCliente.Id,
-                    IdArticolo = idArticolo,
-                    Xxs = ordineCliente.Xxs,
-                    Xs = ordineCliente.Xs,
-                    S = ordineCliente.S,
-                    M = ordineCliente.M,
-                    L = ordineCliente.L,
-                    Xl = ordineCliente.Xl,
-                    Xxl = ordineCliente.Xxl,
-                    Xxxl = ordineCliente.Xxxl,
-                    Xxxxl = ordineCliente.Xxxxl,
-                    TagliaUnica = ordineCliente.TagliaUnica,
-                    UtenteInserimento = User.Identity.Name,
-                    DataInserimento = DateTime.Now
-                };
-
-                if (rigaOrdineClienteEsistente != null && rigaOrdineClienteEsistente.Count > 0)
-                {
-                    _context.RigaOrdineCliente.Update(rigaOrdineCliente);
-                }
-                else
-                {
-                    _context.RigaOrdineCliente.Add(rigaOrdineCliente);
-                }
-
-                _context.SaveChanges();
-
-
-                //salvo in sessione i valori.
-                HttpContext.Session.SetString("IdOrdine", ordineCliente.Id.ToString());
-                HttpContext.Session.SetString("IdCliente", ordineCliente.IdCliente.ToString());
-                HttpContext.Session.SetString("NomeCliente", ordineCliente.NomeCliente);
-                HttpContext.Session.SetString("EmailCliente", ordineCliente.EmailCliente);
-                HttpContext.Session.SetString("IndirizzoCliente", ordineCliente.IndirizzoCliente);
-                HttpContext.Session.SetString("DataConsegna", ordineCliente.DataConsegna.ToString());
-
+                return RedirectToAction("EditOrderRows");
             }
-
-            return RedirectToAction("EditOrderRows");
+            catch (Exception ex)
+            {
+                Utility.GestioneErrori(ex);
+                throw;
+            }
         }
 
         [Authorize]
