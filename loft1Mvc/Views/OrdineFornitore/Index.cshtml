@@ -22,8 +22,6 @@
             <table class="table">
                 <thead class="thead-dark small">
                     <tr>
-                        @*<th scope="col">
-        </th>*@
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.Fornitore)
                         </th>
@@ -72,17 +70,16 @@
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.PrezzoVendita)
                         </th>
-                        @*<th scope="col">
-                        </th>*@
+                        <th scope="col">
+                        </th>
+                        <th scope="col">
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
                     <tr>
-                        @*<td>
-        <a asp-action="Edit" asp-route-id="@item.Id" title="Modifica"><i class="far fa-edit"></i></a>
-        </td>*@
                         <td>
                             @Html.DisplayFor(modelItem => item.Fornitore)
                         </td>
@@ -131,9 +128,12 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.PrezzoVendita)
                         </td>
-                        @*<td>
-                            <a asp-action="Delete" asp-route-id="@item.Id" title="Elimina"><i class="fas fa-trash-alt text-danger"></i></a>
-                        </td>*@
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id" title="Modifica"><i class="fas fa-edit text-info"></i></a>
+                        </td> 
+                        <td>
+                            <a asp-action="Delete" asp-route-id="@item.Id" onclick="return confirm('Sei sicura di voler cancellare l ordine selezionato?');" title="Elimina"><i class="fas fa-trash-alt text-danger"></i></a>
+                        </td>
                     </tr>
                     }
                 </tbody>
