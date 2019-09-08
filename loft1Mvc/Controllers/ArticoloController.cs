@@ -453,7 +453,7 @@ namespace StockManagement.Controllers
         {
             try
             {
-                List<ViewArticoliOrdinatiDaiClientiPerDataViewModel> ViewArticoliOrdinatiDaiClientiPerData = _context.ViewArticoliOrdinatiDaiClientiPerData.OrderBy(x => x.Codice).ToList();
+                List<ViewArticoliOrdinatiDaiClientiPerDataViewModel> ViewArticoliOrdinatiDaiClientiPerData = _context.ViewArticoliOrdinatiDaiClientiPerData.OrderBy(x => x.Codice).ThenBy(x => x.DataConsegna).ToList();
                 string sWebRootFolder = _configuration.GetValue<string>("ExcelFolder");
                 string sFileName = @"Loft.xlsx";
 

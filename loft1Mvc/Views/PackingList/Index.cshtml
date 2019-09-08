@@ -54,55 +54,57 @@
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.TagliaUnica)
                         </th>
-                        @*<th></th>*@
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Codice)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Colore)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Xxs)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Xs)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.S)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.M)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.L)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Xl)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Xxl)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Xxxl)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Xxxxl)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.TagliaUnica)
-                            </td>
-                            @*<td>
-                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                </td>*@
-                        </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Codice)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Colore)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Xxs)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Xs)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.S)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.M)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.L)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Xl)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Xxl)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Xxxl)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Xxxxl)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TagliaUnica)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.IdPackingList" title="Modifica riga"><i class="far fa-edit"></i></a>
+                        </td>
+                        <td>
+                            <a asp-action="Delete" asp-route-id="@item.IdPackingList" title="Elimina riga" onclick="return alert('Sei proprio sicuro di voler cancellare la riga?');"><i class="fas fa-list-alt"></i></a>
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>

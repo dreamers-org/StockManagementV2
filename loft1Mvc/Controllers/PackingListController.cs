@@ -12,7 +12,7 @@ namespace StockManagement.Controllers
     public class PackingListController : Controller
     {
         #region Costanti&Readonly
-        private const string PL = "Id,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl,TagliaUnica,DataInserimento,UtenteInserimento";
+        private const string PL = "Id,Xxs,Xs,S,M,L,Xl,Xxl,Xxxl,Xxxxl,TagliaUnica,DataInserimento,UtenteInserimento";
         private const string SuperAdmin = "SuperAdmin";
         private readonly StockV2Context _context;
         #endregion
@@ -24,7 +24,7 @@ namespace StockManagement.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ViewPackingList.ToListAsync());
+            return View(await _context.ViewPackingList.OrderBy(x => x.Codice).ToListAsync());
         }
 
         [Authorize(Roles = SuperAdmin)]
@@ -78,16 +78,29 @@ namespace StockManagement.Controllers
             }
         }
 
-        [Authorize(Roles = SuperAdmin)]
+        [Authorize(Roles = "Commessa,SuperAdmin")]
         public async Task<IActionResult> Edit(Guid? id)
         {
-            if (id == null) return NotFound();
+            try
+            {
+                if (id == null) return NotFound();
 
-            var packingList = await _context.PackingList.FindAsync(id);
+                var packingList = await _context.PackingList.FindAsync(id);
 
-            if (packingList == null) return NotFound();
+                if (packingList == null) return NotFound();
 
-            return View(packingList);
+                var codice = _context.Articolo.Where(x => x.Id == packingList.IdArticolo).Select(x => x.Codice).FirstOrDefault();
+                var colore = _context.Articolo.Where(x => x.Id == packingList.IdArticolo).Select(x => x.Colore).FirstOrDefault();
+                ViewData["IdPackingList"] = packingList.Id.ToString();
+                ViewData["Colore"] = colore;
+                ViewData["Codice"] = codice;
+                return View("Create", packingList);
+            }
+            catch (Exception ex)
+            {
+                Utility.GestioneErrori(ex);
+                throw;
+            }
         }
 
         [Authorize(Roles = SuperAdmin)]
@@ -103,6 +116,9 @@ namespace StockManagement.Controllers
                 {
                     try
                     {
+                        packingList.IdArticolo = _context.PackingList.Where(x => x.Id == id).Select(x => x.IdArticolo).FirstOrDefault();
+                        packingList.DataInserimento = DateTime.Now;
+                        packingList.UtenteInserimento = User.Identity.Name;
                         _context.Update(packingList);
                         await _context.SaveChangesAsync();
                     }
@@ -123,18 +139,17 @@ namespace StockManagement.Controllers
             }
         }
 
-        [Authorize(Roles = SuperAdmin)]
+        [Authorize(Roles = "SuperAdmin, Commessa")]
         public async Task<IActionResult> Delete(Guid? id)
         {
             try
             {
                 if (id == null) return NotFound();
 
-                var packingList = await _context.PackingList.FirstOrDefaultAsync(m => m.Id == id);
-
-                if (packingList == null) return NotFound();
-
-                return View(packingList);
+                var packingList = await _context.PackingList.FindAsync(id);
+                _context.PackingList.Remove(packingList);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
@@ -144,7 +159,7 @@ namespace StockManagement.Controllers
         }
 
         [Authorize(Roles = SuperAdmin)]
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("SuperAdmin, Commessa")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {

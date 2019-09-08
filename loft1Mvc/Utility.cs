@@ -67,8 +67,9 @@ namespace StockManagement
                             .Select(property => property.Name)
                             .ToList();
 
-                    for (int i = 0; i < columns.Count - 1; i++)
+                    for (int i = 0; i < columns.Count; i++)
                     {
+                        var tempCell = columns[i];
                         row.CreateCell(i).SetCellValue(columns[i]);
                     }
 
@@ -79,7 +80,7 @@ namespace StockManagement
 
                         foreach (PropertyInfo prop in arrayOfProperty)
                         {
-                            if (arrayOfProperty.IndexOf(prop) != arrayOfProperty.Count - 1)
+                            if (arrayOfProperty.IndexOf(prop) != arrayOfProperty.Count)
                             {
                                 row.CreateCell(arrayOfProperty.IndexOf(prop)).SetCellValue(prop.GetValue(articolo).ToString());
                             }

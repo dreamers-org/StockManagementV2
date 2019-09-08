@@ -42,7 +42,7 @@ namespace StockManagement.Controllers
 
             HttpContext.Session.Clear();
 
-            var ordineCliente = await _context.ViewRigaOrdineClienteCommesso.Where(m => m.IdOrdine == id).ToListAsync();
+            var ordineCliente = await _context.ViewRigaOrdineClienteCommesso.Where(m => m.IdOrdine == id).OrderBy(x => x.Codice).ThenBy(x => x.Colore).ToListAsync();
 
             if (ordineCliente == null) return NotFound();
 
@@ -502,6 +502,8 @@ namespace StockManagement.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+
+
 
     }
 }

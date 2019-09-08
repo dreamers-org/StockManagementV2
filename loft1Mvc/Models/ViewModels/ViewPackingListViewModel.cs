@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace StockManagement.Models.ViewModels
 {
@@ -10,6 +7,7 @@ namespace StockManagement.Models.ViewModels
     {
 
         public string Codice { get; set; }
+        public Guid IdPackingList { get; set; }
         public string Colore { get; set; }
 
         [DefaultValue(0)]

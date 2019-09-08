@@ -543,11 +543,11 @@ namespace StockManagement
         }
 
         [Authorize]
-        public IActionResult CancellaOrdine()
+        public IActionResult CancellaOrdine(string idOrdine)
         {
             try
             {
-                string idOrdineSession = HttpContext.Session.GetString("IdOrdine");
+                string idOrdineSession = HttpContext.Session.GetString("idOrdine");
                 if (idOrdineSession != null && !string.IsNullOrEmpty(idOrdineSession))
                 {
                     //Ottengo tutte le righe dell'ordine e le cancello.

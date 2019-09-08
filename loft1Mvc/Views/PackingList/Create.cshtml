@@ -21,72 +21,150 @@
     <div class="col-sm-10 col-md-10 mx-auto mb-3">
         <div class="card border-left-primary shadow h-100">
             <div class="card-body">
-                <form asp-action="Create">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-row justify-content-center">
-                        <div class="col-md-3 mb-3">
-                            @Html.Label("Codice")
-                            @Html.TextBox("Codice", null, new { @class = "form-control", @Id = "txtCodice", @onblur = "return getColoriPerArticolo();" })
+                @if (ViewData["idPackingList"] == null)
+                {
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-3 mb-3">
+                                @Html.Label("Codice")
+                                @Html.TextBox("Codice", null, new { @class = "form-control", @Id = "txtCodice", @onblur = "return getColoriPerArticolo();" })
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                @Html.Label("Colore")
+                                @Html.DropDownList("Colore", new List<SelectListItem> {
+                                   new SelectListItem { Value = "-1" , Text = "Selezionare un colore" }
+                                }, new { @class = "form-control", @id = "ddlColore", @onblur = "return getTaglieArticolo();" })
+                            </div>
                         </div>
-                        <div class="col-md-3 mb-3">
-                            @Html.Label("Colore")
-                            @Html.DropDownList("Colore", new List<SelectListItem> {
-                               new SelectListItem { Value = "-1" , Text = "Selezionare un colore" }
-                            }, new { @class = "form-control", @id = "ddlColore", @onblur = "return getTaglieArticolo();" })
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-1 mb-3">
+                                <label asp-for="Xxs" class="control-label"></label>
+                                <input asp-for="Xxs" value="0" id="txtXxs" class="form-control" />
+                                <span asp-validation-for="Xxs" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-1 mb-3">
+                                <label asp-for="Xs" class="control-label"></label>
+                                <input asp-for="Xs" id="txtXs" value="0" class="form-control" />
+                                <span asp-validation-for="Xs" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-1 mb-3">
+                                <label asp-for="S" class="control-label"></label>
+                                <input asp-for="S" value="0" id="txtS" class="form-control" />
+                                <span asp-validation-for="S" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-1 mb-3">
+                                <label asp-for="M" class="control-label"></label>
+                                <input asp-for="M" value="0" id="txtM" class="form-control" />
+                                <span asp-validation-for="M" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-1 mb-3">
+                                <label asp-for="L" class="control-label"></label>
+                                <input asp-for="L" value="0" id="txtL" class="form-control" />
+                                <span asp-validation-for="L" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-1 mb-3">
+                                <label asp-for="Xl" class="control-label"></label>
+                                <input asp-for="Xl" value="0" id="txtXl" class="form-control" />
+                                <span asp-validation-for="Xl" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-1 mb-3">
+                                <label asp-for="Xxl" class="control-label"></label>
+                                <input asp-for="Xxl" value="0" id="txtXxl" class="form-control" />
+                                <span asp-validation-for="Xxl" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-1 mb-3">
+                                <label asp-for="Xxxl" class="control-label"></label>
+                                <input asp-for="Xxxl" value="0" id="txtXxxl" class="form-control" />
+                                <span asp-validation-for="Xxxl" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-1 mb-3">
+                                <label asp-for="Xxxxl" class="control-label"></label>
+                                <input asp-for="Xxxxl" value="0" id="txtXxxxl" class="form-control" />
+                                <span asp-validation-for="Xxxxl" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-1 mb-3">
+                                <label asp-for="TagliaUnica" class="control-label"></label>
+                                <input asp-for="TagliaUnica" value="0" id="txtTagliaUnica" class="form-control" />
+                                <span asp-validation-for="TagliaUnica" class="text-danger"></span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-row justify-content-center">
-                        <div class="col-md-1 mb-3">
-                            <label asp-for="Xxs" class="control-label"></label>
-                            <input asp-for="Xxs" value="0" id="txtXxs" class="form-control" />
-                            <span asp-validation-for="Xxs" class="text-danger"></span>
+                        <div class="form-group">
+                            <input type="submit" value="Inserisci" class="btn btn-primary" />
                         </div>
-                        <div class="col-md-1 mb-3">
-                            <label asp-for="Xs" class="control-label"></label>
-                            <input asp-for="Xs" id="txtXs" value="0" class="form-control" />
-                            <span asp-validation-for="Xs" class="text-danger"></span>
+                    </form>
+                }
+                else
+                {
+                    <form asp-action="Edit">
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-3 mb-3">
+                                @Html.Label("Codice")
+                                @Html.TextBox("Codice", ViewData["Codice"], new { @class = "form-control", @Id = "txtCodice", @readonly = "readonly", @onblur = "return getColoriPerArticolo();" })
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                @Html.Label("Colore")
+                                @Html.TextBox("Colore", ViewData["Colore"], new { @class = "form-control", @Id = "txtColore", @readonly = "readonly" })
+                            </div>
                         </div>
-                        <div class="col-md-1 mb-3">
-                            <label asp-for="S" class="control-label"></label>
-                            <input asp-for="S" value="0" id="txtS" class="form-control" />
-                            <span asp-validation-for="S" class="text-danger"></span>
+                        <div class="form-row justify-content-center">
+                            <div class="col-md-1 mb-3">
+                                <label asp-for="Xxs" class="control-label"></label>
+                                <input asp-for="Xxs" id="txtXxs" class="form-control" />
+                                <span asp-validation-for="Xxs" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-1 mb-3">
+                                <label asp-for="Xs" class="control-label"></label>
+                                <input asp-for="Xs" id="txtXs" class="form-control" />
+                                <span asp-validation-for="Xs" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-1 mb-3">
+                                <label asp-for="S" class="control-label"></label>
+                                <input asp-for="S" id="txtS" class="form-control" />
+                                <span asp-validation-for="S" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-1 mb-3">
+                                <label asp-for="M" class="control-label"></label>
+                                <input asp-for="M" id="txtM" class="form-control" />
+                                <span asp-validation-for="M" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-1 mb-3">
+                                <label asp-for="L" class="control-label"></label>
+                                <input asp-for="L" id="txtL" class="form-control" />
+                                <span asp-validation-for="L" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-1 mb-3">
+                                <label asp-for="Xl" class="control-label"></label>
+                                <input asp-for="Xl" id="txtXl" class="form-control" />
+                                <span asp-validation-for="Xl" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-1 mb-3">
+                                <label asp-for="Xxl" class="control-label"></label>
+                                <input asp-for="Xxl" id="txtXxl" class="form-control" />
+                                <span asp-validation-for="Xxl" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-1 mb-3">
+                                <label asp-for="Xxxl" class="control-label"></label>
+                                <input asp-for="Xxxl" id="txtXxxl" class="form-control" />
+                                <span asp-validation-for="Xxxl" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-1 mb-3">
+                                <label asp-for="Xxxxl" class="control-label"></label>
+                                <input asp-for="Xxxxl" id="txtXxxxl" class="form-control" />
+                                <span asp-validation-for="Xxxxl" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-1 mb-3">
+                                <label asp-for="TagliaUnica" class="control-label"></label>
+                                <input asp-for="TagliaUnica" id="txtTagliaUnica" class="form-control" />
+                                <span asp-validation-for="TagliaUnica" class="text-danger"></span>
+                            </div>
                         </div>
-                        <div class="col-md-1 mb-3">
-                            <label asp-for="M" class="control-label"></label>
-                            <input asp-for="M" value="0" id="txtM" class="form-control" />
-                            <span asp-validation-for="M" class="text-danger"></span>
+                        <div class="form-group">
+                            <input type="submit" value="Inserisci" class="btn btn-primary" />
                         </div>
-                        <div class="col-md-1 mb-3">
-                            <label asp-for="L" class="control-label"></label>
-                            <input asp-for="L" value="0" id="txtL" class="form-control" />
-                            <span asp-validation-for="L" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-1 mb-3">
-                            <label asp-for="Xl" class="control-label"></label>
-                            <input asp-for="Xl" value="0" id="txtXl" class="form-control" />
-                            <span asp-validation-for="Xl" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-1 mb-3">
-                            <label asp-for="Xxl" class="control-label"></label>
-                            <input asp-for="Xxl" value="0" id="txtXxl" class="form-control" />
-                            <span asp-validation-for="Xxl" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-1 mb-3">
-                            <label asp-for="Xxxl" class="control-label"></label>
-                            <input asp-for="Xxxl" value="0" id="txtXxxl" class="form-control" />
-                            <span asp-validation-for="Xxxl" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-1 mb-3">
-                            <label asp-for="TagliaUnica" class="control-label"></label>
-                            <input asp-for="TagliaUnica" value="0" id="txtTagliaUnica" class="form-control" />
-                            <span asp-validation-for="TagliaUnica" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Inserisci" class="btn btn-primary" />
-                    </div>
-                </form>
-            </div>
+                    </form>
+                }
+                </div>
         </div>
     </div>
 </div>
@@ -115,101 +193,101 @@
             })
         };
 
-         function getTaglieArticolo() {
-            let codice = $('#txtCodice').val();
-            let colore = $('#ddlColore').val()
-            $.ajax({
-                type: "POST",
-                url: "/Articolo/getTaglieDisponibili",
-                data: { codice: codice, colore: colore },
-                success: function (data) {
-                    console.log(data);
-                    if (data.xxs) {
-                        $('#txtXxs').val("0");
-                        $('#txtXxs').attr("readonly", "readonly");
-                    }
-                    else {
-                        $('#txtXxs').removeAttr("readonly");
-                        $('#btnConferma').removeAttr("disabled");
-                    }
-                    if (data.xs) {
-                        $('#txtXs').val("0");
-                        $('#txtXs').attr("readonly", "readonly");
-                    }
-                    else {
-                        $('#txtXs').removeAttr("readonly");
-                        $('#btnConferma').removeAttr("disabled");
-                    }
-                    if (data.s) {
-                        $('#txtS').val("0");
-                        $('#txtS').attr("readonly", "readonly");
-                    }
-                    else {
-                        $('#txtS').removeAttr("readonly");
-                        $('#btnConferma').removeAttr("disabled");
-                    }
-                    if (data.m) {
-                        $('#txtM').val("0");
-                        $('#txtM').attr("readonly", "readonly");
-                    }
-                    else {
-                        $('#txtM').removeAttr("readonly");
-                        $('#btnConferma').removeAttr("disabled");
-                    }
-                    if (data.l) {
-                        $('#txtL').val("0");
-                        $('#txtL').attr("readonly", "readonly");
-                    }
-                    else {
-                        $('#txtL').removeAttr("readonly");
-                        $('#btnConferma').removeAttr("disabled");
-                    }
-                    if (data.xl) {
-                        $('#txtXl').val("0");
-                        $('#txtXl').attr("readonly", "readonly");
-                    }
-                    else {
-                        $('#txtXl').removeAttr("readonly");
-                        $('#btnConferma').removeAttr("disabled");
-                    }
-                    if (data.xxl) {
-                        $('#txtXxl').val("0");
-                        $('#txtXxl').attr("readonly", "readonly");
-                    }
-                    else {
-                        $('#txtXxl').removeAttr("readonly");
-                        $('#btnConferma').removeAttr("disabled");
-                    }
-                    if (data.xxxl) {
-                        $('#txtXxxl').val("0");
-                        $('#txtXxxl').attr("readonly", "readonly");
-                    }
-                    else {
-                        $('#txtXxxl').removeAttr("readonly");
-                        $('#btnConferma').removeAttr("disabled");
-                    }
-                    if (data.xxxxl) {
-                        $('#txtXxxxl').val("0");
-                        $('#txtXxxxl').attr("readonly", "readonly");
-                    }
-                    else {
-                        $('#txtXxxxl').removeAttr("readonly");
-                        $('#btnConferma').removeAttr("disabled");
-                    }
-                    if (data.tagliaUnica) {
-                        $('#txtTagliaUnica').val("0");
-                        $('#txtTagliaUnica').attr("readonly", "readonly");
-                    }
-                    else {
-                        $('#txtTagliaUnica').removeAttr("readonly");
-                        $('#btnConferma').removeAttr("disabled");
-                    }
-                },
-                error: function () {
-                    alert("Errore");
-                }
-            })
-        };
+                    // function getTaglieArticolo() {
+                    //    let codice = $('#txtCodice').val();
+                    //    let colore = $('#ddlColore').val()
+                    //    $.ajax({
+                    //        type: "POST",
+                    //        url: "/Articolo/getTaglieDisponibili",
+                    //        data: { codice: codice, colore: colore },
+                    //        success: function (data) {
+                    //            console.log(data);
+                    //            if (data.xxs) {
+                    //                $('#txtXxs').val("0");
+                    //                $('#txtXxs').attr("readonly", "readonly");
+                    //            }
+                    //            else {
+                    //                $('#txtXxs').removeAttr("readonly");
+                    //                $('#btnConferma').removeAttr("disabled");
+                    //            }
+                    //            if (data.xs) {
+                    //                $('#txtXs').val("0");
+                    //                $('#txtXs').attr("readonly", "readonly");
+                    //            }
+                    //            else {
+                    //                $('#txtXs').removeAttr("readonly");
+                    //                $('#btnConferma').removeAttr("disabled");
+                    //            }
+                    //            if (data.s) {
+                    //                $('#txtS').val("0");
+                    //                $('#txtS').attr("readonly", "readonly");
+                    //            }
+                    //            else {
+                    //                $('#txtS').removeAttr("readonly");
+                    //                $('#btnConferma').removeAttr("disabled");
+                    //            }
+                    //            if (data.m) {
+                    //                $('#txtM').val("0");
+                    //                $('#txtM').attr("readonly", "readonly");
+                    //            }
+                    //            else {
+                    //                $('#txtM').removeAttr("readonly");
+                    //                $('#btnConferma').removeAttr("disabled");
+                    //            }
+                    //            if (data.l) {
+                    //                $('#txtL').val("0");
+                    //                $('#txtL').attr("readonly", "readonly");
+                    //            }
+                    //            else {
+                    //                $('#txtL').removeAttr("readonly");
+                    //                $('#btnConferma').removeAttr("disabled");
+                    //            }
+                    //            if (data.xl) {
+                    //                $('#txtXl').val("0");
+                    //                $('#txtXl').attr("readonly", "readonly");
+                    //            }
+                    //            else {
+                    //                $('#txtXl').removeAttr("readonly");
+                    //                $('#btnConferma').removeAttr("disabled");
+                    //            }
+                    //            if (data.xxl) {
+                    //                $('#txtXxl').val("0");
+                    //                $('#txtXxl').attr("readonly", "readonly");
+                    //            }
+                    //            else {
+                    //                $('#txtXxl').removeAttr("readonly");
+                    //                $('#btnConferma').removeAttr("disabled");
+                    //            }
+                    //            if (data.xxxl) {
+                    //                $('#txtXxxl').val("0");
+                    //                $('#txtXxxl').attr("readonly", "readonly");
+                    //            }
+                    //            else {
+                    //                $('#txtXxxl').removeAttr("readonly");
+                    //                $('#btnConferma').removeAttr("disabled");
+                    //            }
+                    //            if (data.xxxxl) {
+                    //                $('#txtXxxxl').val("0");
+                    //                $('#txtXxxxl').attr("readonly", "readonly");
+                    //            }
+                    //            else {
+                    //                $('#txtXxxxl').removeAttr("readonly");
+                    //                $('#btnConferma').removeAttr("disabled");
+                    //            }
+                    //            if (data.tagliaUnica) {
+                    //                $('#txtTagliaUnica').val("0");
+                    //                $('#txtTagliaUnica').attr("readonly", "readonly");
+                    //            }
+                    //            else {
+                    //                $('#txtTagliaUnica').removeAttr("readonly");
+                    //                $('#btnConferma').removeAttr("disabled");
+                    //            }
+                    //        },
+                    //        error: function () {
+                    //            alert("Errore");
+                    //        }
+                    //    })
+                    //};
     </script>
 }
 
